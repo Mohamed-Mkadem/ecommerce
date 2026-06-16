@@ -1,0 +1,26 @@
+User-agent: *
+Disallow: /login
+Disallow: /dashboard
+Disallow: /clients/import
+Disallow: /orders/updates/import
+Disallow: /orders/delivery_dates/updates/import
+Disallow: /orders/*/update/products
+Disallow: /orders/*/print-invoice
+Disallow: /shipping-reports/download-excel/
+Disallow: /shipping-reports/download-pdf/
+Disallow: /states/*/cities
+Disallow: /cities/*/localities
+Disallow: /clients/*/search
+Disallow: /notes/newNote/
+Disallow: /nrp
+Disallow: /shippingSettings/*
+Disallow: /statistics/earnings
+Disallow: /statistics/orders
+Disallow: /statistics/products
+Disallow: /statistics/packs
+Disallow: /statistics/clients
+Disallow: /statistics/couponCodes
+Disallow: /statistics/reviews
+
+
+Sitemap: https://boughanmipatisserie.com/sitemap.xml

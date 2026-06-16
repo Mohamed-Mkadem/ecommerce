@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('shipping_reports', function (Blueprint $table) {
+
+            $table->foreignId('shipper_id')
+                ->after('id')
+                ->constrained('shippers')
+                ->cascadeOnDelete();
+            $table->date('date');
+            $table->dropColumn('pdf_file_path');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropColumns('shipping_reports', ['shipper_id', 'date']);
+        Schema::table('shipping_reports', function (Blueprint $table) {
+            $table->string('pdf_file_path');
+        });
+        
+    }
+};
