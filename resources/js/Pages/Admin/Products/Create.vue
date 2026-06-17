@@ -13,6 +13,7 @@ import { getToastOptions } from "@/js/Utils/toast";
 import { trans } from "laravel-vue-i18n";
 const processing = ref(false);
 const toast = useToast();
+const imagesInput = ref(null);
 
 const form = reactive({
     en: { name: "", description: "" },
@@ -54,6 +55,9 @@ function submitForm() {
                 discount_type: "percentage",
                 discount: 0,
             });
+            if (imagesInput.value) {
+                imagesInput.value.value = null;
+            }
             let message = trans("Product.created_successfully");
             toast.success(message, getToastOptions());
         },
@@ -83,6 +87,10 @@ function removeImage(index) {
     errors[`images.${index}`] = null;
 
     form.images.splice(index, 1);
+
+    if (form.images.length === 0 && imagesInput.value) {
+        imagesInput.value.value = null;
+    }
 }
 
 function truncateName(name) {
@@ -396,6 +404,7 @@ function getImageError(index) {
                     {{ trans("Media.upload_images") }}
 
                     <input
+                        ref="imagesInput"
                         type="file"
                         id="images-input"
                         class="hidden"

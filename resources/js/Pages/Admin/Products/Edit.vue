@@ -17,6 +17,7 @@ const product = usePage().props.product;
 const media = product.media;
 const toast = useToast();
 const processing = ref(false);
+const mediaImagesInput = ref(null);
 const form = useForm({
     en: { name: "", description: "" },
     ar: { name: "", description: "" },
@@ -144,6 +145,10 @@ function removeImage(index) {
     errors[`images.${index}`] = null;
 
     mediaForm.images.splice(index, 1);
+
+    if (mediaForm.images.length === 0 && mediaImagesInput.value) {
+        mediaImagesInput.value.value = null;
+    }
 }
 
 function truncateName(name) {
@@ -516,6 +521,7 @@ function submitMedia() {
                     {{ trans("Media.upload_images") }}
 
                     <input
+                        ref="mediaImagesInput"
                         type="file"
                         id="images-input"
                         class="hidden"
