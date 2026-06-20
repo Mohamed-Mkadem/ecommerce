@@ -3,23 +3,14 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
-use App\Models\Review;
 use App\Models\Product;
-use App\Events\OrderPlaced;
-use App\Models\OrderProduct;
 use Illuminate\Http\Request;
-use function Termwind\render;
 use Illuminate\Support\Facades\DB;
-
-use App\Http\Resources\OrderResource;
-use App\Http\Resources\ReviewResource;
 use App\Http\Resources\ProductResource;
 use Spatie\Activitylog\Models\Activity;
-use App\Http\Requests\StoreMediaRequest;
 use App\Http\Resources\ActivityResource;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProductController extends Controller
 {
@@ -30,7 +21,7 @@ class ProductController extends Controller
     {
 
 
-        $query = Product::with('media');
+        $query = Product::query();
 
 
         if ($request->filled('search')) {
@@ -73,14 +64,7 @@ class ProductController extends Controller
         }
 
 
-        if ($request->filled('statuses')) {
-            $query->whereIn('status', $request->statuses);
-        }
 
-
-        if ($request->filled('types')) {
-            $query->whereIn('type', $request->types);
-        }
 
 
         if ($request->filled('sort')) {
@@ -138,11 +122,7 @@ class ProductController extends Controller
         $validated['price'] = $validated['price'] * 1000;
 
         $product = new Product();
-
         $product->fill($validated);
-        foreach ($request->file('images') as $image) {
-            $product->addMedia($image)->toMediaCollection('images');
-        }
         $product->save();
 
         return redirect()->back()->with('success', 'Product added successfully');
@@ -170,7 +150,6 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $product->load('media');
         return Inertia::render('Admin/Products/Edit', [
             'product' => $product
         ]);
@@ -183,43 +162,14 @@ class ProductController extends Controller
     {
         $validated = $request->validated();
         $validated['price'] = $validated['price'] * 1000;
-        if ($request->type != 'pack') {
-            $validated['ends_at'] = null;
-        }
 
         $product->fill($validated);
-
         $product->save();
 
         return redirect()->back();
     }
 
-    public function deleteAllMedia(Product $product)
-    {
-        $product->clearMediaCollection('images');
 
-        $product->load('media');
-
-        return redirect()->back();
-    }
-    public function deleteMedia(Media $media)
-    {
-        $product = $media->model;
-
-        $media->delete();
-
-
-        return redirect()->back();
-    }
-    public function storeMedia(Product $product, StoreMediaRequest $request)
-    {
-
-        foreach ($request->file('images') as $image) {
-            $product->addMedia($image)->toMediaCollection('images');
-        }
-
-        return redirect()->back();
-    }
     /**
      * Remove the specified resource from storage.
      */

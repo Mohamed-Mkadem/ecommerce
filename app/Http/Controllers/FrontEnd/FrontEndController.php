@@ -126,11 +126,10 @@ class FrontEndController extends Controller
             return array_merge(
                 (new FrontEndProductResource($product))->resolve(),
                 [
-                    'description' => $product->description,
-                    'ends_at' => $product->getFormattedEndsAtDate(),
-                    'media' => $product->getMedia('images')->toArray(),
+
                     'is_default' => (bool) $product->pivot->is_default,
                     'free_shipping' => (bool) $product->pivot->free_shipping,
+                    'update_quantity' => $product->pivot->update_quantity ?? 1,
                 ]
             );
         });

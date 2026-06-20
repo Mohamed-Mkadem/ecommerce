@@ -36,13 +36,35 @@ class WrapperController extends Controller
     {
         $validated = $request->validated();
 
+        $translations = [
+            'en' => [
+                'title' => $validated['en']['title'],
+                'description' => $validated['en']['description'] ?? null,
+            ],
+            'fr' => [
+                'title' => $validated['fr']['title'],
+                'description' => $validated['fr']['description'] ?? null,
+            ],
+            'ar' => [
+                'title' => $validated['ar']['title'],
+                'description' => $validated['ar']['description'] ?? null,
+            ],
+        ];
+
         $wrapper = Wrapper::create([
             'caption' => $validated['caption'] ?? null,
-            'title' => $validated['title'],
-            'slug' => $this->uniqueSlug($validated['title']),
-            'description' => $validated['description'] ?? null,
+            'slug' => $this->uniqueSlug($validated['en']['title']),
             'is_active' => $validated['is_active'],
+            'en' => $translations['en'],
+            'fr' => $translations['fr'],
+            'ar' => $translations['ar'],
         ]);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $wrapper->addMedia($image)->toMediaCollection('images');
+            }
+        }
 
         $wrapper->products()->sync($this->syncPayload($validated['products']));
 
@@ -75,17 +97,28 @@ class WrapperController extends Controller
         $validated = $request->validated();
 
         $slug = $wrapper->slug;
-        if ($wrapper->title !== $validated['title']) {
-            $slug = $this->uniqueSlug($validated['title'], $wrapper->id);
+        if ($wrapper->translate('en')->title !== $validated['en']['title']) {
+            $slug = $this->uniqueSlug($validated['en']['title'], $wrapper->id);
         }
 
         $wrapper->update([
             'caption' => $validated['caption'] ?? null,
-            'title' => $validated['title'],
             'slug' => $slug,
-            'description' => $validated['description'] ?? null,
             'is_active' => $validated['is_active'],
         ]);
+
+        foreach (['en', 'fr', 'ar'] as $locale) {
+            $wrapper->translateOrNew($locale)->title = $validated[$locale]['title'];
+            $wrapper->translateOrNew($locale)->description = $validated[$locale]['description'] ?? null;
+        }
+
+        $wrapper->save();
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $wrapper->addMedia($image)->toMediaCollection('images');
+            }
+        }
 
         $wrapper->products()->sync($this->syncPayload($validated['products']));
 
@@ -106,17 +139,15 @@ class WrapperController extends Controller
     private function availableProducts(): array
     {
         return Product::query()
-            ->orderBy('type')
+            ->orderBy('price', 'asc')
             ->orderBy('id')
             ->get()
             ->map(fn(Product $product) => [
                 'id' => $product->id,
                 'name' => $product->name,
-                'type' => $product->type,
                 'price' => $product->getFormattedPrice(),
                 'status' => $product->status,
-                'main_image_url' => $product->getFirstMediaUrl('images')
-                    ?: asset('storage/products/default.png'),
+
             ])
             ->all();
     }
@@ -127,8 +158,18 @@ class WrapperController extends Controller
             'id' => $wrapper->id,
             'slug' => $wrapper->slug,
             'caption' => $wrapper->caption,
-            'title' => $wrapper->title,
-            'description' => $wrapper->description,
+            'en' => [
+                'title' => $wrapper->translate('en')->title,
+                'description' => $wrapper->translate('en')->description,
+            ],
+            'fr' => [
+                'title' => $wrapper->translate('fr')->title,
+                'description' => $wrapper->translate('fr')->description,
+            ],
+            'ar' => [
+                'title' => $wrapper->translate('ar')->title,
+                'description' => $wrapper->translate('ar')->description,
+            ],
             'is_active' => $wrapper->is_active,
             'products' => $wrapper->products
                 ->sortBy(fn(Product $product) => $product->pivot->display_order)
@@ -143,6 +184,7 @@ class WrapperController extends Controller
                     'display_order' => $product->pivot->display_order,
                     'is_default' => (bool) $product->pivot->is_default,
                     'free_shipping' => (bool) $product->pivot->free_shipping,
+                    'update_quantity' => $product->pivot->update_quantity ?? 1,
                 ])
                 ->all(),
         ];
@@ -156,6 +198,7 @@ class WrapperController extends Controller
                     'display_order' => $item['display_order'],
                     'is_default' => $item['is_default'],
                     'free_shipping' => $item['free_shipping'],
+                    'update_quantity' => $item['update_quantity'],
                 ],
             ])
             ->all();

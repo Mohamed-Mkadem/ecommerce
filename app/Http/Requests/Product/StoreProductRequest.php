@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Product;
 
-use Illuminate\Validation\Rules\File;
+
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+
 
 class StoreProductRequest extends FormRequest
 {
@@ -13,7 +13,7 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return in_array($this->user()->role, ['admin', 'moderator']);
+        return in_array($this->user()->role, ['admin']);
     }
 
     /**
@@ -28,31 +28,12 @@ class StoreProductRequest extends FormRequest
 
         $rules = [
             "price" => ['required', 'numeric', 'min:1'],
-            "type" => ['required', 'in:pack,product'],
-            "status" => ['required', 'in:published,hidden'],
-            "ends_at" => ['required_if:type,pack', 'nullable', 'date', 'after:today', 'date_format:Y-m-d'],
-            'images' => ['required', 'array'],
             'shipping_name' => ['required', 'string', 'max:100'],
-            'images.*' => [
-                'image',
-                'mimes:jpeg,png,jpg,webp',
-                'max:2048',
-                Rule::dimensions()->height(1350)->width(1350)
-            ],
             'discount_type' => ['nullable', 'in:percentage,fixed'],
             'discount' => ['nullable', 'numeric', 'min:0'],
         ];
         foreach ($locales as $locale) {
             $rules["$locale.name"] = ['required', 'string', 'max:350'];
-            $rules["$locale.description"] = [
-                'required',
-                'string',
-                function ($attribute, $value, $fail) {
-                    if (trim(strip_tags($value)) === '') {
-                        $fail(__('The field cannot be empty.'));
-                    }
-                }
-            ];
         }
         return $rules;
     }

@@ -35,7 +35,6 @@ const props = defineProps({
     weeklyOrders: { type: Array },
     weeklyClientOrders: { type: Array },
     clients: { type: Object },
-    packsToEndTomorrow: { type: Object },
     acceptance_dates: { type: Object },
 });
 
@@ -425,31 +424,6 @@ const chartOptions = {
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="my-12" v-if="packsToEndTomorrow.data.length">
-        <div
-            class="flex items-center justify-between gap-3 flex-wrap bg-white p-3 shadow-1 mb-4"
-        >
-            <h2 class="text-sky-800 font-semibold text-lg">
-                {{ $t("Expiring Packs") }}
-            </h2>
-            <Link
-                :href="route('products.index')"
-                class="underline text-sky-800 hover:text-sky-600"
-            >
-                {{ $t("All Products") }}
-            </Link>
-        </div>
-        <div
-            class="grid grid-cols-[repeat(auto-fit,_minmax(min(300px,_100%),_1fr))] gap-4"
-        >
-            <Card
-                v-for="pack in props.packsToEndTomorrow.data"
-                :key="pack.id"
-                :product="pack"
-            />
         </div>
     </section>
 

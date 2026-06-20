@@ -14,10 +14,7 @@ class FrontEndProductResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'type' => $this->type,
             'price' => $this->getFormattedPrice(),
-            'main_image_url' => $this->getFirstMediaUrl('images')
-                ?: asset('storage/products/default.png'),
             'translations' => $this->translations,
             'discount' => $this->discount,
             'discount_type' => $this->discount_type,

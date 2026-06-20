@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['product', 'pack'])->default('product');
-            $table->enum('status', ['published', 'hidden'])->default('published');
             $table->decimal('rate', 2, 1)->nullable()->default(null);
             $table->unsignedMediumInteger('price');
             $table->date('ends_at')->nullable();

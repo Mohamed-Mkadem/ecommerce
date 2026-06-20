@@ -20,7 +20,7 @@ class WrapperListingResource extends JsonResource
             'caption' => $this->caption,
             'name' => $this->title,
             'description' => $this->description,
-            'main_image_url' => $default?->getFirstMediaUrl('images')
+            'main_image_url' => $this->getFirstMediaUrl('images')
                 ?: asset('storage/products/default.png'),
             'price' => $default?->getFormattedPrice(),
             'rate' => $default && $default->rate != 0 ? $default->rate : null,

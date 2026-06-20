@@ -1,20 +1,14 @@
 <script setup>
-import AdminReviewCard from "@/js/Components/Admin/AdminReviewCard.vue";
 import PageHeader from "@/js/Components/Admin/PageHeader.vue";
 import { usePage, router } from "@inertiajs/vue3";
 import { ref } from "vue";
-import NotFound from "@/js/Components/NotFound.vue";
 import Swal from "sweetalert2";
 import { trans } from "laravel-vue-i18n";
-import Paginator from "@/js/Components/Paginator.vue";
+import ProductImagePlaceholder from "@/assets/images/product.webp";
 import Activities from "@/js/Components/Admin/Activities.vue";
 const props = defineProps(["product", "activities"]);
-const media = usePage().props.product.data.media;
 const product = usePage().props.product.data;
-let currentImage = ref(media[0]);
-function changeImage(image) {
-    currentImage.value = image;
-}
+
 const deleteProduct = () => {
     Swal.fire({
         title: trans("Dialog.title"),
@@ -66,11 +60,7 @@ const deleteProduct = () => {
         <div>
             <div>
                 <img
-                    :src="
-                        currentImage
-                            ? currentImage.original_url
-                            : product.main_image_url
-                    "
+                    :src="ProductImagePlaceholder"
                     :alt="
                         currentImage
                             ? currentImage.file_name
@@ -79,45 +69,8 @@ const deleteProduct = () => {
                     class="rounded-lg mx-auto"
                 />
             </div>
-            <div
-                class="grid grid-cols-[repeat(4,_minmax(50px,_100px))] justify-between gap-2 md:gap-4 mt-4"
-            >
-                <div
-                    v-if="media"
-                    v-for="(image, index) in media"
-                    :key="index"
-                    class="rounded-lg"
-                    :class="{
-                        ' border-primary border-[3px] ':
-                            currentImage.id == image.id,
-                    }"
-                >
-                    <img
-                        @click="changeImage(image)"
-                        :src="image.original_url"
-                        :alt="image.file_name"
-                        class="w-full rounded-md"
-                    />
-                </div>
-            </div>
         </div>
         <div class="mt-4 md:mt-0">
-            <div class="flex items-center justify-between flex-wrap mb-3">
-                <p
-                    class="p-2 text-white text-sm rounded-md font-medium bg-blue-500"
-                >
-                    {{ $t(`Product.${product.type}`) }}
-                </p>
-                <p
-                    class="p-2 text-white text-sm rounded-md font-medium"
-                    :class="{
-                        'bg-red-500': product.status == 'hidden',
-                        'bg-green-600': product.status == 'published',
-                    }"
-                >
-                    {{ $t(`Product.${product.status}`) }}
-                </p>
-            </div>
             <h2 class="text-3xl text-primary font-semibold mt-2 mb-4">
                 {{ product.name }}
             </h2>
@@ -145,12 +98,7 @@ const deleteProduct = () => {
                     {{ product.orders_count }}
                 </p>
             </div>
-            <div class="flex items-center gap-3" v-if="product.type == 'pack'">
-                <i class="ri-calendar-line text-2xl text-slate-400"></i>
-                <p class="text-primary">
-                    {{ $t("Pack.validity") }} - {{ product.ends_at }}
-                </p>
-            </div>
+
             <div class="flex items-center gap-3">
                 <i class="ri-discount-percent-line text-2xl text-slate-400"></i>
                 <p class="text-primary">
@@ -167,11 +115,6 @@ const deleteProduct = () => {
                     }}
                 </p>
             </div>
-            <div
-                v-html="product.description"
-                class="text-xl text-primary mt-4"
-                id="description-holder"
-            ></div>
         </div>
     </div>
 

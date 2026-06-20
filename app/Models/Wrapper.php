@@ -4,19 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Astrotomic\Translatable\Translatable;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Wrapper extends Model
+class Wrapper extends Model implements TranslatableContract, HasMedia
 {
     /** @use HasFactory<\Database\Factories\WrapperFactory> */
-    use HasFactory;
+    use HasFactory, Translatable, InteractsWithMedia;
 
     protected $fillable = [
         'caption',
-        'title',
         'slug',
-        'description',
         'is_active',
     ];
+
+    public $translatedAttributes = ['title', 'description'];
+
 
     protected $casts = [
         'is_active' => 'boolean',
@@ -26,8 +31,13 @@ class Wrapper extends Model
     {
         return $this->belongsToMany(Product::class, 'product_wrapper')
             ->using(ProductWrapper::class)
-            ->withPivot('display_order', 'is_default', 'free_shipping')
+            ->withPivot('display_order', 'is_default', 'free_shipping', 'update_quantity')
             ->orderByPivot('display_order');
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('images');
     }
 
     public function getRouteKeyName(): string

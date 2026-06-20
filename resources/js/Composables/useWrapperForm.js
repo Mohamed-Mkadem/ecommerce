@@ -10,10 +10,21 @@ export function useWrapperForm(products, wrapper = null) {
     const isEditing = computed(() => wrapper !== null);
 
     const form = useForm({
-        title: wrapper?.title ?? "",
+        en: {
+            title: wrapper?.en?.title ?? "",
+            description: wrapper?.en?.description ?? "",
+        },
+        fr: {
+            title: wrapper?.fr?.title ?? "",
+            description: wrapper?.fr?.description ?? "",
+        },
+        ar: {
+            title: wrapper?.ar?.title ?? "",
+            description: wrapper?.ar?.description ?? "",
+        },
         caption: wrapper?.caption ?? "",
-        description: wrapper?.description ?? "",
         is_active: wrapper?.is_active ?? true,
+        images: [],
         products: wrapper?.products ? [...wrapper.products] : [],
     });
 
@@ -53,6 +64,7 @@ export function useWrapperForm(products, wrapper = null) {
             display_order: form.products.length,
             is_default: isFirst,
             free_shipping: false,
+            update_quantity: 1,
         });
     }
 
@@ -92,16 +104,33 @@ export function useWrapperForm(products, wrapper = null) {
 
     function buildPayload() {
         return {
-            title: form.title,
+            en: {
+                title: form.en.title,
+                description: form.en.description,
+            },
+            fr: {
+                title: form.fr.title,
+                description: form.fr.description,
+            },
+            ar: {
+                title: form.ar.title,
+                description: form.ar.description,
+            },
             caption: form.caption,
-            description: form.description,
             is_active: form.is_active,
             products: form.products.map(
-                ({ product_id, display_order, is_default, free_shipping }) => ({
+                ({
                     product_id,
                     display_order,
                     is_default,
                     free_shipping,
+                    update_quantity,
+                }) => ({
+                    product_id,
+                    display_order,
+                    is_default,
+                    free_shipping,
+                    update_quantity,
                 }),
             ),
         };

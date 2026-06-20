@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained('products');
             $table->string('locale')->index();
-            $table->string('name', 350);
-            $table->text('description');
+            $table->string('name', 450);
             $table->unique(['product_id', 'locale']);
         });
     }

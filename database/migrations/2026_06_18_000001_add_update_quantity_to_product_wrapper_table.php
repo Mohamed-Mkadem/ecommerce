@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->string('shipping_name')->after('price');
+        Schema::table('product_wrapper', function (Blueprint $table) {
+            $table->double('update_quantity')->default(1)->after('free_shipping');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('shipping_name');
+        Schema::table('product_wrapper', function (Blueprint $table) {
+            $table->dropColumn('update_quantity');
         });
     }
 };

@@ -64,7 +64,6 @@ class AdminController extends Controller
             ]);
         }
 
-        $packsToEndTomorrow = Product::packsToEndTomorrow();
         $acceptanceDates = ShippingSetting::first();
         return Inertia::render(
             'Admin/Dashboard',
@@ -79,7 +78,6 @@ class AdminController extends Controller
                 'weeklyOrders' => $weeklyOrders,
                 'weeklyClientOrders' => $weeklyClientOrders,
                 'clients' =>   ClientResource::collection($clients),
-                'packsToEndTomorrow' => ProductResource::collection($packsToEndTomorrow),
                 'acceptance_dates' => $acceptanceDates,
 
             ]

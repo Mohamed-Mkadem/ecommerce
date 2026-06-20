@@ -21,15 +21,9 @@ class ProductResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'description' => $this->description,
             'name' => $this->name,
             'price' => $this->getFormattedPrice(),
-            'status' => $this->status,
-            'type' => $this->type,
             'rate' => $this->rate && $this->rate != 0 ? $this->rate : null,
-            'main_image_url' => $this->getFirstMediaUrl('images') ?: asset('storage/products/default.png'),
-            'ends_at' => $this->getFormattedEndsAtDate(),
-            'media' => $this->getMedia('images')->toArray(),
             'orders_count' => $this->orders()->where('status', 'delivered')->sum('order_product.quantity'),
             'translations' => $this->translations,
             'reviews_count' => $this->reviews()->count(),
