@@ -64,6 +64,11 @@ class OrderResource extends JsonResource
             'city' => $this->city,
             'locality' => $this->locality,
             'products' => $this->products->map(function ($product) {
+                $wrapper = $product->wrappers()->first();
+                $mainImageUrl = $wrapper 
+                    ? ($wrapper->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'))
+                    : asset('storage/products/product.webp');
+
                 return [
                     'id' => $product->id,
                     'name' => $product->name,
@@ -73,7 +78,7 @@ class OrderResource extends JsonResource
                         'sub_total' => number_format($product->pivot->sub_total / 1000, 3, '.', ''),
                         'quantity' => $product->pivot->quantity,
                     ],
-                    'main_image_url' => asset('storage/products/product.webp'),
+                    'main_image_url' => $mainImageUrl,
                 ];
             }),
 
