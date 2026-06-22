@@ -25,6 +25,8 @@ export function useWrapperForm(products, wrapper = null) {
         caption: wrapper?.caption ?? "",
         is_active: wrapper?.is_active ?? true,
         images: [],
+        existing_media: wrapper?.media ? [...wrapper.media] : [],
+        deleted_media: [],
         products: wrapper?.products ? [...wrapper.products] : [],
     });
 
@@ -118,6 +120,8 @@ export function useWrapperForm(products, wrapper = null) {
             },
             caption: form.caption,
             is_active: form.is_active,
+            images: form.images,
+            deleted_media: form.deleted_media,
             products: form.products.map(
                 ({
                     product_id,
@@ -140,7 +144,10 @@ export function useWrapperForm(products, wrapper = null) {
         const payload = buildPayload();
 
         if (isEditing.value) {
-            form.transform(() => payload).put(
+            form.transform(() => ({
+                ...payload,
+                _method: "PUT",
+            })).post(
                 route("wrappers.update", wrapper.slug),
                 {
                     onSuccess: () => {

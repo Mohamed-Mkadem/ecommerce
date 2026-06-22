@@ -26,7 +26,7 @@ const cartStore = useCartStore();
                     >
                         <div class="img-box">
                             <img
-                                :src="product.main_image_url"
+                                :src="product.wrapper_main_image_url"
                                 :alt="product.name"
                                 class="xl:w-[140px] rounded-xl object-cover"
                             />
@@ -198,11 +198,7 @@ const cartStore = useCartStore();
                         theme="gold-primary"
                         :label="$t('Our Products')"
                     />
-                    <PrimaryLink
-                        href="FE.packs"
-                        theme="primary-white"
-                        :label="$t('Our Offers')"
-                    />
+                    
                 </div>
             </div>
         </div>

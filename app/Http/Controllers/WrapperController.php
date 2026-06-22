@@ -21,7 +21,6 @@ class WrapperController extends Controller
             ->latest()
             ->get()
             ->map(fn(Wrapper $wrapper) => (new AdminWrapperResource($wrapper))->resolve());
-
         return Inertia::render('Admin/Wrappers/Index', ['wrappers' => $wrappers]);
     }
 
@@ -120,6 +119,12 @@ class WrapperController extends Controller
             }
         }
 
+        if (!empty($validated['deleted_media'])) {
+            foreach ($validated['deleted_media'] as $mediaId) {
+                $wrapper->media()->where('id', $mediaId)->first()?->delete();
+            }
+        }
+
         $wrapper->products()->sync($this->syncPayload($validated['products']));
 
         return redirect()
@@ -146,7 +151,6 @@ class WrapperController extends Controller
                 'id' => $product->id,
                 'name' => $product->name,
                 'price' => $product->getFormattedPrice(),
-                'status' => $product->status,
 
             ])
             ->all();
@@ -171,6 +175,12 @@ class WrapperController extends Controller
                 'description' => $wrapper->translate('ar')->description,
             ],
             'is_active' => $wrapper->is_active,
+            'media' => $wrapper->getMedia('images')->map(fn($m) => [
+                'id' => $m->id,
+                'name' => $m->file_name,
+                'size' => $m->size,
+                'url' => $m->getUrl(),
+            ])->all(),
             'products' => $wrapper->products
                 ->sortBy(fn(Product $product) => $product->pivot->display_order)
                 ->values()
@@ -179,8 +189,6 @@ class WrapperController extends Controller
                     'name' => $product->name,
                     'type' => $product->type,
                     'price' => $product->getFormattedPrice(),
-                    'main_image_url' => $product->getFirstMediaUrl('images')
-                        ?: asset('storage/products/default.png'),
                     'display_order' => $product->pivot->display_order,
                     'is_default' => (bool) $product->pivot->is_default,
                     'free_shipping' => (bool) $product->pivot->free_shipping,

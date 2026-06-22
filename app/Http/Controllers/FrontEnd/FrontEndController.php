@@ -122,7 +122,7 @@ class FrontEndController extends Controller
             $selectedProductId = $default->id;
         }
 
-        $variants = $wrapper->products->map(function (Product $product) {
+        $variants = $wrapper->products->map(function (Product $product) use ($wrapper) {
             return array_merge(
                 (new FrontEndProductResource($product))->resolve(),
                 [
@@ -130,6 +130,8 @@ class FrontEndController extends Controller
                     'is_default' => (bool) $product->pivot->is_default,
                     'free_shipping' => (bool) $product->pivot->free_shipping,
                     'update_quantity' => $product->pivot->update_quantity ?? 1,
+                    'wrapper_main_image_url' => $wrapper->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
+                    'wrapper_title' => $wrapper->title,
                 ]
             );
         });
@@ -141,6 +143,12 @@ class FrontEndController extends Controller
                 'title' => $wrapper->title,
                 'caption' => $wrapper->caption,
                 'description' => $wrapper->description,
+                'main_image_url' => $wrapper->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
+                'media' => $wrapper->getMedia('images')->map(fn($media) => [
+                    'id' => $media->id,
+                    'original_url' => $media->getUrl(),
+                    'file_name' => $media->file_name,
+                ])->toArray(),
             ],
             'variants' => $variants,
             'selected_product_id' => $selectedProductId,
@@ -199,7 +207,7 @@ class FrontEndController extends Controller
                 'name' => $product->name,
                 'type' => $product->type,
                 'price' => $product->getFormattedPrice(),
-                'main_image_url' => $product->getFirstMediaUrl('images') ?: asset('storage/products/default.png'),
+                'main_image_url' => asset('storage/products/default.png'),
                 'translations' => $product->translations,
                 'discount' => $product->discount,
                 'discount_type' => $product->discount_type,

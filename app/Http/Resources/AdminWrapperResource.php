@@ -30,8 +30,14 @@ class AdminWrapperResource extends JsonResource
             'is_active' => $this->is_active,
             'products_count' => $this->products_count
                 ?? ($this->relationLoaded('products') ? $this->products->count() : 0),
-            'main_image_url' => $default?->getFirstMediaUrl('images')
-                ?: asset('storage/products/default.png'),
+            'main_image_url' => $this->getFirstMediaUrl('images')
+                ?: asset('storage/products/product.webp'),
+            'media' => $this->getMedia('images')->map(fn($m) => [
+                'id' => $m->id,
+                'name' => $m->file_name,
+                'size' => $m->size,
+                'url' => $m->getUrl(),
+            ])->all(),
             'price' => $default?->getFormattedPrice(),
             'default_product' => $default ? $this->formatProduct($default) : null,
             'created_at' => $this->created_at?->format('d-m-Y H:i'),
@@ -62,8 +68,7 @@ class AdminWrapperResource extends JsonResource
             'type' => $product->type,
             'status' => $product->status,
             'price' => $product->getFormattedPrice(),
-            'main_image_url' => $product->getFirstMediaUrl('images')
-                ?: asset('storage/products/default.png'),
+            'main_image_url' => asset('storage/products/default.png'),
         ];
     }
 }

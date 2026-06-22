@@ -33,9 +33,9 @@ class ProductStatisticsResource extends JsonResource
             'status' => $this->status,
             'type' => $this->type,
             'rate' => $this->rate && $this->rate != 0 ? $this->rate : null,
-            'main_image_url' => $this->getFirstMediaUrl('images') ?: asset('storage/products/default.png'),
+            'main_image_url' => asset('storage/products/default.png'),
             'ends_at' => $this->getFormattedEndsAtDate(),
-            'media' => $this->getMedia('images')->toArray(),
+            'media' => [],
             'counts' => [
                 'total' => [
                     'orders_count' => $this->orders()->sum('order_product.quantity'),

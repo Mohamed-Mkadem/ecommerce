@@ -57,8 +57,8 @@ const selectedVariant = ref(findVariant(props.selected_product_id));
 const totalQuantity = ref(1);
 
 const currentImage = ref(
-    selectedVariant.value.media?.[0] ?? {
-        original_url: selectedVariant.value.main_image_url,
+    props.wrapper.media?.[0] ?? {
+        original_url: props.wrapper.main_image_url,
     },
 );
 
@@ -80,9 +80,6 @@ function selectVariant(variant) {
     }
 
     selectedVariant.value = variant;
-    currentImage.value = variant.media?.[0] ?? {
-        original_url: variant.main_image_url,
-    };
     totalQuantity.value = 1;
 
     router.get(
@@ -288,18 +285,18 @@ const displayDescription = computed(
                         <img
                             :src="
                                 currentImage?.original_url ??
-                                selectedVariant.main_image_url
+                                wrapper.main_image_url
                             "
-                            :alt="selectedVariant.name"
+                            :alt="wrapper.title"
                             class="rounded-2xl mx-auto shadow-lg object-contain"
                         />
                     </div>
                     <div
-                        v-if="selectedVariant.media?.length"
+                        v-if="wrapper.media?.length"
                         class="grid grid-cols-[repeat(4,_minmax(50px,_100px))] justify-between gap-2 md:gap-4 mt-4"
                     >
                         <div
-                            v-for="(image, index) in selectedVariant.media"
+                            v-for="(image, index) in wrapper.media"
                             :key="index"
                             class="rounded-lg transition-all"
                             :class="{
@@ -457,7 +454,7 @@ const displayDescription = computed(
                                     :key="variant.id"
                                     type="button"
                                     @click="selectVariant(variant)"
-                                    class="w-full flex items-center gap-4 p-3 rounded-xl border-2 transition-all"
+                                    class="w-full flex justify-between items-center gap-4 p-3 rounded-xl border-2 transition-all"
                                     :class="{
                                         'border-sky-800 bg-gradient-to-r from-sky-50 to-sky-100 shadow-md':
                                             selectedVariant.id === variant.id,
@@ -465,8 +462,17 @@ const displayDescription = computed(
                                             selectedVariant.id !== variant.id,
                                     }"
                                 >
+                                 <!-- Selected Badge -->
+                                    <div
+                                        v-if="selectedVariant.id === variant.id"
+                                        class="flex-shrink-0 w-7 h-7 rounded-full bg-sky-900 flex items-center justify-center"
+                                    >
+                                        <i
+                                            class="ri-check-line text-base text-white"
+                                        ></i>
+                                    </div>
                                     <!-- Variant Name and Price -->
-                                    <div class="flex-1 text-right">
+                                    <div class="flex-1 text-end">
                                         <p
                                             class="font-semibold text-neutral-800"
                                             :class="{
@@ -491,23 +497,9 @@ const displayDescription = computed(
                                             }}
                                         </p>
                                     </div>
-                                    <!-- Selected Badge -->
-                                    <div
-                                        v-if="selectedVariant.id === variant.id"
-                                        class="flex-shrink-0 w-7 h-7 rounded-full bg-sky-900 flex items-center justify-center"
-                                    >
-                                        <i
-                                            class="ri-check-line text-base text-white"
-                                        ></i>
-                                    </div>
-                                    <!-- Variant Image -->
-                                    <div class="flex-shrink-0 w-12 h-12">
-                                        <img
-                                            :src="variant.main_image_url"
-                                            :alt="variant.name"
-                                            class="w-full h-full object-cover rounded"
-                                        />
-                                    </div>
+                                   
+                                  
+                                   
                                 </button>
                             </div>
                         </div>

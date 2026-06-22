@@ -27,7 +27,12 @@ class WrapperListingResource extends JsonResource
             'discount' => $default?->discount,
             'discount_type' => $default?->discount_type,
             'default_product' => $default
-                ? (new FrontEndProductResource($default))->resolve()
+                ? array_merge(
+                    (new FrontEndProductResource($default))->resolve(),
+                    [
+                        'wrapper_main_image_url' => $this->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
+                    ]
+                )
                 : null,
         ];
     }

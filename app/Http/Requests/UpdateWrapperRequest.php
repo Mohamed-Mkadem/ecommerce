@@ -22,6 +22,8 @@ class UpdateWrapperRequest extends FormRequest
             'is_active' => ['required', 'boolean'],
             'images' => ['nullable', 'array'],
             'images.*' => ['image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'deleted_media' => ['nullable', 'array'],
+            'deleted_media.*' => ['integer', 'exists:media,id'],
             'products' => ['required', 'array', 'min:1'],
             'products.*.product_id' => ['required', 'integer', 'exists:products,id', 'distinct'],
             'products.*.display_order' => ['required', 'integer', 'min:0'],

@@ -398,7 +398,7 @@ onMounted(() => {
                                         >
                                             <img
                                                 class="w-full"
-                                                :src="product.main_image_url"
+                                                :src="product.wrapper_main_image_url || product.main_image_url"
                                                 :alt="product.name"
                                             />
                                             <div

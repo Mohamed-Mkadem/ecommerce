@@ -59,6 +59,19 @@ function formatSize(bytes) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 }
 
+function removeExistingImage(index) {
+    const deletedImage = props.form.existing_media[index];
+    props.form.deleted_media.push(deletedImage.id);
+    props.form.existing_media.splice(index, 1);
+}
+
+function removeAllExistingImages() {
+    props.form.existing_media.forEach((media) => {
+        props.form.deleted_media.push(media.id);
+    });
+    props.form.existing_media = [];
+}
+
 onUnmounted(() => {
     previews.value.forEach((url) => URL.revokeObjectURL(url));
     previews.value = [];
@@ -225,6 +238,54 @@ onUnmounted(() => {
 
             <div class="mt-4">
                 <InputLabel for="images-input" :value="trans('Media.title')" />
+
+                <!-- Existing Images -->
+                <div v-if="form.existing_media && form.existing_media.length" class="mt-2 mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm font-semibold text-graydark">
+                            {{ trans("Existing Images") }}
+                        </span>
+                        <button
+                            type="button"
+                            @click="removeAllExistingImages"
+                            class="text-sm font-medium text-red-600 hover:text-red-500 flex items-center gap-1"
+                        >
+                            <i class="ri-delete-bin-line"></i>
+                            {{ trans("Remove All") }}
+                        </button>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-2 space-y-2">
+                        <div
+                            v-for="(media, index) in form.existing_media"
+                            :key="media.id"
+                            class="flex items-center justify-between gap-3 text-gray-800 bg-white rounded-md px-3 py-2"
+                        >
+                            <img
+                                :src="media.url"
+                                :alt="media.name"
+                                class="w-14 h-14 rounded object-cover flex-shrink-0 me-4"
+                            />
+
+                            <div class="flex-1 min-w-0">
+                                <div class="text-lg font-medium truncate">
+                                    {{ media.name }}
+                                </div>
+                                <div class="text-sm text-gray-500">
+                                    {{ formatSize(media.size) }}
+                                </div>
+                            </div>
+
+                            <button
+                                type="button"
+                                @click="removeExistingImage(index)"
+                                class="text-red-600 hover:text-red-500 ms-4 flex items-center gap-2"
+                                :title="trans('Remove')"
+                            >
+                                <i class="ri-delete-bin-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
                 <label
                     for="images-input"

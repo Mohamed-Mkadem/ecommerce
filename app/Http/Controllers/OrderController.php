@@ -280,7 +280,7 @@ class OrderController extends Controller
                 'name' => $product->name,
                 'type' => $product->type,
                 'price' => $product->getFormattedPrice(),
-                'main_image_url' => $product->getFirstMediaUrl('images') ?: asset('storage/products/default.png'),
+                'main_image_url' => asset('storage/products/product.webp'),
                 'translations' => $product->translations
             ]);
 
@@ -572,7 +572,7 @@ class OrderController extends Controller
                 'name' => $product->name,
                 'type' => $product->type,
                 'price' => $product->getFormattedPrice(),
-                'main_image_url' => $product->getFirstMediaUrl('images') ?: asset('storage/products/default.png'),
+                'main_image_url' => asset('storage/products/product.webp'),
                 'translations' => $product->translations
             ]);
         return Inertia::render('Orders/EditProducts', ['order' => $order, 'products' => $products]);

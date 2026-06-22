@@ -73,7 +73,7 @@ class OrderResource extends JsonResource
                         'sub_total' => number_format($product->pivot->sub_total / 1000, 3, '.', ''),
                         'quantity' => $product->pivot->quantity,
                     ],
-                    'main_image_url' => $product->getFirstMediaUrl('images') ?: asset('storage/products/default.png'),
+                    'main_image_url' => asset('storage/products/product.webp'),
                 ];
             }),
 
