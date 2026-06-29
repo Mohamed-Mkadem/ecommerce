@@ -1,13 +1,13 @@
 <script setup>
 import PageHeader from "@/js/Components/Admin/PageHeader.vue";
 import { usePage, router } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import Swal from "sweetalert2";
 import { trans } from "laravel-vue-i18n";
 import ProductImagePlaceholder from "@/assets/images/product.webp";
 import Activities from "@/js/Components/Admin/Activities.vue";
 const props = defineProps(["product", "activities"]);
-const product = usePage().props.product.data;
+const product = computed(() => usePage().props.product.data);
 
 const deleteProduct = () => {
     Swal.fire({

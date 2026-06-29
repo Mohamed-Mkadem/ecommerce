@@ -15,21 +15,12 @@ const locales = reactive({
     ar: { icon: tnFlag, label: "العربية", value: "ar" },
 });
 
-const displayedLocales = computed(() => {
-    // On front-end only show Arabic; on admin show all
-    if (props.isInFrontEnd) {
-        return [locales.ar];
-    }
 
-    return Object.values(locales);
-});
 
 const currentLocaleDisplay = computed(() => {
-    if (props.isInFrontEnd) {
-        return locales.ar;
-    }
+   
 
-    return locales[languageStore.currentLocale] ?? locales.en;
+    return locales[languageStore.currentLocale] ;
 });
 
 async function changeLang(newLang) {
@@ -81,7 +72,7 @@ onClickOutside(target, () => {
             <ul class="  ">
                 <li
                     @click.prevent="changeLang(locale.value)"
-                    v-for="(locale, index) in displayedLocales"
+                    v-for="(locale, index) in locales"
                     :key="locale.value"
                     class="p-2 flex items-center justify-between gap-2 cursor-pointer"
                     :class="{
