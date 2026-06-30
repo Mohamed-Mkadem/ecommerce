@@ -12,7 +12,6 @@ use App\Http\Controllers\NRPController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShipperController;
 use App\Http\Controllers\ShippingReportController;
 use App\Http\Controllers\ShippingSettingController;
@@ -85,7 +84,6 @@ Route::middleware(['auth', isActiveMiddleware::class])->group(function () {
     Route::get('notifications/{user}/get', [NotificationController::class, 'getNotifications'])->name('notifications.get');
     Route::resource('notifications', NotificationController::class)->only(['index']);
 
-    Route::resource('reviews', ReviewController::class)->except(['create', 'store', 'edit', 'update']);
     Route::resource('invoices', InvoiceController::class)->middleware(isAdminMiddleware::class);
     Route::resource('employees', UserController::class)->middleware(isAdminMiddleware::class);
 
@@ -96,7 +94,6 @@ Route::middleware(['auth', isActiveMiddleware::class])->group(function () {
     Route::get('statistics/packs', [StatisticsController::class, 'packs'])->name('stats.packs');
     Route::get('statistics/clients', [StatisticsController::class, 'clients'])->name('stats.clients');
     Route::get('statistics/couponCodes', [StatisticsController::class, 'couponCodes'])->name('stats.couponCodes');
-    Route::get('statistics/reviews', [StatisticsController::class, 'reviews'])->name('stats.reviews');
 
     Route::resource('notes', NoteController::class);
     Route::get('notes/newNote/{id}/{type}', [NoteController::class, 'newNote'])->name('notes.newNote');
@@ -129,10 +126,6 @@ Route::name('FE.')->group(function () {
     Route::get('/privacy', [FrontEndController::class, 'privacy'])->name('privacy');
     Route::get('/shop/{wrapper:slug}', [FrontEndController::class, 'wrapper'])->name('wrapper');
     Route::get('/shop', [FrontEndController::class, 'shop'])->name('shop');
-    // Route::get('/offers', [FrontEndController::class, 'packs'])->name('packs');
-    // Route::get('/product/{product}', [FrontEndController::class, 'product'])->name('product');
-    // Route::get('products/{product}/review', [ReviewController::class, 'create'])->name('reviews.create');
-    // Route::post('reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::post('getCode', [CouponCodeController::class, 'getCode'])->name('codes.getCode');
     Route::post('order/place', [OrderController::class, 'place'])->name('orders.place');
     Route::post('order/abandoned', [OrderController::class, 'storeAbandoned'])->name('orders.abandoned');

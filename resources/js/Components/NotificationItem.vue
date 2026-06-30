@@ -93,45 +93,7 @@ const props = defineProps({
             class="w-2 h-2 bg-red-600 rounded-full absolute top-5 ltr:right-3 rtl:left-3"
         ></span>
     </Link>
-    <Link
-        v-else-if="notification.type == 'new-review'"
-        as="button"
-        class="gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 relative w-full text-start"
-    >
-        <div class="grid grid-cols-[50px,1fr] gap-2 items-center">
-            <i
-                :class="notification.data.icon"
-                class="bg-slate-500 w-12 h-12 rounded-full text-xl text-white flex items-center justify-center"
-            ></i>
-            <div>
-                <p class="text-base text-primary font-medium">
-                    {{ $t(notification.data.title) }}
-                </p>
-                <div class="flex items-center gap-3 text-gray">
-                    <i
-                        class="ri-star-fill text-xs"
-                        v-for="index in 5"
-                        :key="index"
-                        :class="{
-                            'text-yellow-500': index <= notification.data.stars,
-                            'text-slate-400': index > notification.data.stars,
-                        }"
-                    />
-                </div>
-                <p class="text-sm">
-                    {{ $t(notification.data.message) }}
-                </p>
 
-                <p class="text-xs">
-                    {{ notification.data.created_at }}
-                </p>
-            </div>
-        </div>
-        <span
-            v-show="notification.read_at == null"
-            class="w-2 h-2 bg-red-600 rounded-full absolute top-5 ltr:right-3 rtl:left-3"
-        ></span>
-    </Link>
     <Link
         v-else-if="notification.type == 'role-changed'"
         as="button"

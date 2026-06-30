@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use App\Models\City;
 use App\Models\Note;
 use App\Models\Order;
-use App\Models\Review;
 use App\Models\Locality;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\LogOptions;
@@ -68,10 +67,7 @@ class Client extends Model
     {
         return   Carbon::parse($value)->format('d-m-Y');
     }
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
+
 
     public function city()
     {

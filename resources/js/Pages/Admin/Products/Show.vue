@@ -77,21 +77,7 @@ const deleteProduct = () => {
             <p class="text-2xl font-semibold text-meta-1 mb-4">
                 {{ product.price }} {{ $t("Product.currency") }}
             </p>
-            <div class="flex items-center gap-3">
-                <i class="ri-star-line text-2xl text-slate-400"></i>
-                <p
-                    class="text-primary flex items-center gap-2"
-                    v-if="product.rate"
-                >
-                    <span class="font-semibold text-xl">{{
-                        product.rate
-                    }}</span>
-                    <span> - ({{ product.reviews_count }}) </span>
-                </p>
-                <p v-else class="text-primary">
-                    {{ $t("Product.notRated") }}
-                </p>
-            </div>
+
             <div class="flex items-center gap-3">
                 <i class="ri-shopping-cart-line text-2xl text-slate-400"></i>
                 <p class="text-primary">

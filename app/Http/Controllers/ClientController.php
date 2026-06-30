@@ -14,7 +14,6 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\StateResource;
 use App\Http\Resources\ClientResource;
-use App\Http\Resources\ReviewResource;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -126,7 +125,7 @@ class ClientController extends Controller
         // IMPORTANT: Re-add the addSelect for total_delivered_spent and total_orders_count
         // when fetching the Eloquent models, so these attributes are available.
         $eloquentClientsQuery = Client::whereIn('id', $clientIds)
-            ->with(['state', 'notes.user', 'reviews']);
+            ->with(['state', 'notes.user']);
 
         $eloquentClientsQuery->addSelect([
             'total_delivered_spent' => Order::selectRaw('COALESCE(SUM(amount), 0)')
@@ -214,7 +213,7 @@ class ClientController extends Controller
     public function show(Client $client)
     {
         $client->load(['state', 'locality.city']);
-        $client->loadCount('orders', 'reviews');
+        $client->loadCount('orders');
 
         $deleted_orders_count = $client->orders()->where('deleted_at', '!=', null)->count();
 

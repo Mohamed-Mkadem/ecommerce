@@ -24,10 +24,6 @@ const props = defineProps(["product"]);
 
         <div class="flex justify-around mt-4">
             <div class="text-center">
-                <i class="ri-star-line text-2xl text-slate-400"></i>
-                <p class="text-primary">{{ product.rate ?? "N/A" }}</p>
-            </div>
-            <div class="text-center">
                 <i class="ri-shopping-cart-line text-2xl text-slate-400"></i>
                 <p class="text-primary">{{ product.orders_count }}</p>
             </div>

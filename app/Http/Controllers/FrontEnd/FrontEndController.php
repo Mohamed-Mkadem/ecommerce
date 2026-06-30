@@ -10,10 +10,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FrontEndProductResource;
 use App\Http\Resources\ProductResource;
-use App\Http\Resources\ReviewResource;
 use App\Http\Resources\StateResource;
 use App\Http\Resources\WrapperListingResource;
-use App\Models\Review;
 use Illuminate\Database\Eloquent\Builder;
 
 class FrontEndController extends Controller
@@ -84,12 +82,8 @@ class FrontEndController extends Controller
 
         $sort = $request->input('sort', 'lowest_price');
         $defaultPrice = $this->defaultVariantSubquery('price');
-        $defaultRate = $this->defaultVariantSubquery('rate');
-
         match ($sort) {
             'highest_price' => $query->orderBy($defaultPrice, 'desc'),
-            'highest_rate' => $query->orderBy($defaultRate, 'desc'),
-            'lowest_rate' => $query->orderBy($defaultRate, 'asc'),
             default => $query->orderBy($defaultPrice, 'asc'),
         };
 
@@ -153,9 +147,6 @@ class FrontEndController extends Controller
             'variants' => $variants,
             'selected_product_id' => $selectedProductId,
             'states' => StateResource::collection(State::all()),
-            'reviews' => ReviewResource::collection(
-                Review::where('product_id', $selectedProductId)->paginate()
-            ),
         ]);
     }
 
@@ -185,12 +176,6 @@ class FrontEndController extends Controller
                 case 'lowest_price':
                     $query->orderBy('price', 'asc');
                     break;
-                case 'highest_rate':
-                    $query->orderBy('rate', 'desc');
-                    break;
-                case 'lowest_rate':
-                    $query->orderBy('rate', 'asc');
-                    break;
                 case 'highest_price':
                     $query->orderBy('price', 'desc');
                     break;
@@ -203,7 +188,6 @@ class FrontEndController extends Controller
         $products = $query->paginate()->withQueryString()
             ->through(fn($product) => [
                 'id' => $product->id,
-                'rate' => $product->rate && $product->rate != 0 ? $product->rate : null,
                 'name' => $product->name,
                 'type' => $product->type,
                 'price' => $product->getFormattedPrice(),
@@ -223,10 +207,8 @@ class FrontEndController extends Controller
     public function product(Product $product)
     {
         $product->status != 'published' ? abort(404) : '';
-        $reviews = Review::where('product_id', $product->id)->paginate();
         return Inertia::render('FrontEnd/Product', [
             'product' => new ProductResource($product),
-            'reviews' => ReviewResource::collection($reviews),
         ]);
     }
 }

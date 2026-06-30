@@ -14,8 +14,6 @@ use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductStatisticsResource;
 use App\Http\Resources\StatisticsProductResource;
 use App\Models\CouponCode;
-use App\Models\Review;
-
 class StatisticsController extends Controller
 {
 
@@ -88,10 +86,4 @@ class StatisticsController extends Controller
         ]);
     }
 
-
-    public function reviews()
-    {
-        $statistics = Review::getCount();
-        return Inertia::render('Admin/Statistics/Reviews', ['statistics' => $statistics]);
-    }
 }

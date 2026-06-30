@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->decimal('rate', 2, 1)->nullable()->default(null);
             $table->unsignedMediumInteger('price');
-            $table->date('ends_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

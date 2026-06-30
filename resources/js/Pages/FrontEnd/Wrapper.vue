@@ -9,7 +9,6 @@ import { trans } from "laravel-vue-i18n";
 import { computed, ref, watch } from "vue";
 import axios from "axios";
 import NotFound from "@/js/Components/NotFound.vue";
-import Review from "@/js/Components/Review.vue";
 import TextInput from "@/js/Components/TextInput.vue";
 import InputError from "@/js/Components/InputError.vue";
 import InputLabel from "@/js/Components/InputLabel.vue";
@@ -31,10 +30,6 @@ const props = defineProps({
         required: true,
     },
     states: {
-        type: Object,
-        required: true,
-    },
-    reviews: {
         type: Object,
         required: true,
     },
@@ -89,7 +84,7 @@ function selectVariant(variant) {
             preserveState: true,
             preserveScroll: true,
             replace: true,
-            only: ["reviews", "selected_product_id"],
+            only: ["selected_product_id"],
         },
     );
 }

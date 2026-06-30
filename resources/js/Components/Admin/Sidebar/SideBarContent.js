@@ -80,12 +80,6 @@ export default [
         component: "Clients/Index",
     },
     {
-        icon: `<i class="ri-star-line"></i>`,
-        label: "Reviews",
-        route: route("reviews.index"),
-        component: "Reviews/Index",
-    },
-    {
         onlyAdmin: true,
         icon: `<i class="ri-money-dollar-circle-fill"></i>`,
         label: "Invoices",
@@ -142,11 +136,6 @@ export default [
                 label: "Clients",
                 route: route("stats.clients"),
                 component: "Admin/Statistics/Clients",
-            },
-            {
-                label: "Reviews",
-                route: route("stats.reviews"),
-                component: "Admin/Statistics/Reviews",
             },
         ],
     },

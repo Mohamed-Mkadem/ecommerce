@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Models\Order;
 use App\Models\OrderProduct;
-use App\Models\Review;
 use App\Models\Wrapper;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
@@ -88,20 +87,6 @@ class Product extends Model implements TranslatableContract
         return $this->hasMany(OrderProduct::class);
     }
 
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
-
-    public function updateRate()
-    {
-        $rateAvg = round($this->reviews()->avg('stars'), 2);
-        $this->rate = $rateAvg;
-        $this->save();
-    }
-
-
-
 
 
 
@@ -140,7 +125,6 @@ class Product extends Model implements TranslatableContract
                     'price' => $product->getFormattedPrice(),
                     'translations' => $product->translations,
                     'delivered_orders_count' => $product->orders()->where('status', 'delivered')->sum('order_product.quantity'),
-                    'rate' => $product->rate,
                 ]),
 
             'day' =>  self::query()
@@ -165,8 +149,6 @@ class Product extends Model implements TranslatableContract
                     'delivered_orders_count' => $product->orders()->where('status', 'delivered')
                         ->whereBetween('orders.created_at', [$todayStart, $todayEnd])
                         ->sum('order_product.quantity'),
-
-                    'rate' => $product->rate,
                 ]),
             'week' =>  self::query()
                 ->where('type', 'product')
@@ -189,7 +171,6 @@ class Product extends Model implements TranslatableContract
                     'delivered_orders_count' => $product->orders()->where('status', 'delivered')
                         ->whereBetween('orders.created_at', [$currentWeekStart, $currentWeekEnd])
                         ->sum('order_product.quantity'),
-                    'rate' => $product->rate,
                 ]),
             'month' =>  self::query()
                 ->where('type', 'product')
@@ -212,7 +193,6 @@ class Product extends Model implements TranslatableContract
                     'delivered_orders_count' => $product->orders()->where('status', 'delivered')
                         ->whereBetween('orders.created_at', [$currentMonthStart, $currentMonthEnd])
                         ->sum('order_product.quantity'),
-                    'rate' => $product->rate,
                 ]),
             'year' =>  self::query()
                 ->where('type', 'product')
@@ -235,7 +215,6 @@ class Product extends Model implements TranslatableContract
                     'delivered_orders_count' => $product->orders()->where('status', 'delivered')
                         ->whereBetween('orders.created_at', [$currentYearStart, $currentYearEnd])
                         ->sum('order_product.quantity'),
-                    'rate' => $product->rate,
                 ]),
 
 

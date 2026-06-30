@@ -32,7 +32,6 @@ class ProductStatisticsResource extends JsonResource
             'price' => $this->getFormattedPrice(),
             'status' => $this->status,
             'type' => $this->type,
-            'rate' => $this->rate && $this->rate != 0 ? $this->rate : null,
             'main_image_url' => asset('storage/products/default.png'),
             'ends_at' => $this->getFormattedEndsAtDate(),
             'media' => [],
@@ -136,7 +135,6 @@ class ProductStatisticsResource extends JsonResource
                 ],
             ],
             'translations' => $this->translations,
-            'reviews_count' => $this->reviews()->count(),
 
         ];
     }

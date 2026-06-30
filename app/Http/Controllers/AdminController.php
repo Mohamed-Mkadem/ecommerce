@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Order;
 use App\Models\Client;
-use App\Models\Review;
 use App\Models\Invoice;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -22,7 +21,6 @@ class AdminController extends Controller
         $todaysEarnings = Invoice::getEarnings(true)['day'];
         $todaysInvoicesCount = Invoice::getCount()['day'];
         $todaysOrdersCount = Order::getCount()['day']['total'];
-        $todaysReviewsCount = Review::getCount()['total']['day'];
         $todaysClientsCount = Client::getCount()['day'];
         $todaysNotificationsCount = Auth::user()->getTodaysNotificationsCount();
 
@@ -71,7 +69,6 @@ class AdminController extends Controller
                 'todaysEarnings' => $todaysEarnings,
                 'todaysInvoicesCount' => $todaysInvoicesCount,
                 'todaysOrdersCount' => $todaysOrdersCount,
-                'todaysReviewsCount' => $todaysReviewsCount,
                 'todaysClientsCount' => $todaysClientsCount,
                 'todaysNotificationsCount' => $todaysNotificationsCount,
                 'orders' =>   OrderResource::collection($orders),

@@ -107,12 +107,7 @@ function deleteClient(client) {
                 <i class="ri-map-2-line text-2xl text-slate-400"></i>
                 <span dir="auto"> {{ client.address }}</span>
             </div>
-            <div class="flex items-center gap-3">
-                <i class="ri-star-line text-2xl text-slate-400"></i>
-                <p class="text-primary flex items-center gap-2">
-                    {{ `${$t("Reviews")} : ${client.reviews_count}` }}
-                </p>
-            </div>
+
             <div class="flex items-center gap-3">
                 <i class="ri-shopping-cart-line text-2xl text-slate-400"></i>
                 <p class="text-primary flex items-center gap-2">

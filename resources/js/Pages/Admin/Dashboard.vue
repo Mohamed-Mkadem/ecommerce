@@ -28,7 +28,6 @@ const props = defineProps({
     todaysEarnings: { type: Number },
     todaysInvoicesCount: { type: Number },
     todaysOrdersCount: { type: Number },
-    todaysReviewsCount: { type: Number },
     todaysClientsCount: { type: Number },
     todaysNotificationsCount: { type: Number },
     orders: { type: Object },
@@ -157,27 +156,7 @@ const chartOptions = {
                 </div>
             </div>
         </div>
-        <div class="bg-white p-4 rounded-md shadow-5">
-            <p class="text-neutral-700 ltr:-tracking-tighter">
-                {{ $t("Reviews") }}
-            </p>
-            <p class="font-semibold text-2xl mt-3 text-sky-800">
-                {{ todaysReviewsCount }}
-            </p>
-            <div class="flex items-end justify-between gap-2">
-                <Link
-                    class="underline text-sky-900 text-sm capitalize hover:text-sky-800"
-                    :href="route('reviews.index')"
-                >
-                    {{ $t("Reviews") }}
-                </Link>
-                <div
-                    class="bg-orange-500 text-white flex items-center justify-center w-9 h-9 rounded-md"
-                >
-                    <i class="ri-star-line"></i>
-                </div>
-            </div>
-        </div>
+
         <div
             class="bg-white p-4 rounded-md shadow-5"
             v-if="$page.props.auth.user.role == 'admin'"
@@ -204,7 +183,7 @@ const chartOptions = {
         </div>
         <div
             class="bg-white p-4 rounded-md shadow-5"
-            v-if="$page.props.auth.user.role == 'moderator'"
+             v-if="$page.props.auth.user.role == 'moderator'"
         >
             <p class="text-neutral-700 ltr:-tracking-tighter">
                 {{ $t("Clients") }}
@@ -228,7 +207,7 @@ const chartOptions = {
         </div>
         <div
             class="bg-white p-4 rounded-md shadow-5"
-            v-if="$page.props.auth.user.role == 'moderator'"
+           
         >
             <p class="text-neutral-700 ltr:-tracking-tighter">
                 {{ $t("Notifications") }}
