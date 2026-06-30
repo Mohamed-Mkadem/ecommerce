@@ -2,8 +2,8 @@
 import PageHeader from "@/js/Components/Admin/PageHeader.vue";
 import CreateNew from "@/js/Components/CreateNew.vue";
 import Status from "@/js/Components/Status.vue";
-import Card from "@/js/Pages/Admin/Products/Partials/Card.vue";
 import { computed } from "vue";
+import { trans } from "laravel-vue-i18n";
 import { Bar } from "vue-chartjs";
 import {
     Chart as ChartJS,
@@ -39,7 +39,10 @@ const props = defineProps({
 });
 
 const chartData = computed(() => ({
-    labels: props.weeklyOrders?.map((day) => day.label) ?? [],
+    labels: props.weeklyOrders?.map((day) => {
+        const parts = day.label.split(" ");
+        return parts.length === 2 ? `${trans(parts[0])} ${parts[1]}` : trans(day.label);
+    }) ?? [],
     datasets: [
         {
             label: "Orders",
@@ -53,7 +56,10 @@ const chartData = computed(() => ({
 }));
 
 const clientChartData = computed(() => ({
-    labels: props.weeklyClientOrders?.map((day) => day.label) ?? [],
+    labels: props.weeklyClientOrders?.map((day) => {
+        const parts = day.label.split(" ");
+        return parts.length === 2 ? `${trans(parts[0])} ${parts[1]}` : trans(day.label);
+    }) ?? [],
     datasets: [
         {
             label: "Client Orders",
@@ -74,7 +80,7 @@ const chartOptions = {
         tooltip: {
             callbacks: {
                 label: (context) =>
-                    `${context.parsed.y} ${context.dataset.label}`,
+                    `${context.parsed.y} ${trans(context.dataset.label)}`,
             },
         },
     },

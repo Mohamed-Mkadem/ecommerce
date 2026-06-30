@@ -747,5 +747,18 @@
     "order.abandoned": "abandonnée",
     "Import Orders from Excel": "Importer les commandes depuis Excel",
     "Automatic Orders": "Commandes automatiques",
-    "Your Shopping cart is empty, Continue Shopping": "Votre panier est vide, Continuez vos achats"
+    "Your Shopping cart is empty, Continue Shopping": "Votre panier est vide, Continuez vos achats",
+    "Client Orders": "Commandes clients",
+    "Jan": "Janv",
+    "Feb": "Févr",
+    "Mar": "Mars",
+    "Apr": "Avr",
+    "May": "Mai",
+    "Jun": "Juin",
+    "Jul": "Juil",
+    "Aug": "Août",
+    "Sep": "Sept",
+    "Oct": "Oct",
+    "Nov": "Nov",
+    "Dec": "Déc"
 }

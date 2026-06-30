@@ -748,5 +748,18 @@
     "Import Orders from Excel": "استيراد الطلبات من Excel",
     "Featured Products": "المنتجات المميزة",
     "Automatic Orders": "الطلبات التلقائية",
-    "Your Shopping cart is empty, Continue Shopping": "سلة التسوق الخاصة بك فارغة، تابع التسوق"
+    "Your Shopping cart is empty, Continue Shopping": "سلة التسوق الخاصة بك فارغة، تابع التسوق",
+    "Client Orders": "طلبات العملاء",
+    "Jan": "جانفي",
+    "Feb": "فيفري",
+    "Mar": "مارس",
+    "Apr": "أفريل",
+    "May": "ماي",
+    "Jun": "جوان",
+    "Jul": "جويلية",
+    "Aug": "أوت",
+    "Sep": "سبتمبر",
+    "Oct": "أكتوبر",
+    "Nov": "نوفمبر",
+    "Dec": "ديسمبر"
 }
