@@ -770,5 +770,14 @@
     "Nov": "نوفمبر",
     "Dec": "ديسمبر",
     "someone": "شخص ما",
-    "Selling Report Created": "تم إنشاء تقرير المبيعات"
+    "Selling Report Created": "تم إنشاء تقرير المبيعات",
+    "New Selling Report": "تقرير مبيعات جديد",
+    "Created by": "تمّ الإنشاء بواسطة",
+    "Start date": "تاريخ البدء",
+    "End date": "تاريخ الانتهاء",
+    "SellingReport.created_successfully": "تم إنشاء تقرير المبيعات بنجاح، سيتم إعلامك عندما يكون جاهزًا",
+    "SellingReport.create": "إنشاء التقرير",
+    "selling_report.placeholder": "اسم التقرير",
+    "From : ": "من : ",
+    "To : ": "إلى : "
 }

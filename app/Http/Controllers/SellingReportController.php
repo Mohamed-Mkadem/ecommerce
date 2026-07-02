@@ -41,6 +41,9 @@ class SellingReportController extends Controller
             if ($sellingReport->excel_file_path && Storage::disk('local')->exists($sellingReport->excel_file_path)) {
                 Storage::disk('local')->delete($sellingReport->excel_file_path);
             }
+            if ($sellingReport->pdf_file_path && Storage::disk('local')->exists($sellingReport->pdf_file_path)) {
+                Storage::disk('local')->delete($sellingReport->pdf_file_path);
+            }
             $sellingReport->delete();
 
             DB::commit();
@@ -55,6 +58,18 @@ class SellingReportController extends Controller
     {
         $report = SellingReport::findOrFail($id);
         $filePath = $report->excel_file_path;
+
+        if (!$filePath || !Storage::disk('local')->exists($filePath)) {
+            abort(404);
+        }
+
+        return Storage::disk('local')->download($filePath);
+    }
+
+    public function downloadPdf($id)
+    {
+        $report = SellingReport::findOrFail($id);
+        $filePath = $report->pdf_file_path;
 
         if (!$filePath || !Storage::disk('local')->exists($filePath)) {
             abort(404);

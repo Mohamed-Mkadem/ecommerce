@@ -44,7 +44,7 @@ function submitForm() {
                 <i class="ri-close-large-line text-xl"></i>
             </button>
         </div>
-        <form @submit.prevent="submitForm">
+        <form @submit.prevent.stop="submitForm">
             <div class="mt-4">
                 <InputLabel for="name" :value="$t('Name')" />
 
@@ -89,7 +89,7 @@ function submitForm() {
                     'opacity-25 cursor-not-allowed': form.processing,
                 }"
                 :disabled="form.processing"
-                type="Submit"
+                type="submit"
                 class="w-full cursor-pointer rounded-lg border border-primary bg-primary px-2 py-3 font-medium text-white transition hover:bg-opacity-90 mt-4"
             >
                 {{ $t("SellingReport.create") }}

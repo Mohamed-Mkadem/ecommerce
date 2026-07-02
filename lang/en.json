@@ -717,5 +717,8 @@
     "QuickOrder.quantity": "Quantity",
     "QuickOrder.place": "Place order",
     "order.abandoned": "Abandoned",
-    "abandoned": "Abandoned"
+    "abandoned": "Abandoned",
+    "SellingReport.created_successfully": "The selling report has been created successfully, You'll be informed when it is ready",
+    "SellingReport.create": "Create Report",
+    "selling_report.placeholder": "Report name"
 }

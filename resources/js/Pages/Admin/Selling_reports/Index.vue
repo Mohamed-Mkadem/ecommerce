@@ -40,13 +40,17 @@ function deleteReport(report) {
     });
 }
 
-function downloadFile(id) {
-    window.location.href = route("selling-reports.download-excel", id);
+function downloadFile(type, id) {
+    const routeName =
+        type === "pdf"
+            ? "selling-reports.download-pdf"
+            : "selling-reports.download-excel";
+    window.location.href = route(routeName, id);
 }
 </script>
 
 <template>
-    <Head :title="$t('Selling_Reports.index')" />
+    <Head :title="$t('Selling Reports')" />
     <PageHeader :page-title="$t('Selling Reports')">
         <CreateNewModal
             :close-button="false"
@@ -59,10 +63,14 @@ function downloadFile(id) {
         <table class="min-w-full bg-white rounded-lg shadow-1 overflow-hidden">
             <thead class="bg-slate-300 text-slate-700">
                 <tr>
-                    <th class="px-4 py-3 text-left">{{ $t("Name") }}</th>
-                    <th class="px-4 py-3 text-left">{{ $t("Created by") }}</th>
-                    <th class="px-4 py-3 text-left">{{ $t("Start date") }}</th>
-                    <th class="px-4 py-3 text-left">{{ $t("End date") }}</th>
+                    <th class="px-4 py-3 text-center">{{ $t("Name") }}</th>
+                    <th class="px-4 py-3 text-center">
+                        {{ $t("Created by") }}
+                    </th>
+                    <th class="px-4 py-3 text-center">
+                        {{ $t("Start date") }}
+                    </th>
+                    <th class="px-4 py-3 text-center">{{ $t("End date") }}</th>
                     <th class="px-4 py-3 text-center">{{ $t("Actions") }}</th>
                 </tr>
             </thead>
@@ -72,23 +80,34 @@ function downloadFile(id) {
                     :key="report.id"
                     class="border-t border-slate-200"
                 >
-                    <td class="px-4 py-3 font-semibold text-primary">
+                    <td
+                        class="text-center px-4 py-3 font-semibold text-primary"
+                    >
                         {{ report.name }}
                     </td>
-                    <td class="px-4 py-3">
+                    <td class="text-center px-4 py-3">
                         {{ report.user?.first_name }}
                         {{ report.user?.last_name }}
                     </td>
-                    <td class="px-4 py-3">{{ report.start_date }}</td>
-                    <td class="px-4 py-3">{{ report.end_date }}</td>
-                    <td class="px-4 py-3">
+                    <td class="text-center px-4 py-3">
+                        {{ report.start_date }}
+                    </td>
+                    <td class="text-center px-4 py-3">{{ report.end_date }}</td>
+                    <td class="text-center px-4 py-3">
                         <div class="flex items-center justify-center gap-2">
                             <button
-                                @click="downloadFile(report.id)"
+                                @click="downloadFile('pdf', report.id)"
                                 class="bg-sky-800 text-white p-2 rounded-md hover:bg-opacity-75"
-                                :title="$t('Download')"
+                                :title="$t('Download PDF')"
                             >
-                                <i class="ri-download-line"></i>
+                                <i class="ri-file-pdf-line"></i>
+                            </button>
+                            <button
+                                @click="downloadFile('excel', report.id)"
+                                class="bg-emerald-700 text-white p-2 rounded-md hover:bg-opacity-75"
+                                :title="$t('Download Excel')"
+                            >
+                                <i class="ri-file-excel-line"></i>
                             </button>
                             <button
                                 @click="deleteReport(report)"

@@ -81,6 +81,7 @@ Route::middleware(['auth', isActiveMiddleware::class])->group(function () {
     Route::resource('shipping_reports', ShippingReportController::class)->except(['show', 'edit', 'update']);
 
     Route::get('/selling-reports/download-excel/{id}', [SellingReportController::class, 'downloadExcel'])->name('selling-reports.download-excel');
+    Route::get('/selling-reports/download-pdf/{id}', [SellingReportController::class, 'downloadPdf'])->name('selling-reports.download-pdf');
     Route::resource('selling_reports', SellingReportController::class)->except(['show', 'edit', 'update']);
 
     Route::patch('notifications/{notification_id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');

@@ -769,5 +769,11 @@
     "Nov": "Nov",
     "Dec": "Déc",
     "someone": "quelqu'un",
-    "Selling Report Created": "Rapport de vente créé"
+    "Selling Report Created": "Rapport de vente créé",
+    "New Selling Report": "Nouveau rapport de vente",
+    "SellingReport.created_successfully": "Le rapport de vente a été créé avec succès, vous serez informé quand il sera prêt",
+    "SellingReport.create": "Créer le rapport",
+    "selling_report.placeholder": "Le nom du rapport",
+    "From : ": "De : ",
+    "To : ": "À : "
 }

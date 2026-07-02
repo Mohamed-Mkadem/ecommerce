@@ -38,7 +38,7 @@ class OrderFactory extends Factory
             'amount' => 1,
             'note' => null,
             'delivery_date' => now()->addDays(1),
-            'created_at' => fake()->dateTimeBetween('2026-06-01', '2026-06-30')
+            'created_at' => fake()->dateTimeBetween('2026-07-01', '2026-07-30')
         ];
     }
 

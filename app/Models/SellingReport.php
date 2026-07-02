@@ -11,6 +11,7 @@ class SellingReport extends Model
         'start_date',
         'end_date',
         'excel_file_path',
+        'pdf_file_path',
         'user_id',
     ];
 
