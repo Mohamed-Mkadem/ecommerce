@@ -109,10 +109,6 @@ function saveAbandonedOrder() {
 watch(
     [
         () => form.phone,
-        () => form.name,
-        () => form.address,
-        () => form.note,
-        () => form.state?.id,
     ],
     saveAbandonedOrder,
 );

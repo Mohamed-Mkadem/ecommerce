@@ -39,20 +39,6 @@ return [
         'token' => env('NAVEX_API_TOKEN'),
         'url' => env('NAVEX_API_URL'),
     ],
-    'dsgo' => [
-        'token' => env('DSGO_API_TOKEN'),
-        'url' => env('DSGO_API_URL'),
-    ],
-    'dsgo_ben_arous' => [
-        'token' => env('DSGO_BEN_AROUS_API_TOKEN'),
-        'url' => env('DSGO_API_URL'),
-    ],
-    'onesta' => [
-        'user' => env('ONESTA_USER'),
-        'pass' => env('ONESTA_PASS'),
-        'url'  => env('ONESTA_URL'),
-    ],
-
     'facebook' => [
         'access_token' => env('FACEBOOK_ACCESS_TOKEN'),
         'pixel_id' => env('FACEBOOK_PIXEL_ID'),

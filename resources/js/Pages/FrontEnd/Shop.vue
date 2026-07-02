@@ -16,8 +16,6 @@ const props = defineProps({
 const validSorts = [
     "highest_price",
     "lowest_price",
-    "highest_rate",
-    "lowest_rate",
 ];
 let search = ref(props.filters.search || "");
 let sort = ref(
@@ -86,12 +84,7 @@ watch(
                     <option value="highest_price">
                         {{ $t("Sort.highest_price") }}
                     </option>
-                    <option value="highest_rate">
-                        {{ $t("Sort.highest_rate") }}
-                    </option>
-                    <option value="lowest_rate">
-                        {{ $t("Sort.lowest_rate") }}
-                    </option>
+                   
                 </select>
             </div>
         </div>
