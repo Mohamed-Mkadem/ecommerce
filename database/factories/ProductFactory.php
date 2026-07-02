@@ -21,8 +21,6 @@ class ProductFactory extends Factory
             return [
                 $locale => [
                     'name' => fake($locale)->words(3, true),
-                    'description' => fake($locale)->paragraph(4),
-
                 ]
             ];
         })->toArray();
@@ -38,19 +36,10 @@ class ProductFactory extends Factory
             60000,
         ];
         $arr =  array_merge($translations, [
-            'status' => fake()->randomElement(['published', 'hidden']),
-            'rate' => fake()->randomFloat(1, 1, 5), // Between 0.0 and 5.0
-            'price' => fake()->randomElement($prices), // Example range
-            'type' => 'product',
+            'price' => fake()->randomElement($prices), 
             'shipping_name' => fake()->words(2, true)
         ]);
         return $arr;
     }
-    public function pack(): static
-    {
-        return $this->state(fn(array $attributes) => [
-            'type' => 'pack',
-            'ends_at' => '2025-01-15'
-        ]);
-    }
+   
 }

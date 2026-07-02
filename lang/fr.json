@@ -458,6 +458,13 @@
     "dropdown.no_notifications": "Pas de notifications",
     "The shipping report has been created.": "Le rapport d'expédition a été créé.",
     "The creation of the shipping report has been failed": "La création du rapport d'expédition a échoué",
+    "Selling Report": "Rapport de Vente",
+    "Selling Reports": "Rapports de Ventes",
+    "Selling Report created successfully": "Rapport de vente créé avec succès",
+    "The selling report has been created.": "Le rapport de vente a été créé.",
+    "The creation of the selling report has been failed": "La création du rapport de vente a échoué",
+    "Start Date": "Date de début",
+    "End Date": "Date de fin",
     "Read": "Lues",
     "Unread": "Non lues",
     "Mark all as read": "Marquer tous comme lues",
@@ -760,5 +767,7 @@
     "Sep": "Sept",
     "Oct": "Oct",
     "Nov": "Nov",
-    "Dec": "Déc"
+    "Dec": "Déc",
+    "someone": "quelqu'un",
+    "Selling Report Created": "Rapport de vente créé"
 }

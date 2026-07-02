@@ -64,7 +64,7 @@ function submitForm() {
             </div>
 
             <div class="mt-4 w-full">
-                <InputLabel for="value" :value="$t('Delivery_date')" />
+                <InputLabel for="date" :value="$t('Delivery_date')" />
 
                 <DatePicker
                     v-model="form.date"

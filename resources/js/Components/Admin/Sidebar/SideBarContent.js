@@ -64,6 +64,11 @@ export default [
                 route: route("wrappers.create"),
                 component: "Admin/Wrappers/Create",
             },
+            {
+                label: "Selling Reports",
+                route: route("selling_reports.index"),
+                component: "Admin/Selling_reports/Index",
+            }
         ],
     },
     {

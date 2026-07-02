@@ -457,6 +457,13 @@
     "dropdown.no_notifications": "لا توجد إشعارات",
     "The shipping report has been created.": "تم إنشاء تقرير الشحن.",
     "The creation of the shipping report has been failed": "فشل إنشاء تقرير الشحن",
+    "Selling Report": "تقرير المبيعات",
+    "Selling Reports": "تقارير المبيعات",
+    "Selling Report created successfully": "تم إنشاء تقرير المبيعات بنجاح",
+    "The selling report has been created.": "تم إنشاء تقرير المبيعات.",
+    "The creation of the selling report has been failed": "فشل إنشاء تقرير المبيعات",
+    "Start Date": "تاريخ البدء",
+    "End Date": "تاريخ الانتهاء",
     "Read": "المقروءة",
     "Unread": "غير المقروءة",
     "Mark all as read": "اقرأ الكلّ",
@@ -761,5 +768,7 @@
     "Sep": "سبتمبر",
     "Oct": "أكتوبر",
     "Nov": "نوفمبر",
-    "Dec": "ديسمبر"
+    "Dec": "ديسمبر",
+    "someone": "شخص ما",
+    "Selling Report Created": "تم إنشاء تقرير المبيعات"
 }

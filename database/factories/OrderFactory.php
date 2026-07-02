@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Order;
 use App\Models\Client;
+use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\Shipper;
-use App\Models\OrderProduct;
+use App\Models\Wrapper;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 
@@ -36,17 +37,35 @@ class OrderFactory extends Factory
             'status' => 'confirmed',
             'amount' => 1,
             'note' => null,
-            'delivery_date' => now()->addDays(1)
+            'delivery_date' => now()->addDays(1),
+            'created_at' => fake()->dateTimeBetween('2026-06-01', '2026-06-30')
         ];
     }
 
     public function configure()
     {
         return $this->afterCreating(function (Order $order) {
-            $products = Product::factory()->count(rand(1, 4))->create();
+            $products = Product::factory()->count(rand(1, 2))->create();
             $totalAmount = 0;
 
-            foreach ($products as $product) {
+            $wrapper = Wrapper::factory()->create();
+
+
+            foreach ($products as $index => $product) {
+
+                $product->wrappers()->attach($wrapper->id, [
+                    'display_order' => $index + 1,
+                    'is_default' => $index == 0 ? true : false,
+                    'free_shipping' => rand(0, 1),
+                    'update_quantity' => 1,
+                ]);
+
+
+
+
+
+
+
                 $quantity = rand(1, 5);
                 $subTotal = $product->price * $quantity;
                 $totalAmount += $subTotal;
