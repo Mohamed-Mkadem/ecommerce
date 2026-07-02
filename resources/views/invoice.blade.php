@@ -24,18 +24,19 @@
     @foreach ($orders as $order)
         <div class="">
             <div class="flex justify-between items-center gap-4 mb-4">
-                <img src="{{ public_path('logo-gold.png') }}" class="w-32 h-auto" alt="Logo">
+                <img src="{{ public_path('logo-blue.webp') }}" class="w-32 h-auto" alt="Logo">
 
                 <div class="text-primary text-base">
-                    <p><span class="font-semibold">Adresse :</span> Jardins El Menzah</p>
-                    <p><span class="font-semibold"> Tel 1: </span> 29144054</p>
-                    <p><span class="font-semibold"> Tel 2: </span> 29144980</p>
-                    <p><span class="font-semibold"> Site Web :</span> https://boughanmipatisserie.com</p>
+                    <p><span class="font-semibold">Adresse :</span> Adresse Ici</p>
+                    <p><span class="font-semibold"> Tel 1: </span> 00000000</p>
+                    <p><span class="font-semibold"> M/F: </span> P000000</p>
+
+                    <p><span class="font-semibold"> Site Web :</span> https://ecommerce.com</p>
                     <p><span class="font-semibold">Livreur :</span> {{ $order->shipper->name }}</p>
                 </div>
             </div>
             <div class="mb-4 text-base">
-                <h2 class="font-bold text-2xl text-gold">Client : </h2>
+                <h2 class="font-bold text-2xl text-sky-700">Client : </h2>
                 <p><span class="font-semibold">Nom :</span> {{ $order->client_name }}</p>
                 <p>
                     <span class="font-semibold">Téléphone :</span>
@@ -52,7 +53,7 @@
 
             </div>
             <div class="mb-4 text-base">
-                <h2 class="font-bold text-2xl text-gold">Désignation : </h2>
+                <h2 class="font-bold text-2xl text-sky-700">Désignation : </h2>
                 <p>
                     {{ $order->products->map(function ($product) {
                             return $product->pivot->quantity . ' ' . $product->shipping_name;
@@ -70,7 +71,7 @@
 
 
             </div>
-            <h1 class="text-gold font-semibold text-center text-4xl ">مع حلويات البوغانمي الخير ما يوفاش</h1>
+
         </div>
         @pageBreak
     @endforeach
