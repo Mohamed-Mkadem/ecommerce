@@ -280,7 +280,7 @@ class OrderController extends Controller
                 'name' => $product->name,
                 'type' => $product->type,
                 'price' => $product->getFormattedPrice(),
-                 'main_image_url' => $product->wrappers()->first()->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
+                'main_image_url' => $product->wrappers()->first()->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
                 'translations' => $product->translations
             ]);
 
@@ -357,6 +357,9 @@ class OrderController extends Controller
             ? (int) ($validated['total'] * 1000)
             : null;
 
+        $state = State::find($stateId);
+        $defaultShipperId =  $state->default_shipper_id ? $state->default_shipper_id : null;
+
         $orderData = [
             'client_id' => $client->id,
             'phone' => $request->phone,
@@ -371,6 +374,7 @@ class OrderController extends Controller
             'coupon_code_id' => null,
             'status' => 'abandoned',
             'source' => 'client',
+            'shipper_id' => $defaultShipperId,
         ];
 
         if ($abandonedOrder) {
@@ -427,6 +431,9 @@ class OrderController extends Controller
         if (!$order) {
             $order = new Order();
         }
+        $state = State::find($stateId);
+        $defaultShipperId =  $state->default_shipper_id ? $state->default_shipper_id : null;
+
 
         $order->fill([
             'client_id' => $client->id,
@@ -444,6 +451,7 @@ class OrderController extends Controller
             'coupon_code_id' => $coupon ? $coupon['id'] : null,
             'status' => 'pending',
             'source' => 'client',
+            'shipper_id' => $defaultShipperId,
         ]);
 
         $order->save();
@@ -572,7 +580,7 @@ class OrderController extends Controller
                 'name' => $product->name,
                 'type' => $product->type,
                 'price' => $product->getFormattedPrice(),
-                
+
                 'main_image_url' => $product->wrappers()->first()->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
                 'translations' => $product->translations
             ]);

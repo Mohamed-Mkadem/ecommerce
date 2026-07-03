@@ -5,7 +5,7 @@ import InputError from "@/js/Components/InputError.vue";
 import InputLabel from "@/js/Components/InputLabel.vue";
 import TextInput from "@/js/Components/TextInput.vue";
 import DatePicker from "@/js/Components/DatePicker.vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useToast } from "vue-toastification";
 import { getToastOptions } from "@/js/Utils/toast";
 import { useLocationSelector } from "@/js/Composables/useLocationSelector";
@@ -56,6 +56,19 @@ function submitForm() {
         },
     });
 }
+
+watch(
+    () => form.state,
+    (newState) => {
+        if (!newState || !newState.default_shipper_id) form.shipper = null;
+
+        const state = props.states.find((item) => item.id == newState);
+        console.log(state);
+        if (state && state.default_shipper_id) {
+            form.shipper = state.default_shipper_id;
+        }
+    },
+);
 </script>
 
 <template>

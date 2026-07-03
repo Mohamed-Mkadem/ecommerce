@@ -157,8 +157,7 @@ watch(
         form.address = "";
         form.name = "";
         form.note = "";
-        
-        
+
         searchingClient.value = true;
         if (String(newPhone).length === 8) {
             try {
@@ -213,6 +212,19 @@ const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleString("fr-FR", { dateStyle: "short" });
 };
+
+watch(
+    () => form.state,
+    (newState) => {
+        if (!newState) form.shipper = null;
+
+        const state = props.states.data.find((item) => item.id == newState);
+
+        if (state && state.default_shipper.id) {
+            form.shipper = state.default_shipper.id;
+        }
+    },
+);
 </script>
 
 <template>
