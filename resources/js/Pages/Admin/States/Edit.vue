@@ -12,6 +12,10 @@ const props = defineProps({
         required: true,
         type: Object,
     },
+    shippers: {
+        required: true,
+        type: Array,
+    },
 });
 const toast = useToast();
 
@@ -19,6 +23,7 @@ const form = useForm({
     price: props.state.shipping_cost / 1000,
     return_cost: props.state.return_cost / 1000,
     delivery_cost: props.state.delivery_cost / 1000,
+    default_shipper_id: props.state.default_shipper_id || null,
 });
 import { ref } from "vue";
 
@@ -105,6 +110,33 @@ function submitForm() {
                 <InputError
                     class="mt-2"
                     :message="form.errors['return_cost']"
+                />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel
+                    for="default_shipper_id"
+                    :value="`${$t('Default Shipper')}`"
+                />
+
+                <select
+                    class="mt-2 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                    id="default_shipper_id"
+                    v-model="form['default_shipper_id']"
+                >
+                    <option :value="null">-- Select a shipper --</option>
+                    <option
+                        v-for="shipper in shippers"
+                        :key="shipper.id"
+                        :value="shipper.id"
+                    >
+                        {{ shipper.name }}
+                    </option>
+                </select>
+
+                <InputError
+                    class="mt-2"
+                    :message="form.errors['default_shipper_id']"
                 />
             </div>
 

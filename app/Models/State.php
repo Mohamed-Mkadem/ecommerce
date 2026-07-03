@@ -20,7 +20,13 @@ class State extends Model  implements TranslatableContract
 
     public $translatedAttributes = ['name'];
 
-    protected $fillable = ['shipping_cost', 'delivery_cost', 'return_cost'];
+    protected $fillable = ['shipping_cost', 'delivery_cost', 'return_cost', 'default_shipper_id'];
+    
+    public function defaultShipper()
+    {
+        return $this->belongsTo(Shipper::class, 'default_shipper_id');
+    }
+
     public function clients()
     {
         return $this->hasMany(Client::class);

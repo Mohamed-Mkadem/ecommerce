@@ -20,7 +20,8 @@ class StateResource extends JsonResource
             'translations' => $this->translations,
             'shipping_cost' => $this->shipping_cost / 1000,
             'delivery_cost' => $this->delivery_cost / 1000,
-            'return_cost' => $this->return_cost / 1000
+            'return_cost' => $this->return_cost / 1000,
+            'default_shipper' => $this->defaultShipper
         ];
     }
 }
