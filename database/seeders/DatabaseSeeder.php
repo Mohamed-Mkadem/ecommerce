@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
         ]);
         // Client::factory(10)->create();
 
-        Order::factory(120)->create();
+        // Order::factory(120)->create();
         // Product::factory(1)->create();
         // Wrapper::factory(1)->create();
     }
