@@ -31,6 +31,8 @@ class OrderFactory extends Factory
             'phone' => $client->phone,
             'address' => $client->address,
             'state_id' => $client->state_id,
+            'city_id' => $client->city_id,
+            'locality_id' => $client->locality_id,
             'coupon_code_id' => null,
             'shipper_id' => $shipper->id,
             'shipping_cost' => in_array($client->state_id, [1, 2, 3, 4]) ? 6000 : 7000,

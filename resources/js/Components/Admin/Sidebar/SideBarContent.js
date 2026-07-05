@@ -68,7 +68,7 @@ export default [
                 label: "Selling Reports",
                 route: route("selling_reports.index"),
                 component: "Admin/Selling_reports/Index",
-            }
+            },
         ],
     },
     {
@@ -126,11 +126,6 @@ export default [
                 label: "Products",
                 route: route("stats.products"),
                 component: "Admin/Statistics/Products",
-            },
-            {
-                label: "Offers",
-                route: route("stats.packs"),
-                component: "Admin/Statistics/Packs",
             },
             {
                 label: "Coupon Codes",

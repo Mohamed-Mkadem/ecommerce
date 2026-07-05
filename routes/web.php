@@ -96,7 +96,6 @@ Route::middleware(['auth', isActiveMiddleware::class])->group(function () {
     Route::get('statistics/earnings', [StatisticsController::class, 'earnings'])->name('stats.earnings');
     Route::get('statistics/orders', [StatisticsController::class, 'orders'])->name('stats.orders');
     Route::get('statistics/products', [StatisticsController::class, 'products'])->name('stats.products');
-    Route::get('statistics/packs', [StatisticsController::class, 'packs'])->name('stats.packs');
     Route::get('statistics/clients', [StatisticsController::class, 'clients'])->name('stats.clients');
     Route::get('statistics/couponCodes', [StatisticsController::class, 'couponCodes'])->name('stats.couponCodes');
 
@@ -110,7 +109,15 @@ Route::middleware(['auth', isActiveMiddleware::class])->group(function () {
     Route::get('nrp', [NRPController::class, 'index'])->name('nrp.index');
 
     Route::delete('activity-log/clean', function () {
-        \Illuminate\Support\Facades\Artisan::call('activitylog:clean');
+        $exitCode = \Illuminate\Support\Facades\Artisan::call('activitylog:clean', [
+            '--force' => true,
+            '--days' => config('activitylog.delete_records_older_than_days'),
+        ]);
+
+        if ($exitCode !== 0) {
+            return redirect()->back()->with('error', 'Failed to clean activity log.');
+        }
+
         return redirect()->back()->with('success', 'Activity log cleaned successfully.');
     })->name('activitylog.clean');
 

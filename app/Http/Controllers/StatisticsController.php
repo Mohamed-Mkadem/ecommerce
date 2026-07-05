@@ -14,6 +14,7 @@ use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductStatisticsResource;
 use App\Http\Resources\StatisticsProductResource;
 use App\Models\CouponCode;
+
 class StatisticsController extends Controller
 {
 
@@ -44,25 +45,14 @@ class StatisticsController extends Controller
     public function products()
     {
 
-        $productsStatusCount = Product::getStatusCount();
         $bestSelling = Product::getBestSelling();
         return Inertia::render('Admin/Statistics/Products', [
-            'productsStatusCount' => $productsStatusCount,
-            'statistics' => ProductStatisticsResource::collection(Product::where('type', 'product')->paginate(20)),
+            'statistics' => ProductStatisticsResource::collection(Product::paginate(20)),
             'bestSelling' => $bestSelling
         ]);
     }
 
-    public function packs()
-    {
-        $productsStatusCount = Product::getPacksStatusCount();
-        $bestSelling = Product::getPacksBestSelling();
-        return Inertia::render('Admin/Statistics/Packs', [
-            'productsStatusCount' => $productsStatusCount,
-            'statistics' => ProductStatisticsResource::collection(Product::where('type', 'pack')->paginate(20)),
-            'bestSelling' => $bestSelling
-        ]);
-    }
+
 
     public function clients()
     {
@@ -85,5 +75,4 @@ class StatisticsController extends Controller
 
         ]);
     }
-
 }

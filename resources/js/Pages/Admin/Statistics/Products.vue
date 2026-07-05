@@ -6,7 +6,6 @@ import ProductCard from "@/js/Pages/Admin/Products/Partials/Card.vue";
 import Paginator from "@/js/Components/Paginator.vue";
 import NotFound from "@/js/Components/NotFound.vue";
 const props = defineProps({
-    productsStatusCount: { type: Object },
     statistics: { type: Object },
     bestSelling: { type: Object },
 });
@@ -19,7 +18,7 @@ const currentBestSellingPeriod = ref("total");
     <Head :title="$t('Products statistics')" />
     <PageHeader :page-title="$t('Products statistics')"> </PageHeader>
 
-    <div
+    <!-- <div
         class="grid xsm:grid-cols-[repeat(auto-fit,minmax(min(150px,100%),1fr))] gap-2 lg:gap-4"
     >
         <div class="bg-white p-4 rounded-md shadow-5">
@@ -71,7 +70,7 @@ const currentBestSellingPeriod = ref("total");
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <section class="my-12">
         <div

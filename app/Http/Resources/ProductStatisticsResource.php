@@ -31,10 +31,7 @@ class ProductStatisticsResource extends JsonResource
             'name' => $this->name,
             'price' => $this->getFormattedPrice(),
             'status' => $this->status,
-            'type' => $this->type,
-            'main_image_url' => asset('storage/products/default.png'),
-            'ends_at' => $this->getFormattedEndsAtDate(),
-            'media' => [],
+            'main_image_url' => asset('storage/products/product.webp'),
             'counts' => [
                 'total' => [
                     'orders_count' => $this->orders()->sum('order_product.quantity'),
