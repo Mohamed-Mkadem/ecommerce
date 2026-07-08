@@ -33,9 +33,9 @@ import CartDropDown from "./CartDropDown.vue";
                             ></i>
                             <a
                                 dir="ltr"
-                                href="tel:29144980"
+                                href="tel:29000000"
                                 class="hover:text-sky-700"
-                                >29 144 980</a
+                                >29 000 000</a
                             >
                         </p>
                     </div>

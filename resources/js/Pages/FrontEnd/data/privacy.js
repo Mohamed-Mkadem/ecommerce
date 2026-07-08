@@ -1,7 +1,7 @@
 export default {
     fr: {
         "1. Introduction":
-            '<p>Cette politique de confidentialité explique comment "El Boughanmi Pâtisserie" collecte, utilise et protège vos données personnelles lorsque vous utilisez notre site internet ou passez des commande. En accédant à notre site et en utilisant nos services, vous acceptez les pratiques décrites dans cette politique.</p>',
+            "<p>Cette politique de confidentialité explique comment on collecte, utilise et protège vos données personnelles lorsque vous utilisez notre site internet ou passez des commande. En accédant à notre site et en utilisant nos services, vous acceptez les pratiques décrites dans cette politique.</p>",
         "2. Collecte des Informations Personnelles":
             "<p>Nous collectons des informations personnelles pour assurer la bonne gestion de vos commandes et pour améliorer votre expérience utilisateur. Les types d'informations collectées peuvent inclure :</p><ul><li><span>Données de contact  : </span> nom, numéro de téléphone, adresse de livraison.</li><li><span>Données techniques  : </span> adresse IP, type de navigateur, historique de navigation (cookies), préférences utilisateur.</li></ul>",
         "3. Utilisation des Informations Personnelles":
@@ -19,11 +19,11 @@ export default {
         "9. Modifications de la Politique de Confidentialité":
             "<p>Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. Les modifications seront publiées sur cette page, et, en cas de changements significatifs, nous vous en informerons lors de votre prochaine visite sur notre site.</p>",
         "10. Contact":
-            "<p>Pour toute question concernant cette politique de confidentialité ou pour exercer vos droits, vous pouvez nous contacter à l'adresse suivante : contact@boughanmipatisserie.com</p>",
+            "<p>Pour toute question concernant cette politique de confidentialité ou pour exercer vos droits, vous pouvez nous contacter à l'adresse suivante : contact@mohamad.tn</p>",
     },
     ar: {
         "1. المقدمة":
-            '<p>توضح  سياسة الخصوصية هذه كيف تقوم "حلويات البوغانمي" بجمع واستخدام وحماية بياناتك الشخصية عند استخدامك لموقعنا أو طلب المنتجات. باستخدامك لموقعنا وخدماتنا، فإنك توافق على الممارسات الموضحة في هذه السياسة.</p>',
+            "<p>توضح  سياسة الخصوصية هذه كيف نقوم  بجمع واستخدام وحماية بياناتك الشخصية عند استخدامك لموقعنا أو طلب المنتجات. باستخدامك لموقعنا وخدماتنا، فإنك توافق على الممارسات الموضحة في هذه السياسة.</p>",
         "2. جمع المعلومات الشخصية":
             "<p>نقوم بجمع المعلومات الشخصية لضمان إدارة الطلبات بشكل صحيح وتحسين تجربتك كمستخدم. تشمل أنواع البيانات التي قد نجمعها:</p><ul><li><span>بيانات الاتصال : </span> الاسم، رقم الهاتف، عنوان التوصيل.</li><li><span>البيانات التقنية : </span> عنوان IP، نوع المتصفح، سجل التصفح (ملفات تعريف الارتباط)، تفضيلات المستخدم.</li></ul>",
         "3. استخدام المعلومات الشخصية":
@@ -41,11 +41,11 @@ export default {
         "9. تغييرات على سياسة الخصوصية":
             "<p>نحتفظ بالحق في تعديل سياسة الخصوصية هذه في أي وقت. سيتم نشر التغييرات على هذه الصفحة، وفي حالة التغييرات الجوهرية، سنبلغك بذلك عند زيارتك التالية لموقعنا.</p>",
         "10. الاتصال":
-            "<p>إذا كانت لديك أي استفسارات حول سياسة الخصوصية هذه أو ترغب في ممارسة حقوقك، يمكنك التواصل معنا على: contact@boughanmipatisserie.com</p>",
+            "<p>إذا كانت لديك أي استفسارات حول سياسة الخصوصية هذه أو ترغب في ممارسة حقوقك، يمكنك التواصل معنا على: contact@mohamad.tn</p>",
     },
     en: {
         "1. Introduction":
-            '<p>This privacy policy explains how "El Boughanmi Pâtisserie" collects, uses, and protects your personal data when you use our website or place orders. By accessing our site and using our services, you agree to the practices described in this policy.</p>',
+            "<p>This privacy policy explains how we collect, use, and protect your personal data when you use our website or place orders. By accessing our site and using our services, you agree to the practices described in this policy.</p>",
         "2. Collection of Personal Information":
             "<p>We collect personal information to ensure proper order management and to improve your user experience. The types of information collected may include:</p><ul><li><span>Contact data : </span> name, phone number, delivery address.</li><li><span>Technical data : </span> IP address, browser type, browsing history (cookies), user preferences.</li></ul>",
         "3. Use of Personal Information":
@@ -63,6 +63,6 @@ export default {
         "9. Changes to the Privacy Policy":
             "<p>We reserve the right to modify this privacy policy at any time. Changes will be published on this page, and, in the case of significant changes, we will inform you during your next visit to our site.</p>",
         "10. Contact":
-            "<p>If you have any questions about this privacy policy or wish to exercise your rights, you can contact us at: contact@boughanmipatisserie.com</p>",
+            "<p>If you have any questions about this privacy policy or wish to exercise your rights, you can contact us at: contact@mohamad.tn</p>",
     },
 };

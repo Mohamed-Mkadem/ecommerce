@@ -10,7 +10,7 @@ const languageStore = useLanguageStore();
 
     <!-- Page banner -->
     <div
-        class="bg-gradient-to-br from-sky-900 via-sky-800 to-primary text-white py-20 px-6 text-center"
+        class="bg-gradient-to-br from-sky-900 via-sky-800 to-primary text-white py-20 px-6 text-center max-w-screen-3xl mx-auto"
     >
         <h1 class="text-4xl font-extrabold tracking-tight">
             {{ $t("Nav.terms") }}
@@ -25,7 +25,7 @@ const languageStore = useLanguageStore();
             class="mb-10 pb-10 border-b border-neutral-100 last:border-0 last:pb-0 last:mb-0"
         >
             <h2
-                class="text-lg font-bold text-primary border-l-4 border-gold pl-4 mb-4 leading-snug"
+                class="text-lg font-bold text-primary border-s-4 border-gold ps-4 mb-4 leading-snug"
             >
                 {{ key }}
             </h2>

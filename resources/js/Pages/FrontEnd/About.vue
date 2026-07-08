@@ -48,7 +48,7 @@ const section2Content = {
 
     <!-- Page banner -->
     <div
-        class="bg-gradient-to-br from-sky-900 via-sky-800 to-primary text-white py-20 px-6 text-center"
+        class="bg-gradient-to-br from-sky-900 via-sky-800 to-primary text-white py-20 px-6 text-center max-w-screen-3xl mx-auto"
     >
         <h1 class="text-4xl font-extrabold tracking-tight">
             {{ $t("About us") }}

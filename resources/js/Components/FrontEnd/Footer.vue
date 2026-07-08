@@ -4,24 +4,24 @@ import AppLogo from "../AppLogo.vue";
 const socialLinks = [
     {
         icon: "ri-facebook-fill",
-        link: "https://www.facebook.com/Boughanmipatisserie",
+        link: "https://www.facebook.com/",
         label: "Facebook",
     },
     {
         icon: "ri-instagram-line",
-        link: "https://www.instagram.com/boughanmipatisserie",
+        link: "https://www.instagram.com/",
         label: "Instagram",
     },
     {
         icon: "ri-tiktok-line",
-        link: "https://www.tiktok.com/@ptisserie.boughan",
+        link: "https://www.tiktok.com/",
         label: "TikTok",
     },
 ];
 
 const phoneLinks = [
-    { text: "+216 29 144 980", link: "tel:+21629144980" },
-    { text: "+216 29 144 054", link: "tel:+21629144054" },
+    { text: "+216 29 000 000", link: "tel:+21629000000" },
+    { text: "+216 29 000 000", link: "tel:+21629000000" },
 ];
 
 const infoLinks = [
@@ -81,10 +81,10 @@ const infoLinks = [
                             class="ri-mail-line text-gold text-base flex-shrink-0"
                         ></i>
                         <a
-                            href="mailto:contact@boughanmipatisserie.com"
+                            href="mailto:contact@mohamad.tn"
                             class="text-sm text-zinc-400 hover:text-gold transition-colors break-all"
                         >
-                            contact@boughanmipatisserie.com
+                            contact@mohamad.tn
                         </a>
                     </li>
                     <li
@@ -110,7 +110,7 @@ const infoLinks = [
                             class="ri-map-pin-line text-gold text-base flex-shrink-0 mt-0.5"
                         ></i>
                         <span class="text-sm text-zinc-400"
-                            >Omar Khalfa Street, Rafaha – Ariana</span
+                            >Awesome Street, Tunis – Tunisia</span
                         >
                     </li>
                 </ul>

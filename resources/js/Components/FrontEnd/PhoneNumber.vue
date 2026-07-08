@@ -25,9 +25,12 @@ const closeBanner = () => {
             <p>
                 {{ messages[languageStore.currentLocale] }}
             </p>
-            <a href="tel:29144980">
+            <a
+                href="tel:29000000"
+                class="flex items-center gap-2 hover:text-sky-700"
+            >
                 <i class="ri-customer-service-line me-3 font-normal"></i>
-                <span dir="ltr">29 144 980</span>
+                <span dir="ltr">29 000 000</span>
             </a>
         </div>
         <button
