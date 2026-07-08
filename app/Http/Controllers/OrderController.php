@@ -311,6 +311,7 @@ class OrderController extends Controller
             'cart.*.price' => ['nullable', 'numeric'],
             'total' => ['nullable', 'numeric'],
             'free_shipping' => ['nullable', 'boolean'],
+            'coupon_code' => ['nullable', 'exists:coupon_codes,id']
         ]);
 
         $cart = $validated['cart'] ?? [];
@@ -371,7 +372,7 @@ class OrderController extends Controller
             'amount' => $amount,
             'note' => $validated['note'] ?? null,
             'delivery_date' => $this->getDeliveryDate($stateId),
-            'coupon_code_id' => null,
+            'coupon_code_id' => $validated['coupon_code'] ?? null,
             'status' => 'abandoned',
             'source' => 'client',
             'shipper_id' => $defaultShipperId,

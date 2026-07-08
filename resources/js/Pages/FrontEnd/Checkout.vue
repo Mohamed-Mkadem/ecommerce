@@ -101,17 +101,13 @@ function saveAbandonedOrder() {
                 cart: cartStore.cart,
                 total: Number(total.value) || 0,
                 free_shipping: hasAnyFreeShipping.value,
+                coupon_code: form.coupon.id || null,
             })
             .catch(() => {});
     }, 500);
 }
 
-watch(
-    [
-        () => form.phone,
-    ],
-    saveAbandonedOrder,
-);
+watch([() => form.phone], saveAbandonedOrder);
 
 function submitForm() {
     form.total = total.value;
@@ -394,7 +390,10 @@ onMounted(() => {
                                         >
                                             <img
                                                 class="w-full"
-                                                :src="product.wrapper_main_image_url || product.main_image_url"
+                                                :src="
+                                                    product.wrapper_main_image_url ||
+                                                    product.main_image_url
+                                                "
                                                 :alt="product.name"
                                             />
                                             <div
