@@ -216,12 +216,12 @@ const formatDate = (dateString) => {
 watch(
     () => form.state,
     (newState) => {
-        if (!newState) form.shipper = null;
+        if (!newState || !newState.default_shipper_id) form.shipper = null;
 
-        const state = props.states.data.find((item) => item.id == newState);
-
-        if (state && state.default_shipper.id) {
-            form.shipper = state.default_shipper.id;
+        const state = props.states.find((item) => item.id == newState);
+        console.log(state);
+        if (state && state.default_shipper_id) {
+            form.shipper = state.default_shipper_id;
         }
     },
 );

@@ -90,13 +90,13 @@ const trustFeatures = {
     <section class="relative w-full h-[88vh] overflow-hidden">
         <!-- Background -->
         <div
-            class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            class="absolute max-w-screen-3xl mx-auto inset-0 bg-cover bg-center bg-no-repeat"
             :style="{ backgroundImage: `url(${heroImage})` }"
         ></div>
 
         <!-- Rich gradient overlay — lighter at top, heavy at bottom -->
         <div
-            class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/55 to-black/88"
+            class="absolute max-w-screen-3xl mx-auto inset-0 bg-gradient-to-b from-black/30 via-black/55 to-black/88"
         ></div>
 
         <!-- Content -->
@@ -148,7 +148,7 @@ const trustFeatures = {
     </section>
 
     <!-- ─────────────────────────── TRUST BAR ─────────────────────── -->
-    <section class="bg-sky-900 py-6 px-4">
+    <section class="bg-sky-900 py-6 px-4 max-w-screen-3xl mx-auto">
         <div class="max-w-screen-xl mx-auto">
             <div
                 class="grid items-center md:grid-cols-2 lg:grid-cols-4 gap-y-5 gap-x-2 lg:divide-x divide-white/10"
@@ -217,7 +217,7 @@ const trustFeatures = {
     <!-- ─────────────────────────── CTA BANNER ────────────────────── -->
     <section class="px-4 md:px-12 pb-16">
         <div
-            class="relative bg-gradient-to-br from-sky-900 via-sky-800 to-primary rounded-2xl py-16 px-6 text-center text-white shadow-2xl overflow-hidden"
+            class="relative bg-gradient-to-br max-w-screen-3xl mx-auto from-sky-900 via-sky-800 to-primary rounded-2xl py-16 px-6 text-center text-white shadow-2xl overflow-hidden"
         >
             <!-- Decorative blobs -->
             <div
