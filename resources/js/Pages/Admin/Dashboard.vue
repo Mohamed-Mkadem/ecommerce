@@ -1,10 +1,10 @@
 <script setup>
 import PageHeader from "@/js/Components/Admin/PageHeader.vue";
 import CreateNew from "@/js/Components/CreateNew.vue";
-import Status from "@/js/Components/Status.vue";
-import { computed } from "vue";
+import { computed, ref, onMounted, watch } from "vue";
 import { trans } from "laravel-vue-i18n";
-import { Bar } from "vue-chartjs";
+import DatePicker from "@/js/Components/DatePicker.vue";
+import { Bar, Pie } from "vue-chartjs";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -13,8 +13,10 @@ import {
     Title,
     Tooltip,
     Legend,
+    ArcElement
 } from "chart.js";
-
+import axios from "axios";
+import { debounce } from "lodash";
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -22,6 +24,7 @@ ChartJS.register(
     Title,
     Tooltip,
     Legend,
+    ArcElement
 );
 
 const props = defineProps({
@@ -30,13 +33,158 @@ const props = defineProps({
     todaysOrdersCount: { type: Number },
     todaysClientsCount: { type: Number },
     todaysNotificationsCount: { type: Number },
-    orders: { type: Object },
     weeklyOrders: { type: Array },
     weeklyClientOrders: { type: Array },
-    clients: { type: Object },
     acceptance_dates: { type: Object },
+    defaultRatesStart: String,
+    defaultRatesEnd: String,
+    defaultDeliveryStart: String,
+    defaultDeliveryEnd: String,
 });
 
+const orderRates = ref({});
+const deliveryRates = ref({});
+const loadingRates = ref(false);
+const loadingDelivery = ref(false);
+
+const ratesDateFilters = ref({
+    start_date: props.defaultRatesStart || "",
+    end_date: props.defaultRatesEnd || "",
+});
+
+const deliveryDateFilters = ref({
+    start_date: props.defaultDeliveryStart || "",
+    end_date: props.defaultDeliveryEnd || "",
+});
+
+const fetchChartData = async (type = "both") => {
+    try {
+        if (type === "rates" || type === "both") {
+            loadingRates.value = true;
+        }
+        if (type === "delivery" || type === "both") {
+            loadingDelivery.value = true;
+        }
+
+        const params = {
+            rates_start_date: ratesDateFilters.value.start_date,
+            rates_end_date: ratesDateFilters.value.end_date,
+            delivery_start_date: deliveryDateFilters.value.start_date,
+            delivery_end_date: deliveryDateFilters.value.end_date,
+        };
+
+        const response = await axios.get(route("charts.update"), { params });
+
+        if (type === "rates" || type === "both") {
+            orderRates.value = response.data.orderRates || {};
+        }
+        if (type === "delivery" || type === "both") {
+            deliveryRates.value = response.data.deliveryRates || {};
+        }
+    } catch (error) {
+        console.error("Error fetching chart data:", error);
+    } finally {
+        loadingRates.value = false;
+        loadingDelivery.value = false;
+    }
+};
+
+onMounted(() => {
+    fetchChartData("both");
+});
+
+const debouncedFetch = debounce((type) => fetchChartData(type), 500);
+
+watch(
+    ratesDateFilters,
+    () => {
+        debouncedFetch("rates");
+    },
+    { deep: true },
+);
+
+watch(
+    deliveryDateFilters,
+    () => {
+        debouncedFetch("delivery");
+    },
+    { deep: true },
+);
+
+const ratesPieChartData = computed(() => ({
+    labels: [trans("Confirmed"), trans("Canceled"), trans("NRP")],
+    datasets: [
+        {
+            data: [
+                orderRates.value?.["order.confirmed"] || 0,
+                orderRates.value?.["order.canceled"] || 0,
+                orderRates.value?.["order.nrp"] || 0,
+            ],
+            backgroundColor: ["#bbf7d0", "#fecaca", "#075985"],
+            borderColor: ["#86efac", "#fca5a5", "#0c4a6e"],
+            borderWidth: 1,
+        },
+    ],
+}));
+
+const ratesPieChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        legend: { position: "bottom" },
+        tooltip: {
+            callbacks: {
+                label: function (context) {
+                    const value = context.parsed;
+                    const total = context.dataset.data.reduce(
+                        (acc, v) => acc + v,
+                        0,
+                    );
+                    const percentage =
+                        total > 0 ? Math.round((value / total) * 100) : 0;
+                    return `${context.label}: ${value} (${percentage}%)`;
+                },
+            },
+        },
+    },
+};
+
+const deliveryPieChartData = computed(() => ({
+    labels: [trans("Delivered"), trans("Returned")],
+    datasets: [
+        {
+            data: [
+                deliveryRates.value?.["order.delivered"] || 0,
+                deliveryRates.value?.["order.returned"] || 0,
+            ],
+            backgroundColor: ["#bfdbfe", "#e4e4e7"],
+            borderColor: ["#93c5fd", "#d4d4d8"],
+            borderWidth: 1,
+        },
+    ],
+}));
+
+const deliveryPieChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        legend: { position: "bottom" },
+        tooltip: {
+            callbacks: {
+                label: function (context) {
+                    const value = context.parsed;
+                    const total = context.dataset.data.reduce(
+                        (acc, v) => acc + v,
+                        0,
+                    );
+                    const percentage =
+                        total > 0 ? Math.round((value / total) * 100) : 0;
+                    return `${context.label}: ${value} (${percentage}%)`;
+                },
+            },
+        },
+    },
+};
 const chartData = computed(() => ({
     labels: props.weeklyOrders?.map((day) => {
         const parts = day.label.split(" ");
@@ -230,7 +378,36 @@ const chartOptions = {
             </div>
         </div>
     </div>
-
+    <section class="my-12">
+        <div
+            class="flex items-center justify-between gap-3 flex-wrap bg-white p-3 shadow-1 mb-4"
+        >
+            <h2 class="text-sky-800 font-semibold text-lg">
+                {{ $t("Orders acceptance date") }}
+            </h2>
+            <ModalLink
+                :close-button="false"
+                :href="route('shippingSettings.edit', acceptance_dates.id)"
+                class="bg-slate-700 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90"
+            >
+                <i class="ri-edit-line"></i>
+            </ModalLink>
+        </div>
+        <div class="grid xmd:grid-cols-2 bg-white shadow-1 rounded-lg p-4">
+            <div class="text-black">
+                <h3 class="text-lg font-semibold text-sky-900">
+                    {{ $t("Greater Tunis") }}
+                </h3>
+                <p>{{ acceptance_dates.tunis_acceptance_delivery_date }}</p>
+            </div>
+            <div class="text-black">
+                <h3 class="text-lg font-semibold text-sky-900">
+                    {{ $t("The states") }}
+                </h3>
+                <p>{{ acceptance_dates.wilayet_acceptance_delivery_date }}</p>
+            </div>
+        </div>
+    </section>
     <section class="my-12" v-if="weeklyOrders?.length">
         <div
             class="flex items-center justify-between gap-3 flex-wrap bg-white p-3 shadow-1 mb-4"
@@ -263,212 +440,107 @@ const chartOptions = {
         </div>
     </section>
 
-    <section class="my-12">
-        <div
-            class="flex items-center justify-between gap-3 flex-wrap bg-white p-3 shadow-1 mb-4"
-        >
-            <h2 class="text-sky-800 font-semibold text-lg">
-                {{ $t("Orders acceptance date") }}
-            </h2>
-            <ModalLink
-                :close-button="false"
-                :href="route('shippingSettings.edit', acceptance_dates.id)"
-                class="bg-slate-700 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90"
-            >
-                <i class="ri-edit-line"></i>
-            </ModalLink>
-        </div>
-        <div class="grid xmd:grid-cols-2 bg-white shadow-1 rounded-lg p-4">
-            <div class="text-black">
-                <h3 class="text-lg font-semibold text-sky-900">
-                    {{ $t("Greater Tunis") }}
-                </h3>
-                <p>{{ acceptance_dates.tunis_acceptance_delivery_date }}</p>
-            </div>
-            <div class="text-black">
-                <h3 class="text-lg font-semibold text-sky-900">
-                    {{ $t("The states") }}
-                </h3>
-                <p>{{ acceptance_dates.wilayet_acceptance_delivery_date }}</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="my-12" v-if="orders.data.length">
-        <div
-            class="flex items-center justify-between gap-3 flex-wrap bg-white p-3 shadow-1 mb-4"
-        >
-            <h2 class="text-sky-800 font-semibold text-lg">
-                {{ $t("Latest Orders") }}
-            </h2>
-            <Link
-                :href="route('orders.index')"
-                class="underline text-sky-800 hover:text-sky-600"
-            >
-                {{ $t("All Orders") }}
-            </Link>
-        </div>
-        <div
-            class="grid grid-cols-[repeat(auto-fit,_minmax(min(350px,_100%),_1fr))] gap-4"
-        >
-            <div
-                class="bg-white rounded-md shadow-1 flex flex-col"
-                v-for="order in orders.data"
-                :key="order.id"
-            >
-                <div class="flex justify-between gap-4 items-center p-3">
-                    <div class="flex gap-2 items-center">
-                        <Link
-                            :href="route('orders.show', order)"
-                            class="text-xl underline font-bold"
-                        >
-                            #{{ order.id }}
-                        </Link>
-                        <Status :status="order.status" class="px-2 py-1" />
-                    </div>
-
-                    <Link
-                        :href="route('orders.show', order)"
-                        class="bg-slate-500 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90"
-                    >
-                        <i class="ri-eye-line"></i>
-                    </Link>
-                </div>
-
-                <div class="px-4 py-3 text-sky-700 flex-1">
-                    <Link
-                        v-if="order.client.deleted_at == null"
-                        :href="route('clients.show', order.client)"
-                        class="text-xl font-semibold mb-1 block text-primary hover:text-slate-500 hover:underline"
-                    >
-                        {{ order.client_name }}
-                    </Link>
-                    <p
-                        v-else
-                        class="text-xl font-semibold mb-1 block text-primary"
-                    >
-                        {{ order.client_name }}
-                        <small class="text-red-500 font-normal text-sm">
-                            ({{ $t("Deleted") }})
-                        </small>
-                    </p>
-                    <p class="text-lg mb-1">{{ order.phone }}</p>
-                    <div class="flex gap-2 items-center">
-                        <p class="text-red font-semibold text-2xl">
-                            {{ `${order.amount} ${$t("currency")}` }}
-                        </p>
-                        <p v-if="order.coupon" class="text-neutral-600">
+<section class="my-12">
+        <div class="flex flex-col gap-6">
+            <div class="bg-white rounded-lg shadow-1 p-6">
+                <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6"
+                >
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800">
+                            <i class="ri-pie-chart-2-line mr-2"></i
+                            >{{ $t("Rates Overview") }}
+                        </h2>
+                        <p class="text-slate-500 text-sm mt-1">
                             {{
-                                `: "${order.coupon.code}" ${$t("applied")} (${order.coupon.value}%)`
+                                $t(
+                                    "A visual breakdown of confirmation, cancellation, and NRP rates.",
+                                )
                             }}
-                            <small
-                                v-if="order.coupon.deleted_at != null"
-                                class="text-red-500"
-                            >
-                                ({{ $t("Deleted") }})
-                            </small>
                         </p>
                     </div>
-
-                    <p dir="auto">{{ order.state.name }}</p>
-                    <div v-if="order.shipper" class="flex items-center gap-2">
-                        <i class="ri-truck-line text-2xl text-slate-400"></i>
-
-                        <p class="text-primary">
-                            {{ order.shipper.name }}
-                            <small
-                                v-if="order.shipper.deleted_at != null"
-                                class="text-red-500"
-                            >
-                                ({{ $t("Deleted") }})
-                            </small>
-                        </p>
-                    </div>
-                </div>
-
-                <div
-                    class="grid grid-cols-1 sm:grid-cols-2 p-2 border-t-2 border-gray"
-                >
-                    <div class="text-center">
-                        <p class="flex gap-2 items-center justify-center">
-                            <span>{{ $t("Delivery_date") }}</span>
-                            <i
-                                class="ri-calendar-line text-2xl text-slate-400"
-                            ></i>
-                        </p>
-                        <p class="text-primary">{{ order.delivery_date }}</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="flex gap-2 items-center justify-center">
-                            <span>{{ $t("Placed_at") }}</span>
-                            <i
-                                class="ri-calendar-line text-2xl text-slate-400"
-                            ></i>
-                        </p>
-                        <p class="text-primary">{{ order.created_at }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="my-12" v-if="clients.data.length">
-        <div
-            class="flex items-center justify-between gap-3 flex-wrap bg-white p-3 shadow-1 mb-4"
-        >
-            <h2 class="text-sky-800 font-semibold text-lg">
-                {{ $t("Latest Clients") }}
-            </h2>
-            <Link
-                :href="route('clients.index')"
-                class="underline text-sky-800 hover:text-sky-600"
-            >
-                {{ $t("All Clients") }}
-            </Link>
-        </div>
-        <div
-            class="grid grid-cols-[repeat(auto-fit,_minmax(min(300px,_100%),_1fr))] gap-4"
-        >
-            <div
-                v-for="client in clients.data"
-                :key="client.id"
-                class="bg-white rounded-lg shadow-3"
-            >
-                <div class="py-4 px-3 text-meta-4" dir="auto">
-                    <Link
-                        :href="route('clients.show', client)"
-                        class="text-xl font-semibold mb-2 block text-primary hover:text-slate-500 underline"
+                    <div
+                        class="grid sm:grid-cols-[1fr,20px,1fr] items-center gap-2"
                     >
-                        {{ client.name }}
-                    </Link>
-                    <div class="flex text-sky-700 items-center gap-2">
-                        <i class="ri-customer-service-2-fill text-lg"></i>
-                        <span dir="ltr">{{ client.phone }}</span>
+                        <div class="w-full">
+                            <DatePicker v-model="ratesDateFilters.start_date" />
+                        </div>
+                        <span class="text-slate-500 text-center">{{
+                            $t("to")
+                        }}</span>
+                        <div class="w-full">
+                            <DatePicker v-model="ratesDateFilters.end_date" />
+                        </div>
                     </div>
-
-                    <div class="mb-1 text-sky-700 flex items-center gap-2">
-                        <i class="ri-map-pin-line text-lg"></i>
-                        <span>{{ client.state.name }}</span>
-                    </div>
-                    <p dir="auto">
-                        {{ client.address }}
-                    </p>
                 </div>
-                <div
-                    class="grid items-center grid-cols-2 p-2 border-t-2 border-gray"
-                >
-                    <div class="text-center">
-                        <i class="ri-shopping-cart-line text-2xl"></i>
-                        <p class="text-primary">{{ client.orders_count }}</p>
+                <div class="max-w-sm mx-auto h-72 relative">
+                    <div
+                        v-if="loadingRates"
+                        class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 z-10"
+                    >
+                        <i
+                            class="ri-loader-4-line animate-spin text-3xl text-sky-600"
+                        ></i>
                     </div>
-                    <div class="text-center">
-                        <i class="ri-money-dollar-box-line text-2xl"></i>
-                        <p class="text-primary">
-                            {{ client.spent }} {{ $t("currency") }}
+                    <Pie
+                        :data="ratesPieChartData"
+                        :options="ratesPieChartOptions"
+                    />
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-1 p-6">
+                <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6"
+                >
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800">
+                            <i class="ri-pie-chart-line mr-2"></i
+                            >{{ $t("Delivery & Return Rates") }}
+                        </h2>
+                        <p class="text-slate-500 text-sm mt-1">
+                            {{
+                                $t(
+                                    "A visual breakdown of delivered vs returned orders.",
+                                )
+                            }}
                         </p>
                     </div>
+                    <div
+                        class="grid sm:grid-cols-[1fr,20px,1fr] items-center gap-2"
+                    >
+                        <div class="w-full">
+                            <DatePicker
+                                v-model="deliveryDateFilters.start_date"
+                            />
+                        </div>
+                        <span class="text-slate-500 text-center">{{
+                            $t("to")
+                        }}</span>
+                        <div class="w-full">
+                            <DatePicker
+                                v-model="deliveryDateFilters.end_date"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="max-w-sm mx-auto h-72 relative">
+                    <div
+                        v-if="loadingDelivery"
+                        class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 z-10"
+                    >
+                        <i
+                            class="ri-loader-4-line animate-spin text-3xl text-sky-600"
+                        ></i>
+                    </div>
+                    <Pie
+                        :data="deliveryPieChartData"
+                        :options="deliveryPieChartOptions"
+                    />
                 </div>
             </div>
         </div>
     </section>
+
+  
 </template>

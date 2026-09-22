@@ -98,6 +98,7 @@ Route::middleware(['auth', isActiveMiddleware::class])->group(function () {
     Route::get('statistics/products', [StatisticsController::class, 'products'])->name('stats.products');
     Route::get('statistics/clients', [StatisticsController::class, 'clients'])->name('stats.clients');
     Route::get('statistics/couponCodes', [StatisticsController::class, 'couponCodes'])->name('stats.couponCodes');
+    Route::get('/charts-data', [AdminController::class, 'chartsData'])->name('charts.update');
 
     Route::resource('notes', NoteController::class);
     Route::get('notes/newNote/{id}/{type}', [NoteController::class, 'newNote'])->name('notes.newNote');

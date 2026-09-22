@@ -25,6 +25,7 @@ class OrderFactory extends Factory
     {
         $client = Client::factory()->create();
         $shipper = Shipper::factory()->create();
+        $creationDate = fake()->dateTimeBetween('2026-09-01', '2026-09-30');
         return [
             'client_id' => $client->id,
             'client_name' => $client->name,
@@ -36,11 +37,11 @@ class OrderFactory extends Factory
             'coupon_code_id' => null,
             'shipper_id' => $shipper->id,
             'shipping_cost' => in_array($client->state_id, [1, 2, 3, 4]) ? 6000 : 7000,
-            'status' => 'confirmed',
+            'status' => 'pending',
             'amount' => 1,
             'note' => null,
-            'delivery_date' => now()->addDays(1),
-            'created_at' => fake()->dateTimeBetween('2026-07-01', '2026-07-30')
+            'delivery_date' => \Carbon\Carbon::instance($creationDate)->addDays(rand(1, 3)),
+            'created_at' => $creationDate
         ];
     }
 
