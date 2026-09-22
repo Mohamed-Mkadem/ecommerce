@@ -33,25 +33,16 @@ class WrapperFactory extends Factory
 
         return array_merge($translations, [
             'caption' => fake()->words(2, true),
-            'slug' => Str::slug(fake()->words(2, true)),
+            'slug' => Str::slug(fake()->words(5, true)),
             'is_active' => fake()->boolean(),
         ]);
     }
 
 
-    // public function configure()
-    // {
-    //     return $this->afterCreating(function (Wrapper $wrapper) {
-    //         $product = Product::factory()->create();
-    //         Log::info($product->id);
-    //         ProductWrapper::create([
-    //             'display_order' => 1,
-    //             'is_default' => true,
-    //             'free_shipping' => rand(0, 1),
-    //             'update_quantity' => 1,
-    //             'product_id' => $product->id,
-    //             'wrapper_id' => $wrapper->id,
-    //         ]);
-    //     });
-    // }
+    public function configure()
+    {
+        return $this->afterCreating(function (Wrapper $wrapper) {
+           
+        });
+    }
 }

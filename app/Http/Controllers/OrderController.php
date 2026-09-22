@@ -280,14 +280,14 @@ class OrderController extends Controller
                 'name' => $product->name,
                 'type' => $product->type,
                 'price' => $product->getFormattedPrice(),
-                'main_image_url' => $product->wrappers()->first()->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
+                'main_image_url' => $product->wrappers()->first()?->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
                 'translations' => $product->translations
             ]);
 
         return Inertia::render('Orders/Create', [
             'products' => $products,
 
-            'states' =>  StateResource::collection(State::all()),
+            'states' => StateResource::collection(State::all()),
             'couponCodes' => CouponCode::where('status', 'active')->get(),
             'shippers' => $this->shippers
         ]);
