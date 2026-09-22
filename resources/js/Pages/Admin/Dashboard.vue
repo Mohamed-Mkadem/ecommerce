@@ -447,8 +447,8 @@ const chartOptions = {
                     class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6"
                 >
                     <div>
-                        <h2 class="text-xl font-bold text-slate-800">
-                            <i class="ri-pie-chart-2-line mr-2"></i
+                        <h2 class="text-xl font-bold text-primary">
+                            <i class="ri-pie-chart-2-line me-2"></i
                             >{{ $t("Rates Overview") }}
                         </h2>
                         <p class="text-slate-500 text-sm mt-1">
@@ -494,8 +494,8 @@ const chartOptions = {
                     class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6"
                 >
                     <div>
-                        <h2 class="text-xl font-bold text-slate-800">
-                            <i class="ri-pie-chart-line mr-2"></i
+                        <h2 class="text-xl font-bold text-primary">
+                            <i class="ri-pie-chart-line me-2"></i
                             >{{ $t("Delivery & Return Rates") }}
                         </h2>
                         <p class="text-slate-500 text-sm mt-1">

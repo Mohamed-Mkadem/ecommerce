@@ -720,5 +720,20 @@
     "abandoned": "Abandoned",
     "SellingReport.created_successfully": "The selling report has been created successfully, You'll be informed when it is ready",
     "SellingReport.create": "Create Report",
-    "selling_report.placeholder": "Report name"
+    "selling_report.placeholder": "Report name",
+    "Order Actions": "Order Actions",
+    "to": "to",
+    "Created": "Created",
+    "Confirmed": "Confirmed",
+    "Shipped": "Shipped",
+    "Delivered": "Delivered",
+    "Canceled": "Canceled",
+    "Returned": "Returned",
+    "NRP": "NRP",
+    "Delivery & Return Rates": "Delivery & Return Rates",
+    "A visual breakdown of delivered vs returned orders.": "A visual breakdown of delivered vs returned orders.",
+    "Delivery Rate": "Delivery Rate",
+    "client.delivery_rate_tooltip": "Percentage of terminal orders (delivered + returned) that were delivered successfully.",
+    "Min Client Delivery Rate": "Min Client Delivery Rate",
+    "Max Client Delivery Rate": "Max Client Delivery Rate"
 }
