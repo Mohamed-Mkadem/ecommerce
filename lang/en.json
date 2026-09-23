@@ -735,5 +735,7 @@
     "Delivery Rate": "Delivery Rate",
     "client.delivery_rate_tooltip": "Percentage of terminal orders (delivered + returned) that were delivered successfully.",
     "Min Client Delivery Rate": "Min Client Delivery Rate",
-    "Max Client Delivery Rate": "Max Client Delivery Rate"
+    "Max Client Delivery Rate": "Max Client Delivery Rate",
+    "Sort.highest_delivery_rate": "Highest Client Delivery Rate",
+    "Sort.lowest_delivery_rate": "Lowest Client Delivery Rate"
 }

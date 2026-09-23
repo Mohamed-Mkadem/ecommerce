@@ -794,5 +794,7 @@
     "Other": "Autre",
     "client.delivery_rate_tooltip": "Pourcentage des commandes terminales (livrées + retournées) qui ont été livrées avec succès.",
     "Min Client Delivery Rate": "Taux de livraison min. du client",
-    "Max Client Delivery Rate": "Taux de livraison max. du client"
+    "Max Client Delivery Rate": "Taux de livraison max. du client",
+    "Sort.highest_delivery_rate": "Taux de livraison client le plus élevé",
+    "Sort.lowest_delivery_rate": "Taux de livraison client le plus bas"
 }

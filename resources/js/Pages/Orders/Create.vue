@@ -740,12 +740,36 @@ watch(
                     class="py-4 text-meta-4 border-b last:border-b-0"
                     dir="auto"
                 >
+         <div class="flex items-center gap-2 mb-2">   
                     <Link
                         :href="route('clients.show', client.id)"
-                        class="text-xl font-semibold mb-2 block text-primary hover:underline hover:text-blue-800"
+                        class="text-xl font-semibold  block text-primary hover:underline hover:text-blue-800"
                     >
                         {{ client.name }}
+
                     </Link>
+                       <span
+                            v-if="
+                                client.delivery_rate !== null &&
+                                client.delivery_rate !== undefined
+                            "
+                            v-tippy="$t('client.delivery_rate_tooltip')"
+                            :title="$t('client.delivery_rate_tooltip')"
+                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold"
+                            :class="{
+                                'bg-green-100 text-green-800':
+                                    client.delivery_rate >= 70,
+                                'bg-yellow-100 text-yellow-800':
+                                    client.delivery_rate >= 40 &&
+                                    client.delivery_rate < 70,
+                                'bg-red-100 text-red-800':
+                                    client.delivery_rate < 40,
+                            }"
+                        >
+                            <i class="ri-truck-line"></i>
+                            {{ client.delivery_rate }}%
+                        </span>
+                    </div>
                     <div class="flex text-sky-700 items-center gap-2">
                         <i class="ri-customer-service-2-fill text-lg"></i>
                         <span dir="ltr">

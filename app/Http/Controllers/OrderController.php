@@ -221,7 +221,17 @@ class OrderController extends Controller
             $query->where('created_at', '<=', $maxDateTime);
         }
 
+        if ($request->filled('minDeliveryRate')) {
+            $query->whereHas('client', function ($q) use ($request) {
+                $q->where('delivery_rate', '>=', $request->minDeliveryRate);
+            });
+        }
 
+        if ($request->filled('maxDeliveryRate')) {
+            $query->whereHas('client', function ($q) use ($request) {
+                $q->where('delivery_rate', '<=', $request->maxDeliveryRate);
+            });
+        }
 
         if ($request->filled('sort')) {
             switch ($request->sort) {
@@ -248,6 +258,19 @@ class OrderController extends Controller
                 case 'oldest_creation_date':
                     $query->orderBy('created_at', 'asc');
                     break;
+
+                case 'highest_delivery_rate':
+                    $query->leftJoin('clients', 'orders.client_id', '=', 'clients.id')
+                        ->select('orders.*')
+                        ->orderByRaw('CASE WHEN clients.delivery_rate IS NULL THEN 1 ELSE 0 END, clients.delivery_rate DESC');
+                    break;
+
+                case 'lowest_delivery_rate':
+                    $query->leftJoin('clients', 'orders.client_id', '=', 'clients.id')
+                        ->select('orders.*')
+                        ->orderByRaw('CASE WHEN clients.delivery_rate IS NULL THEN 1 ELSE 0 END, clients.delivery_rate ASC');
+                    break;
+
                 default:
                     $query->orderBy('created_at', 'desc');
                     break;

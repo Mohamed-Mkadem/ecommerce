@@ -798,5 +798,7 @@
     "Other": "أخرى",
     "client.delivery_rate_tooltip": "نسبة الطلبات المنجزة (المُسلَّمة + المُرجَّعة) التي تم تسليمها بنجاح.",
     "Min Client Delivery Rate": "الحد الأدنى لمعدل توصيل العميل",
-    "Max Client Delivery Rate": "الحد الأقصى لمعدل توصيل العميل"
+    "Max Client Delivery Rate": "الحد الأقصى لمعدل توصيل العميل",
+    "Sort.highest_delivery_rate": "أعلى معدل توصيل للعميل",
+    "Sort.lowest_delivery_rate": "أقل معدل توصيل للعميل"
 }

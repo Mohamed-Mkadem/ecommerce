@@ -26,6 +26,8 @@ class ClientResource extends JsonResource
             'state_id' => $this->state_id,
             'orders_count' => $this->total_orders_count ?? 0,    
             'spent' => number_format(($this->total_delivered_spent ?? 0) / 1000, 3, '.', ''),
+           'delivery_rate' => $this->delivery_rate,
+
             'notes' => $this->notes->map(function ($note) {
                 return [
                     'id' => $note->id,

@@ -59,6 +59,8 @@ class OrderResource extends JsonResource
                 'deleted_at' => $client?->deleted_at,
                 'orders_count' => $client ? Order::withTrashed()->where('client_id', $client->id)->count() : 0,
                 'recent_orders' => $recentClientOrders,
+                'delivery_rate' => $client?->delivery_rate,
+
             ],
             'state' => $this->state,
             'city' => $this->city,

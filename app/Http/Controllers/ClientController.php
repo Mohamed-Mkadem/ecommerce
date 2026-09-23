@@ -92,7 +92,15 @@ class ClientController extends Controller
             $maxOrdersCount = $request->input('maxOrdersCount');
             $derivedTableQuery->where('total_orders_count', '<=', $maxOrdersCount);
         }
+ 
+        if ($request->filled('minDeliveryRate')) {
+           $baseClientQuery->where('delivery_rate', '>=', $request->minDeliveryRate);
+        }
 
+        if ($request->filled('maxDeliveryRate')) {
+            $baseClientQuery->where('delivery_rate', '<=', $request->maxDeliveryRate);
+          
+        }
         // Apply sorting to the derived table
         if ($request->filled('sort')) {
             switch ($request->sort) {
@@ -107,6 +115,15 @@ class ClientController extends Controller
                     break;
                 case 'highest_orders':
                     $derivedTableQuery->orderBy('total_orders_count', 'desc');
+                    break;
+
+
+                                  case 'highest_delivery_rate':
+                    $derivedTableQuery->orderByRaw('CASE WHEN delivery_rate IS NULL THEN 1 ELSE 0 END, delivery_rate DESC');
+                    break;
+
+                case 'lowest_delivery_rate':
+                    $derivedTableQuery->orderByRaw('CASE WHEN delivery_rate IS NULL THEN 1 ELSE 0 END, delivery_rate ASC');
                     break;
                 default:
                     $derivedTableQuery->orderBy('total_delivered_spent', 'desc');

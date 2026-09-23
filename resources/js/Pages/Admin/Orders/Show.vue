@@ -222,6 +222,27 @@ function markAsNrp() {
                         ({{ order.data.client.orders_count ?? 0 }}
                         {{ $t("orders") }})
                     </span>
+                         <span
+                        v-if="order.data.client.delivery_rate !== null && order.data.client.delivery_rate !== undefined"
+                        :title="$t('client.delivery_rate_tooltip')"
+                        class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold"
+                        :class="{
+                            'bg-green-100 text-green-800': order.data.client.delivery_rate >= 70,
+                            'bg-yellow-100 text-yellow-800': order.data.client.delivery_rate >= 40 && order.data.client.delivery_rate < 70,
+                            'bg-red-100 text-red-800': order.data.client.delivery_rate < 40,
+                        }"
+                    >
+                        <i class="ri-truck-line"></i>
+                        {{ order.data.client.delivery_rate }}%
+                    </span>
+                    <span
+                        v-else
+                        class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-500"
+                        :title="$t('client.delivery_rate_tooltip')"
+                    >
+                        <i class="ri-truck-line"></i>
+                        N/A
+                    </span>
                 </div>
             </div>
             <div class="flex items-center gap-3">
