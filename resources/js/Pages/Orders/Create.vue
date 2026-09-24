@@ -216,18 +216,22 @@ const formatDate = (dateString) => {
 watch(
     () => form.state,
     (newState) => {
-        if (!newState || !newState.default_shipper_id) form.shipper = null;
+        if (!newState) form.shipper = null;
 
-        const state = props.states.find((item) => item.id == newState);
-        console.log(state);
-        if (state && state.default_shipper_id) {
-            form.shipper = state.default_shipper_id;
+        const state = props.states.data.find((item) => item.id == newState);
+
+        if (state && state.default_shipper == null) {
+            form.shipper = null;
+        }
+        if (state && state.default_shipper) {
+            form.shipper = state.default_shipper.id;
         }
     },
 );
 </script>
 
 <template>
+
     <Head :title="$t('New Order')" />
     <PageHeader :page-title="$t('New Order')" />
 
@@ -243,73 +247,47 @@ watch(
             </div>
 
             <div v-if="cartStore.count">
-                <div
-                    class="grid grid-cols-1 :gap-3 border-b border-neutral-200 py-6"
-                    v-for="(product, index) in cartStore.cart"
-                    :key="index"
-                >
+                <div class="grid grid-cols-1 :gap-3 border-b border-neutral-200 py-6"
+                    v-for="(product, index) in cartStore.cart" :key="index">
                     <div
-                        class="flex items-stretch flex-col min-[600px]:flex-row gap-3 min-[600px]:gap-1 w-full max-[600px]:justify-center max-[600px]:mb-4"
-                    >
-                        <div
-                            class="img-box w-70px min-[600px]:w-[80px] flex-shrink-0"
-                        >
-                            <img
-                                :src="product.main_image_url"
-                                :alt="product.name"
-                                class="xl:w-[80px] rounded-xl object-cover"
-                            />
+                        class="flex items-stretch flex-col min-[600px]:flex-row gap-3 min-[600px]:gap-1 w-full max-[600px]:justify-center max-[600px]:mb-4">
+                        <div class="img-box w-70px min-[600px]:w-[80px] flex-shrink-0">
+                            <img :src="product.main_image_url" :alt="product.name"
+                                class="xl:w-[80px] rounded-xl object-cover" />
                         </div>
-                        <div
-                            class="pro-data w-full px-3 min-[600px]:flex-1 max-[600px]:text-center"
-                        >
+                        <div class="pro-data w-full px-3 min-[600px]:flex-1 max-[600px]:text-center">
                             <div>
                                 <Link
                                     class="font-semibold text-xl min-[550px]-leading-8 hover:underline text-primary hover:text-sky-600"
-                                    :href="route('products.show', product)"
-                                >
-                                    {{ product.name }}
+                                    :href="route('products.show', product)">
+                                {{ product.name }}
                                 </Link>
 
-                                <p
-                                    class="font-medium text-lg min-[550px]-leading-8 text-sky-700"
-                                >
+                                <p class="font-medium text-lg min-[550px]-leading-8 text-sky-700">
                                     {{ `${product.price} ${$t("currency")}` }}
                                 </p>
                             </div>
                         </div>
                         <div class="min-[600px]:justify-self-end">
-                            <div
-                                class="flex items-center w-max mx-auto justify-center"
-                            >
-                                <button
-                                    @click="
-                                        cartStore.decreaseQuantity(product.id)
+                            <div class="flex items-center w-max mx-auto justify-center">
+                                <button @click="
+                                    cartStore.decreaseQuantity(product.id)
                                     "
-                                    class="w-10 h-10 p-2 border border-neutral-200 flex items-center justify-center shadow-sm shadow-transparent transition-colors duration-500 hover:shadow-neutral-200 hover:border-neutral-300 hover:bg-zinc-100"
-                                >
+                                    class="w-10 h-10 p-2 border border-neutral-200 flex items-center justify-center shadow-sm shadow-transparent transition-colors duration-500 hover:shadow-neutral-200 hover:border-neutral-300 hover:bg-zinc-100">
                                     -
                                 </button>
-                                <input
-                                    type="text"
+                                <input type="text"
                                     class="border-y border-neutral-200 outline-none text-neutral-900 font-semibold text-lg w-[80px] placeholder:text-neutral-900 p-2 h-10 text-center bg-transparent pointer-events-none"
-                                    placeholder="1"
-                                    :value="product.quantity"
-                                    readonly
-                                />
-                                <button
-                                    @click="
-                                        cartStore.increaseQuantity(product.id)
+                                    placeholder="1" :value="product.quantity" readonly />
+                                <button @click="
+                                    cartStore.increaseQuantity(product.id)
                                     "
-                                    class="w-10 h-10 p-2 border border-neutral-200 flex items-center justify-center shadow-sm shadow-transparent transition-colors duration-500 hover:shadow-neutral-200 hover:border-neutral-300 hover:bg-zinc-100"
-                                >
+                                    class="w-10 h-10 p-2 border border-neutral-200 flex items-center justify-center shadow-sm shadow-transparent transition-colors duration-500 hover:shadow-neutral-200 hover:border-neutral-300 hover:bg-zinc-100">
                                     +
                                 </button>
                             </div>
-                            <button
-                                @click="cartStore.removeFromCart(product.id)"
-                                class="text-sm mx-auto mt-4 text-red-600 underline hover:text-red-500 block"
-                            >
+                            <button @click="cartStore.removeFromCart(product.id)"
+                                class="text-sm mx-auto mt-4 text-red-600 underline hover:text-red-500 block">
                                 {{ $t("Remove") }}
                             </button>
                         </div>
@@ -327,24 +305,13 @@ watch(
             </h2>
 
             <div>
-                <TextInput
-                    id="search"
-                    class="mt-2 block w-full"
-                    :placeholder="$t('Search for products')"
-                    v-model="search"
-                    :required="true"
-                    type="search"
-                />
+                <TextInput id="search" class="mt-2 block w-full" :placeholder="$t('Search for products')"
+                    v-model="search" :required="true" type="search" />
             </div>
 
             <div
-                class="mt-4 grid gap-x-2 gap-y-4 lg:grid-cols-2 pb-8 grid-cols-[repeat(auto-fit,minmax(200px,1fr))] overflow-y-auto max-h-[600px]"
-            >
-                <ProductCard
-                    v-for="product in filteredProducts"
-                    :key="product.id"
-                    :product="product"
-                />
+                class="mt-4 grid gap-x-2 gap-y-4 lg:grid-cols-2 pb-8 grid-cols-[repeat(auto-fit,minmax(200px,1fr))] overflow-y-auto max-h-[600px]">
+                <ProductCard v-for="product in filteredProducts" :key="product.id" :product="product" />
             </div>
         </div>
     </div>
@@ -355,125 +322,61 @@ watch(
             </h2>
 
             <form @submit.prevent="submitForm">
-                <div
-                    class="flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-start mt-4"
-                >
+                <div class="flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-start mt-4">
                     <div class="w-full">
-                        <InputLabel
-                            for="phone"
-                            :value="$t('Phone Number')"
-                            class="text-neutral-500"
-                        />
+                        <InputLabel for="phone" :value="$t('Phone Number')" class="text-neutral-500" />
 
-                        <TextInput
-                            class="mt-1 block w-full"
-                            id="phone"
-                            v-model="form.phone"
-                            :required="true"
-                            type="number"
-                            :placeholder="$t('8 digits phone number')"
-                        />
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors['phone']"
-                        />
+                        <TextInput class="mt-1 block w-full" id="phone" v-model="form.phone" :required="true"
+                            type="number" :placeholder="$t('8 digits phone number')" />
+                        <InputError class="mt-2" :message="form.errors['phone']" />
                     </div>
                     <div class="w-full">
-                        <InputLabel
-                            for="phone"
-                            :value="$t('phone2')"
-                            class="text-neutral-500"
-                        />
+                        <InputLabel for="phone" :value="$t('phone2')" class="text-neutral-500" />
 
-                        <TextInput
-                            class="mt-1 block w-full"
-                            id="phone"
-                            v-model="form.phone2"
-                            :required="false"
-                            type="number"
-                            :placeholder="$t('8 digits phone number')"
-                        />
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors['phone2']"
-                        />
+                        <TextInput class="mt-1 block w-full" id="phone" v-model="form.phone2" :required="false"
+                            type="number" :placeholder="$t('8 digits phone number')" />
+                        <InputError class="mt-2" :message="form.errors['phone2']" />
                     </div>
                 </div>
                 <div class="mt-4">
-                    <InputLabel
-                        for="full-name"
-                        :value="$t('Full Name')"
-                        class="text-neutral-500"
-                    />
+                    <InputLabel for="full-name" :value="$t('Full Name')" class="text-neutral-500" />
 
-                    <TextInput
-                        class="mt-1 block w-full"
-                        id="full-name"
-                        type="text"
-                        v-model="form.name"
-                        :required="true"
-                        :placeholder="$t('Full Name')"
-                    />
+                    <TextInput class="mt-1 block w-full" id="full-name" type="text" v-model="form.name" :required="true"
+                        :placeholder="$t('Full Name')" />
 
                     <InputError class="mt-2" :message="form.errors['name']" />
                 </div>
 
-                <div
-                    class="flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-start mt-4"
-                >
+                <div class="flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-start mt-4">
                     <div class="w-full">
-                        <InputLabel
-                            for="state_id"
-                            :value="$t('State')"
-                            class="text-neutral-500"
-                        />
+                        <InputLabel for="state_id" :value="$t('State')" class="text-neutral-500" />
 
                         <select
                             class="w-full mt-1 rounded-md focus:ring-primary focus:border-primary border-editor text-primary"
-                            id="state_id"
-                            v-model="form.state"
-                            required
-                            @change="locationSelector.getCities(form.state)"
-                        >
+                            id="state_id" v-model="form.state" required
+                            @change="locationSelector.getCities(form.state)">
                             <option :value="null">
                                 {{ $t("State") }}
                             </option>
-                            <option
-                                :value="state.id"
-                                v-for="state in props.states.data"
-                                :key="state.id"
-                            >
+                            <option :value="state.id" v-for="state in props.states.data" :key="state.id">
                                 {{ state.name }}
                             </option>
                         </select>
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors['state']"
-                        />
+                        <InputError class="mt-2" :message="form.errors['state']" />
                     </div>
                 </div>
-                <div
-                    class="flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-start mt-4"
-                >
+                <div class="flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-start mt-4">
                     <div class="w-full">
                         <InputLabel for="city_id" :value="$t('City')" />
 
-                        <select
-                            @change="locationSelector.getLocalities(form.city)"
-                            required
-                            v-model="form.city"
+                        <select @change="locationSelector.getLocalities(form.city)" required v-model="form.city"
                             id="city_id"
-                            class="w-full mt-1 rounded-md focus:ring-primary focus:border-primary border-editor text-primary"
-                        >
+                            class="w-full mt-1 rounded-md focus:ring-primary focus:border-primary border-editor text-primary">
                             <option :value="null" class="capitalize">
                                 {{ $t("Choose a city") }}
                             </option>
 
-                            <option
-                                :value="city.id"
-                                v-for="city in locationSelector.cities.value"
-                                :key="city.id"
-                            >
+                            <option :value="city.id" v-for="city in locationSelector.cities.value" :key="city.id">
                                 {{ city.name }}
                             </option>
                         </select>
@@ -483,154 +386,81 @@ watch(
                     <div class="w-full">
                         <InputLabel for="locality_id" :value="$t('Locality')" />
 
-                        <select
-                            required
-                            v-model="form.locality"
-                            id="locality_id"
-                            class="w-full mt-1 rounded-md focus:ring-primary focus:border-primary border-editor text-primary"
-                        >
+                        <select required v-model="form.locality" id="locality_id"
+                            class="w-full mt-1 rounded-md focus:ring-primary focus:border-primary border-editor text-primary">
                             <option :value="null" class="capitalize">
                                 {{ $t("Choose a locality") }}
                             </option>
 
-                            <option
-                                :value="locality.id"
-                                v-for="locality in locationSelector.localities
-                                    .value"
-                                :key="locality.id"
-                            >
+                            <option :value="locality.id" v-for="locality in locationSelector.localities
+                                .value" :key="locality.id">
                                 {{ locality.name }}
                             </option>
                         </select>
 
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors.locality"
-                        />
+                        <InputError class="mt-2" :message="form.errors.locality" />
                     </div>
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel
-                        for="address"
-                        :value="$t('Address')"
-                        class="text-neutral-500"
-                    />
+                    <InputLabel for="address" :value="$t('Address')" class="text-neutral-500" />
 
-                    <TextInput
-                        class="mt-1 block w-full"
-                        id="address"
-                        type="text"
-                        v-model="form.address"
-                        :required="true"
-                        :placeholder="$t('Full Shipping Address')"
-                    />
+                    <TextInput class="mt-1 block w-full" id="address" type="text" v-model="form.address"
+                        :required="true" :placeholder="$t('Full Shipping Address')" />
 
-                    <InputError
-                        class="mt-2"
-                        :message="form.errors['address']"
-                    />
+                    <InputError class="mt-2" :message="form.errors['address']" />
                 </div>
 
-                <div
-                    class="flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-start mt-4"
-                >
+                <div class="flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-start mt-4">
                     <div class="w-full">
-                        <InputLabel
-                            for="shipper_id"
-                            :value="$t('Shipper')"
-                            class="text-neutral-500"
-                        />
+                        <InputLabel for="shipper_id" :value="$t('Shipper')" class="text-neutral-500" />
 
                         <select
                             class="w-full mt-1 rounded-md focus:ring-primary focus:border-primary border-editor text-primary"
-                            id="shipper_id"
-                            v-model="form.shipper"
-                            required
-                        >
+                            id="shipper_id" v-model="form.shipper" required>
                             <option :value="null">
                                 {{ $t("Shipper") }}
                             </option>
-                            <option
-                                :value="shipper.id"
-                                v-for="shipper in props.shippers"
-                                :key="shipper.id"
-                            >
+                            <option :value="shipper.id" v-for="shipper in props.shippers" :key="shipper.id">
                                 {{ shipper.name }}
                             </option>
                         </select>
 
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors['shipper']"
-                        />
+                        <InputError class="mt-2" :message="form.errors['shipper']" />
                     </div>
                     <div class="w-full">
-                        <InputLabel
-                            for="coupon"
-                            :value="`${$t('Coupon Code')} (${$t('optional.f')})`"
-                            class="text-neutral-500"
-                        />
+                        <InputLabel for="coupon" :value="`${$t('Coupon Code')} (${$t('optional.f')})`"
+                            class="text-neutral-500" />
 
                         <select
                             class="w-full mt-1 rounded-md focus:ring-primary focus:border-primary border-editor text-primary"
-                            id="coupon"
-                            v-model="form.coupon"
-                            required
-                        >
+                            id="coupon" v-model="form.coupon" required>
                             <option :value="null">
                                 {{ $t("Coupon Code") }}
                             </option>
-                            <option
-                                :value="coupon.id"
-                                v-for="coupon in props.couponCodes"
-                                :key="coupon.id"
-                            >
+                            <option :value="coupon.id" v-for="coupon in props.couponCodes" :key="coupon.id">
                                 {{ coupon.code }}
                             </option>
                         </select>
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors['coupon']"
-                        />
+                        <InputError class="mt-2" :message="form.errors['coupon']" />
                     </div>
                 </div>
 
-                <div
-                    class="mt-4 flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-start"
-                >
+                <div class="mt-4 flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-start">
                     <div class="w-full">
-                        <InputLabel
-                            for="delivery-date"
-                            :value="$t('Delivery_date')"
-                            class="text-neutral-500"
-                        />
+                        <InputLabel for="delivery-date" :value="$t('Delivery_date')" class="text-neutral-500" />
 
-                        <DatePicker
-                            class="mt-1 block w-full h-[42px]"
-                            id="delivery-date"
-                            v-model="form.deliveryDate"
-                            :required="true"
-                        />
+                        <DatePicker class="mt-1 block w-full h-[42px]" id="delivery-date" v-model="form.deliveryDate"
+                            :required="true" />
 
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors['deliveryDate']"
-                        />
+                        <InputError class="mt-2" :message="form.errors['deliveryDate']" />
                     </div>
                     <div class="w-full">
-                        <InputLabel
-                            for="status-input"
-                            :value="$t('Status')"
-                            class="text-neutral-500"
-                        />
+                        <InputLabel for="status-input" :value="$t('Status')" class="text-neutral-500" />
 
                         <select
                             class="w-full mt-1 rounded-md focus:ring-primary focus:border-primary border-editor text-primary"
-                            id="status-input"
-                            v-model="form.status"
-                            required
-                        >
+                            id="status-input" v-model="form.status" required>
                             <option value="pending">
                                 {{ $t("pending") }}
                             </option>
@@ -651,41 +481,24 @@ watch(
                             </option>
                         </select>
 
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors['status']"
-                        />
+                        <InputError class="mt-2" :message="form.errors['status']" />
                     </div>
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel
-                        for="note"
-                        :value="`${$t('Note')} (${$t('optional.f')})`"
-                        class="text-neutral-500"
-                    />
+                    <InputLabel for="note" :value="`${$t('Note')} (${$t('optional.f')})`" class="text-neutral-500" />
 
-                    <textarea
-                        id="note"
+                    <textarea id="note"
                         class="mt-1 block w-full text-primary rounded-md border-editor shadow-sm focus:border-primary focus:ring-primary h-25 resize-none"
-                        v-model="form.note"
-                        :placeholder="$t('note_create_placeholder')"
-                    >
+                        v-model="form.note" :placeholder="$t('note_create_placeholder')">
                     </textarea>
 
                     <InputError class="mt-2" :message="form.errors['note']" />
                 </div>
                 <div class="mt-4">
                     <div class="flex gap-3 items-center">
-                        <input
-                            type="checkbox"
-                            id="nrp-field"
-                            v-model="form.nrp"
-                        />
-                        <label
-                            for="nrp-field"
-                            class="block font-medium cursor-pointer text-primary"
-                        >
+                        <input type="checkbox" id="nrp-field" v-model="form.nrp" />
+                        <label for="nrp-field" class="block font-medium cursor-pointer text-primary">
                             {{ $t("markAsNrp") }}
                         </label>
                     </div>
@@ -693,68 +506,41 @@ watch(
                 </div>
                 <div class="mt-4">
                     <div class="flex gap-3 items-center">
-                        <input
-                            type="checkbox"
-                            id="freeShipping-field"
-                            v-model="form.free_shipping"
-                        />
-                        <label
-                            for="freeShipping-field"
-                            class="block font-medium cursor-pointer text-primary"
-                        >
+                        <input type="checkbox" id="freeShipping-field" v-model="form.free_shipping" />
+                        <label for="freeShipping-field" class="block font-medium cursor-pointer text-primary">
                             {{ $t("Offer Free Shipping") }}
                         </label>
                     </div>
-                    <InputError
-                        class="mt-2"
-                        :message="form.errors['free_shipping']"
-                    />
+                    <InputError class="mt-2" :message="form.errors['free_shipping']" />
                 </div>
 
-                <input
-                    :class="{
-                        'opacity-25 cursor-not-allowed': form.processing,
-                    }"
-                    :disabled="form.processing"
-                    type="Submit"
-                    :value="$t('Place Order')"
-                    class="w-full cursor-pointer rounded-lg border border-primary bg-primary py-2 px-4 font-medium text-white transition hover:bg-opacity-90 mt-4"
-                />
+                <input :class="{
+                    'opacity-25 cursor-not-allowed': form.processing,
+                }" :disabled="form.processing" type="Submit" :value="$t('Place Order')"
+                    class="w-full cursor-pointer rounded-lg border border-primary bg-primary py-2 px-4 font-medium text-white transition hover:bg-opacity-90 mt-4" />
             </form>
         </div>
 
         <div class="bg-white rounded shadow-1 p-4 order-1 lg:order-2">
-            <div
-                v-if="showSearchingClient"
-                class="text-sm text-neutral-500 mt-2"
-            >
+            <div v-if="showSearchingClient" class="text-sm text-neutral-500 mt-2">
                 {{ $t("Searching for clients...") }}
             </div>
             <div v-if="foundClients.length">
                 <h2 class="text-sky-900 font-semibold text-2xl mt-4">
                     {{ $t("Found Clients") }}
                 </h2>
-                <div
-                    v-for="client in foundClients"
-                    :key="client.id"
-                    class="py-4 text-meta-4 border-b last:border-b-0"
-                    dir="auto"
-                >
-         <div class="flex items-center gap-2 mb-2">   
-                    <Link
-                        :href="route('clients.show', client.id)"
-                        class="text-xl font-semibold  block text-primary hover:underline hover:text-blue-800"
-                    >
+                <div v-for="client in foundClients" :key="client.id" class="py-4 text-meta-4 border-b last:border-b-0"
+                    dir="auto">
+                    <div class="flex items-center gap-2 mb-2">
+                        <Link :href="route('clients.show', client.id)"
+                            class="text-xl font-semibold  block text-primary hover:underline hover:text-blue-800">
                         {{ client.name }}
 
-                    </Link>
-                       <span
-                            v-if="
-                                client.delivery_rate !== null &&
-                                client.delivery_rate !== undefined
-                            "
-                            v-tippy="$t('client.delivery_rate_tooltip')"
-                            :title="$t('client.delivery_rate_tooltip')"
+                        </Link>
+                        <span v-if="
+                            client.delivery_rate !== null &&
+                            client.delivery_rate !== undefined
+                        " v-tippy="$t('client.delivery_rate_tooltip')" :title="$t('client.delivery_rate_tooltip')"
                             class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold"
                             :class="{
                                 'bg-green-100 text-green-800':
@@ -764,8 +550,7 @@ watch(
                                     client.delivery_rate < 70,
                                 'bg-red-100 text-red-800':
                                     client.delivery_rate < 40,
-                            }"
-                        >
+                            }">
                             <i class="ri-truck-line"></i>
                             {{ client.delivery_rate }}%
                         </span>
@@ -774,9 +559,7 @@ watch(
                         <i class="ri-customer-service-2-fill text-lg"></i>
                         <span dir="ltr">
                             {{ client.phone }}
-                            <span v-if="client.phone2"
-                                >/ {{ client.phone2 }}</span
-                            >
+                            <span v-if="client.phone2">/ {{ client.phone2 }}</span>
                         </span>
                     </div>
                     <div class="mb-1 text-sky-700 flex items-center gap-2">
@@ -800,45 +583,31 @@ watch(
                             {{ $t("No recent orders found") }}
                         </p>
                         <ul v-else>
-                            <li
-                                v-for="order in client.orders"
-                                :key="order.id"
-                                class="flex items-center justify-between flex-wrap text-lg text-sky-700 mb-3"
-                            >
+                            <li v-for="order in client.orders" :key="order.id"
+                                class="flex items-center justify-between flex-wrap text-lg text-sky-700 mb-3">
                                 <div>
                                     #{{ order.id }} -
                                     {{ formatDate(order.created_at) }}
-                                    <span
-                                        v-if="order.deleted_at"
-                                        class="text-red-500 text-lg"
-                                    >
+                                    <span v-if="order.deleted_at" class="text-red-500 text-lg">
                                         <i class="ri-delete-bin-5-fill"></i>
                                     </span>
                                     <span> - {{ $t(order.status) }} </span>
                                 </div>
-                                <Link
-                                    v-if="!order.deleted_at"
-                                    :href="route('orders.show', order)"
-                                    class="bg-slate-500 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90"
-                                >
-                                    <i class="ri-eye-line"></i>
+                                <Link v-if="!order.deleted_at" :href="route('orders.show', order)"
+                                    class="bg-slate-500 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90">
+                                <i class="ri-eye-line"></i>
                                 </Link>
                             </li>
                         </ul>
                     </div>
                     <div class="flex md:justify-end mt-2">
-                        <button
-                            @click="populateFormWithClient(client)"
-                            class="bg-green-600 text-white px-4 py-2 mt-2 rounded-md"
-                            :disabled="
-                                selectedClient && selectedClient.id == client.id
-                            "
-                            :class="{
-                                'bg-opacity-50 cursor-not-allowed':
-                                    selectedClient &&
-                                    selectedClient.id == client.id,
-                            }"
-                        >
+                        <button @click="populateFormWithClient(client)"
+                            class="bg-green-600 text-white px-4 py-2 mt-2 rounded-md" :disabled="selectedClient && selectedClient.id == client.id
+                                " :class="{
+                                    'bg-opacity-50 cursor-not-allowed':
+                                        selectedClient &&
+                                        selectedClient.id == client.id,
+                                }">
                             {{ $t("Use Client Information") }}
                         </button>
                     </div>
@@ -848,28 +617,19 @@ watch(
                 {{ $t("Order Summary") }}
             </h2>
             <ul class="flex flex-col" v-if="cartStore.count">
-                <template
-                    v-for="(product, index) in cartStore.cart"
-                    :key="index"
-                >
+                <template v-for="(product, index) in cartStore.cart" :key="index">
                     <li class="border-b border-zinc-200 py-3">
                         <div class="flex gap-3 mb-2">
                             <div class="relative w-[80px] flex-shrink-0">
-                                <img
-                                    class="w-full"
-                                    :src="product.main_image_url"
-                                    :alt="product.name"
-                                />
+                                <img class="w-full" :src="product.main_image_url" :alt="product.name" />
                                 <div
-                                    class="absolute bottom-0 left-0 text-white text-xs font-bold flex items-center justify-center w-10 h-7 rounded-sm bg-sky-800"
-                                >
+                                    class="absolute bottom-0 left-0 text-white text-xs font-bold flex items-center justify-center w-10 h-7 rounded-sm bg-sky-800">
                                     x {{ product.quantity }}
                                 </div>
                             </div>
                             <div>
                                 <h3
-                                    class="text-neutral-700 text-ellipsis overflow-hidden line-clamp text-lg font-semibold"
-                                >
+                                    class="text-neutral-700 text-ellipsis overflow-hidden line-clamp text-lg font-semibold">
                                     {{
                                         cartStore.getLocalizedName(
                                             product.id,
@@ -892,10 +652,7 @@ watch(
                 {{ $t("No items in the cart") }}
             </div>
 
-            <InputError
-                class="mt-2 w-max mx-auto"
-                :message="form.errors['cart']"
-            />
+            <InputError class="mt-2 w-max mx-auto" :message="form.errors['cart']" />
         </div>
     </div>
 
@@ -906,17 +663,18 @@ watch(
                     {{ `${$t("Sub Total")} : ` }}
                 </p>
                 <p class="sm:text-lg text-neutral-700">
-                    {{ `${cartStore.total}  ${$t("currency")}` }}
+                    {{ `${cartStore.total} ${$t("currency")}` }}
                 </p>
             </div>
             <div class="flex flex-wrap justify-between items-center gap-4">
                 <p class="sm:text-lg text-neutral-700">
                     {{
-                        `${$t("Shipping Cost")} ${getLocalizedStateName(form.state) == "" ? "" : "- " + getLocalizedStateName(form.state)} : `
+                        `${$t("Shipping Cost")} ${getLocalizedStateName(form.state) == "" ? "" : "- " +
+                            getLocalizedStateName(form.state)} : `
                     }}
                 </p>
                 <p class="sm:text-lg text-neutral-700">
-                    {{ `${getShippingCost(form.state)}  ${$t("currency")}` }}
+                    {{ `${getShippingCost(form.state)} ${$t("currency")}` }}
                 </p>
             </div>
             <div class="flex flex-wrap justify-between items-center gap-4">
