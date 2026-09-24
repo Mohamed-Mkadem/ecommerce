@@ -15,7 +15,7 @@ use Inertia\Inertia;
 
 class AdminController extends Controller
 {
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $todaysEarnings = Invoice::getEarnings(true)['day'];
         $todaysInvoicesCount = Invoice::getCount()['day'];
@@ -75,6 +75,10 @@ class AdminController extends Controller
                 'weeklyClientOrders' => $weeklyClientOrders,
                 'clients' =>   ClientResource::collection($clients),
                 'acceptance_dates' => $acceptanceDates,
+                'defaultRatesStart' => now()->startOfMonth()->format('Y-m-d'),
+                'defaultRatesEnd'   => now()->endOfMonth()->format('Y-m-d'),
+                'defaultDeliveryStart' => now()->startOfMonth()->format('Y-m-d'),
+                'defaultDeliveryEnd'   => now()->endOfMonth()->format('Y-m-d'),
 
             ]
         );

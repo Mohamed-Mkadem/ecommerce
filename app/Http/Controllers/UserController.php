@@ -12,6 +12,8 @@ use App\Http\Resources\ActivityResource;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Notifications\RoleChangedNotification;
+use App\Models\Order;
+
 
 class UserController extends Controller
 {
@@ -51,18 +53,56 @@ class UserController extends Controller
     }
 
 
-    public function show(User $employee)
+    public function show(Request $request, User $employee)
     {
 
         $activities = Activity::where('causer_id', $employee->id)
             ->where('causer_type', User::class)
             ->orderBy('created_at', 'desc')
             ->paginate(15);
+  $startDate = $request->input('start_date', now()->startOfMonth()->format('Y-m-d'));
+        $endDate = $request->input('end_date', now()->endOfMonth()->format('Y-m-d'));
 
+        $stats = Activity::where('causer_id', $employee->id)
+            ->where('causer_type', User::class)
+            ->whereIn('description', [
+                'order.created', 'order.confirmed', 'order.shipped', 'order.delivered',
+                'order.canceled', 'order.returned', 'order.nrp'
+            ])
+            ->when($startDate, function($query) use ($startDate) {
+                 return $query->whereDate('created_at', '>=', $startDate);
+            })
+            ->when($endDate, function($query) use ($endDate) {
+                 return $query->whereDate('created_at', '<=', $endDate);
+            })
+            ->selectRaw('description, count(*) as count')
+            ->groupBy('description')
+            ->pluck('count', 'description');
+        $confirmedOrderIds = Activity::where('causer_id', $employee->id)
+            ->where('causer_type', User::class)
+            ->where('description', 'order.confirmed')
+            ->where('subject_type', Order::class)
+            ->when($startDate, function($query) use ($startDate) {
+                return $query->whereDate('created_at', '>=', $startDate);
+            })
+            ->when($endDate, function($query) use ($endDate) {
+                return $query->whereDate('created_at', '<=', $endDate);
+            })
+            ->pluck('subject_id');
 
+        $deliveryStats = Order::whereIn('id', $confirmedOrderIds)
+            ->selectRaw('status, count(*) as count')
+            ->groupBy('status')
+            ->pluck('count', 'status');
         return Inertia::render('Admin/Employees/Show', [
             'employee' => UserResource::make($employee),
             'activities' => ActivityResource::collection($activities),
+             'stats' => $stats,
+             'deliveryStats' => $deliveryStats,
+            'filters' => [
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+            ]
         ]);
     }
 
