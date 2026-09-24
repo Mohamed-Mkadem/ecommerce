@@ -65,7 +65,7 @@ class Product extends Model implements TranslatableContract
     {
         return $this->belongsToMany(Wrapper::class, 'product_wrapper')
             ->using(ProductWrapper::class)
-            ->withPivot('display_order', 'is_default', 'free_shipping');
+            ->withPivot('display_order', 'is_default', 'free_shipping', 'update_quantity');
     }
 
 

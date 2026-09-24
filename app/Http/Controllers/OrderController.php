@@ -301,10 +301,10 @@ class OrderController extends Controller
             ->map(fn($product) => [
                 'id' => $product->id,
                 'name' => $product->name,
-                'type' => $product->type,
                 'price' => $product->getFormattedPrice(),
                 'main_image_url' => $product->wrappers()->first()?->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
-                'translations' => $product->translations
+                'translations' => $product->translations,
+                'update_quantity_by' => $product->wrappers()->first()?->pivot->update_quantity ?? 1
             ]);
 
         return Inertia::render('Orders/Create', [

@@ -38,22 +38,20 @@ export const useCartStore = defineStore("cart", () => {
     };
 
     const increaseQuantity = (product_id) => {
-        const product = cart.value.find((item) => item.id === product_id);
-        if (product.type == "product") {
-            product.quantity = product.quantity + 0.5;
-        }
-        if (product.type == "pack") {
-            product.quantity = product.quantity + 1;
-        }
+        const product = cart.value.find((item) => item.id == product_id);
+
+        const updateQuantityBy = product.update_quantity_by;
+
+        product.quantity = product.quantity + updateQuantityBy;
+
     };
     const decreaseQuantity = (product_id) => {
-        const product = cart.value.find((item) => item.id === product_id);
-        if (product.type == "product" && product.quantity > 0.5) {
-            product.quantity = product.quantity - 0.5;
+        const product = cart.value.find((item) => item.id == product_id);
+        const updateQuantityBy = product.update_quantity_by;
+        if (product.quantity > updateQuantityBy) {
+            product.quantity = product.quantity - updateQuantityBy;
         }
-        if (product.type == "pack" && product.quantity > 1) {
-            product.quantity = product.quantity - 1;
-        }
+
     };
 
     const removeFromCart = (product_id) => {
