@@ -4,7 +4,6 @@ import Footer from "@/js/Components/FrontEnd/Footer.vue";
 import { onMounted, ref } from "vue";
 import { router, Head } from "@inertiajs/vue3";
 import { useLanguageStore } from "@/js/stores/Language";
-import PhoneNumber from "@/js/Components/FrontEnd/PhoneNumber.vue";
 import Loader from "@/js/Components/Loader.vue";
 const languageStore = useLanguageStore();
 const processing = ref(false);
@@ -64,14 +63,11 @@ router.on("finish", () => (processing.value = false));
 </script>
 
 <template>
+
     <Head>
         <noscript>
-            <img
-                height="1"
-                width="1"
-                style="display: none"
-                src="https://www.facebook.com/tr?id=2603076653427200&ev=PageView&noscript=1"
-            />
+            <img height="1" width="1" style="display: none"
+                src="https://www.facebook.com/tr?id=2603076653427200&ev=PageView&noscript=1" />
         </noscript>
     </Head>
     <div>

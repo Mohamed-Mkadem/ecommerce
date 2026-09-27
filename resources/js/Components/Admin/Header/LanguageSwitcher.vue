@@ -43,9 +43,9 @@ onClickOutside(target, () => {
 
 <template>
     <div class="relative" ref="target">
-        <button class="flex items-center justify-between gap-2 font-normal" :class="{
+        <button class=" flex items-center justify-between gap-2 font-normal" :class="{
             'bg-white border-stroke ': !isInFrontEnd,
-            'text-slate-50 border border-slate-200 hover:border-sky-300 hover:bg-sky-50/10   px-3 py-2 rounded transition-all duration-300 shadow-sm':
+            'text-brown border border-brown hover:border-sky-800 hover:bg-sky-50/10   px-3 py-2 rounded transition-all duration-300 shadow-sm':
                 isInFrontEnd,
         }" @click="dropdownOpen = !dropdownOpen">
             <img class="w-5 rounded-sm" :src="currentLocaleDisplay.icon" :alt="currentLocaleDisplay.label" />
