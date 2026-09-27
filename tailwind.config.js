@@ -31,7 +31,7 @@ export default {
                 transparent: "transparent",
                 white: "#FFFFFF",
                 black: "#1C2434",
-                // gold: '#be982b', // Gold Beylicale.tn
+                brown: '#543a2f',
                 gold: "#eab308",
                 editor: "#6b7280",
                 "black-2": "#010101",

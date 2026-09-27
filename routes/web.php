@@ -18,7 +18,7 @@ use App\Http\Controllers\SellingReportController;
 use App\Http\Controllers\ShippingSettingController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\StatisticsController;
-use App\Http\Controllers\TopBarSettingController;
+
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WrapperController;
 use App\Http\Middleware\isActiveMiddleware;
@@ -48,7 +48,6 @@ Route::middleware(['auth', isActiveMiddleware::class])->group(function () {
     Route::resource('shippers', ShipperController::class)->except(['show'])->middleware(isAdminMiddleware::class);
     Route::resource('states', StateController::class)->only(['edit', 'index', 'update'])->middleware(isAdminMiddleware::class);
 
-    Route::resource('settings', TopBarSettingController::class)->only(['index', 'update']);
 
     Route::resource('coupons', CouponCodeController::class)->except('show')->middleware(isAdminMiddleware::class);
     Route::get('clients/import', [ClientController::class, 'import'])->name('clients.import.create');

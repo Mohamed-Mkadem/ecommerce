@@ -18,9 +18,9 @@ const locales = reactive({
 
 
 const currentLocaleDisplay = computed(() => {
-   
 
-    return locales[languageStore.currentLocale] ;
+
+    return locales[languageStore.currentLocale];
 });
 
 async function changeLang(newLang) {
@@ -43,48 +43,27 @@ onClickOutside(target, () => {
 
 <template>
     <div class="relative" ref="target">
-        <button
-            class="flex items-center justify-between gap-2"
-            :class="{
-                'bg-white border-stroke ': !isInFrontEnd,
-                'text-slate-700 border border-slate-200 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-800 px-3 py-2 rounded transition-all duration-300 shadow-sm':
-                    isInFrontEnd,
-            }"
-            @click="dropdownOpen = !dropdownOpen"
-        >
-            <img
-                class="w-5 rounded-sm"
-                :src="currentLocaleDisplay.icon"
-                :alt="currentLocaleDisplay.label"
-            />
+        <button class="flex items-center justify-between gap-2 font-normal" :class="{
+            'bg-white border-stroke ': !isInFrontEnd,
+            'text-slate-50 border border-slate-200 hover:border-sky-300 hover:bg-sky-50/10   px-3 py-2 rounded transition-all duration-300 shadow-sm':
+                isInFrontEnd,
+        }" @click="dropdownOpen = !dropdownOpen">
+            <img class="w-5 rounded-sm" :src="currentLocaleDisplay.icon" :alt="currentLocaleDisplay.label" />
             {{ currentLocaleDisplay.label }}
         </button>
 
         <!-- Dropdown Start -->
-        <div
-            v-show="dropdownOpen"
-            :class="{
-                'bg-white border-stroke ': !isInFrontEnd,
-                'bg-white border-slate-200 shadow-lg': isInFrontEnd,
-            }"
-            class="absolute ltr:right-0 rtl:left-0 mt-2 w-33 flex-col rounded-sm border shadow-default z-99"
-        >
+        <div v-show="dropdownOpen" :class="{
+            'bg-white border-stroke ': !isInFrontEnd,
+            'bg-white border-slate-200 shadow-lg': isInFrontEnd,
+        }" class="absolute ltr:right-0 rtl:left-0 mt-2 w-33 flex-col rounded-sm border shadow-default z-99">
             <ul class="  ">
-                <li
-                    @click.prevent="changeLang(locale.value)"
-                    v-for="(locale, index) in locales"
-                    :key="locale.value"
-                    class="p-2 flex items-center justify-between gap-2 cursor-pointer"
-                    :class="{
+                <li @click.prevent="changeLang(locale.value)" v-for="(locale, index) in locales" :key="locale.value"
+                    class="p-2 flex items-center justify-between gap-2 cursor-pointer font-normal" :class="{
                         'text-slate-700 hover:bg-sky-50 hover:text-sky-800 transition-colors': isInFrontEnd,
                         'text-primary hover:bg-slate-200': !isInFrontEnd,
-                    }"
-                >
-                    <img
-                        class="w-5 rounded-sm"
-                        :src="locale.icon"
-                        :alt="locale.label"
-                    />
+                    }">
+                    <img class="w-5 rounded-sm" :src="locale.icon" :alt="locale.label" />
                     {{ locale.label }}
                 </li>
             </ul>
