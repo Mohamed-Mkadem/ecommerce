@@ -22,7 +22,7 @@ class FrontEndController extends Controller
             ->where('is_active', true)
             ->whereHas('products')
             ->with('products')
-            ->take(12)
+            ->take(8)
             ->get()
             ->map(fn(Wrapper $wrapper) => (new WrapperListingResource($wrapper))->resolve());
 

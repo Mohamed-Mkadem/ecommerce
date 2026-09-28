@@ -91,31 +91,40 @@ const trustFeatures = {
 
 
 
-    <!-- ───────────────────────── PRODUCTS ───────────────────────── -->
-    <section id="products" class="py-20 px-4 md:px-12 max-w-screen-3xl mx-auto">
-        <!-- Section header -->
-        <div class="text-center mb-14">
-            <p class="text-gold font-bold text-xs tracking-[0.2em] uppercase mb-2">
-                {{ $t("Our Offers") }}
-            </p>
-            <h2 class="text-3xl md:text-4xl font-extrabold text-sky-900">
-                {{ $t("Best sellers") }}
-            </h2>
-            <div class="mt-4 mx-auto w-14 h-1 rounded-full bg-gold"></div>
-        </div>
+    <section id="products" class="mx-auto max-w-screen-3xl bg-offwhite px-5 py-16 sm:px-8 md:px-12 md:py-20">
+        <div class="mx-auto max-w-screen-xl">
+            <div class="mb-8 flex flex-col gap-5 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
+                <div class="max-w-lg">
+                    <p class="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-cOrangeDark">
+                        {{ $t("bestsellers.eyebrow") }}
+                    </p>
+                    <h2 class="font-serif text-3xl leading-tight tracking-tight text-brown sm:text-4xl">
+                        {{ $t("bestsellers.title") }}
+                    </h2>
+                    <p class="mt-3 max-w-md text-xs leading-5 text-brown/75 sm:text-sm sm:leading-6">
+                        {{ $t("bestsellers.description") }}
+                    </p>
+                </div>
 
-        <!-- Cards grid -->
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            <WrapperCard v-for="wrapper in props.wrappers" :key="wrapper.id" :wrapper="wrapper" />
-        </div>
+                <Link :href="route('FE.shop')"
+                    class="inline-flex w-fit items-center gap-2 border-b border-corange/50 pb-1 text-xs font-semibold text-cOrangeDark transition-colors hover:text-brown">
+                {{ $t("bestsellers.view_all") }}
+                <i class="ri-arrow-right-line rtl:rotate-180" aria-hidden="true"></i>
+                </Link>
+            </div>
 
-        <!-- "See more" CTA -->
-        <div class="mt-14 flex justify-center">
-            <Link :href="route('FE.shop')"
-                class="inline-flex items-center gap-2 rounded-xl border-2 border-primary bg-white px-8 py-3.5 text-sm font-bold text-primary shadow-sm transition-all duration-200 hover:bg-primary hover:text-white hover:shadow-md">
-            {{ $t("See More") }}
-            <i class="ri-arrow-right-line text-base"></i>
-            </Link>
+            <div
+                class="grid min-[600px]:grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4 lg:gap-x-5 xl:gap-x-6">
+                <WrapperCard v-for="wrapper in props.wrappers" :key="wrapper.id" :wrapper="wrapper" />
+            </div>
+
+            <div class="mt-10 flex justify-center sm:mt-12">
+                <Link :href="route('FE.shop')"
+                    class="inline-flex min-h-11 items-center gap-4 rounded-sm bg-corange px-5 py-3 text-xs font-semibold text-white transition hover:bg-cOrangeDark focus:outline-none focus-visible:ring-2 focus-visible:ring-cOrangeDark focus-visible:ring-offset-2">
+                {{ $t("bestsellers.explore_all") }}
+                <i class="ri-arrow-right-line rtl:rotate-180" aria-hidden="true"></i>
+                </Link>
+            </div>
         </div>
     </section>
 
