@@ -780,5 +780,12 @@
     "home_benefits.support_title": "Here to help",
     "home_benefits.support_description": "Questions about an order? Reach our team by phone or send us a message.",
     "home_benefits.payment_title": "Pay on delivery",
-    "home_benefits.payment_description": "Place your order with confidence and pay when it arrives."
+    "home_benefits.payment_description": "Place your order with confidence and pay when it arrives.",
+    "shop.eyebrow": "The Sweetia collection",
+    "shop.title": "Find your new favorite",
+    "shop.description": "Explore our selection of Tunisian pastries, lovingly prepared for every occasion.",
+    "shop.search_label": "Search the collection",
+    "shop.sort_label": "Sort by price",
+    "shop.empty_title": "No pastries found",
+    "shop.empty_description": "Try another search or clear your filters to explore the collection."
 }

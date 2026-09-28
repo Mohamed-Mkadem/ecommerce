@@ -71,13 +71,7 @@ class FrontEndController extends Controller
             $search = '%' . $request->search . '%';
             $locale = app()->getLocale();
 
-            $query->where(function (Builder $q) use ($search, $locale) {
-                $q->where('title', 'like', $search)
-                    ->orWhereHas('products', function (Builder $pq) use ($search, $locale) {
-                        $pq->where('status', 'published')
-                            ->whereTranslationLike('name', $search, $locale);
-                    });
-            });
+            $query->whereTranslationLike('title', $search, $locale);
         }
 
         $sort = $request->input('sort', 'lowest_price');

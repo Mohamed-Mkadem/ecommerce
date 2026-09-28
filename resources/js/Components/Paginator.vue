@@ -1,5 +1,10 @@
 <script setup>
-defineProps(["links", "previous", "next"]);
+defineProps({
+    links: Array,
+    previous: String,
+    next: String,
+    variant: { type: String, default: "default" },
+});
 </script>
 
 <template>
@@ -9,9 +14,12 @@ defineProps(["links", "previous", "next"]);
             :href="previous"
             :preserve-scroll="true"
             v-html="$t('pagination.previous')"
-            class="text-white bg-primary px-3 py-2 rounded-md min-w-[35px] text-center"
+            class="px-3 py-2 rounded-md min-w-[35px] text-center transition-colors"
             :class="{
-                'bg-opacity-25': previous == null,
+                'text-white bg-primary': variant !== 'sweetia' && previous != null,
+                'text-white bg-primary bg-opacity-25': variant !== 'sweetia' && previous == null,
+                'text-white bg-brown hover:bg-cOrangeDark': variant === 'sweetia' && previous != null,
+                'text-brown/40 bg-white border border-line cursor-not-allowed': variant === 'sweetia' && previous == null,
             }"
         />
         <Link
@@ -19,10 +27,12 @@ defineProps(["links", "previous", "next"]);
             v-for="(link, index) in links"
             v-show="!isNaN(link.label)"
             :href="link.url"
-            class="text-white px-3 py-2 rounded-md min-w-[35px] text-center"
+            class="px-3 py-2 rounded-md min-w-[35px] text-center transition-colors"
             :class="{
-                'bg-meta-5': link.active,
-                'bg-slate-800': !link.active,
+                'text-white bg-meta-5': variant !== 'sweetia' && link.active,
+                'text-white bg-slate-800': variant !== 'sweetia' && !link.active,
+                'text-white bg-corange': variant === 'sweetia' && link.active,
+                'text-brown bg-white border border-line hover:bg-[#f3e8da]': variant === 'sweetia' && !link.active,
             }"
             >{{ link.label }}</Link
         >
@@ -32,9 +42,12 @@ defineProps(["links", "previous", "next"]);
             :href="next"
             :preserve-scroll="true"
             v-html="$t('pagination.next')"
-            class="text-white bg-primary px-3 py-2 rounded-md min-w-[35px] text-center"
+            class="px-3 py-2 rounded-md min-w-[35px] text-center transition-colors"
             :class="{
-                'bg-opacity-25': next == null,
+                'text-white bg-primary': variant !== 'sweetia' && next != null,
+                'text-white bg-primary bg-opacity-25': variant !== 'sweetia' && next == null,
+                'text-white bg-brown hover:bg-cOrangeDark': variant === 'sweetia' && next != null,
+                'text-brown/40 bg-white border border-line cursor-not-allowed': variant === 'sweetia' && next == null,
             }"
         />
     </div>

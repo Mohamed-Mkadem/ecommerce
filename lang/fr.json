@@ -839,5 +839,12 @@
     "home_benefits.support_title": "À votre écoute",
     "home_benefits.support_description": "Une question sur votre commande ? Appelez-nous ou envoyez-nous un message.",
     "home_benefits.payment_title": "Paiement à la livraison",
-    "home_benefits.payment_description": "Commandez en toute confiance et payez à la réception."
+    "home_benefits.payment_description": "Commandez en toute confiance et payez à la réception.",
+    "shop.eyebrow": "La collection Sweetia",
+    "shop.title": "Trouvez votre nouvelle douceur préférée",
+    "shop.description": "Découvrez notre sélection de pâtisseries tunisiennes, préparées avec soin pour chaque occasion.",
+    "shop.search_label": "Rechercher dans la collection",
+    "shop.sort_label": "Trier par prix",
+    "shop.empty_title": "Aucune pâtisserie trouvée",
+    "shop.empty_description": "Essayez une autre recherche ou effacez vos filtres pour découvrir la collection."
 }

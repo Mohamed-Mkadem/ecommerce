@@ -843,5 +843,12 @@
     "home_benefits.support_title": "نحن هنا لمساعدتكم",
     "home_benefits.support_description": "عندكم سؤال على طلبكم؟ كلمونا أو ابعثولنا رسالة.",
     "home_benefits.payment_title": "الدفع عند الاستلام",
-    "home_benefits.payment_description": "اطلبوا بكل ثقة وادفعوا كي توصلكم طلبيتكم."
+    "home_benefits.payment_description": "اطلبوا بكل ثقة وادفعوا كي توصلكم طلبيتكم.",
+    "shop.eyebrow": "تشكيلة سويتيا",
+    "shop.title": "اكتشفوا حلواكم المفضّلة",
+    "shop.description": "تصفّحوا تشكيلتنا من الحلويات التونسية المحضّرة بكل حب لتناسب كل مناسباتكم.",
+    "shop.search_label": "ابحثوا في التشكيلة",
+    "shop.sort_label": "ترتيب حسب السعر",
+    "shop.empty_title": "لم نعثر على حلويات",
+    "shop.empty_description": "جرّبوا البحث بكلمات أخرى أو امسحوا عوامل التصفية لاستكشاف التشكيلة."
 }
