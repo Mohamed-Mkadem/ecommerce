@@ -37,6 +37,7 @@ export default {
                 corange: "#c5653d",
                 cOrangeDark: "#a84f30",
                 line: "#eadfd3",
+                lightCream: "#fffdf9",
                 gold: "#eab308",
                 editor: "#6b7280",
                 "black-2": "#010101",

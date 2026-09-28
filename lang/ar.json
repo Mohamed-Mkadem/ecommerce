@@ -820,5 +820,20 @@
     "bestsellers.description": "حلويات تونسية أصيلة نحضّرها بكل حب لتجعل لحظاتكم القادمة أحلى.",
     "bestsellers.view_all": "اكتشفوا كل الحلويات",
     "bestsellers.explore": "اكتشفوا هذه الحلوى",
-    "bestsellers.explore_all": "اكتشفوا المجموعة كاملة"
+    "bestsellers.explore_all": "اكتشفوا المجموعة كاملة",
+    "home_heritage.eyebrow": "تراثنا في كل لقمة",
+    "home_heritage.title_first": "نُحضّرها بعناية،",
+    "home_heritage.title_second": "ونستلهمها من تراثنا.",
+    "home_heritage.description": "في سويتيا، نحتفي بالنكهات التي تجمعنا. حلوياتنا مستوحاة من الوصفات التونسية ودفء مشاركة شيء مميّز مع من تحبّون.",
+    "home_heritage.point_one": "مستوحاة من وصفات تونسية عريقة",
+    "home_heritage.point_two": "محضّرة بعناية لتتقاسموها مع أحبّائكم",
+    "home_heritage.point_three": "طعم من الدار أينما كنتم",
+    "home_heritage.cta": "تعرّفوا على سويتيا",
+    "home_heritage.image_alt": "تشكيلة وفيرة من الحلويات التونسية التقليدية",
+    "home_gathering.eyebrow": "للحظات التي تبقى في الذاكرة",
+    "home_gathering.title_first": "أضيفوا لمائدتكم",
+    "home_gathering.title_second": "لمسة من الحلاوة.",
+    "home_gathering.description": "من الزيارات العائلية إلى الاحتفالات السعيدة، اختاروا تشكيلة حلويات تجمعكم وتصنع معكم ذكريات جميلة.",
+    "home_gathering.cta": "اكتشفوا حلوياتكم المفضّلة",
+    "home_gathering.image_alt": "تشكيلة حلويات جاهزة للمشاركة في احتفال جميل"
 }

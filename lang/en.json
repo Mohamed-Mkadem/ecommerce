@@ -757,5 +757,20 @@
     "bestsellers.description": "Traditional favorites, lovingly prepared and ready to make your next gathering a little sweeter.",
     "bestsellers.view_all": "View all pastries",
     "bestsellers.explore": "Explore this favorite",
-    "bestsellers.explore_all": "Explore the full collection"
+    "bestsellers.explore_all": "Explore the full collection",
+    "home_heritage.eyebrow": "Our heritage, in every bite",
+    "home_heritage.title_first": "Made with care.",
+    "home_heritage.title_second": "Rooted in tradition.",
+    "home_heritage.description": "At Sweetia, we celebrate the flavors that bring us together. Our pastries are inspired by Tunisian recipes and the warmth of sharing something special with the people you love.",
+    "home_heritage.point_one": "Inspired by timeless Tunisian recipes",
+    "home_heritage.point_two": "Carefully prepared for sharing",
+    "home_heritage.point_three": "A little taste of home, wherever you are",
+    "home_heritage.cta": "Get to know Sweetia",
+    "home_heritage.image_alt": "A generous selection of traditional Tunisian pastries",
+    "home_gathering.eyebrow": "For the moments that matter",
+    "home_gathering.title_first": "Bring something",
+    "home_gathering.title_second": "sweet to the table.",
+    "home_gathering.description": "From family visits to joyful celebrations, find a pastry assortment made for passing around and making memories.",
+    "home_gathering.cta": "Find your favorites",
+    "home_gathering.image_alt": "A pastry assortment ready to share at a celebration"
 }
