@@ -309,7 +309,7 @@
     "Information": "Informations",
     "Nav.privacy": "Politique de confidentialité",
     "Nav.terms": "Conditions d'utilisation",
-    "Footer.description": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nunc nisl eget nunc.",
+    "Footer.description": "Sweetia fait vivre la tradition tunisienne avec des pâtisseries artisanales, préparées pour être partagées et célébrées.",
     "Facebook": "Facebook",
     "Instagram": "Instagram",
     "Shopping cart": "Panier",
@@ -831,5 +831,13 @@
     "home_gathering.title_second": "sucrée à la table.",
     "home_gathering.description": "Des visites en famille aux fêtes joyeuses, trouvez un assortiment de pâtisseries à partager et à savourer ensemble.",
     "home_gathering.cta": "Trouvez vos préférées",
-    "home_gathering.image_alt": "Un assortiment de pâtisseries à partager lors d’une fête"
+    "home_gathering.image_alt": "Un assortiment de pâtisseries à partager lors d’une fête",
+    "home_benefits.delivery_title": "La livraison en toute simplicité",
+    "home_benefits.delivery_description": "Choisissez vos douceurs préférées et faites-les livrer chez vous.",
+    "home_benefits.care_title": "Préparées avec soin",
+    "home_benefits.care_description": "Des pâtisseries préparées avec attention et inspirées des saveurs tunisiennes.",
+    "home_benefits.support_title": "À votre écoute",
+    "home_benefits.support_description": "Une question sur votre commande ? Appelez-nous ou envoyez-nous un message.",
+    "home_benefits.payment_title": "Paiement à la livraison",
+    "home_benefits.payment_description": "Commandez en toute confiance et payez à la réception."
 }

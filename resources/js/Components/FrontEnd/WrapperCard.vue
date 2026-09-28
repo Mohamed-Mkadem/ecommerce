@@ -1,10 +1,31 @@
 <script setup>
-defineProps({
+import { ref } from "vue";
+import { useCartStore } from "@/js/stores/Cart";
+import { useToast } from "vue-toastification";
+import { getToastOptions } from "@/js/Utils/toast";
+import { trans } from "laravel-vue-i18n";
+
+const cartStore = useCartStore();
+const toast = useToast();
+const loading = ref(false);
+
+const props = defineProps({
     wrapper: {
         type: Object,
         required: true,
     },
 });
+
+function handleAddToCart() {
+    if (!props.wrapper.default_product) {
+        return;
+    }
+
+    loading.value = true;
+    cartStore.addToCart(props.wrapper.default_product);
+    toast.success(trans("Cart.added"), { ...getToastOptions(), timeout: 1000 });
+    loading.value = false;
+}
 </script>
 
 <template>
@@ -37,13 +58,19 @@ defineProps({
                 </span>
             </div>
 
-            <Link
-                :href="route('FE.wrapper', wrapper.slug)"
-                class="mt-2 inline-flex items-center gap-2 text-xs font-semibold text-cOrangeDark transition-colors hover:text-brown"
+            <button
+                type="button"
+                @click="handleAddToCart"
+                :class="[
+                    'mt-3 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-sm bg-corange px-4 py-2.5 text-xs font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-cOrangeDark focus:outline-none focus-visible:ring-2 focus-visible:ring-cOrangeDark focus-visible:ring-offset-2',
+                    {
+                        'cursor-not-allowed opacity-50 hover:translate-y-0': loading,
+                    },
+                ]"
+                :disabled="loading || !wrapper.default_product"
             >
-                {{ $t("bestsellers.explore") }}
-                <i class="ri-arrow-right-line rtl:rotate-180" aria-hidden="true"></i>
-            </Link>
+                {{ loading ? $t("Cart.loading") : $t("Cart.add") }}
+            </button>
         </div>
     </article>
 </template>

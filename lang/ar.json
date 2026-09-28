@@ -308,7 +308,7 @@
     "Information": "للمعلومات",
     "Nav.privacy": "سياسة الخصوصية",
     "Nav.terms": "شروط الاستخدام",
-    "Footer.description": "لوريم إيبسوم هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر. .",
+    "Footer.description": "تجمع سويتيا دفء التقاليد التونسية مع حلويات محضّرة يدويًا لتشاركوها في أجمل لحظاتكم.",
     "Facebook": "فايسبوك",
     "Instagram": "انستغرام",
     "Shopping cart": "عربة التسوق",
@@ -835,5 +835,13 @@
     "home_gathering.title_second": "لمسة من الحلاوة.",
     "home_gathering.description": "من الزيارات العائلية إلى الاحتفالات السعيدة، اختاروا تشكيلة حلويات تجمعكم وتصنع معكم ذكريات جميلة.",
     "home_gathering.cta": "اكتشفوا حلوياتكم المفضّلة",
-    "home_gathering.image_alt": "تشكيلة حلويات جاهزة للمشاركة في احتفال جميل"
+    "home_gathering.image_alt": "تشكيلة حلويات جاهزة للمشاركة في احتفال جميل",
+    "home_benefits.delivery_title": "توصيل بكل سهولة",
+    "home_benefits.delivery_description": "اختاروا حلوياتكم المفضّلة ونوصلها حتى باب داركم.",
+    "home_benefits.care_title": "محضّرة بعناية",
+    "home_benefits.care_description": "حلويات تونسية نُحضّرها باهتمام ونكهة أصيلة.",
+    "home_benefits.support_title": "نحن هنا لمساعدتكم",
+    "home_benefits.support_description": "عندكم سؤال على طلبكم؟ كلمونا أو ابعثولنا رسالة.",
+    "home_benefits.payment_title": "الدفع عند الاستلام",
+    "home_benefits.payment_description": "اطلبوا بكل ثقة وادفعوا كي توصلكم طلبيتكم."
 }

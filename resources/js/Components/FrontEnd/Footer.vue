@@ -33,7 +33,7 @@ const infoLinks = [
 </script>
 
 <template>
-    <footer class="bg-primary text-zinc-300">
+    <footer class="bg-brown text-[#fffaf4]">
         <!-- Gold accent top line -->
         <div
             class="h-px bg-gradient-to-r from-transparent via-gold to-transparent"
@@ -46,7 +46,7 @@ const infoLinks = [
             <div class="flex flex-col items-center lg:items-start gap-4">
                 <AppLogo class="w-[160px]" color="white" />
                 <p
-                    class="text-sm text-zinc-400 leading-relaxed text-center lg:text-start max-w-xs"
+                    class="text-sm text-white/70 leading-relaxed text-center lg:text-start max-w-xs"
                 >
                     {{ $t("Footer.description") }}
                 </p>
@@ -59,7 +59,7 @@ const infoLinks = [
                         target="_blank"
                         rel="noopener noreferrer"
                         :aria-label="s.label"
-                        class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-gold hover:border-gold/40 hover:bg-gold/10 transition-all duration-200"
+                        class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-gold hover:border-gold/40 hover:bg-gold/10 transition-all duration-200"
                     >
                         <i :class="s.icon + ' text-lg'"></i>
                     </a>
@@ -82,7 +82,7 @@ const infoLinks = [
                         ></i>
                         <a
                             href="mailto:contact@mohamad.tn"
-                            class="text-sm text-zinc-400 hover:text-gold transition-colors break-all"
+                            class="text-sm text-white/70 hover:text-gold transition-colors break-all"
                         >
                             contact@mohamad.tn
                         </a>
@@ -98,7 +98,7 @@ const infoLinks = [
                         <a
                             :href="p.link"
                             dir="ltr"
-                            class="text-sm text-zinc-400 hover:text-gold transition-colors"
+                            class="text-sm text-white/70 hover:text-gold transition-colors"
                         >
                             {{ p.text }}
                         </a>
@@ -109,7 +109,7 @@ const infoLinks = [
                         <i
                             class="ri-map-pin-line text-gold text-base flex-shrink-0 mt-0.5"
                         ></i>
-                        <span class="text-sm text-zinc-400"
+                        <span class="text-sm text-white/70"
                             >Awesome Street, Tunis – Tunisia</span
                         >
                     </li>
@@ -127,7 +127,7 @@ const infoLinks = [
                     <li v-for="(link, index) in infoLinks" :key="index">
                         <Link
                             :href="route(link.link)"
-                            class="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-gold transition-colors group"
+                            class="inline-flex items-center gap-2 text-sm text-white/70 hover:text-gold transition-colors group"
                         >
                             <i
                                 class="ri-arrow-right-s-line text-gold/30 group-hover:text-gold transition-colors flex-shrink-0"
@@ -141,7 +141,7 @@ const infoLinks = [
 
         <!-- Bottom bar -->
         <div
-            class="border-t border-white/10 py-5 text-center text-xs text-zinc-400"
+            class="border-t border-white/10 py-5 text-center text-xs text-white/65"
         >
             <p v-html="$t('Copyrights')"></p>
         </div>

@@ -126,4 +126,48 @@ const props = defineProps({
             </div>
         </div>
     </section>
+
+    <section class="mx-auto max-w-screen-3xl border-y border-line bg-lightCream px-5 py-8 sm:px-8 md:px-12 md:py-10">
+        <div class="mx-auto grid max-w-screen-xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+            <div class="flex items-start gap-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                    <i class="ri-truck-line text-base" aria-hidden="true"></i>
+                </span>
+                <div>
+                    <h3 class="font-serif text-base leading-tight text-brown">{{ $t("home_benefits.delivery_title") }}</h3>
+                    <p class="mt-1 text-[11px] leading-4 text-brown/70">{{ $t("home_benefits.delivery_description") }}</p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                    <i class="ri-shield-check-line text-base" aria-hidden="true"></i>
+                </span>
+                <div>
+                    <h3 class="font-serif text-base leading-tight text-brown">{{ $t("home_benefits.care_title") }}</h3>
+                    <p class="mt-1 text-[11px] leading-4 text-brown/70">{{ $t("home_benefits.care_description") }}</p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                    <i class="ri-message-3-line text-base" aria-hidden="true"></i>
+                </span>
+                <div>
+                    <h3 class="font-serif text-base leading-tight text-brown">{{ $t("home_benefits.support_title") }}</h3>
+                    <p class="mt-1 text-[11px] leading-4 text-brown/70">{{ $t("home_benefits.support_description") }}</p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                    <i class="ri-secure-payment-line text-base" aria-hidden="true"></i>
+                </span>
+                <div>
+                    <h3 class="font-serif text-base leading-tight text-brown">{{ $t("home_benefits.payment_title") }}</h3>
+                    <p class="mt-1 text-[11px] leading-4 text-brown/70">{{ $t("home_benefits.payment_description") }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
 </template>

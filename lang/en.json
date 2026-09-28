@@ -309,7 +309,7 @@
     "Information": "Information",
     "Nav.privacy": "Privacy Policy",
     "Nav.terms": "Terms & conditions",
-    "Footer.description": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nunc nisl eget nunc.",
+    "Footer.description": "Sweetia brings the warmth of Tunisian tradition to your table with handcrafted pastries made for sharing and celebrating.",
     "Facebook": "Facebook",
     "Instagram": "Instagram",
     "Shopping cart": "Shopping cart",
@@ -772,5 +772,13 @@
     "home_gathering.title_second": "sweet to the table.",
     "home_gathering.description": "From family visits to joyful celebrations, find a pastry assortment made for passing around and making memories.",
     "home_gathering.cta": "Find your favorites",
-    "home_gathering.image_alt": "A pastry assortment ready to share at a celebration"
+    "home_gathering.image_alt": "A pastry assortment ready to share at a celebration",
+    "home_benefits.delivery_title": "Delivery made easy",
+    "home_benefits.delivery_description": "Choose your favorites and have a little sweetness brought to your door.",
+    "home_benefits.care_title": "Made with care",
+    "home_benefits.care_description": "Thoughtfully prepared pastries inspired by the flavors of Tunisia.",
+    "home_benefits.support_title": "Here to help",
+    "home_benefits.support_description": "Questions about an order? Reach our team by phone or send us a message.",
+    "home_benefits.payment_title": "Pay on delivery",
+    "home_benefits.payment_description": "Place your order with confidence and pay when it arrives."
 }
