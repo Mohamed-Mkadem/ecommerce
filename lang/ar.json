@@ -800,5 +800,18 @@
     "Min Client Delivery Rate": "الحد الأدنى لمعدل توصيل العميل",
     "Max Client Delivery Rate": "الحد الأقصى لمعدل توصيل العميل",
     "Sort.highest_delivery_rate": "أعلى معدل توصيل للعميل",
-    "Sort.lowest_delivery_rate": "أقل معدل توصيل للعميل"
+    "Sort.lowest_delivery_rate": "أقل معدل توصيل للعميل",
+    "showcase.pretext": "فنّ الحلويات التونسية",
+    "showcase.title_start": "قليلٌ من طعم",
+    "showcase.title_highlight": "الوطن.",
+    "showcase.description": "اكتشفوا نكهات تونس الرقيقة. حلويات محضّرة يدويًا لتُشارك في أفراحكم وتُضفي لمسة من الفخامة على كل مائدة.",
+    "showcase.cta": "اكتشفوا حلوياتنا",
+    "showcase.note": "محضّرة بعناية ومستوحاة من تراثنا",
+    "showcase.image_alt": "تشكيلة من الحلويات التونسية المزيّنة بالفستق",
+    "showcase.card_eyebrow": "من أفخم الحلويات التونسية",
+    "showcase.card_title": "فخامة تجمعنا",
+    "showcase.card_description": "حلويات تُحضّر يدويّا وتحمل عبق التراث.",
+    "showcase.feature_delivery": "توصيل بعناية",
+    "showcase.feature_care": "صُنع بكل عناية",
+    "showcase.feature_tradition": "من وحي التقاليد التونسية"
 }

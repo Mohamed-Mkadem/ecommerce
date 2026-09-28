@@ -35,7 +35,7 @@ function handleLink(href) {
             'max-h-0 opacity-0': !isNavOpen,
             'max-h-[500px] opacity-100 z-999': isNavOpen,
         }"
-            class="bg-corange border-t border-slate-50s  absolute start-0 top-[60px] w-full overflow-hidden transition-all duration-300">
+            class="bg-corange border-t border-line  absolute start-0 top-[60px] w-full overflow-hidden transition-all duration-300">
             <li>
                 <button @click="handleLink('home')" class="text-white tracking-wide px-4 py-3 block w-full text-start">
                     {{ $t("Nav.home") }}

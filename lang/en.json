@@ -737,5 +737,18 @@
     "Min Client Delivery Rate": "Min Client Delivery Rate",
     "Max Client Delivery Rate": "Max Client Delivery Rate",
     "Sort.highest_delivery_rate": "Highest Client Delivery Rate",
-    "Sort.lowest_delivery_rate": "Lowest Client Delivery Rate"
+    "Sort.lowest_delivery_rate": "Lowest Client Delivery Rate",
+    "showcase.pretext": "The art of Tunisian sweetness",
+    "showcase.title_start": "A little taste of",
+    "showcase.title_highlight": "home.",
+    "showcase.description": "Discover the delicate flavors of Tunisia. Handcrafted pastries, made for sharing, celebrating, and bringing a little sweetness to every table.",
+    "showcase.cta": "Discover our pastries",
+    "showcase.note": "Prepared with care, inspired by tradition",
+    "showcase.image_alt": "A selection of Tunisian pastries topped with pistachios",
+    "showcase.card_eyebrow": "A Tunisian favorite",
+    "showcase.card_title": "Made to be shared",
+    "showcase.card_description": "An artisanal treat, rich in tradition.",
+    "showcase.feature_delivery": "Careful delivery",
+    "showcase.feature_care": "Made with care",
+    "showcase.feature_tradition": "Rooted in Tunisian tradition"
 }

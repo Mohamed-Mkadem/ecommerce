@@ -796,5 +796,18 @@
     "Min Client Delivery Rate": "Taux de livraison min. du client",
     "Max Client Delivery Rate": "Taux de livraison max. du client",
     "Sort.highest_delivery_rate": "Taux de livraison client le plus élevé",
-    "Sort.lowest_delivery_rate": "Taux de livraison client le plus bas"
+    "Sort.lowest_delivery_rate": "Taux de livraison client le plus bas",
+    "showcase.pretext": "L’art de la douceur tunisienne",
+    "showcase.title_start": "Un petit goût de",
+    "showcase.title_highlight": "chez soi.",
+    "showcase.description": "Découvrez les saveurs délicates de la Tunisie. Des pâtisseries façonnées à la main, pensées pour être partagées, célébrées et apporter un peu de douceur à chaque table.",
+    "showcase.cta": "Découvrir nos pâtisseries",
+    "showcase.note": "Préparées avec soin, inspirées par la tradition",
+    "showcase.image_alt": "Une sélection de pâtisseries tunisiennes garnies de pistaches",
+    "showcase.card_eyebrow": "Un favori tunisien",
+    "showcase.card_title": "À partager",
+    "showcase.card_description": "Une douceur artisanale, riche en traditions.",
+    "showcase.feature_delivery": "Livraison soignée",
+    "showcase.feature_care": "Fait avec soin",
+    "showcase.feature_tradition": "Ancré dans la tradition tunisienne"
 }

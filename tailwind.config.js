@@ -35,6 +35,8 @@ export default {
                 brown: '#543a2f',
                 offwhite: "#fffaf4",
                 corange: "#c5653d",
+                cOrangeDark: "#a84f30",
+                line: "#eadfd3",
                 gold: "#eab308",
                 editor: "#6b7280",
                 "black-2": "#010101",

@@ -9,7 +9,7 @@ import LanguageSwitcher from "../Admin/Header/LanguageSwitcher.vue";
 </script>
 
 <template>
-    <header class=" z-[999] shadow-lg bg-offwhite  border-b border-graydark">
+    <header class=" z-[999] shadow-lg bg-offwhite  border-b border-line">
         <TopBar></TopBar>
 
         <div class="p-4 lg:p-8">
