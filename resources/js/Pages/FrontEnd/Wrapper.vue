@@ -364,7 +364,9 @@ const displayDescription = computed(
                                             <i class="ri-check-line text-xs" aria-hidden="true"></i>
                                         </span>
                                         <span class="min-w-0 flex-1">
-                                            <span class="block whitespace-normal text-sm font-medium leading-snug text-brown [overflow-wrap:anywhere]">{{ variant.name }}</span>
+                                            <span
+                                                class="block whitespace-normal text-sm font-medium leading-snug text-brown [overflow-wrap:anywhere]">{{
+                                                variant.name }}</span>
                                             <span v-if="variant.free_shipping"
                                                 class="mt-0.5 block text-[10px] font-medium text-cOrangeDark">
                                                 {{ $t("Free Shipping") }}
@@ -410,7 +412,7 @@ const displayDescription = computed(
                             <div class="mt-3 flex items-center justify-between gap-3 border-t border-line pt-3">
                                 <span class="text-sm font-semibold text-brown">{{ $t("Total") }}</span>
                                 <span class="text-lg font-semibold text-cOrangeDark">{{ total }} {{ $t("currency")
-                                }}</span>
+                                    }}</span>
                             </div>
                             <InputError class="mt-2" :message="form.errors['total']" />
                         </div>
@@ -443,7 +445,7 @@ const displayDescription = computed(
 
         <div v-else class="mx-auto flex min-h-[60vh] max-w-screen-xl items-center justify-center py-12">
             <div
-                class="flex w-full max-w-md flex-col items-center gap-5 rounded-md border border-line bg-white px-7 py-12 text-center">
+                class="flex w-full max-w-xl flex-col items-center gap-5 rounded-md border border-line bg-white px-7 py-12 text-center">
                 <img :src="OrderPlacedImage" class="w-32" alt="Order placed image" />
                 <p class="font-serif text-2xl text-brown">{{ $t("Thank You!") }}</p>
                 <p class="text-sm leading-6 text-brown/70">{{ $t("Order.placedMessage") }}</p>
