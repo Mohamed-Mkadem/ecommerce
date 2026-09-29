@@ -713,7 +713,7 @@
     "Wrapper.deleted_successfully": "Wrapper deleted successfully",
     "Wrapper.back_to_details": "Back to details",
     "QuickOrder.title": "Order now",
-    "QuickOrder.subtitle": "Choose your option above, then fill in your details to place your order without using the cart.",
+    "QuickOrder.subtitle": "Enter your delivery details, choose an option below, then place your order or add it to your cart.",
     "QuickOrder.quantity": "Quantity",
     "QuickOrder.place": "Place order",
     "order.abandoned": "Abandoned",

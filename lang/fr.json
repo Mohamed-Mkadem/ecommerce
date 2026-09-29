@@ -746,7 +746,7 @@
     "Wrapper.deleted_successfully": "Contenaire supprimé avec succès",
     "Wrapper.back_to_details": "Retour aux détails",
     "QuickOrder.title": "Commander maintenant",
-    "QuickOrder.subtitle": "Choisissez votre option ci-dessus, puis remplissez vos coordonnées pour passer commande sans utiliser le panier.",
+    "QuickOrder.subtitle": "Renseignez vos coordonnées, choisissez une option ci-dessous, puis passez commande ou ajoutez-la à votre panier.",
     "QuickOrder.quantity": "Quantité",
     "QuickOrder.place": "Passer la commande",
     "Featured Products": "Produits en vedette",

@@ -747,7 +747,7 @@
     "Wrapper.deleted_successfully": "تم حذف المجموعة بنجاح",
     "Wrapper.back_to_details": "العودة إلى التفاصيل",
     "QuickOrder.title": "اطلب الآن",
-    "QuickOrder.subtitle": "اختر الخيار أعلاه، ثم أدخل بياناتك لتقديم الطلب دون استخدام السلة.",
+    "QuickOrder.subtitle": "أدخلوا بيانات التوصيل، واختاروا أحد الخيارات أدناه، ثم أكّدوا الطلب أو أضيفوه إلى السلّة.",
     "QuickOrder.quantity": "الكمية",
     "QuickOrder.place": "تأكيد الطلب",
     "abandoned": "مُهجورة",
