@@ -37,21 +37,32 @@ export const useCartStore = defineStore("cart", () => {
         trackAddToCartEvent(product, quantityToAdd);
     };
 
+    const getQuantityStep = (product) => {
+        const step = Number(
+            product?.update_quantity_by ?? product?.update_quantity ?? 1,
+        );
+
+        return Number.isFinite(step) && step > 0 ? step : 1;
+    };
+
     const increaseQuantity = (product_id) => {
         const product = cart.value.find((item) => item.id == product_id);
+        if (!product) return;
 
-        const updateQuantityBy = product.update_quantity_by;
-
-        product.quantity = product.quantity + updateQuantityBy;
-
+        const step = getQuantityStep(product);
+        const quantity = Number(product.quantity) || step;
+        product.quantity = Number((quantity + step).toFixed(3));
     };
+
     const decreaseQuantity = (product_id) => {
         const product = cart.value.find((item) => item.id == product_id);
-        const updateQuantityBy = product.update_quantity_by;
-        if (product.quantity > updateQuantityBy) {
-            product.quantity = product.quantity - updateQuantityBy;
-        }
+        if (!product) return;
 
+        const step = getQuantityStep(product);
+        const quantity = Number(product.quantity) || step;
+        if (quantity > step) {
+            product.quantity = Number((quantity - step).toFixed(3));
+        }
     };
 
     const removeFromCart = (product_id) => {

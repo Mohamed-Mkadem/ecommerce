@@ -20,6 +20,7 @@ class FrontEndProductResource extends JsonResource
             'discount_type' => $this->discount_type,
             'rate' => $this->rate && $this->rate != 0 ? $this->rate : null,
             'free_shipping' => (bool) ($this->pivot?->free_shipping ?? false),
+            'update_quantity_by' => $this->pivot?->update_quantity ?? 1,
         ];
     }
 }
