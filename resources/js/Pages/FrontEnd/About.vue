@@ -1,90 +1,145 @@
 <script setup>
-import AboutSection from "@/js/Components/FrontEnd/AboutSection.vue";
-
-import section1Image from "@/assets/images/baklawa_fekia.webp";
-import section2Image from "@/assets/images/varié_spécial.webp";
-
-const section1Content = {
-    img: section1Image,
-    en: {
-        title: "Authentic Tunisian Heritage",
-        description:
-            "<p>Welcome to <b>'Boughanmi Pâtisserie'</b>, the place where the essence of Tunisian tradition meets the elegance of unique flavors. Founded out of love and passion for preserving Tunisian sweets, our store offers a one-of-a-kind experience that blends cultural heritage with top-notch quality.</p><p>We specialize in crafting the finest baklawa and other traditional Tunisian pastries, using carefully selected natural ingredients to ensure an unforgettable taste experience. At <b>'Boughanmi Pâtisserie'</b>, we offer more than just a product, we invite you on a journey through timeless flavors, where craftsmanship and authenticity come together to delight your refined palate.</p>",
-    },
-    ar: {
-        title: "تراث تونسي أصيل",
-        description:
-            "<p>مرحبًا بكم في <b>حلويات البوغانمي</b>، المكان الذي يجمع بين عبق التراث التونسي وأصالة النكهات التقليدية. تأسس متجرنا على حبنا وشغفنا بتقديم الحلويات التونسية التي تحمل في طياتها ذكريات الأجيال ونكهة الوطن. نحن متخصصون في تحضير أرقى أنواع البقلاوة والعديد من الحلويات التونسية التقليدية الأخرى، باستخدام مكونات طبيعية عالية الجودة، لضمان تجربة لا تُنسى لكل قطعة.</p><p>في <b> حلويات البوغانمي</b>، نقدم لعملائنا أكثر من مجرد منتج؛ نحن نقدم رحلة عبر الزمن والنكهات، حيث تمتزج الحرفية مع الأصالة لإرضاء ذوقكم الراقي. هدفنا هو نشر تراثنا الغني وتقديمه بأبهى صورة في كل مناسبة وجعل كل لحظة مع حلويات البوغانمي ذكرى سعيدة.</p>",
-    },
-    fr: {
-        title: "Une Tradition Tunisienne Authentique",
-        description:
-            "<p>Bienvenue chez <b>'Boughanmi Pâtisserie'</b>, l'endroit où se rencontrent les parfums authentiques de la tradition Tunisienne et le raffinement des saveurs uniques. Fondée par une passion pour la préservation des douceurs Tunisiennes, notre boutique propose une expérience inédite qui allie héritage culturel et qualité supérieure.</p> <p>Nous sommes spécialisés dans la confection de la baklawa et d'autres pâtisseries Tunisiennes traditionnelles, réalisées à partir d'ingrédients naturels soigneusement sélectionnés pour garantir une dégustation inoubliable. Chez <b>'Boughanmi Pâtisserie'</b>, nous ne vous proposons pas qu'un produit, mais une invitation à découvrir des saveurs intemporelles, mêlant artisanat et authenticité pour satisfaire vos goûts les plus raffinés.</p>",
-    },
-};
-
-const section2Content = {
-    img: section2Image,
-    en: {
-        title: "Our Values",
-        description:
-            "<p>At <b>'Boughanmi Pâtisserie'</b>, our values and principles are the cornerstone of everything we do. We believe that quality starts with passion, which is why we focus on selecting the finest ingredients and putting our hearts into every creation.</p><p>Our goal is to be a trusted partner for our clients by providing a unique experience that combines authentic flavors with outstanding service. We are committed to preserving Tunisian heritage and passing it on to future generations, while building strong and lasting relationships with our customers through transparency and trust. Your satisfaction is our priority, and every bite of our creations is a celebration of joy and happiness.</p>",
-    },
-    ar: {
-        title: "قيمنا",
-        description:
-            "<p>في <b>حلويات البوغانمي</b>، قيمنا ومبادؤنا هي حجر الأساس الذي نبني عليه كل خطوة في عملنا. نحن نؤمن أن الجودة تبدأ من الشغف، ولهذا نحرص على اختيار أفضل المكونات وتحضير منتجاتنا بكل حب واهتمام بالتفاصيل. نهدف إلى أن نكون شريكًا موثوقًا لعملائنا، حيث نقدم لهم تجربة فريدة تجمع بين النكهات الأصيلة والخدمة الممتازة.</p><p>نلتزم في <b>حلويات البوغانمي</b> بالحفاظ على التراث التونسي ونقله للأجيال القادمة، ونسعى لبناء علاقات قوية ومستدامة مع عملائنا من خلال الشفافية والثقة. رضاكم هو أولويتنا، ونحن نعمل جاهدين لجعل كل تذوق لمنتجاتنا لحظة من السعادة الحقيقية</p>",
-    },
-    fr: {
-        title: "Nos Valeurs",
-        description:
-            "<p>Chez <b>'Boughanmi Pâtisserie'</b>, nos valeurs et nos principes sont les fondations de notre succès. Nous croyons que la qualité commence par la passion, et c'est pourquoi nous veillons à sélectionner les meilleurs ingrédients et à mettre tout notre cœur dans la préparation de nos douceurs.</p> <p>Notre objectif est d'être un partenaire de confiance pour nos clients en offrant une expérience unique, combinant saveurs authentiques et service impeccable. Nous nous engageons à préserver le patrimoine Tunisien et à le transmettre aux générations futures, tout en construisant des relations solides et durables avec nos clients grâce à la transparence et à la confiance. Votre satisfaction est notre priorité, et chaque bouchée de nos créations est une célébration de la joie et du plaisir.</p>",
-    },
-};
+import heroImage from "@/assets/images/baklawa_fekia.webp";
+import sharingImage from "@/assets/images/varié_spécial.webp";
 </script>
 
 <template>
     <Head :title="$t('About us')" />
 
-    <!-- Page banner -->
-    <div
-        class="bg-gradient-to-br from-sky-900 via-sky-800 to-primary text-white py-20 px-6 text-center max-w-screen-3xl mx-auto"
-    >
-        <h1 class="text-4xl font-extrabold tracking-tight">
-            {{ $t("About us") }}
-        </h1>
-    </div>
+    <main class="bg-lightCream text-brown">
+        <section class="mx-auto max-w-screen-3xl px-5 py-12 sm:px-8 md:px-12 md:py-20">
+            <div class="mx-auto grid max-w-screen-xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
+                <div class="relative mx-auto w-full max-w-[570px] p-3 sm:p-4">
+                    <div class="absolute inset-0 translate-x-3 translate-y-3 border border-corange/40 sm:translate-x-4 sm:translate-y-4" aria-hidden="true"></div>
+                    <img
+                        :src="heroImage"
+                        :alt="$t('about.hero_image_alt')"
+                        class="relative aspect-[1.08/1] w-full rounded-sm object-cover"
+                    />
+                    <div class="absolute bottom-0 end-0 max-w-[200px] border border-line bg-white px-4 py-3 sm:-end-2 sm:-bottom-2">
+                        <p class="font-serif text-sm leading-snug text-brown">{{ $t("about.image_note") }}</p>
+                    </div>
+                </div>
 
-    <div class="py-16 px-4 md:px-12 max-w-screen-xl mx-auto space-y-20">
-        <AboutSection :content="section1Content" />
-        <AboutSection :content="section2Content" :reverse="true" />
-
-        <!-- Map -->
-        <section>
-            <div class="mb-8">
-                <p
-                    class="text-gold font-bold text-xs tracking-[0.2em] uppercase mb-2"
-                >
-                    {{ $t("Contact") }}
-                </p>
-                <h2 class="text-2xl md:text-3xl font-extrabold text-primary">
-                    {{ $t("Our Location") }}
-                </h2>
-                <div class="mt-3 w-12 h-1 rounded-full bg-gold"></div>
-            </div>
-            <div
-                class="rounded-2xl overflow-hidden shadow-lg border border-neutral-100"
-            >
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3192.576422902486!2d10.121168129410362!3d36.85261929107798!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd3373530de9f5%3A0x7ef395cd30aa32d6!2sBoughanmi%20P%C3%A2tisserie!5e0!3m2!1sen!2stn!4v1741783476810!5m2!1sen!2stn"
-                    width="100%"
-                    height="450"
-                    style="border: 0; display: block"
-                    allowfullscreen=""
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                ></iframe>
+                <div class="max-w-xl py-4 lg:py-8">
+                    <p class="mb-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-cOrangeDark">
+                        {{ $t("about.eyebrow") }}
+                    </p>
+                    <h1 class="font-serif text-4xl leading-[1.08] tracking-tight text-brown sm:text-5xl md:text-6xl">
+                        {{ $t("about.title_first") }}<br />
+                        <span class="text-cOrangeDark italic">{{ $t("about.title_second") }}</span>
+                    </h1>
+                    <p class="mt-6 text-sm leading-7 text-brown/75 sm:text-base">
+                        {{ $t("about.intro") }}
+                    </p>
+                    <Link
+                        :href="route('FE.shop')"
+                        class="mt-7 inline-flex min-h-11 items-center gap-3 rounded-sm bg-corange px-5 py-3 text-xs font-semibold text-white transition-colors hover:bg-cOrangeDark focus:outline-none focus-visible:ring-2 focus-visible:ring-cOrangeDark focus-visible:ring-offset-2"
+                    >
+                        {{ $t("about.hero_cta") }}
+                        <i class="ri-arrow-right-line rtl:rotate-180" aria-hidden="true"></i>
+                    </Link>
+                </div>
             </div>
         </section>
-    </div>
+
+        <section class="border-y border-line bg-offwhite px-5 py-12 sm:px-8 md:px-12 md:py-16">
+            <div class="mx-auto max-w-screen-xl">
+                <div class="mx-auto mb-9 max-w-2xl text-center">
+                    <p class="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-cOrangeDark">
+                        {{ $t("about.values_eyebrow") }}
+                    </p>
+                    <h2 class="font-serif text-3xl leading-tight text-brown sm:text-4xl">
+                        {{ $t("about.values_title") }}
+                    </h2>
+                </div>
+
+                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <article class="border border-line bg-white p-5 sm:p-6">
+                        <span class="mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                            <i class="ri-restaurant-2-line text-lg" aria-hidden="true"></i>
+                        </span>
+                        <h3 class="font-serif text-xl text-brown">{{ $t("about.value_craft_title") }}</h3>
+                        <p class="mt-2 text-sm leading-6 text-brown/70">{{ $t("about.value_craft_description") }}</p>
+                    </article>
+
+                    <article class="border border-line bg-white p-5 sm:p-6">
+                        <span class="mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                            <i class="ri-heart-3-line text-lg" aria-hidden="true"></i>
+                        </span>
+                        <h3 class="font-serif text-xl text-brown">{{ $t("about.value_care_title") }}</h3>
+                        <p class="mt-2 text-sm leading-6 text-brown/70">{{ $t("about.value_care_description") }}</p>
+                    </article>
+
+                    <article class="border border-line bg-white p-5 sm:p-6 sm:col-span-2 lg:col-span-1">
+                        <span class="mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                            <i class="ri-gift-2-line text-lg" aria-hidden="true"></i>
+                        </span>
+                        <h3 class="font-serif text-xl text-brown">{{ $t("about.value_sharing_title") }}</h3>
+                        <p class="mt-2 text-sm leading-6 text-brown/70">{{ $t("about.value_sharing_description") }}</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="mx-auto max-w-screen-3xl px-5 py-14 sm:px-8 md:px-12 md:py-20">
+            <div class="mx-auto grid max-w-screen-xl items-center gap-9 md:grid-cols-2 md:gap-x-16 md:gap-y-12">
+                <div class="overflow-hidden rounded-sm border border-line bg-white p-2 sm:p-3">
+                    <img
+                        :src="sharingImage"
+                        :alt="$t('about.sharing_image_alt')"
+                        loading="lazy"
+                        class="aspect-[1.2/1] w-full rounded-sm object-cover"
+                    />
+                </div>
+                <div class="max-w-xl md:ms-4">
+                    <p class="mb-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-cOrangeDark">
+                        {{ $t("about.sharing_eyebrow") }}
+                    </p>
+                    <h2 class="font-serif text-3xl leading-[1.12] tracking-tight text-brown sm:text-4xl md:text-5xl">
+                        {{ $t("about.sharing_title_first") }}<br />
+                        {{ $t("about.sharing_title_second") }}
+                    </h2>
+                    <p class="mt-5 text-sm leading-7 text-brown/75 sm:text-base">
+                        {{ $t("about.sharing_description") }}
+                    </p>
+                    <ul class="mt-5 space-y-3 text-sm text-brown/80">
+                        <li class="flex items-start gap-3">
+                            <i class="ri-check-line mt-0.5 text-base text-cOrangeDark" aria-hidden="true"></i>
+                            <span>{{ $t("about.sharing_point_one") }}</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="ri-check-line mt-0.5 text-base text-cOrangeDark" aria-hidden="true"></i>
+                            <span>{{ $t("about.sharing_point_two") }}</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="ri-check-line mt-0.5 text-base text-cOrangeDark" aria-hidden="true"></i>
+                            <span>{{ $t("about.sharing_point_three") }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="px-5 pb-14 sm:px-8 md:px-12 md:pb-20">
+            <div class="mx-auto max-w-screen-xl rounded-sm bg-[#f3e8da] px-6 py-10 text-center sm:px-10 sm:py-14">
+                <p class="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-cOrangeDark">
+                    {{ $t("about.closing_eyebrow") }}
+                </p>
+                <h2 class="font-serif text-3xl leading-tight text-brown sm:text-4xl">
+                    {{ $t("about.closing_title") }}
+                </h2>
+                <p class="mx-auto mt-3 max-w-xl text-sm leading-6 text-brown/70">
+                    {{ $t("about.closing_description") }}
+                </p>
+                <Link
+                    :href="route('FE.shop')"
+                    class="mt-6 inline-flex min-h-11 items-center gap-3 rounded-sm bg-corange px-5 py-3 text-xs font-semibold text-white transition-colors hover:bg-cOrangeDark focus:outline-none focus-visible:ring-2 focus-visible:ring-cOrangeDark focus-visible:ring-offset-2"
+                >
+                    {{ $t("about.closing_cta") }}
+                    <i class="ri-arrow-right-line rtl:rotate-180" aria-hidden="true"></i>
+                </Link>
+            </div>
+        </section>
+    </main>
 </template>
