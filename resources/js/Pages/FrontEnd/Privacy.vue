@@ -8,49 +8,28 @@ const languageStore = useLanguageStore();
 <template>
     <Head :title="$t('Privacy Policy')" />
 
-    <!-- Page banner -->
-    <div
-        class="bg-gradient-to-br from-sky-900 via-sky-800 to-primary text-white py-20 px-6 text-center max-w-screen-3xl mx-auto"
-    >
-        <h1 class="text-4xl font-extrabold tracking-tight">
-            {{ $t("Privacy Policy") }}
-        </h1>
-    </div>
+    <main class="min-h-screen bg-lightCream text-brown">
+        <header class="border-b border-line bg-offwhite px-5 py-12 text-center sm:px-8 md:py-16">
+            <p class="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-cOrangeDark">Sweetia</p>
+            <h1 class="font-serif text-4xl leading-tight text-brown sm:text-5xl">{{ $t("Privacy Policy") }}</h1>
+        </header>
 
-    <!-- Content -->
-    <div class="py-16 px-4 md:px-8 max-w-3xl mx-auto">
-        <div
-            v-for="(value, key) in info[languageStore.currentLocale]"
-            :key="key"
-            class="mb-10 pb-10 border-b border-neutral-100 last:border-0 last:pb-0 last:mb-0"
-        >
-            <h2
-                class="text-lg font-bold text-primary border-s-4 border-gold ps-4 mb-4 leading-snug"
+        <div class="mx-auto max-w-4xl px-5 py-10 sm:px-8 md:py-16">
+            <article
+                v-for="(value, key) in info[languageStore.currentLocale]"
+                :key="key"
+                class="mb-5 border border-line bg-white p-5 last:mb-0 sm:p-7 md:p-8"
             >
-                {{ key }}
-            </h2>
-            <div
-                class="text-neutral-600 leading-relaxed privacy-content"
-                v-html="value"
-            ></div>
+                <h2 class="mb-4 border-s-2 border-corange ps-4 font-serif text-xl leading-snug text-brown sm:text-2xl">{{ key }}</h2>
+                <div class="privacy-content text-sm leading-7 text-brown/75 sm:text-base" v-html="value"></div>
+            </article>
         </div>
-    </div>
+    </main>
 </template>
 
 <style scoped>
-.privacy-content :deep(p) {
-    margin-bottom: 0.5rem;
-}
-.privacy-content :deep(ul) {
-    list-style: inside disc;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-.privacy-content :deep(li) {
-    margin-bottom: 0.375rem;
-}
-.privacy-content :deep(li span) {
-    font-weight: 600;
-    color: #161e24;
-}
+.privacy-content :deep(p) { margin-bottom: 0.5rem; }
+.privacy-content :deep(ul) { list-style: inside disc; margin: 0.75rem 0; }
+.privacy-content :deep(li) { margin-bottom: 0.5rem; }
+.privacy-content :deep(li span) { font-weight: 600; color: #50372d; }
 </style>

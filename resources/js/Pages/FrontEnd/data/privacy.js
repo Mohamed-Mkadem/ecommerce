@@ -19,7 +19,7 @@ export default {
         "9. Modifications de la Politique de Confidentialité":
             "<p>Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. Les modifications seront publiées sur cette page, et, en cas de changements significatifs, nous vous en informerons lors de votre prochaine visite sur notre site.</p>",
         "10. Contact":
-            "<p>Pour toute question concernant cette politique de confidentialité ou pour exercer vos droits, vous pouvez nous contacter à l'adresse suivante : contact@mohamad.tn</p>",
+            "<p>Pour toute question concernant cette politique de confidentialité ou pour exercer vos droits, vous pouvez nous contacter à l'adresse suivante : hello@sweetia.tn</p>",
     },
     ar: {
         "1. المقدمة":
@@ -41,7 +41,7 @@ export default {
         "9. تغييرات على سياسة الخصوصية":
             "<p>نحتفظ بالحق في تعديل سياسة الخصوصية هذه في أي وقت. سيتم نشر التغييرات على هذه الصفحة، وفي حالة التغييرات الجوهرية، سنبلغك بذلك عند زيارتك التالية لموقعنا.</p>",
         "10. الاتصال":
-            "<p>إذا كانت لديك أي استفسارات حول سياسة الخصوصية هذه أو ترغب في ممارسة حقوقك، يمكنك التواصل معنا على: contact@mohamad.tn</p>",
+            "<p>إذا كانت لديكم أي استفسارات حول سياسة الخصوصية أو رغبتم في ممارسة حقوقكم، يمكنكم التواصل معنا عبر البريد الإلكتروني: hello@sweetia.tn</p>",
     },
     en: {
         "1. Introduction":
@@ -63,6 +63,6 @@ export default {
         "9. Changes to the Privacy Policy":
             "<p>We reserve the right to modify this privacy policy at any time. Changes will be published on this page, and, in the case of significant changes, we will inform you during your next visit to our site.</p>",
         "10. Contact":
-            "<p>If you have any questions about this privacy policy or wish to exercise your rights, you can contact us at: contact@mohamad.tn</p>",
+            "<p>If you have any questions about this privacy policy or wish to exercise your rights, you can contact us at: hello@sweetia.tn</p>",
     },
 };
