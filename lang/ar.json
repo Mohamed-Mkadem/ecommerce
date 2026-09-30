@@ -732,6 +732,7 @@
     "Wrapper.add": "إضافة",
     "Wrapper.is_default": "الخيار الافتراضي",
     "Wrapper.free_shipping": "شحن مجاني",
+    "Wrapper.update_quantity": "مقدار زيادة الكمية",
     "Wrapper.display_order": "ترتيب العرض",
     "Wrapper.no_products_available": "لا توجد منتجات متاحة للإضافة",
     "Wrapper.no_products_selected": "أضف خيار منتج واحد على الأقل",

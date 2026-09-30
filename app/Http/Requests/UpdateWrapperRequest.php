@@ -16,6 +16,9 @@ class UpdateWrapperRequest extends FormRequest
     public function rules(): array
     {
         $locales = ['en', 'ar', 'fr'];
+        $wrapper = $this->route('wrapper');
+        $productOwnershipRule = Rule::unique('product_wrapper', 'product_id')
+            ->where(fn ($query) => $query->where('wrapper_id', '!=', $wrapper->getKey()));
 
         $rules = [
             'caption' => ['nullable', 'string', 'max:255'],
@@ -25,7 +28,7 @@ class UpdateWrapperRequest extends FormRequest
             'deleted_media' => ['nullable', 'array'],
             'deleted_media.*' => ['integer', 'exists:media,id'],
             'products' => ['required', 'array', 'min:1'],
-            'products.*.product_id' => ['required', 'integer', 'exists:products,id', 'distinct'],
+            'products.*.product_id' => ['required', 'integer', 'exists:products,id', 'distinct', $productOwnershipRule],
             'products.*.display_order' => ['required', 'integer', 'min:0'],
             'products.*.is_default' => ['required', 'boolean'],
             'products.*.free_shipping' => ['required', 'boolean'],

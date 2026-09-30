@@ -87,7 +87,7 @@ class WrapperController extends Controller
 
         return Inertia::render('Admin/Wrappers/Edit', [
             'wrapper' => $this->formatWrapperForForm($wrapper),
-            'products' => $this->availableProducts(),
+            'products' => $this->availableProducts($wrapper),
         ]);
     }
 
@@ -141,9 +141,14 @@ class WrapperController extends Controller
             ->with('success', __('Wrapper.deleted_successfully'));
     }
 
-    private function availableProducts(): array
+    private function availableProducts(?Wrapper $wrapper = null): array
     {
         return Product::query()
+            ->whereDoesntHave('wrappers', function ($query) use ($wrapper) {
+                if ($wrapper) {
+                    $query->where('wrappers.id', '!=', $wrapper->getKey());
+                }
+            })
             ->orderBy('price', 'asc')
             ->orderBy('id')
             ->get()

@@ -698,6 +698,7 @@
     "Wrapper.add": "Add",
     "Wrapper.is_default": "Default variant",
     "Wrapper.free_shipping": "Free shipping",
+    "Wrapper.update_quantity": "Quantity increment",
     "Wrapper.display_order": "Display order",
     "Wrapper.no_products_available": "No products available to add",
     "Wrapper.no_products_selected": "Add at least one product variant",

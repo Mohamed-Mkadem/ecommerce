@@ -7,6 +7,7 @@ import { trans } from "laravel-vue-i18n";
 export function useWrapperForm(products, wrapper = null) {
     const toast = useToast();
     const search = ref("");
+    const reservedProductIds = ref([]);
     const isEditing = computed(() => wrapper !== null);
 
     const form = useForm({
@@ -36,7 +37,10 @@ export function useWrapperForm(products, wrapper = null) {
 
     const availableProducts = computed(() => {
         return products.filter((product) => {
-            if (addedProductIds.value.includes(product.id)) {
+            if (
+                addedProductIds.value.includes(product.id) ||
+                reservedProductIds.value.includes(product.id)
+            ) {
                 return false;
             }
             if (!search.value.trim()) {
@@ -165,6 +169,12 @@ export function useWrapperForm(products, wrapper = null) {
                         trans("Wrapper.created_successfully"),
                         getToastOptions(),
                     );
+                    reservedProductIds.value = [
+                        ...new Set([
+                            ...reservedProductIds.value,
+                            ...form.products.map((item) => item.product_id),
+                        ]),
+                    ];
                     // reset the form to initial empty state after creating a wrapper
                     form.reset();
                     search.value = "";

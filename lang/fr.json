@@ -731,6 +731,7 @@
     "Wrapper.add": "Ajouter",
     "Wrapper.is_default": "Variante par défaut",
     "Wrapper.free_shipping": "Livraison gratuite",
+    "Wrapper.update_quantity": "Incrément de quantité",
     "Wrapper.display_order": "Ordre d'affichage",
     "Wrapper.no_products_available": "Aucun produit disponible à ajouter",
     "Wrapper.no_products_selected": "Ajoutez au moins une variante de produit",
