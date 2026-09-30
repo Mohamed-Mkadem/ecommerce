@@ -56,6 +56,16 @@ function submitForm() {
             <div class="py-4">
                 <div class="mt-4 w-full">
                     <InputLabel for="file" :value="$t('The excel file')" />
+                    <a
+                        href="/storage/downloadable/update_delivery__date_template.xlsx"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        download
+                        class="mt-1 inline-flex items-center gap-1 text-xs text-blue-600 transition-colors hover:text-blue-800 hover:underline"
+                    >
+                        <i class="ri-download-2-line" aria-hidden="true"></i>
+                        {{ $t("Download template") }}
+                    </a>
 
                     <input
                         required

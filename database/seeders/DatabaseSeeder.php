@@ -22,13 +22,13 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
         //  Shipper::factory(3)->create();
         // Product::factory(5)->pack()->create();
-        // $this->call([
-        //     AdminSeeder::class,
-        //     StateSeeder::class,
-        //     CouponCodeSeeder::class,
-        //     ShippingSettingsSeeder::class
-        // ]);
-        // Client::factory(10)->create();
+        $this->call([
+            AdminSeeder::class,
+            StateSeeder::class,
+            CouponCodeSeeder::class,
+            ShippingSettingsSeeder::class
+        ]);
+        Client::factory(10)->create();
 
         Order::factory(10)->create();
         // Product::factory(1)->create();
