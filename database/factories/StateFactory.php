@@ -18,7 +18,9 @@ class StateFactory extends Factory
     {
 
         return [
-            'shipping_cost' => 7000
+            'shipping_cost' => 7000,
+            'delivery_cost' => 0,
+            'return_cost' => 0,
         ];
     }
 }

@@ -156,7 +156,6 @@ require __DIR__ . '/auth.php';
 Route::get('/lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'ar', 'fr'])) {
         Session::put('locale', $locale);
-        redirect()->back();
     }
-    redirect()->back();
+    return redirect()->back();
 });

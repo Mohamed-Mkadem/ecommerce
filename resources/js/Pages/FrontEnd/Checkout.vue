@@ -461,13 +461,9 @@ onMounted(() => {
                     }}
                 </p>
                 <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
-                    <Link :href="route('FE.home')"
+                    <Link :href="route('FE.shop')"
                         class="inline-flex min-h-11 items-center gap-2 rounded-sm bg-corange px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-cOrangeDark">
                         {{ $t("Our Products") }}
-                    </Link>
-                    <Link :href="route('FE.home')"
-                        class="inline-flex min-h-11 items-center gap-2 rounded-sm border border-corange px-5 py-3 text-sm font-semibold text-cOrangeDark transition-colors hover:bg-corange hover:text-white">
-                        {{ $t("Our Offers") }}
                     </Link>
                 </div>
             </div>

@@ -72,10 +72,11 @@ class PlaceOrderRequest extends FormRequest
                     return isset($item['free_shipping']) && $item['free_shipping'] === true;
                 });
 
-            $state = $this->state ?? State::find(1)?->toArray() ?? ['id' => 1, 'shipping_cost' => 0];
+            $state = $this->state ?? State::find(1)?->toArray() ?? ['id' => 1];
+            $shippingState = State::find($state['id'] ?? null);
             $shippingCost = $hasAnyFreeShipping
                 ? 0
-                : (int) (($state['shipping_cost'] ?? 0) * 1000);
+                : (int) ($shippingState?->shipping_cost ?? 0);
             $itemsTotal = 0;
             foreach ($cart as $key => $item) {
                 $product = Product::find($item['id']);
@@ -89,14 +90,16 @@ class PlaceOrderRequest extends FormRequest
             $couponCode = $this->coupon;
 
             if ($couponCode) {
-                $serverCouponCode = CouponCode::where('value', $couponCode['value'])->first();
+                $serverCouponCode = CouponCode::whereKey($couponCode['id'] ?? null)
+                    ->where('status', 'active')
+                    ->first();
 
                 if (!$serverCouponCode) {
                     $validator->errors()->add("coupon.id", $this->messages()['coupon.id.exists']);
+                } else {
+                    $discount = 1 - $serverCouponCode->value / 100;
+                    $itemsTotal = (int) ($itemsTotal * $discount);
                 }
-
-                $discount = 1 - $couponCode['value'] / 100;
-                $itemsTotal = (int) $itemsTotal * $discount;
             }
 
 

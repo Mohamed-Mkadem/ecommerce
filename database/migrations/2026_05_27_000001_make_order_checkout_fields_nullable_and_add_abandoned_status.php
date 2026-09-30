@@ -12,7 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("ALTER TABLE orders MODIFY status ENUM('pending', 'confirmed', 'canceled', 'delivered', 'returned', 'shipped', 'abandoned') DEFAULT 'pending'");
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement("ALTER TABLE orders MODIFY status ENUM('pending', 'confirmed', 'canceled', 'delivered', 'returned', 'shipped', 'abandoned') DEFAULT 'pending'");
+        } else {
+            Schema::table('orders', function (Blueprint $table) {
+                $table->string('status')->default('pending')->change();
+            });
+        }
 
         Schema::table('orders', function (Blueprint $table) {
             $table->string('client_name')->nullable()->change();
@@ -29,7 +35,13 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement("ALTER TABLE orders MODIFY status ENUM('pending', 'confirmed', 'canceled', 'delivered', 'returned', 'shipped') DEFAULT 'pending'");
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement("ALTER TABLE orders MODIFY status ENUM('pending', 'confirmed', 'canceled', 'delivered', 'returned', 'shipped') DEFAULT 'pending'");
+        } else {
+            Schema::table('orders', function (Blueprint $table) {
+                $table->string('status')->default('pending')->change();
+            });
+        }
 
         Schema::table('orders', function (Blueprint $table) {
             $table->string('client_name')->nullable(false)->change();

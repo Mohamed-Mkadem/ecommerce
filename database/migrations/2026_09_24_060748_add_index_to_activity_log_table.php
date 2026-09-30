@@ -12,7 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         $tableName = config('activitylog.table_name');
-        DB::statement("CREATE INDEX activity_log_causer_desc_created_index ON {$tableName} (causer_id, description(50), created_at)");
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement("CREATE INDEX activity_log_causer_desc_created_index ON {$tableName} (causer_id, description(50), created_at)");
+        } else {
+            Schema::table($tableName, function (Blueprint $table) {
+                $table->index(['causer_id', 'description', 'created_at'], 'activity_log_causer_desc_created_index');
+            });
+        }
     }
 
     /**
@@ -21,6 +27,12 @@ return new class extends Migration
     public function down(): void
     {
         $tableName = config('activitylog.table_name');
-        DB::statement("DROP INDEX activity_log_causer_desc_created_index ON {$tableName}");
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement("DROP INDEX activity_log_causer_desc_created_index ON {$tableName}");
+        } else {
+            Schema::table($tableName, function (Blueprint $table) {
+                $table->dropIndex('activity_log_causer_desc_created_index');
+            });
+        }
     }
 };
