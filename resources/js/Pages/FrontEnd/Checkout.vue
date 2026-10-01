@@ -401,7 +401,7 @@ onMounted(() => {
                             </div>
 
                             <div class="rounded-sm bg-lightCream p-4">
-                                <div class="flex flex-wrap justify-between items-center gap-4">
+                                <div class="flex flex-wrap justify-between items-center gap-4 mb-1">
                                     <p class="text-xs text-brown/70">
                                         {{ $t("Sub Total") }}
                                     </p>
@@ -411,7 +411,7 @@ onMounted(() => {
                                         }}
                                     </p>
                                 </div>
-                                <div class="flex flex-wrap justify-between items-center gap-4">
+                                <div class="flex flex-wrap justify-between items-center gap-4 mb-1">
                                     <p class="text-xs text-brown/70">
                                         {{
                                             `${$t("Shipping Cost")} (${getLocalizedStateName(form.state["id"])})`
@@ -422,12 +422,12 @@ onMounted(() => {
                                             `${shippingCost} ${$t("currency")}`
                                         }}
                                         <span v-if="hasAnyFreeShipping"
-                                            class="block text-[10px] font-normal text-cOrangeDark ms-2">
+                                            class="inline-block text-[10px] font-normal text-cOrangeDark ">
                                             ({{ $t("Offer Free Shipping") }})
                                         </span>
                                     </p>
                                 </div>
-                                <div class="flex flex-wrap justify-between items-center gap-4">
+                                <div class="flex flex-wrap justify-between items-center gap-4 mb-1">
                                     <p class="text-xs text-brown/70">
                                         {{ $t("Discount") }}
                                     </p>

@@ -111,35 +111,69 @@ For each item: add the explanation under **Why**, describe expected outcomes und
 #### A-01 Authentication and access control
 
 - **Scope:** Login/logout, protected admin routes, account state/role restrictions, and profile/password changes.
-- **Why:** _Please explain the account roles and access rules._
-- **Behavior:** _Please describe who may access which areas and what blocked users should see._
-- **Status:** [ ] Specified · [ ] Tests added · [ ] Passing
+- **Why:** Authentication is a fundamental part of any web application and should be tested thoroughly
+- **Behavior (inferred from current middleware/routes):** Guests are redirected to login for protected pages; moderators can access regular admin pages but receive 403 on admin-only employee management; admins can access those admin-only pages; banned users are redirected to the banned page, while active users are redirected away from it. Authenticated users can update their profile and password; valid login/logout changes their session as expected.
+- **Status:** [x] Specified · [x] Tests added · [x] Passing
+- **Coverage:** `AuthenticationAccessTest` covers guest protection, login/logout, invalid credentials, moderator/admin access, banned-user routing, profile updates, and password changes. This policy is inferred from the current code and awaits your confirmation.
 
 #### A-02 Products and product variants
 
-- **Scope:** Product CRUD, translations, prices/discounts, status, and image/media management.
-- **Why:** _Please explain how products and variants are managed._
+- **Scope:** Product CRUD, translations, prices/discounts.
+- **Why:** We must be able to add, edit, delete and list products(variants), the products are created in order to be assigned to wrappers and then. is important to know that the products table is what i'm calling variants, so a product is a variant, and the wrapper can contain variants. (products)
 - **Behavior:** _Please describe required fields, validation, visibility, and deletion behavior._
 - **Status:** [ ] Specified · [ ] Tests added · [ ] Passing
 
 #### A-03 Wrappers and variant ownership
 
 - **Scope:** Wrapper CRUD, translations/media, variant configuration, default/free-shipping/quantity-step options, and one-wrapper-per-variant ownership.
-- **Why:** _Please explain how wrappers and their variants should be managed._
+- **Why:** The idea from the wrapper is to be a container for variants of the same products, so for example if we have a variant called "2kg of Almond Baklawa (price 70dt)" and a variant called "1kg of almond Baklawa (39dt)", so the main product is called "Almond Baklawa" and it should contains the 2 variants, so in this case we call the wrapper "Almond Baklawa", and the variants are "2kg of Almond Baklawa (price 70dt)" and "1kg of almond Baklawa (39dt)". the wrapper is what the user will see on the shop page, so it should have an image, and the price will be the price of the default variant.
 - **Behavior:** _Please describe creation, editing, removal, default selection, and duplicate-ownership rules._
 - **Status:** [ ] Specified · [ ] Tests added · [ ] Passing
 
 #### A-04 Order management
 
 - **Scope:** Order listing/details, status changes, editing order products, delivery/shipping data, and order history.
-- **Why:** _Please explain the operational order workflow._
+- **Why:** We need to be able to see the orders, filter them, edit them (client name, state_id, city_id, locality_id, delivery_date, shipper_id, phone, address, phone2, free_shipping), also we can update the order products (cart), also we can update the order status using a process, the order first can be abandoned (the user typed his phone number but he didn't place the order, we captured his phone and the current cart) or pending (the user actually placed the order or the admin created the order manually and made it pending), then the pending order before changing its status the admin must make a confirmation call, after that confirmation call there are 3 scenarios that can happen : 
+- **Scenario 1: Confirmation and Processing**
+  - **Admin Action:** The admin updates the order info based on its talk with the client (client name, state_id, city_id, locality_id, delivery_date, shipper_id, phone, address, phone2, free_shipping) and updates the products and products quantities as the client wants and then clicks the "confirm" button in the frontend.
+  - **Result:** The order status changes to "confirmed", if the shipper has an api key we make a request to the shipping company with the order info (we can avoid this step on the test)
+  - **Behavior:**
+    - The order is now locked for editing (we can update only abandoned or pending products, the other orders can be updated via actions, we will talk about that later).
+    - The order status is updated to "Confirmed".
+
+- **Scenario 2: User Cancellation**
+  - **Admin Action:** Admin clicks the "Cancel" button in the frontend.
+  - **Result:** The order status changes to "cancelled"
+  - **Behavior:**
+    - The order is now locked for editing (we can update only abandoned or pending products, the other orders can be updated via actions, we will talk about that later).
+    - The order status is updated to "Cancelled".
+
+- **Scenario 3: The Order Marked as NRP (Ne Repond pas)**
+  - **Admin Action:** if the clients doesn't respond after 3 calls, the admin clicks the "Mark as NRP" button in the frontend.
+  - **Result:** The order status stays as abandoned or pending but it will be attached to the nrp table, the order marked as nrp can't be listed in the main orders list (There is another view responsible for nrp orders), for each time the admin calls the client and the client doesn't respond, the admin will click the "NRP" button to increment the number of tries, until the client respond and confirm or cancel the order or the admin decide to cancel it, if the admin decide to cancel it the process will be the same as scenario 2. if the nrp order is canceled or confirmed, it will automatically removed from the nrp list.
+  - **Behavior:**
+    - The nrp order is now locked for editing (we can update only abandoned or pending products, the other orders can be updated via actions, we will talk about that later).
+
 - **Behavior:** _Please describe allowed transitions, edits, and restrictions._
 - **Status:** [ ] Specified · [ ] Tests added · [ ] Passing
 
 #### A-05 Excel imports
 
 - **Scope:** Import orders, shipping/status updates, pending updates, delivery dates, shipper updates, amount updates, and clients; validate templates, rows, and failures.
-- **Why:** _Please explain why each import exists and who uses it._
+- **Why:** On the Actions.vue component the admin can see 6 actions can make via importing excel files. we do that because it's faster to update a large number of orders at once using excel files instead of updating them one by one. and also to update reach a goal we can no longer able to reach it without these actions. for example confirmed order cannot be updated, but what if we confirmed an order and then we noticed that we did a mistake in the order like the client didn't want the product anymore, so we can't update the order, we can cancel the order or delete it and create a new one, but this is not a good behaviour, the best is to return the order to pending status and update it and confirm it. so the user in this case must provides an excel file that contains one column called "id" which is the order id, then click submit and the file will be dispatched to a job that will loop through the orders and update their statuses to pending.
+- the import orders action : 
+-- the admin can import orders from an excel file, the excel file must contain the following columns : client_name, phone, state_id, address, products, all the fields are optional and have a default value in case they are not provided except the phone field, for the products column, its a string contains the name of products, this string cannot be matched with the current products on the db, so the order will be created with a default product, this product is defined via "DEFAULT_PRODUCT_ID" variable defined in the .env file, and the products column string will be added as a note on the order. so the admin who will call the client knows what's the products the client wants. and if the clients confirmed the order the admin updates the default product by the real products.
+- the status update action : 
+-- an action that will update the status of orders to delivered or returned only, and only confirmed or shipped orders can be updated using this action. the required columns are id (of the order) and "statut" (status but in french)
+- the pending updates action : we already talked about this
+- the delivery dates action : 
+-- an action that will update the delivery date of orders only, the required fields are id (of the order), and after the import the admin chooses the delivery_date via a datepicker on the view and then presses the submit button so the job will loop through the orders and update their delivery dates.
+- the shipper updates action : 
+-- an action that will update the shipper of orders only, the required fields are id (of the order) and "livreur" (shipper but in french), for the "livreur" column it will be the shipper id
+- the amount updates action : 
+-- an action that will update the amount of orders, we use this because some clients pay some part of the order amount and the rest when the delivery, so we need to remove the paid part from the total amount and the rest will be the amount to pay on delivery, so we need to update the total amount of the order. the required fields are the id (of the order), and "montant" (amount but in french), this amount must be in millimes (1000 millimes = 1 dinar). 
+- the clients action : 
+-- an action that will import clients from an excel file, the excel file must contain the following columns : nom, mobile, mobile2, gouvernorat(the id of the state), adresse, all the fields are required except mobile2, if a client exist with the same phone number the row will be escaped to avoid duplication. (currently i'm comparing only the phone number, i want also to check the phone2, maybe the mobile2 provided on the import is the same as the phone, that's why we need to check both, so update the ClientImport.php to take care of that)
 - **Behavior:** _Please describe required columns, row-level failure behavior, duplicate handling, and partial/full success expectations._
 - **Status:** [ ] Specified · [ ] Tests added · [ ] Passing
 
