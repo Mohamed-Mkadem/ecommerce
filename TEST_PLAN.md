@@ -202,7 +202,9 @@ For each item: add the explanation under **Why**, describe expected outcomes und
 
 - **Scope:** Coupon CRUD, activation, validity dates, usage limits, discount type/value, and customer application.
 - **Why:** this is a simple crud, each coupon has a code (name eg: bg10) the code is unique, the value is a number that defines the percentage discount, for example if the value is 10 and the order total is 100dt, the discount will be 10dt (10% of 100dt). if the value is 20 and the order total is 100dt, the discount will be 20dt (20% of 100dt), you get the point. and finally the status, only active codes are applicable. only the admin can create, update, delete coupons. but the storefront customer can use the coupon code if it's active (on the checkout page).
-- **Status:** [ ] Specified · [ ] Tests added · [ ] Passing
+- **Behavior:** Admins can create coupons with a unique code, percentage value from 1 to 100, and active/inactive status. They can activate or deactivate coupons and delete them; coupons referenced by orders are soft-deleted, while unused coupons are permanently deleted. Only admins can access coupon management. Storefront lookup and checkout accept active coupons only; the percentage is applied to product totals before shipping is added.
+- **Status:** [x] Specified · [x] Tests added · [x] Passing
+- **Coverage:** `CouponManagementTest` covers creation, uniqueness and value/status validation, activation/deactivation, active-only storefront lookup, order-history-aware deletion, and admin-only access. `CheckoutPricingTest` covers active coupon discount calculation and rejects inactive coupons during order placement. Expiration dates and usage limits are not present in this project’s coupon model and are not tested.
 
 #### A-09 Invoices
 
