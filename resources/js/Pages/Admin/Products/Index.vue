@@ -49,7 +49,11 @@ onMounted(() => {
 <template>
     <Head :title="$t('Product.index')" />
     <PageHeader :page-title="$t('Products')">
-        <CreateNew href="products.create" :label="$t('New Product')" />
+        <CreateNew
+            v-if="$page.props.auth.user.role === 'admin'"
+            href="products.create"
+            :label="$t('New Product')"
+        />
     </PageHeader>
 
     <div class="bg-white px-4 py-8 rounded-md shadow-1 mb-8">

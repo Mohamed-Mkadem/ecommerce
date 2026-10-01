@@ -40,7 +40,7 @@ const deleteProduct = () => {
 <template>
     <Head :title="product.name" />
     <PageHeader :pageTitle="product.name">
-        <div class="flex items-center gap-4">
+        <div v-if="$page.props.auth.user.role === 'admin'" class="flex items-center gap-4">
             <Link
                 :href="route('products.edit', product)"
                 class="bg-slate-500 text-white px-3 py-2 rounded-md hover:bg-opacity-75"

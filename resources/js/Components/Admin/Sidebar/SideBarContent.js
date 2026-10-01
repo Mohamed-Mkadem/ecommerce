@@ -48,6 +48,7 @@ export default [
                 label: "New Product",
                 route: route("products.create"),
                 component: "Admin/Products/Create",
+                onlyAdmin: true,
             },
             {
                 label: "Products",

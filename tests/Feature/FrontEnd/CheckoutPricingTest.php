@@ -3,6 +3,7 @@
 namespace Tests\Feature\FrontEnd;
 
 use App\Models\CouponCode;
+use App\Models\Client;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ShippingSetting;
@@ -50,6 +51,73 @@ class CheckoutPricingTest extends TestCase
             'free_shipping' => false,
             'status' => 'pending',
         ]);
+    }
+
+    public function test_phone_only_submission_creates_an_abandoned_order(): void
+    {
+        $product = Product::factory()->create(['price' => 30000]);
+
+        $this->postJson(route('FE.orders.abandoned'), [
+            'phone' => '23456789',
+            'state' => ['id' => $this->state->id, 'shipping_cost' => 8],
+            'cart' => [[
+                'id' => $product->id,
+                'quantity' => 1,
+                'price' => 30,
+                'free_shipping' => false,
+            ]],
+            'total' => 30,
+        ])->assertOk();
+
+        $this->assertDatabaseHas('orders', [
+            'phone' => '23456789',
+            'status' => 'abandoned',
+        ]);
+    }
+
+    public function test_final_order_submission_updates_the_existing_abandoned_order(): void
+    {
+        $product = Product::factory()->create(['price' => 30000]);
+        $client = Client::create([
+            'name' => 'Client Name',
+            'phone' => '23456789',
+            'address' => 'Old address',
+            'state_id' => $this->state->id,
+        ]);
+        $abandonedOrder = Order::create([
+            'client_id' => $client->id,
+            'phone' => '23456789',
+            'status' => 'abandoned',
+            'state_id' => $this->state->id,
+            'address' => 'Old address',
+            'client_name' => 'Client Name',
+            'amount' => null,
+            'shipping_cost' => null,
+            'delivery_date' => null,
+        ]);
+
+        $this->postJson(route('FE.orders.place'), [
+            'name' => 'Client Name',
+            'address' => '123 Main Street',
+            'phone' => '23456789',
+            'state' => ['id' => $this->state->id, 'shipping_cost' => 8],
+            'coupon' => null,
+            'cart' => [[
+                'id' => $product->id,
+                'quantity' => 1,
+                'price' => 30,
+                'free_shipping' => false,
+            ]],
+            'total' => 38,
+            'note' => null,
+            'free_shipping' => false,
+        ])->assertRedirect();
+
+        $abandonedOrder->refresh();
+        $this->assertSame('pending', $abandonedOrder->status);
+        $this->assertSame('Client Name', $abandonedOrder->client_name);
+        $this->assertSame('123 Main Street', $abandonedOrder->address);
+        $this->assertSame(1, $abandonedOrder->products()->count());
     }
 
     public function test_active_coupon_discount_is_applied_before_shipping_is_added(): void

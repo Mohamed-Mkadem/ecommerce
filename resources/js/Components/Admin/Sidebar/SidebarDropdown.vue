@@ -18,7 +18,12 @@ const handleItemClick = (index: number) => {
 <template>
     <ul class="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
         <template v-for="(childItem, index) in items" :key="index">
-            <li>
+            <li
+                v-if="
+                    !childItem.onlyAdmin ||
+                    (childItem.onlyAdmin && $page.props.auth.user.role === 'admin')
+                "
+            >
                 <Link
                     :href="childItem.route"
                     @click="handleItemClick(index)"

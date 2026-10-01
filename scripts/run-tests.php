@@ -26,6 +26,9 @@ if (isset($argv[1])) {
     }
 
     $command[] = $testPath;
+} else {
+    $command[] = $testsRoot . DIRECTORY_SEPARATOR . 'Feature/FrontEnd';
+    $command[] = $testsRoot . DIRECTORY_SEPARATOR . 'Feature/Admin';
 }
 
 $process = new Process($command, $projectRoot);

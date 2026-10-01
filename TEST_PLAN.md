@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Build confidence that changes do not break important Sweetia customer and admin workflows. Customer storefront explanations have been supplied and the first Laravel feature-test slice is implemented. Admin features remain pending their explanations.
+Build confidence that changes do not break important Sweetia customer and admin workflows. Customer storefront, A-01, and A-02 test cases are implemented; remaining admin features will be added one at a time.
 
 For each feature below, record:
 
@@ -13,8 +13,7 @@ When the reason already makes the intended behavior clear, the Behavior field ca
 
 ## Repository test setup
 
-- Laravel PHPUnit suites are configured in `phpunit.xml` for `tests/Unit` and `tests/Feature`.
-- Existing tests cover authentication, profile updates, abandoned orders, selling reports, and pruning reports/notifications. There are also Laravel example tests.
+- `composer test` runs the planned Laravel feature tests in `tests/Feature/FrontEnd` and `tests/Feature/Admin`. Existing tests that did not match the application schema or current routes were removed at the user's request.
 - Factories exist for users, wrappers, products, orders, clients, states, and shippers.
 - `phpunit.xml` now forces an in-memory SQLite database, so these tests cannot alter the development or seeded MySQL database.
 - PHPUnit and Mockery are installed as development dependencies. Two MySQL-specific migrations use SQLite-compatible equivalents when running under the isolated test driver.
@@ -33,10 +32,10 @@ When the reason already makes the intended behavior clear, the Behavior field ca
 - [x] Configure a dedicated testing database (in-memory SQLite; never the normal development/seeded database).
 - [x] Confirm test configuration runs migrations and resets test data safely.
 - [x] Fake queued external delivery work in order tests; other external integration fakes remain to be added with their tests.
-- [x] Record the backend test command: `php vendor/phpunit/phpunit/phpunit --configuration phpunit.xml`.
+- [x] Record the backend test commands: `composer test` runs the planned suite; `composer test Feature\\Admin\\ProductManagementTest.php` runs one file (path relative to `tests`).
 - [ ] Add and record Vue component/browser test commands and the production build check.
 
-The storefront feature-test files pass when run directly with PHP 8.2. The legacy full suite still has unrelated auth/profile/report failures under SQLite; those are not counted as passing customer coverage.
+The planned suite currently passes with PHP 8.2 using in-memory SQLite. PHPUnit reports one deprecation notice that remains to be investigated.
 
 ## Feature inventory and specification checklist
 
@@ -120,8 +119,9 @@ For each item: add the explanation under **Why**, describe expected outcomes und
 
 - **Scope:** Product CRUD, translations, prices/discounts.
 - **Why:** We must be able to add, edit, delete and list products(variants), the products are created in order to be assigned to wrappers and then. is important to know that the products table is what i'm calling variants, so a product is a variant, and the wrapper can contain variants. (products)
-- **Behavior:** _Please describe required fields, validation, visibility, and deletion behavior._
-- **Status:** [ ] Specified · [ ] Tests added · [ ] Passing
+- **Behavior (inferred from current requests/controller and UI):** An admin can create, update, list, search, and delete variants. Creation and update require a positive price, shipping name, and a name in each of the English, French, and Arabic translations. Discount and discount type are optional; when supplied, the type is `percentage` or `fixed`. Product prices entered in dinars are stored in millimes. Moderators may view product pages, but the interface hides creation, edit, and delete controls, and create/update submissions are rejected. Products with no order history are permanently deleted; products with order history are soft-deleted.
+- **Status:** [x] Specified · [x] Tests added · [x] Passing
+- **Coverage:** `ProductManagementTest` covers creation/translations, required-field validation, update/conversion, moderator page access and request restrictions, locale-specific list search, and permanent deletion without order history. Vue visibility for sidebar/list/detail actions and the soft-delete branch for products with historical orders are not covered by backend tests yet. The policy is inferred from current code and awaits your confirmation.
 
 #### A-03 Wrappers and variant ownership
 
