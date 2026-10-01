@@ -64,6 +64,7 @@ export default [
                 label: "New Wrapper",
                 route: route("wrappers.create"),
                 component: "Admin/Wrappers/Create",
+                onlyAdmin: true,
             },
             {
                 label: "Selling Reports",

@@ -63,7 +63,7 @@ function deleteWrapper() {
     <Head :title="wrapper.title" />
 
     <PageHeader :page-title="wrapper.title">
-        <div class="flex flex-wrap items-center gap-3">
+        <div v-if="page.props.auth.user.role === 'admin'" class="flex flex-wrap items-center gap-3">
             <Link
                 :href="route('wrappers.edit', wrapper.slug)"
                 class="bg-slate-500 text-white px-3 py-2 rounded-md hover:bg-opacity-75 flex items-center gap-2"

@@ -43,7 +43,10 @@ Route::middleware(['auth', isActiveMiddleware::class])->group(function () {
     Route::post('products/{product}/media/', [ProductController::class, 'storeMedia'])->name('products.media');
     Route::resource('products', ProductController::class);
 
-    Route::resource('wrappers', WrapperController::class);
+    Route::resource('wrappers', WrapperController::class)
+        ->except(['index', 'show'])
+        ->middleware(isAdminMiddleware::class);
+    Route::resource('wrappers', WrapperController::class)->only(['index', 'show']);
 
     Route::resource('shippers', ShipperController::class)->except(['show'])->middleware(isAdminMiddleware::class);
     Route::resource('states', StateController::class)->only(['edit', 'index', 'update'])->middleware(isAdminMiddleware::class);
