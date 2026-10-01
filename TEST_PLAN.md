@@ -211,8 +211,9 @@ For each item: add the explanation under **Why**, describe expected outcomes und
 - **Scope:** Invoice creation/editing, order/client association, totals, and printable/downloadable output.
 - **Why:** The invoices are simple than you mentionned on the scope, they are not associated withh orders or clients. they are not printable or downloadable. currently we are using them to calculate the expenses and revenues, each invoice has type (expense or revenue) and an amount, a unique title, category and an optional description. we are using these to calculate the earnings of the business. by deducting the expenses from the revenues. and to know what are the most revenuable/expensable categories.
 -- Note : previously i was attachhing each delivered/returned order to an invoice (each order has his own invoice), but now, we are not doing that anymore, we are just creating invoices manually. so you'll notice that the model is still having an invoiceable method. you are free to delete this implementation and delete the Invoiceable model and the related migration.
-- **Behavior:** _Please describe invoice numbering, amounts, and update/print behavior._
-- **Status:** [ ] Specified · [ ] Tests added · [ ] Passing
+- **Behavior:** Admins create and update standalone revenue/expense records with a unique title, category, amount entered in dinars and stored in millimes, and optional description. Invoices are not associated with orders or clients and have no print/download behavior. Only admins can manage them.
+- **Status:** [x] Specified · [x] Tests added · [x] Passing
+- **Coverage:** `InvoiceManagementTest` covers revenue/expense creation, dinar-to-millime conversion, optional descriptions, unique title and field validation, updates, filtered listing, details, deletion, and admin-only access. Print/download and order/client association behavior are excluded. Creating without a description exposed and fixed the controller’s assumption that the optional field was always present.
 
 #### A-10 Reports and dashboard statistics
 

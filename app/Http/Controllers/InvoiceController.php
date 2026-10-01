@@ -102,7 +102,7 @@ class InvoiceController extends Controller
             'amount' => ($validated['amount'] * 1000),
             'category' => $validated['category'],
             'type' => $validated['type'],
-            'description' => $validated['description'],
+            'description' => $validated['description'] ?? null,
             'invoiceable_type' => get_class($invoiceable),
             'invoiceable_id' => $invoiceable->id,
 
