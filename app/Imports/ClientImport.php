@@ -25,16 +25,30 @@ class ClientImport implements ToModel, WithHeadingRow, WithValidation, SkipsEmpt
      */
     public function model(array $row)
     {
-        $client = Client::where('phone', $row['mobile'])->exists();
-        if (!$client) {
-            return new Client([
-                'name' => $row['nom'],
-                'phone' => $row['mobile'],
-                'mobile2' => $row['mobile2'],
-                'address' => $row['adresse'],
-                'state_id' => $row['gouvernorat'],
-            ]);
+        $phone = $row['mobile'];
+        $phone2 = filled($row['mobile2'] ?? null) ? $row['mobile2'] : null;
+
+        $duplicate = Client::query()->where(function ($query) use ($phone, $phone2) {
+            $query->where('phone', $phone)
+                ->orWhere('phone2', $phone);
+
+            if ($phone2 !== null) {
+                $query->orWhere('phone', $phone2)
+                    ->orWhere('phone2', $phone2);
+            }
+        })->exists();
+
+        if ($duplicate) {
+            return null;
         }
+
+        return new Client([
+            'name' => $row['nom'],
+            'phone' => $phone,
+            'phone2' => $phone2,
+            'address' => $row['adresse'],
+            'state_id' => $row['gouvernorat'],
+        ]);
     }
     public function rules(): array
     {
