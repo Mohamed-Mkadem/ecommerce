@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "test:e2e:admin-order": "node --test tests/e2e/admin-order-workflow.test.js"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.0.0",
