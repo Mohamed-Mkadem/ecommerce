@@ -155,6 +155,118 @@ class OrderManagementTest extends TestCase
         ]);
     }
 
+    public function test_admin_created_order_validates_and_stores_product_and_shipping_totals(): void
+    {
+        $admin = $this->makeAdmin();
+        $context = $this->makeOrderCreationContext();
+        $product = Product::factory()->create(['price' => 30000]);
+
+        $this->actingAs($admin)->post(route('orders.store'), $this->adminOrderPayload($context, $product, [
+            'phone' => '23123456',
+            'cart' => [['id' => $product->id, 'price' => '30.000', 'quantity' => 2]],
+            'total' => 66,
+        ]))->assertRedirect();
+
+        $order = Order::query()->where('phone', '23123456')->firstOrFail();
+        $this->assertSame('admin', $order->source);
+        $this->assertSame(66000, $order->amount);
+        $this->assertSame(6000, $order->shipping_cost);
+        $this->assertFalse((bool) $order->free_shipping);
+        $this->assertDatabaseHas('order_product', [
+            'order_id' => $order->id,
+            'product_id' => $product->id,
+            'price' => 30000,
+            'quantity' => 2,
+            'sub_total' => 60000,
+        ]);
+
+        $tamperedPayload = $this->adminOrderPayload($context, $product, [
+            'phone' => '27123456',
+            'cart' => [['id' => $product->id, 'price' => '30.000', 'quantity' => 2]],
+            'total' => 65,
+        ]);
+        $this->actingAs($admin)->postJson(route('orders.store'), $tamperedPayload)
+            ->assertUnprocessable()->assertJsonValidationErrors(['total']);
+        $this->assertDatabaseMissing('orders', ['phone' => '27123456']);
+    }
+
+    public function test_admin_created_order_uses_zero_shipping_when_free_shipping_is_selected(): void
+    {
+        $admin = $this->makeAdmin();
+        $context = $this->makeOrderCreationContext();
+        $product = Product::factory()->create(['price' => 30000]);
+
+        $this->actingAs($admin)->post(route('orders.store'), $this->adminOrderPayload($context, $product, [
+            'phone' => '24123456',
+            'cart' => [['id' => $product->id, 'price' => '30.000', 'quantity' => 1]],
+            'total' => 30,
+            'shipping_cost' => 0,
+            'free_shipping' => true,
+        ]))->assertRedirect();
+
+        $order = Order::query()->where('phone', '24123456')->firstOrFail();
+        $this->assertTrue((bool) $order->free_shipping);
+        $this->assertSame(0, $order->shipping_cost);
+        $this->assertSame(30000, $order->amount);
+    }
+
+    public function test_admin_created_order_is_marked_nrp_only_when_its_status_is_pending(): void
+    {
+        $admin = $this->makeAdmin();
+        $context = $this->makeOrderCreationContext();
+        $product = Product::factory()->create(['price' => 30000]);
+
+        $this->actingAs($admin)->post(route('orders.store'), $this->adminOrderPayload($context, $product, [
+            'phone' => '25123456',
+            'nrp' => true,
+        ]))->assertRedirect();
+
+        $pendingOrder = Order::query()->where('phone', '25123456')->firstOrFail();
+        $this->assertDatabaseHas('nrps', ['order_id' => $pendingOrder->id, 'tries' => 1]);
+
+        $this->actingAs($admin)->post(route('orders.store'), $this->adminOrderPayload($context, $product, [
+            'phone' => '26123456',
+            'status' => 'shipped',
+            'nrp' => true,
+        ]))->assertRedirect();
+
+        $shippedOrder = Order::query()->where('phone', '26123456')->firstOrFail();
+        $this->assertDatabaseMissing('nrps', ['order_id' => $shippedOrder->id]);
+    }
+
+    private function makeOrderCreationContext(): array
+    {
+        $state = State::factory()->create(['shipping_cost' => 6000]);
+        $city = City::query()->create(['state_id' => $state->id]);
+        $locality = Locality::query()->forceCreate(['city_id' => $city->id, 'postal_code' => '1000']);
+        $shipper = Shipper::query()->create(['name' => 'Local Delivery']);
+
+        return compact('state', 'city', 'locality', 'shipper');
+    }
+
+    private function adminOrderPayload(array $context, Product $product, array $overrides = []): array
+    {
+        $payload = [
+            'name' => 'Admin Created Customer',
+            'address' => 'Tunis test address',
+            'phone' => '23123456',
+            'state' => $context['state']->id,
+            'city' => $context['city']->id,
+            'locality' => $context['locality']->id,
+            'shipper' => $context['shipper']->id,
+            'deliveryDate' => now()->addDays(2)->toDateString(),
+            'cart' => [['id' => $product->id, 'price' => '30.000', 'quantity' => 1]],
+            'total' => 36,
+            'shipping_cost' => 6,
+            'status' => 'pending',
+            'nrp' => false,
+            'free_shipping' => false,
+            'note' => null,
+        ];
+
+        return array_merge($payload, $overrides);
+    }
+
     private function makeOrder(): Order
     {
         $state = State::factory()->create();

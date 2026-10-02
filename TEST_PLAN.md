@@ -158,7 +158,7 @@ For each item: add the explanation under **Why**, describe expected outcomes und
 - **Behavior:** Pending/abandoned orders can be marked NRP; each later NRP action increments the try count. NRP orders are excluded from the main orders list and appear in the NRP list. Confirming or canceling an NRP order removes its NRP record. Confirmed, canceled, and NRP orders are locked for direct editing; only pending/abandoned orders allow product edits.
 - **Status:** [x] Specified · [x] Tests added · [x] Passing
 
-- **Coverage:** `OrderManagementTest` covers repeated NRP marking, main-list exclusion and NRP-list visibility, confirmation/cancellation clearing the NRP record, product replacement and amount calculation, and order-information updates syncing the client record and free-shipping amount. Enforcement of the edit-lock policy still needs a dedicated assertion.
+- **Coverage:** `OrderManagementTest` covers repeated NRP marking, main-list exclusion and NRP-list visibility, confirmation/cancellation clearing the NRP record, product replacement and amount calculation, order-information updates syncing the client record and free-shipping amount, and manual admin order creation with paid/free shipping, total validation and NRP attachment only for pending orders. Enforcement of the edit-lock policy still needs a dedicated assertion.
 
 #### A-05 Excel imports
 
