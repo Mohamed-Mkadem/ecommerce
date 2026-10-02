@@ -1,5 +1,5 @@
 <script setup>
-import heroImage from "@/assets/images/hero.webp";
+import heroImage from "@/assets/images/hero-image.webp";
 </script>
 
 <template>

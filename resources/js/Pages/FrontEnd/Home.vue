@@ -1,7 +1,8 @@
 <script setup>
 import WrapperCard from "@/js/Components/FrontEnd/WrapperCard.vue";
 import HeroShowcase from "@/js/Components/FrontEnd/HeroShowcase.vue";
-import heroImage from "@/assets/images/hero.webp";
+import careImage from "@/assets/images/care-image.webp";
+import tableImage from "@/assets/images/table-image.webp";
 
 const props = defineProps({
     wrappers: Array,
@@ -59,7 +60,7 @@ const props = defineProps({
             <div class="relative mx-auto w-full max-w-[560px] p-3 sm:p-4 ">
                 <div class="absolute slg:block hidden rounded-lg inset-0 translate-x-3 translate-y-3 border border-corange/40 sm:translate-x-4 sm:translate-y-4"
                     aria-hidden="true"></div>
-                <img :src="heroImage" :alt="$t('home_heritage.image_alt')" loading="lazy"
+                <img :src="careImage" :alt="$t('home_heritage.image_alt')" loading="lazy"
                     class="relative aspect-[1.12/1] rounded-lg  w-full object-cover" />
             </div>
 
@@ -101,8 +102,8 @@ const props = defineProps({
 
     <section class="mx-auto max-w-screen-3xl bg-offwhite px-5 pb-16 sm:px-8 md:px-12 md:pb-24">
         <div class="rounded-lg mx-auto grid max-w-screen-xl overflow-hidden bg-[#f3e8da] md:grid-cols-2">
-            <div class="min-h-[260px] sm:min-h-[360px] lg:min-h-[460px]">
-                <img :src="heroImage" :alt="$t('home_gathering.image_alt')" loading="lazy"
+            <div class="min-h-[260px] max-h-100 sm:min-h-[360px] md:max-h-[650px] lg:min-h-[460px]">
+                <img :src="tableImage" :alt="$t('home_gathering.image_alt')" loading="lazy"
                     class="h-full min-h-[260px] w-full object-cover sm:min-h-[360px] lg:min-h-[460px]" />
             </div>
 
@@ -130,17 +131,21 @@ const props = defineProps({
     <section class="mx-auto max-w-screen-3xl border-y border-line bg-lightCream px-5 py-8 sm:px-8 md:px-12 md:py-10">
         <div class="mx-auto grid max-w-screen-xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             <div class="flex items-start gap-3">
-                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                <span
+                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
                     <i class="ri-truck-line text-base" aria-hidden="true"></i>
                 </span>
                 <div>
-                    <h3 class="font-serif text-base leading-tight text-brown">{{ $t("home_benefits.delivery_title") }}</h3>
-                    <p class="mt-1 text-[11px] leading-4 text-brown/70">{{ $t("home_benefits.delivery_description") }}</p>
+                    <h3 class="font-serif text-base leading-tight text-brown">{{ $t("home_benefits.delivery_title") }}
+                    </h3>
+                    <p class="mt-1 text-[11px] leading-4 text-brown/70">{{ $t("home_benefits.delivery_description") }}
+                    </p>
                 </div>
             </div>
 
             <div class="flex items-start gap-3">
-                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                <span
+                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
                     <i class="ri-shield-check-line text-base" aria-hidden="true"></i>
                 </span>
                 <div>
@@ -150,22 +155,28 @@ const props = defineProps({
             </div>
 
             <div class="flex items-start gap-3">
-                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                <span
+                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
                     <i class="ri-message-3-line text-base" aria-hidden="true"></i>
                 </span>
                 <div>
-                    <h3 class="font-serif text-base leading-tight text-brown">{{ $t("home_benefits.support_title") }}</h3>
-                    <p class="mt-1 text-[11px] leading-4 text-brown/70">{{ $t("home_benefits.support_description") }}</p>
+                    <h3 class="font-serif text-base leading-tight text-brown">{{ $t("home_benefits.support_title") }}
+                    </h3>
+                    <p class="mt-1 text-[11px] leading-4 text-brown/70">{{ $t("home_benefits.support_description") }}
+                    </p>
                 </div>
             </div>
 
             <div class="flex items-start gap-3">
-                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                <span
+                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
                     <i class="ri-secure-payment-line text-base" aria-hidden="true"></i>
                 </span>
                 <div>
-                    <h3 class="font-serif text-base leading-tight text-brown">{{ $t("home_benefits.payment_title") }}</h3>
-                    <p class="mt-1 text-[11px] leading-4 text-brown/70">{{ $t("home_benefits.payment_description") }}</p>
+                    <h3 class="font-serif text-base leading-tight text-brown">{{ $t("home_benefits.payment_title") }}
+                    </h3>
+                    <p class="mt-1 text-[11px] leading-4 text-brown/70">{{ $t("home_benefits.payment_description") }}
+                    </p>
                 </div>
             </div>
         </div>

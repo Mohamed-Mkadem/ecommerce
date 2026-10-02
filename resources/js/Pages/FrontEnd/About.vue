@@ -1,22 +1,22 @@
 <script setup>
-import heroImage from "@/assets/images/baklawa_fekia.webp";
-import sharingImage from "@/assets/images/varié_spécial.webp";
+import traditionImage from "@/assets/images/about-tradition.webp";
+import sharingImage from "@/assets/images/about-sharing.webp";
 </script>
 
 <template>
+
     <Head :title="$t('About us')" />
 
     <main class="bg-lightCream text-brown">
         <section class="mx-auto max-w-screen-3xl px-5 py-12 sm:px-8 md:px-12 md:py-20">
             <div class="mx-auto grid max-w-screen-xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
                 <div class="relative mx-auto w-full max-w-[570px] p-3 sm:p-4">
-                    <div class="absolute inset-0 translate-x-3 translate-y-3 border border-corange/40 sm:translate-x-4 sm:translate-y-4" aria-hidden="true"></div>
-                    <img
-                        :src="heroImage"
-                        :alt="$t('about.hero_image_alt')"
-                        class="relative aspect-[1.08/1] w-full rounded-sm object-cover"
-                    />
-                    <div class="absolute bottom-0 end-0 max-w-[200px] border border-line bg-white px-4 py-3 sm:-end-2 sm:-bottom-2">
+                    <div class="absolute inset-0 translate-x-3 translate-y-3 border border-corange/40 sm:translate-x-4 sm:translate-y-4"
+                        aria-hidden="true"></div>
+                    <img :src="traditionImage" :alt="$t('about.hero_image_alt')"
+                        class="relative aspect-[1.08/1] w-full rounded-sm object-cover" />
+                    <div
+                        class="absolute bottom-0 end-0 max-w-[200px] border border-line bg-white px-4 py-3 sm:-end-2 sm:-bottom-2">
                         <p class="font-serif text-sm leading-snug text-brown">{{ $t("about.image_note") }}</p>
                     </div>
                 </div>
@@ -32,12 +32,10 @@ import sharingImage from "@/assets/images/varié_spécial.webp";
                     <p class="mt-6 text-sm leading-7 text-brown/75 sm:text-base">
                         {{ $t("about.intro") }}
                     </p>
-                    <Link
-                        :href="route('FE.shop')"
-                        class="mt-7 inline-flex min-h-11 items-center gap-3 rounded-sm bg-corange px-5 py-3 text-xs font-semibold text-white transition-colors hover:bg-cOrangeDark focus:outline-none focus-visible:ring-2 focus-visible:ring-cOrangeDark focus-visible:ring-offset-2"
-                    >
-                        {{ $t("about.hero_cta") }}
-                        <i class="ri-arrow-right-line rtl:rotate-180" aria-hidden="true"></i>
+                    <Link :href="route('FE.shop')"
+                        class="mt-7 inline-flex min-h-11 items-center gap-3 rounded-sm bg-corange px-5 py-3 text-xs font-semibold text-white transition-colors hover:bg-cOrangeDark focus:outline-none focus-visible:ring-2 focus-visible:ring-cOrangeDark focus-visible:ring-offset-2">
+                    {{ $t("about.hero_cta") }}
+                    <i class="ri-arrow-right-line rtl:rotate-180" aria-hidden="true"></i>
                     </Link>
                 </div>
             </div>
@@ -56,7 +54,8 @@ import sharingImage from "@/assets/images/varié_spécial.webp";
 
                 <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     <article class="border border-line bg-white p-5 sm:p-6">
-                        <span class="mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                        <span
+                            class="mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
                             <i class="ri-restaurant-2-line text-lg" aria-hidden="true"></i>
                         </span>
                         <h3 class="font-serif text-xl text-brown">{{ $t("about.value_craft_title") }}</h3>
@@ -64,7 +63,8 @@ import sharingImage from "@/assets/images/varié_spécial.webp";
                     </article>
 
                     <article class="border border-line bg-white p-5 sm:p-6">
-                        <span class="mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                        <span
+                            class="mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
                             <i class="ri-heart-3-line text-lg" aria-hidden="true"></i>
                         </span>
                         <h3 class="font-serif text-xl text-brown">{{ $t("about.value_care_title") }}</h3>
@@ -72,7 +72,8 @@ import sharingImage from "@/assets/images/varié_spécial.webp";
                     </article>
 
                     <article class="border border-line bg-white p-5 sm:p-6 sm:col-span-2 lg:col-span-1">
-                        <span class="mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                        <span
+                            class="mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
                             <i class="ri-gift-2-line text-lg" aria-hidden="true"></i>
                         </span>
                         <h3 class="font-serif text-xl text-brown">{{ $t("about.value_sharing_title") }}</h3>
@@ -84,13 +85,9 @@ import sharingImage from "@/assets/images/varié_spécial.webp";
 
         <section class="mx-auto max-w-screen-3xl px-5 py-14 sm:px-8 md:px-12 md:py-20">
             <div class="mx-auto grid max-w-screen-xl items-center gap-9 md:grid-cols-2 md:gap-x-16 md:gap-y-12">
-                <div class="overflow-hidden rounded-sm border border-line bg-white p-2 sm:p-3">
-                    <img
-                        :src="sharingImage"
-                        :alt="$t('about.sharing_image_alt')"
-                        loading="lazy"
-                        class="aspect-[1.2/1] w-full rounded-sm object-cover"
-                    />
+                <div class="overflow-hidden rounded-sm border xmd:min-h-[500px] border-line bg-white p-2 sm:p-3">
+                    <img :src="sharingImage" :alt="$t('about.sharing_image_alt')" loading="lazy"
+                        class="aspect-[1.2/1] w-full min-h-[500px]  rounded-sm object-cover" />
                 </div>
                 <div class="max-w-xl md:ms-4">
                     <p class="mb-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-cOrangeDark">
@@ -132,12 +129,10 @@ import sharingImage from "@/assets/images/varié_spécial.webp";
                 <p class="mx-auto mt-3 max-w-xl text-sm leading-6 text-brown/70">
                     {{ $t("about.closing_description") }}
                 </p>
-                <Link
-                    :href="route('FE.shop')"
-                    class="mt-6 inline-flex min-h-11 items-center gap-3 rounded-sm bg-corange px-5 py-3 text-xs font-semibold text-white transition-colors hover:bg-cOrangeDark focus:outline-none focus-visible:ring-2 focus-visible:ring-cOrangeDark focus-visible:ring-offset-2"
-                >
-                    {{ $t("about.closing_cta") }}
-                    <i class="ri-arrow-right-line rtl:rotate-180" aria-hidden="true"></i>
+                <Link :href="route('FE.shop')"
+                    class="mt-6 inline-flex min-h-11 items-center gap-3 rounded-sm bg-corange px-5 py-3 text-xs font-semibold text-white transition-colors hover:bg-cOrangeDark focus:outline-none focus-visible:ring-2 focus-visible:ring-cOrangeDark focus-visible:ring-offset-2">
+                {{ $t("about.closing_cta") }}
+                <i class="ri-arrow-right-line rtl:rotate-180" aria-hidden="true"></i>
                 </Link>
             </div>
         </section>

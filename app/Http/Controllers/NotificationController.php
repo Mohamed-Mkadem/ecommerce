@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class NotificationController extends Controller
 {
@@ -41,6 +42,17 @@ class NotificationController extends Controller
 
         return redirect()->back();
     }
+
+    public function clean()
+    {
+        $exitCode = Artisan::call('notifications:prune');
+
+        return redirect()->back()->with(
+            $exitCode === 0 ? 'success' : 'error',
+            $exitCode === 0 ? 'Notifications cleaned successfully.' : 'Failed to clean notifications.'
+        );
+    }
+
     public function getNotifications(User $user)
     {
         return $user->notifications()->take(4)->get();

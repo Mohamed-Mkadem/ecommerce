@@ -18,7 +18,7 @@ import FrontEndLayout from "./Layouts/FrontEndLayout.vue";
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 const pinia = createPinia();
 createInertiaApp({
-    title: (title) => `${title} - Ecommerce`,
+    title: (title) => `${title} - Sweetia`,
     resolve: (name) => {
         const pages = import.meta.glob("./Pages/**/*.vue", { eager: true });
         let page = pages[`./Pages/${name}.vue`];

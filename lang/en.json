@@ -821,5 +821,15 @@
     "about.closing_eyebrow": "Your table is waiting",
     "about.closing_title": "Find something sweet to share.",
     "about.closing_description": "Browse our collection of Tunisian pastries and choose a favorite for your next gathering.",
-    "about.closing_cta": "Shop the collection"
+    "about.closing_cta": "Shop the collection",
+    "Cleanup.confirm": "Clean now",
+    "Cleanup.notifications.button": "Clean old notifications",
+    "Cleanup.notifications.confirm": "Notifications older than seven days will be permanently deleted.",
+    "Cleanup.notifications.success": "Old notifications cleaned successfully.",
+    "Cleanup.shippingReports.button": "Clean old reports",
+    "Cleanup.shippingReports.confirm": "Shipping reports older than seven days and their files will be permanently deleted.",
+    "Cleanup.shippingReports.success": "Old shipping reports cleaned successfully.",
+    "Cleanup.sellingReports.button": "Clean old reports",
+    "Cleanup.sellingReports.confirm": "Selling reports older than seven days and their files will be permanently deleted.",
+    "Cleanup.sellingReports.success": "Old selling reports cleaned successfully."
 }

@@ -8,6 +8,7 @@ use App\Jobs\GenerateSellingReport;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Requests\StoreSellingReportRequest;
 
 class SellingReportController extends Controller
@@ -52,6 +53,16 @@ class SellingReportController extends Controller
             DB::rollBack();
             return redirect()->back();
         }
+    }
+
+    public function clean()
+    {
+        $exitCode = Artisan::call('selling-reports:prune');
+
+        return redirect()->back()->with(
+            $exitCode === 0 ? 'success' : 'error',
+            $exitCode === 0 ? 'Selling reports cleaned successfully.' : 'Failed to clean selling reports.'
+        );
     }
 
     public function downloadExcel($id)

@@ -884,5 +884,15 @@
     "about.closing_eyebrow": "مائدتكم بانتظاركم",
     "about.closing_title": "اختاروا حلويات تتقاسمونها.",
     "about.closing_description": "تصفّحوا تشكيلتنا من الحلويات التونسية واختاروا ما يرافق مناسبتكم القادمة.",
-    "about.closing_cta": "تصفّحوا التشكيلة"
+    "about.closing_cta": "تصفّحوا التشكيلة",
+    "Cleanup.confirm": "نظّف الآن",
+    "Cleanup.notifications.button": "تنظيف الإشعارات القديمة",
+    "Cleanup.notifications.confirm": "سيتم حذف الإشعارات التي مضى عليها أكثر من سبعة أيام نهائيًا.",
+    "Cleanup.notifications.success": "تم تنظيف الإشعارات القديمة بنجاح.",
+    "Cleanup.shippingReports.button": "تنظيف التقارير القديمة",
+    "Cleanup.shippingReports.confirm": "سيتم حذف تقارير الشحن التي مضى عليها أكثر من سبعة أيام وملفاتها نهائيًا.",
+    "Cleanup.shippingReports.success": "تم تنظيف تقارير الشحن القديمة بنجاح.",
+    "Cleanup.sellingReports.button": "تنظيف التقارير القديمة",
+    "Cleanup.sellingReports.confirm": "سيتم حذف تقارير المبيعات التي مضى عليها أكثر من سبعة أيام وملفاتها نهائيًا.",
+    "Cleanup.sellingReports.success": "تم تنظيف تقارير المبيعات القديمة بنجاح."
 }

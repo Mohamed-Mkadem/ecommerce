@@ -880,5 +880,15 @@
     "about.closing_eyebrow": "Votre table vous attend",
     "about.closing_title": "Une douceur à partager vous attend.",
     "about.closing_description": "Parcourez notre collection de pâtisseries tunisiennes et choisissez votre préférée pour votre prochain moment à partager.",
-    "about.closing_cta": "Voir la collection"
+    "about.closing_cta": "Voir la collection",
+    "Cleanup.confirm": "Nettoyer maintenant",
+    "Cleanup.notifications.button": "Nettoyer les anciennes notifications",
+    "Cleanup.notifications.confirm": "Les notifications datant de plus de sept jours seront définitivement supprimées.",
+    "Cleanup.notifications.success": "Les anciennes notifications ont été nettoyées.",
+    "Cleanup.shippingReports.button": "Nettoyer les anciens rapports",
+    "Cleanup.shippingReports.confirm": "Les rapports d’expédition de plus de sept jours et leurs fichiers seront définitivement supprimés.",
+    "Cleanup.shippingReports.success": "Les anciens rapports d’expédition ont été nettoyés.",
+    "Cleanup.sellingReports.button": "Nettoyer les anciens rapports",
+    "Cleanup.sellingReports.confirm": "Les rapports de vente de plus de sept jours et leurs fichiers seront définitivement supprimés.",
+    "Cleanup.sellingReports.success": "Les anciens rapports de vente ont été nettoyés."
 }

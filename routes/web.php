@@ -80,14 +80,17 @@ Route::middleware(['auth', isActiveMiddleware::class])->group(function () {
 
     Route::get('/shipping-reports/download-excel/{id}', [ShippingReportController::class, 'downloadExcel'])->name('shipping-reports.download-excel');
     Route::get('/shipping-reports/download-pdf/{id}', [ShippingReportController::class, 'downloadPdf'])->name('shipping-reports.download-pdf');
+    Route::delete('shipping_reports/clean', [ShippingReportController::class, 'clean'])->name('shipping_reports.clean')->middleware(isAdminMiddleware::class);
     Route::resource('shipping_reports', ShippingReportController::class)->except(['show', 'edit', 'update']);
 
     Route::get('/selling-reports/download-excel/{id}', [SellingReportController::class, 'downloadExcel'])->name('selling-reports.download-excel');
     Route::get('/selling-reports/download-pdf/{id}', [SellingReportController::class, 'downloadPdf'])->name('selling-reports.download-pdf');
+    Route::delete('selling_reports/clean', [SellingReportController::class, 'clean'])->name('selling_reports.clean')->middleware(isAdminMiddleware::class);
     Route::resource('selling_reports', SellingReportController::class)->except(['show', 'edit', 'update']);
 
     Route::patch('notifications/{notification_id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
     Route::patch('notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
+    Route::delete('notifications/clean', [NotificationController::class, 'clean'])->name('notifications.clean')->middleware(isAdminMiddleware::class);
     Route::get('notifications/{user}/get', [NotificationController::class, 'getNotifications'])->name('notifications.get');
     Route::resource('notifications', NotificationController::class)->only(['index']);
 
