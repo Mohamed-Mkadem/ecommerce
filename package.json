@@ -4,7 +4,8 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "test:e2e:admin-order": "node --test tests/e2e/admin-order-workflow.test.js"
+        "test:e2e:admin-order": "node --test tests/e2e/admin-order-workflow.test.js",
+        "test:e2e:storefront-order": "node --test tests/e2e/storefront-order-workflow.test.js"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.0.0",
