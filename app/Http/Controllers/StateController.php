@@ -46,15 +46,11 @@ class StateController extends Controller
     {
         $request->validate([
             'price' => ['required', 'numeric', 'min:0'],
-            'delivery_cost' => ['required', 'numeric', 'min:0'],
-            'return_cost' => ['required', 'numeric', 'min:0'],
             'default_shipper_id' => ['nullable', 'exists:shippers,id'],
         ]);
 
         $state->update([
             'shipping_cost' => $request->price * 1000,
-            'delivery_cost' => $request->delivery_cost * 1000,
-            'return_cost' => $request->return_cost * 1000,
             'default_shipper_id' => $request->default_shipper_id,
         ]);
         $state->save();

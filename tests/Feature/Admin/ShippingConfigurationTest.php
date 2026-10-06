@@ -57,8 +57,6 @@ class ShippingConfigurationTest extends TestCase
 
         $this->actingAs($admin)->put(route('states.update', $state), [
             'price' => 8.5,
-            'delivery_cost' => 7,
-            'return_cost' => 5,
             'default_shipper_id' => $shipper->id,
         ])->assertRedirect(route('states.index'));
 
@@ -70,10 +68,11 @@ class ShippingConfigurationTest extends TestCase
 
         $this->actingAs($admin)->get(route('states.edit', $state))
             ->assertOk()
-            ->assertInertia(fn (Assert $page) => $page
-                ->component('Admin/States/Edit')
-                ->where('state.default_shipper_id', $shipper->id)
-                ->where('shippers.0.id', $shipper->id)
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component('Admin/States/Edit')
+                    ->where('state.default_shipper_id', $shipper->id)
+                    ->where('shippers.0.id', $shipper->id)
             );
     }
 

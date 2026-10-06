@@ -21,8 +21,6 @@ const toast = useToast();
 
 const form = useForm({
     price: props.state.shipping_cost / 1000,
-    return_cost: props.state.return_cost / 1000,
-    delivery_cost: props.state.delivery_cost / 1000,
     default_shipper_id: props.state.default_shipper_id || null,
 });
 import { ref } from "vue";
@@ -65,52 +63,10 @@ function submitForm() {
                     v-model="form['price']"
                     :required="true"
                     :placeholder="$t('Shipping.cost')"
-                    step="0.01"
+                    step="0.5"
                 />
 
                 <InputError class="mt-2" :message="form.errors['price']" />
-            </div>
-            <div class="mt-4">
-                <InputLabel
-                    for="delivery_cost"
-                    :value="`${$t('delivery_cost')} : (${$t('in DT')})`"
-                />
-
-                <TextInput
-                    class="mt-2 block w-full"
-                    id="delivery_cost"
-                    type="number"
-                    v-model="form['delivery_cost']"
-                    :required="true"
-                    :placeholder="$t('Shipping.cost')"
-                    step="0.01"
-                />
-
-                <InputError
-                    class="mt-2"
-                    :message="form.errors['delivery_cost']"
-                />
-            </div>
-            <div class="mt-4">
-                <InputLabel
-                    for="return_cost"
-                    :value="`${$t('return_cost')} : (${$t('in DT')})`"
-                />
-
-                <TextInput
-                    class="mt-2 block w-full"
-                    id="return_cost"
-                    type="number"
-                    v-model="form['return_cost']"
-                    :required="true"
-                    :placeholder="$t('Shipping.cost')"
-                    step="0.01"
-                />
-
-                <InputError
-                    class="mt-2"
-                    :message="form.errors['return_cost']"
-                />
             </div>
 
             <div class="mt-4">

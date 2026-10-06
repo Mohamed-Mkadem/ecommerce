@@ -51,7 +51,7 @@ const props = defineProps(["states", "acceptance_dates"]);
             <table class="w-full text-left rtl:text-right text-slate-800">
                 <thead class="text-gray bg-graydark p-4">
                     <tr
-                        class="grid grid-cols-[50px_200px_200px_1fr_1fr_1fr_120px] items-center text-center"
+                        class="grid grid-cols-[80px_1fr_1fr_1fr_200px] items-center text-center"
                     >
                         <th scope="col" class="px-6 py-4">
                             {{ $t("ID") }}
@@ -61,12 +61,6 @@ const props = defineProps(["states", "acceptance_dates"]);
                         </th>
                         <th scope="col" class="px-6 py-4">
                             {{ $t("Shipping.cost") }}
-                        </th>
-                        <th scope="col" class="px-6 py-4">
-                            {{ $t("delivery_cost") }}
-                        </th>
-                        <th scope="col" class="px-6 py-4">
-                            {{ $t("return_cost") }}
                         </th>
 
                         <th scope="col" class="px-6 py-4">
@@ -82,7 +76,7 @@ const props = defineProps(["states", "acceptance_dates"]);
                     <tr
                         v-for="(state, index) in states.data"
                         :key="index"
-                        class="odd:bg-slate-200 even:bg-white grid grid-cols-[50px_200px_200px_1fr_1fr_1fr_120px] items-center text-center"
+                        class="odd:bg-slate-200 even:bg-white grid grid-cols-[80px_1fr_1fr_1fr_200px] items-center text-center"
                     >
                         <th
                             scope="row"
@@ -96,12 +90,7 @@ const props = defineProps(["states", "acceptance_dates"]);
                         <td class="px-6 py-4">
                             {{ `${state.shipping_cost} ${$t("currency")}` }}
                         </td>
-                        <td class="px-6 py-4">
-                            {{ `${state.delivery_cost} ${$t("currency")}` }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ `${state.return_cost} ${$t("currency")}` }}
-                        </td>
+
                         <td class="px-6 py-4">
                             {{
                                 `${state.default_shipper ? state.default_shipper.name : "Not Set"}`

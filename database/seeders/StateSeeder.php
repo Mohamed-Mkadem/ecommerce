@@ -23,8 +23,6 @@ class StateSeeder extends Seeder
         'fr' => 'Ariana',
         'ar' => 'أريانة',
         'shipping_cost' => 6000,
-        'delivery_cost' => 5000,
-        'return_cost' => 0,
         'cities' => [
             [
                 'en' => 'Ariana Ville',
@@ -1320,8 +1318,7 @@ class StateSeeder extends Seeder
         'fr' => 'Béja',
         'ar' => 'باجة',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+
         'cities' => [
             ['en' => 'Amdoun', 'fr' => 'Amdoun', 'ar' => 'عمدون', 'localities' => [
                 [
@@ -3208,8 +3205,7 @@ class StateSeeder extends Seeder
         'fr' => 'Ben Arous',
         'ar' => 'بن عروس',
         'shipping_cost' => 6000,
-        'delivery_cost' => 5000,
-        'return_cost' => 0,
+
         'cities' => [
             ['en' => 'Ben Arous', 'fr' => 'Ben Arous', 'ar' => 'بن عروس', "localities" => [
                 [
@@ -5149,8 +5145,7 @@ class StateSeeder extends Seeder
         'fr' => 'Bizerte',
         'ar' => 'بنزرت',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+
         'cities' => [
             ['en' => 'Bizerte Nord', 'fr' => 'Bizerte Nord', 'ar' => 'بنزرت الشمالية', 'localities' => [
                 [
@@ -6693,8 +6688,7 @@ class StateSeeder extends Seeder
         'fr' => 'Gabès',
         'ar' => 'قابس',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+
         'cities' => [
             ['en' => 'El Hamma', 'fr' => 'El Hamma', 'ar' => 'الحامة', "localities" => [
                 [
@@ -7893,8 +7887,7 @@ class StateSeeder extends Seeder
         'fr' => 'Gafsa',
         'ar' => 'قفصة',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+  
         'cities' => [
             ['en' => 'Belkhir', 'fr' => 'Belkhir', 'ar' => 'بلخير', "localities" => [
                 [
@@ -9023,8 +9016,7 @@ class StateSeeder extends Seeder
         'fr' => 'Jendouba',
         'ar' => 'جندوبة',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+    
         'cities' => [
 
             ['en' => 'Ain Draham', 'fr' => 'Ain Draham', 'ar' => 'عين دراهم', 'localities' => [
@@ -10102,8 +10094,7 @@ class StateSeeder extends Seeder
         'fr' => 'Kairouan',
         'ar' => 'القيروان',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+    
         'cities' => [
             ['en' => 'Bou Hajla', 'fr' => 'Bou Hajla', 'ar' => 'بوحجلة', 'localities' => [
                 [
@@ -11106,8 +11097,7 @@ class StateSeeder extends Seeder
         'fr' => 'Kasserine',
         'ar' => 'القصرين',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+   
         'cities' => [
             ['en' => 'El Ayoun', 'fr' => 'El Ayoun', 'ar' => 'العيون', 'localities' => [
                 [
@@ -12055,8 +12045,7 @@ class StateSeeder extends Seeder
         'fr' => 'Kébili',
         'ar' => 'قبلي',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+
         'cities' => [
             ['en' => 'Douz', 'fr' => 'Douz', 'ar' => 'دوز', 'localities' => [
                 [
@@ -12561,8 +12550,7 @@ class StateSeeder extends Seeder
         'fr' => 'Le Kef',
         'ar' => 'الكاف',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+
         'cities' => [
             ['en' => 'Dahmani', 'fr' => 'Dahmani', 'ar' => 'الدهماني', 'localities' => [
                 [
@@ -14156,8 +14144,7 @@ class StateSeeder extends Seeder
         'fr' => 'Mahdia',
         'ar' => 'المهدية',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+  
         'cities' => [
 
             ['en' => 'Bou Merdes', 'fr' => 'Bou Merdes', 'ar' => 'بو مرداس', 'localities' => [
@@ -15233,8 +15220,7 @@ class StateSeeder extends Seeder
         'fr' => 'La Mannouba',
         'ar' => 'منوبة',
         'shipping_cost' => 6000,
-        'delivery_cost' => 5000,
-        'return_cost' => 0,
+   
         'cities' => [
             ['en' => 'Borj El Amri', 'fr' => 'Borj El Amri', 'ar' => 'برج العامري', "localities" => [
                 [
@@ -16106,8 +16092,7 @@ class StateSeeder extends Seeder
         'fr' => 'Médenine',
         'ar' => 'مدنين',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+    
         'cities' => [
             ['en' => 'Ajim', 'fr' => 'Ajim', 'ar' => 'أجيم', 'localities' =>  [
                 [
@@ -17262,8 +17247,7 @@ class StateSeeder extends Seeder
         'fr' => 'Monastir',
         'ar' => 'المنستير',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+    
         'cities' => [
 
             ['en' => 'Bekalta', 'fr' => 'Bekalta', 'ar' => 'بقالطة', 'localities' => [
@@ -18410,8 +18394,7 @@ class StateSeeder extends Seeder
         'fr' => 'Nabeul',
         'ar' => 'نابل',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+       
         'cities' => [
 
             ['en' => 'Beni Khalled', 'fr' => 'Beni Khalled', 'ar' => 'بني خلاد', 'localities' => [
@@ -20691,8 +20674,7 @@ class StateSeeder extends Seeder
         'fr' => 'Sfax',
         'ar' => 'صفاقس',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+  
         'cities' => [
             ['en' => 'Agareb', 'fr' => 'Agareb', 'ar' => 'عقارب', 'localities' => [
                 [
@@ -22819,8 +22801,7 @@ class StateSeeder extends Seeder
         'fr' => 'Sidi Bouzid',
         'ar' => 'سيدي بوزيد',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+    
         'cities' => [
             ['en' => 'Ben Oun', 'fr' => 'Ben Oun', 'ar' => 'بن عون', 'localities' => [
                 [
@@ -24444,8 +24425,7 @@ class StateSeeder extends Seeder
         'fr' => 'Siliana',
         'ar' => 'سليانة',
         'shipping_cost' => 7000,
-        'delivery_cost' => 6000,
-        'return_cost' => 3000,
+    
         'cities' => [
             ['en' => 'Bargou', 'fr' => 'Bargou', 'ar' => 'برقو', "localities" => [
                 [
@@ -25682,8 +25662,7 @@ class StateSeeder extends Seeder
         'fr' => 'Sousse',
         'ar' => 'سوسة',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+   
         'cities' => [
             ['en' => 'Akouda', 'fr' => 'Akouda', 'ar' => 'أكودة', 'localities' =>  [
                 [
@@ -26801,8 +26780,7 @@ class StateSeeder extends Seeder
         'fr' => 'Tataouine',
         'ar' => 'تطاوين',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+   
         'cities' => [
             ['en' => 'Bir Lahmar', 'fr' => 'Bir Lahmar', 'ar' => 'بئر الأحمر', 'localities' =>  [
                 [
@@ -27557,8 +27535,7 @@ class StateSeeder extends Seeder
         'fr' => 'Tozeur',
         'ar' => 'توزر',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+     
         'cities' => [
             ['en' => 'Degueche', 'fr' => 'Degueche', 'ar' => 'دقاش', 'localities' => [
                 [
@@ -27987,8 +27964,7 @@ class StateSeeder extends Seeder
         'fr' => 'Tunis',
         'ar' => 'تونس',
         'shipping_cost' => 6000,
-        'delivery_cost' => 5000,
-        'return_cost' => 0,
+  
         'cities' => [
             ['en' => 'Bab Bhar', 'fr' => 'Bab Bhar', 'ar' => 'باب بحر', 'localities' => [
                 [
@@ -29293,8 +29269,7 @@ class StateSeeder extends Seeder
         'fr' => 'Zaghouan',
         'ar' => 'زغوان',
         'shipping_cost' => 7000,
-        'delivery_cost' => 8000,
-        'return_cost' => 3000,
+
         'cities' => [
             ['en' => 'Bir Mcherga', 'fr' => 'Bir Mcherga', 'ar' => 'بئر مشارقة', 'localities' => [
                 [
@@ -30084,8 +30059,6 @@ class StateSeeder extends Seeder
         foreach ($states as $stateData) {
             $state = State::create([
                 'shipping_cost' => $stateData['shipping_cost'],
-                'delivery_cost' => $stateData['delivery_cost'],
-                'return_cost' => $stateData['return_cost'],
                 'en' => ['name' => $stateData['en']],
                 'fr' => ['name' => $stateData['fr']],
                 'ar' => ['name' => $stateData['ar']],
