@@ -165,6 +165,7 @@ class WrapperController extends Controller
     {
         return [
             'id' => $wrapper->id,
+            'title' => $wrapper->title,
             'slug' => $wrapper->slug,
             'caption' => $wrapper->caption,
             'en' => [

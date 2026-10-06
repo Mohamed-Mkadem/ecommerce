@@ -894,5 +894,6 @@
     "Cleanup.shippingReports.success": "تم تنظيف تقارير الشحن القديمة بنجاح.",
     "Cleanup.sellingReports.button": "تنظيف التقارير القديمة",
     "Cleanup.sellingReports.confirm": "سيتم حذف تقارير المبيعات التي مضى عليها أكثر من سبعة أيام وملفاتها نهائيًا.",
-    "Cleanup.sellingReports.success": "تم تنظيف تقارير المبيعات القديمة بنجاح."
+    "Cleanup.sellingReports.success": "تم تنظيف تقارير المبيعات القديمة بنجاح.",
+    "Discount.value_placeholder": "مثال: 10"
 }

@@ -890,5 +890,6 @@
     "Cleanup.shippingReports.success": "Les anciens rapports d’expédition ont été nettoyés.",
     "Cleanup.sellingReports.button": "Nettoyer les anciens rapports",
     "Cleanup.sellingReports.confirm": "Les rapports de vente de plus de sept jours et leurs fichiers seront définitivement supprimés.",
-    "Cleanup.sellingReports.success": "Les anciens rapports de vente ont été nettoyés."
+    "Cleanup.sellingReports.success": "Les anciens rapports de vente ont été nettoyés.",
+    "Discount.value_placeholder": "ex : 10"
 }

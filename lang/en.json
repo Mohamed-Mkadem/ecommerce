@@ -831,5 +831,6 @@
     "Cleanup.shippingReports.success": "Old shipping reports cleaned successfully.",
     "Cleanup.sellingReports.button": "Clean old reports",
     "Cleanup.sellingReports.confirm": "Selling reports older than seven days and their files will be permanently deleted.",
-    "Cleanup.sellingReports.success": "Old selling reports cleaned successfully."
+    "Cleanup.sellingReports.success": "Old selling reports cleaned successfully.",
+    "Discount.value_placeholder": "e.g. 10"
 }
