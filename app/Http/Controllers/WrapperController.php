@@ -51,7 +51,6 @@ class WrapperController extends Controller
         ];
 
         $wrapper = Wrapper::create([
-            'caption' => $validated['caption'] ?? null,
             'slug' => $this->uniqueSlug($validated['en']['title']),
             'is_active' => $validated['is_active'],
             'en' => $translations['en'],
@@ -101,7 +100,6 @@ class WrapperController extends Controller
         }
 
         $wrapper->update([
-            'caption' => $validated['caption'] ?? null,
             'slug' => $slug,
             'is_active' => $validated['is_active'],
         ]);
@@ -167,7 +165,6 @@ class WrapperController extends Controller
             'id' => $wrapper->id,
             'title' => $wrapper->title,
             'slug' => $wrapper->slug,
-            'caption' => $wrapper->caption,
             'en' => [
                 'title' => $wrapper->translate('en')->title,
                 'description' => $wrapper->translate('en')->description,

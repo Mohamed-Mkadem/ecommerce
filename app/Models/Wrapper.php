@@ -15,7 +15,6 @@ class Wrapper extends Model implements TranslatableContract, HasMedia
     use HasFactory, Translatable, InteractsWithMedia;
 
     protected $fillable = [
-        'caption',
         'slug',
         'is_active',
     ];

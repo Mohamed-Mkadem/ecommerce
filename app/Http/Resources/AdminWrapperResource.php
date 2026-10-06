@@ -24,7 +24,6 @@ class AdminWrapperResource extends JsonResource
         $data = [
             'id' => $this->id,
             'title' => $this->title,
-            'caption' => $this->caption,
             'slug' => $this->slug,
             'description' => $this->description,
             'is_active' => $this->is_active,

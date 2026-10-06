@@ -17,7 +17,6 @@ class WrapperListingResource extends JsonResource
             'id' => $this->id,
             'slug' => $this->slug,
             'title' => $this->title,
-            'caption' => $this->caption,
             'name' => $this->title,
             'description' => $this->description,
             'main_image_url' => $this->getFirstMediaUrl('images')

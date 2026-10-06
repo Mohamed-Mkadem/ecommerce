@@ -18,7 +18,6 @@ class StoreWrapperRequest extends FormRequest
         $locales = ['en', 'ar', 'fr'];
 
         $rules = [
-            'caption' => ['nullable', 'string', 'max:255'],
             'is_active' => ['required', 'boolean'],
             'images' => ['required', 'array'],
             'images.*' => ['image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],

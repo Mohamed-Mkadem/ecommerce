@@ -129,7 +129,6 @@ class FrontEndController extends Controller
                 'id' => $wrapper->id,
                 'slug' => $wrapper->slug,
                 'title' => $wrapper->title,
-                'caption' => $wrapper->caption,
                 'description' => $wrapper->description,
                 'main_image_url' => $wrapper->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
                 'media' => $wrapper->getMedia('images')->map(fn($media) => [

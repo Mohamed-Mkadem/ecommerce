@@ -288,10 +288,6 @@ const displayDescription = computed(
 
                 <div class="min-w-0">
                     <div class="mb-5">
-                        <p v-if="wrapper.caption"
-                            class="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-cOrangeDark">
-                            {{ wrapper.caption }}
-                        </p>
                         <h1 class="font-serif text-3xl leading-tight tracking-tight text-brown sm:text-4xl">
                             {{ wrapper.title }}
                         </h1>

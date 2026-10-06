@@ -32,7 +32,6 @@ class WrapperFactory extends Factory
         })->toArray();
 
         return array_merge($translations, [
-            'caption' => fake()->words(2, true),
             'slug' => Str::slug(fake()->words(5, true)),
             'is_active' => fake()->boolean(),
         ]);

@@ -21,7 +21,6 @@ class UpdateWrapperRequest extends FormRequest
             ->where(fn ($query) => $query->where('wrapper_id', '!=', $wrapper->getKey()));
 
         $rules = [
-            'caption' => ['nullable', 'string', 'max:255'],
             'is_active' => ['required', 'boolean'],
             'images' => ['nullable', 'array'],
             'images.*' => ['image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],

@@ -202,20 +202,6 @@ onUnmounted(() => {
                 </div>
             </div>
 
-            <div class="mt-4">
-                <InputLabel for="caption" :value="trans('Wrapper.caption')" />
-
-                <TextInput
-                    id="caption"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.caption"
-                    :placeholder="trans('Wrapper.caption_placeholder')"
-                />
-
-                <InputError class="mt-2" :message="form.errors.caption" />
-            </div>
-
             <div class="mt-4 max-w-xs">
                 <InputLabel for="is_active" :value="trans('Wrapper.status')" />
 

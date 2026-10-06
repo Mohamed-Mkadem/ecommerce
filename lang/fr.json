@@ -721,8 +721,6 @@
     "Wrapper.title_placeholder": "ex. Baklawa aux amandes",
     "Wrapper.description": "Description",
     "Wrapper.description_placeholder": "Description optionnelle pour ce groupe de produits",
-    "Wrapper.caption": "Légende",
-    "Wrapper.caption_placeholder": "Courte légende affichée avec le conteneur",
     "Wrapper.status": "Statut",
     "Wrapper.active": "Actif",
     "Wrapper.inactive": "Inactif",

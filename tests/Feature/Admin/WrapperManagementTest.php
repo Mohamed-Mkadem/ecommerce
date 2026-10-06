@@ -241,7 +241,6 @@ class WrapperManagementTest extends TestCase
     private function wrapperPayload(array $products, bool $includeImage = false): array
     {
         $payload = [
-            'caption' => 'A family favorite',
             'is_active' => true,
             'en' => ['title' => 'Almond Baklawa', 'description' => 'Made for sharing.'],
             'fr' => ['title' => 'Baklawa aux amandes', 'description' => 'À partager.'],
