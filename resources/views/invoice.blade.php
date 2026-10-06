@@ -24,14 +24,14 @@
     @foreach ($orders as $order)
         <div class="">
             <div class="flex justify-between items-center gap-4 mb-4">
-                <img src="{{ public_path('logo-blue.webp') }}" class="w-32 h-auto" alt="Logo">
+                <img src="{{ public_path('logo.png') }}" class="w-32 h-auto" alt="Logo">
 
                 <div class="text-primary text-base">
                     <p><span class="font-semibold">Adresse :</span> Adresse Ici</p>
                     <p><span class="font-semibold"> Tel 1: </span> 00000000</p>
                     <p><span class="font-semibold"> M/F: </span> P000000</p>
 
-                    <p><span class="font-semibold"> Site Web :</span> https://ecommerce.com</p>
+                    <p><span class="font-semibold"> Site Web :</span> https://sweetia.com</p>
                     <p><span class="font-semibold">Livreur :</span> {{ $order->shipper->name }}</p>
                 </div>
             </div>

@@ -28,9 +28,9 @@ class DatabaseSeeder extends Seeder
             CouponCodeSeeder::class,
             ShippingSettingsSeeder::class
         ]);
-        Client::factory(10)->create();
+        // Client::factory(10)->create();
 
-        Order::factory(10)->create();
+        // Order::factory(10)->create();
         // Product::factory(1)->create();
         // Wrapper::factory(1)->create();
     }
