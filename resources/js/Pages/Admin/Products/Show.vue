@@ -22,7 +22,7 @@ const deleteProduct = () => {
         width: 450,
     }).then((result) => {
         if (result.isConfirmed) {
-            router.delete(route("products.destroy", product), {
+            router.delete(route("products.destroy", product.value), {
                 onSuccess: () => {
                     Swal.fire({
                         title: trans("Dialog.deletedTitle"),
@@ -38,36 +38,25 @@ const deleteProduct = () => {
 </script>
 
 <template>
+
     <Head :title="product.name" />
     <PageHeader :pageTitle="product.name">
         <div v-if="$page.props.auth.user.role === 'admin'" class="flex items-center gap-4">
-            <Link
-                :href="route('products.edit', product)"
-                class="bg-slate-500 text-white px-3 py-2 rounded-md hover:bg-opacity-75"
-                >{{ $t("Edit") }}</Link
-            >
-            <button
-                @click="deleteProduct(product.id)"
-                class="bg-red-500 text-white px-3 py-2 rounded-md hover:bg-opacity-75"
-            >
+            <Link :href="route('products.edit', product)"
+                class="bg-slate-500 text-white px-3 py-2 rounded-md hover:bg-opacity-75">{{ $t("Edit") }}</Link>
+            <button @click="deleteProduct(product.id)"
+                class="bg-red-500 text-white px-3 py-2 rounded-md hover:bg-opacity-75">
                 {{ $t("Delete") }}
             </button>
         </div>
     </PageHeader>
-    <div
-        class="bg-white p-4 rounded-md shadow-1 md:grid md:grid-cols-[350px,_1fr] md:gap-4 lg:gap-8"
-    >
+    <div class="bg-white p-4 rounded-md shadow-1 md:grid md:grid-cols-[350px,_1fr] md:gap-4 lg:gap-8">
         <div>
             <div>
-                <img
-                    :src="ProductImagePlaceholder"
-                    :alt="
-                        currentImage
-                            ? currentImage.file_name
-                            : 'Default Product Image'
-                    "
-                    class="rounded-lg mx-auto"
-                />
+                <img :src="ProductImagePlaceholder" :alt="currentImage
+                    ? currentImage.file_name
+                    : 'Default Product Image'
+                    " class="rounded-lg mx-auto" />
             </div>
         </div>
         <div class="mt-4 md:mt-0">
@@ -116,15 +105,18 @@ const deleteProduct = () => {
         margin-bottom: 10px;
         font-size: 20px;
     }
+
     ul,
     ol {
         margin-block: 16px;
         list-style: inside disc;
     }
+
     p {
         margin-block: 10px;
     }
 }
+
 #description-holder ol li p,
 #description-holder ul li p {
     display: inline;
