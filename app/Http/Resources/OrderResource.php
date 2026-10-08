@@ -17,21 +17,31 @@ class OrderResource extends JsonResource
     public function toArray(Request $request): array
     {
         $client = $this->client;
+        $currentOrderId = $this->id;
         $recentClientOrders = $client
             ? Order::withTrashed()
             ->where('client_id', $client->id)
             ->latest('created_at')
             ->take(5)
             ->get()
-            ->map(fn($order) => [
-                'id' => $order->id,
-                'status' => $order->status,
-                'created_at' => Carbon::parse($order->created_at)->format('d-m-Y - H:i'),
-                'delivery_date' => $order->delivery_date
-                    ? Carbon::parse($order->delivery_date)->format('d-m-Y')
-                    : null,
-                'url' => route('orders.show', $order),
-            ])
+            ->map(function ($order) use ($currentOrderId) {
+                $isCurrent = $order->id === $currentOrderId;
+                $isDeleted = $order->trashed();
+
+                return [
+                    'id' => $order->id,
+                    'status' => $order->status,
+                    'deleted_at' => $order->deleted_at,
+                    'is_current' => $isCurrent,
+                    'created_at' => Carbon::parse($order->created_at)->format('d-m-Y - H:i'),
+                    'delivery_date' => $order->delivery_date
+                        ? Carbon::parse($order->delivery_date)->format('d-m-Y')
+                        : null,
+                    'url' => !$isDeleted && !$isCurrent
+                        ? route('orders.show', $order)
+                        : null,
+                ];
+            })
             : [];
 
         return [

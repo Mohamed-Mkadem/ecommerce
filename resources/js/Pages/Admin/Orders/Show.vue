@@ -417,7 +417,12 @@ function markAsNrp() {
                 <li
                     v-for="clientOrder in order.data.client.recent_orders"
                     :key="clientOrder.id"
-                    class="flex flex-wrap items-center justify-between gap-3 rounded border border-slate-200 bg-white px-4 py-3"
+                    class="flex flex-wrap items-center justify-between gap-3 rounded border px-4 py-3"
+                    :class="
+                        clientOrder.deleted_at
+                            ? 'border-red-200 bg-red-50'
+                            : 'border-slate-200 bg-white'
+                    "
                 >
                     <span class="flex flex-wrap items-center gap-2">
                         <strong>#{{ clientOrder.id }}</strong>
@@ -434,9 +439,22 @@ function markAsNrp() {
                             class="px-2 py-0.5 text-xs"
                         />
                     </span>
+                    <span
+                        v-if="clientOrder.deleted_at"
+                        class="ms-auto rounded-full bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-700"
+                    >
+                        {{ $t("Deleted") }}
+                    </span>
+                    <span
+                        v-else-if="clientOrder.is_current"
+                        class="ms-auto rounded-full bg-sky-100 px-2 py-0.5 text-xs font-semibold text-sky-800"
+                    >
+                        {{ $t("Current order") }}
+                    </span>
                     <Link
+                        v-else
                         :href="clientOrder.url"
-                        class="text-sky-700 hover:text-sky-900 hover:underline"
+                        class="ms-auto text-sky-700 hover:text-sky-900 hover:underline"
                     >
                         {{ $t("View order") }}
                     </Link>
