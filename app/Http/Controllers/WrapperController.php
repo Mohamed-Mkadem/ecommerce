@@ -82,7 +82,7 @@ class WrapperController extends Controller
 
     public function edit(Wrapper $wrapper): Response
     {
-        $wrapper->load('products');
+        $wrapper->load('products.translations');
 
         return Inertia::render('Admin/Wrappers/Edit', [
             'wrapper' => $this->formatWrapperForForm($wrapper),
@@ -142,6 +142,7 @@ class WrapperController extends Controller
     private function availableProducts(?Wrapper $wrapper = null): array
     {
         return Product::query()
+            ->with('translations')
             ->whereDoesntHave('wrappers', function ($query) use ($wrapper) {
                 if ($wrapper) {
                     $query->where('wrappers.id', '!=', $wrapper->getKey());
@@ -153,6 +154,9 @@ class WrapperController extends Controller
             ->map(fn(Product $product) => [
                 'id' => $product->id,
                 'name' => $product->name,
+                'translations' => $product->translations
+                    ->mapWithKeys(fn($translation) => [$translation->locale => $translation->name])
+                    ->all(),
                 'price' => $product->getFormattedPrice(),
 
             ])
@@ -190,6 +194,9 @@ class WrapperController extends Controller
                 ->map(fn(Product $product) => [
                     'product_id' => $product->id,
                     'name' => $product->name,
+                    'translations' => $product->translations
+                        ->mapWithKeys(fn($translation) => [$translation->locale => $translation->name])
+                        ->all(),
                     'type' => $product->type,
                     'price' => $product->getFormattedPrice(),
                     'display_order' => $product->pivot->display_order,

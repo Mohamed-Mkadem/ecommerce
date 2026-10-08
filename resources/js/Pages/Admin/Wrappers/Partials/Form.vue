@@ -8,6 +8,7 @@ import ProductImagePlaceholder from "@/assets/images/product.webp";
 const props = defineProps({
     form: { type: Object, required: true },
     availableProducts: { type: Array, required: true },
+    localizedProductName: { type: Function, required: true },
     isEditing: { type: Boolean, default: false },
     typeLabel: { type: Function, required: true },
 });
@@ -360,12 +361,12 @@ onUnmounted(() => {
                     >
                         <img
                             :src="ProductImagePlaceholder"
-                            :alt="product.name"
+                            :alt="localizedProductName(product)"
                             class="w-14 h-14 rounded-lg object-cover flex-shrink-0"
                         />
                         <div class="flex-1 min-w-0">
                             <p class="font-semibold text-primary truncate">
-                                {{ product.name }}
+                                {{ localizedProductName(product) }}
                             </p>
                             <p class="text-sm text-neutral-600">
                                 {{ product.price }}
@@ -411,7 +412,7 @@ onUnmounted(() => {
                             />
                             <div class="flex-1 min-w-0">
                                 <p class="font-semibold text-primary">
-                                    {{ item.name }}
+                                {{ localizedProductName(item) }}
                                 </p>
                                 <p class="text-sm text-neutral-600">
                                     {{ typeLabel(item.type) }} ·

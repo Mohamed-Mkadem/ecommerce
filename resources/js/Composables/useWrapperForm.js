@@ -3,9 +3,11 @@ import { computed, ref, watch } from "vue";
 import { useToast } from "vue-toastification";
 import { getToastOptions } from "@/js/Utils/toast";
 import { trans } from "laravel-vue-i18n";
+import { useLanguageStore } from "@/js/stores/Language";
 
 export function useWrapperForm(products, wrapper = null) {
     const toast = useToast();
+    const languageStore = useLanguageStore();
     const search = ref("");
     const reservedProductIds = ref([]);
     const isEditing = computed(() => wrapper !== null);
@@ -34,6 +36,14 @@ export function useWrapperForm(products, wrapper = null) {
         form.products.map((item) => item.product_id),
     );
 
+    function localizedProductName(product) {
+        return (
+            product.translations?.[languageStore.currentLocale] ||
+            product.name ||
+            ""
+        );
+    }
+
     const availableProducts = computed(() => {
         return products.filter((product) => {
             if (
@@ -45,7 +55,7 @@ export function useWrapperForm(products, wrapper = null) {
             if (!search.value.trim()) {
                 return true;
             }
-            return product.name
+            return localizedProductName(product)
                 .toLowerCase()
                 .includes(search.value.toLowerCase());
         });
@@ -62,7 +72,8 @@ export function useWrapperForm(products, wrapper = null) {
 
         form.products.push({
             product_id: product.id,
-            name: product.name,
+            name: localizedProductName(product),
+            translations: product.translations,
             type: product.type,
             price: product.price,
             main_image_url: product.main_image_url,
@@ -192,6 +203,7 @@ export function useWrapperForm(products, wrapper = null) {
         search,
         isEditing,
         availableProducts,
+        localizedProductName,
         addProduct,
         removeProduct,
         setDefault,
