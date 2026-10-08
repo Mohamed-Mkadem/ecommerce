@@ -24,6 +24,9 @@ export const useCartStore = defineStore("cart", () => {
 
         if (existingItem) {
             existingItem.quantity += quantityToAdd;
+            if (product.update_quantity_by != null || product.update_quantity != null) {
+                existingItem.update_quantity_by = getQuantityStep(product);
+            }
         } else {
             cart.value.push({
                 ...product,

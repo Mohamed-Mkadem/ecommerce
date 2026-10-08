@@ -598,16 +598,22 @@ class OrderController extends Controller
 
     public function editProducts(Order $order)
     {
-        $products = Product::all()
-            ->map(fn($product) => [
-                'id' => $product->id,
-                'name' => $product->name,
-                'type' => $product->type,
-                'price' => $product->getFormattedPrice(),
+        $products = Product::with(['wrappers.media', 'translations'])
+            ->get()
+            ->map(function ($product) {
+                $wrapper = $product->wrappers->first();
 
-                'main_image_url' => $product->wrappers()->first()->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
-                'translations' => $product->translations
-            ]);
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'type' => $product->type,
+                    'price' => $product->getFormattedPrice(),
+                    'main_image_url' => $wrapper?->getFirstMediaUrl('images')
+                        ?: asset('storage/products/product.webp'),
+                    'translations' => $product->translations,
+                    'update_quantity_by' => $wrapper?->pivot?->update_quantity ?? 1,
+                ];
+            });
         return Inertia::render('Orders/EditProducts', ['order' => $order, 'products' => $products]);
     }
     public function updateProducts(UpdateOrderProductsRequest $request)
