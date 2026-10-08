@@ -206,7 +206,7 @@
     "Pack.validity": "صالح إلى غاية",
     "Product.created_successfully": "تمّ إضافة المنتج بنجاح",
     "Media.title": "الصور",
-    "Media.allowed_formats": "يسمح فقط بـصيغ JPG و PNG",
+    "Media.allowed_formats": "يسمح فقط بـصيغ JPG و PNG و WEBP",
     "Media.image_dimensions": "أبعاد الصورة: 1350 × 1350",
     "Media.upload_images": "رفع الصور",
     "Product.currency": "د.ت",

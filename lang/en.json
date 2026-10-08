@@ -208,7 +208,7 @@
     "Pack.validity": "Ends At",
     "Product.created_successfully": "Product Added Successfully",
     "Media.title": "Media",
-    "Media.allowed_formats": "Only PNG and JPG formats are Allowed",
+    "Media.allowed_formats": "Only PNG, WEBP and JPG formats are Allowed",
     "Media.image_dimensions": "Image dimensions: 1350 x 1350",
     "Media.upload_images": "Upload Images",
     "Product.currency": "DT",

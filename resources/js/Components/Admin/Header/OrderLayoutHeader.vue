@@ -12,7 +12,7 @@ import AppLogo from "@/js/Components/AppLogo.vue";
         >
             <div>
                 <Link class="block" :href="route('dashboard')">
-                    <AppLogo color="blue" class="w-[45px]" />
+                    <AppLogo color="blue" class="w-[100px]" />
                 </Link>
             </div>
 

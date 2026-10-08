@@ -22,7 +22,7 @@ onMounted(() => {
 <template>
     <div class="container-3xl relative">
         <OrderLayoutHeader />
-        <main class="px-4 pt-8 lg:pt-12 pb-100">
+        <main class="px-4 pt-8 lg:pt-12 pb-12">
             <slot></slot>
         </main>
     </div>

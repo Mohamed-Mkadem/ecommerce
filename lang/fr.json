@@ -207,7 +207,7 @@
     "Pack.validity": "Valide jusqu'a",
     "Product.created_successfully": "Produit créé avec succès",
     "Media.title": "Médias",
-    "Media.allowed_formats": "Seuls PNG et JPG sont autorisés",
+    "Media.allowed_formats": "Seuls PNG, WEBP et JPG sont autorisés",
     "Media.image_dimensions": "Dimensions de l'image : 1350 x 1350",
     "Media.upload_images": "Télécharger des images",
     "Product.currency": "DT",
