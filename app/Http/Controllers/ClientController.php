@@ -48,7 +48,8 @@ class ClientController extends Controller
         $baseClientQuery->addSelect([
             'total_delivered_spent' => Order::selectRaw('COALESCE(SUM(amount), 0)')
                 ->whereColumn('client_id', 'clients.id')
-                ->where('status', 'delivered'),
+                ->where('status', 'delivered')
+                ->withTrashed(),
             'total_orders_count' => Order::selectRaw('COALESCE(COUNT(*), 0)')
                 ->whereColumn('client_id', 'clients.id')
         ]);
@@ -92,14 +93,13 @@ class ClientController extends Controller
             $maxOrdersCount = $request->input('maxOrdersCount');
             $derivedTableQuery->where('total_orders_count', '<=', $maxOrdersCount);
         }
- 
+
         if ($request->filled('minDeliveryRate')) {
-           $baseClientQuery->where('delivery_rate', '>=', $request->minDeliveryRate);
+            $derivedTableQuery->where('delivery_rate', '>=', $request->minDeliveryRate);
         }
 
         if ($request->filled('maxDeliveryRate')) {
-            $baseClientQuery->where('delivery_rate', '<=', $request->maxDeliveryRate);
-          
+            $derivedTableQuery->where('delivery_rate', '<=', $request->maxDeliveryRate);
         }
         // Apply sorting to the derived table
         if ($request->filled('sort')) {
@@ -118,7 +118,7 @@ class ClientController extends Controller
                     break;
 
 
-                                  case 'highest_delivery_rate':
+                case 'highest_delivery_rate':
                     $derivedTableQuery->orderByRaw('CASE WHEN delivery_rate IS NULL THEN 1 ELSE 0 END, delivery_rate DESC');
                     break;
 
@@ -147,7 +147,8 @@ class ClientController extends Controller
         $eloquentClientsQuery->addSelect([
             'total_delivered_spent' => Order::selectRaw('COALESCE(SUM(amount), 0)')
                 ->whereColumn('client_id', 'clients.id')
-                ->where('status', 'delivered'),
+                ->where('status', 'delivered')
+                ->withTrashed(),
             'total_orders_count' => Order::selectRaw('COALESCE(COUNT(*), 0)')
                 ->whereColumn('client_id', 'clients.id')
         ]);
