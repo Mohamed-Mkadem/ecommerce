@@ -4,7 +4,6 @@ import { usePage, router } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
 import Swal from "sweetalert2";
 import { trans } from "laravel-vue-i18n";
-import ProductImagePlaceholder from "@/assets/images/product.webp";
 import Activities from "@/js/Components/Admin/Activities.vue";
 const props = defineProps(["product", "activities"]);
 const product = computed(() => usePage().props.product.data);
@@ -53,16 +52,23 @@ const deleteProduct = () => {
     <div class="bg-white p-4 rounded-md shadow-1 md:grid md:grid-cols-[350px,_1fr] md:gap-4 lg:gap-8">
         <div>
             <div>
-                <img :src="ProductImagePlaceholder" :alt="currentImage
-                    ? currentImage.file_name
-                    : 'Default Product Image'
-                    " class="rounded-lg mx-auto" />
+                <img :src="product.main_image_url" :alt="product.name" class="rounded-lg mx-auto" />
             </div>
         </div>
         <div class="mt-4 md:mt-0">
             <h2 class="text-3xl text-primary font-semibold mt-2 mb-4">
                 {{ product.name }}
             </h2>
+            <div v-if="product.wrapper" class="flex items-center gap-3 mb-4">
+                <i class="ri-archive-line text-2xl text-slate-400" aria-hidden="true"></i>
+                <Link
+                    :href="product.wrapper.url"
+                    class="inline-flex items-center gap-1 font-medium text-primary hover:text-meta-5 hover:underline transition-colors"
+                >
+                    {{ product.wrapper.title }}
+                    <i class="ri-external-link-line" aria-hidden="true"></i>
+                </Link>
+            </div>
             <p class="text-2xl font-semibold text-meta-1 mb-4">
                 {{ product.price }} {{ $t("Product.currency") }}
             </p>

@@ -155,15 +155,6 @@ function deleteWrapper() {
                 </div>
                 <div>
                     <dt class="text-sm text-neutral-500">
-                        {{ $t("Product.price") }}
-                    </dt>
-                    <dd class="font-semibold text-meta-1 text-xl">
-                        {{ wrapper.price }}
-                        {{ $t("Product.currency") }}
-                    </dd>
-                </div>
-                <div>
-                    <dt class="text-sm text-neutral-500">
                         {{ trans("Products") }}
                     </dt>
                     <dd class="font-semibold text-primary">

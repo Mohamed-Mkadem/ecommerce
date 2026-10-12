@@ -1,11 +1,10 @@
 <script setup>
-import ProductImagePlaceholder from "@/assets/images/product.webp";
 const props = defineProps(["product"]);
 </script>
 
 <template>
     <div class="shadow-2 p-5 bg-white rounded-md">
-        <img :src="ProductImagePlaceholder" class="rounded-sm mx-auto" />
+        <img :src="product.main_image_url" :alt="product.name" class="rounded-sm mx-auto" />
 
         <div
             class="text-center mt-4 overflow-x-hidden text-ellipsis whitespace-nowrap"

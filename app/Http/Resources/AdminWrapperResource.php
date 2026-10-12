@@ -37,7 +37,6 @@ class AdminWrapperResource extends JsonResource
                 'size' => $m->size,
                 'url' => $m->getUrl(),
             ])->all(),
-            'price' => $default?->getFormattedPrice(),
             'default_product' => $default ? $this->formatProduct($default) : null,
             'created_at' => $this->created_at?->format('d-m-Y H:i'),
         ];

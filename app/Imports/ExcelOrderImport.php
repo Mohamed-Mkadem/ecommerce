@@ -98,13 +98,15 @@ class ExcelOrderImport implements OnEachRow, WithHeadingRow, WithValidation, Ski
 
             $order->amount = $subTotal;
             $order->save();
+            if ($row['products']) {
 
-            $order->notes()->create([
-                'content' => $row['products'] ?? '',
-                'user_id' => Auth::id(),
-                'notable_id' => $order->id,
-                'notable_type' => Order::class,
-            ]);
+                $order->notes()->create([
+                    'content' => $row['products'],
+                    'user_id' => Auth::id(),
+                    'notable_id' => $order->id,
+                    'notable_type' => Order::class,
+                ]);
+            }
         });
     }
 

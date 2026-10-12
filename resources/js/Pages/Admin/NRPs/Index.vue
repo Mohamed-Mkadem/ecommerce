@@ -169,6 +169,7 @@ onMounted(() => {
                             type="number"
                             class="mt-1 w-full"
                             :placeholder="$t('MinTries_placeholder')"
+                            min="1"
                         />
                     </div>
                     <div class="mt-1 w-full">
@@ -182,6 +183,7 @@ onMounted(() => {
                             type="number"
                             class="mt-1 w-full"
                             :placeholder="$t('MaxTries_placeholder')"
+                            min="1"
                         />
                     </div>
                 </div>

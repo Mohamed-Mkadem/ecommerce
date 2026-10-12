@@ -47,7 +47,7 @@ class StatisticsController extends Controller
 
         $bestSelling = Product::getBestSelling();
         return Inertia::render('Admin/Statistics/Products', [
-            'statistics' => ProductStatisticsResource::collection(Product::paginate(20)),
+            'statistics' => ProductStatisticsResource::collection(Product::with(['wrappers.media', 'wrappers.translations'])->paginate(20)),
             'bestSelling' => $bestSelling
         ]);
     }

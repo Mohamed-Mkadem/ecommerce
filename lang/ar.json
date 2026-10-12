@@ -196,6 +196,7 @@
     "Arabic.name": "الاسم بالعربية",
     "Product.status": "الحالة",
     "Product.price": "السعر",
+    "Product.wrapper": "مجموعة المنتجات",
     "Product.type": "النوع",
     "Product.published": "منشور",
     "Product.hidden": "غير منشور",
@@ -803,6 +804,8 @@
     "A visual breakdown of delivered vs returned orders confirmed by this employee.": "نظرة عامة مرئية على الطلبات المُسلَّمة والمُرجَّعة التي تم تأكيدها بواسطة هذا الموظف.",
     "Other": "أخرى",
     "client.delivery_rate_tooltip": "نسبة الطلبات المنجزة (المُسلَّمة + المُرجَّعة) التي تم تسليمها بنجاح.",
+    "Statistics.bestSellingProductsTip": "يعرض هذا الجدول أفضل 10 منتجات حسب الكمية التي تم توصيلها خلال الفترة المحددة. تُحسب الفترة حسب تاريخ إنشاء الطلب، ولا تُحتسب إلا الطلبات التي حالتها الحالية تم التوصيل.",
+    "Statistics.productStatusBreakdownTip": "تعرض هذه البطاقات إجمالي كميات المنتجات موزعة حسب الحالة الحالية للطلبات. اختر فترة لتحديد النتائج حسب تاريخ إنشاء الطلب، واستخدم ترقيم الصفحات لمراجعة بقية المنتجات.",
     "Min Client Delivery Rate": "الحد الأدنى لمعدل توصيل العميل",
     "Max Client Delivery Rate": "الحد الأقصى لمعدل توصيل العميل",
     "Sort.highest_delivery_rate": "أعلى معدل توصيل للعميل",
@@ -894,5 +897,6 @@
     "Cleanup.sellingReports.button": "تنظيف التقارير القديمة",
     "Cleanup.sellingReports.confirm": "سيتم حذف تقارير المبيعات التي مضى عليها أكثر من سبعة أيام وملفاتها نهائيًا.",
     "Cleanup.sellingReports.success": "تم تنظيف تقارير المبيعات القديمة بنجاح.",
-    "Discount.value_placeholder": "مثال: 10"
+    "Discount.value_placeholder": "مثال: 10",
+    "Delivered Quantity": "الكمية المسلّمة"
 }

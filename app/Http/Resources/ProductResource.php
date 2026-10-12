@@ -19,6 +19,10 @@ class ProductResource extends JsonResource
 
     public function toArray(Request $request): array
     {
+        $wrapper = $this->relationLoaded('wrappers')
+            ? $this->wrappers->first()
+            : $this->wrappers()->first();
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -28,6 +32,12 @@ class ProductResource extends JsonResource
             'shipping_name' => $this->shipping_name,
             'discount_type' => $this->discount_type,
             'discount' => $this->discount,
+            'main_image_url' => $wrapper?->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
+            'wrapper' => $wrapper ? [
+                'id' => $wrapper->id,
+                'title' => $wrapper->title,
+                'url' => route('wrappers.show', $wrapper),
+            ] : null,
 
         ];
     }

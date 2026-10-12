@@ -52,7 +52,19 @@ function handleAddToCart() {
                 {{ wrapper.title }}
             </Link>
 
-            <div class="mt-2 flex flex-wrap items-center gap-x-2 text-sm">
+            <div class="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+                <span
+                    v-if="wrapper.default_product?.discount_type === 'fixed' && wrapper.default_product?.discount"
+                    class="text-slate-500 line-through"
+                >
+                    {{ wrapper.default_product.discount }} {{ $t("Product.currency") }}
+                </span>
+                <span
+                    v-else-if="wrapper.default_product?.discount_type === 'percentage' && wrapper.default_product?.discount"
+                    class="inline-flex items-center rounded-full bg-[#f7e5da] px-2.5 py-1 text-xs font-semibold text-cOrangeDark"
+                >
+                    -{{ wrapper.default_product.discount }}%
+                </span>
                 <span class="font-semibold text-cOrangeDark">
                     {{ wrapper.price }} {{ $t("Product.currency") }}
                 </span>

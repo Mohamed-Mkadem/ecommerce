@@ -197,6 +197,7 @@
     "Arabic.name": "Le nom en Arabe",
     "Product.status": "Statut",
     "Product.price": "Prix",
+    "Product.wrapper": "Contenaire",
     "Product.type": "Type",
     "Product.published": "Publié",
     "Product.hidden": "Caché",
@@ -799,6 +800,8 @@
     "A visual breakdown of delivered vs returned orders confirmed by this employee.": "Aperçu visuel des commandes livrées et retournées confirmées par cet employé.",
     "Other": "Autre",
     "client.delivery_rate_tooltip": "Pourcentage des commandes terminales (livrées + retournées) qui ont été livrées avec succès.",
+    "Statistics.bestSellingProductsTip": "Ce tableau classe les 10 produits ayant la plus grande quantité livrée pour la période choisie. La période est basée sur la date de création des commandes ; seules les commandes actuellement marquées comme livrées sont comptées.",
+    "Statistics.productStatusBreakdownTip": "Ces cartes totalisent les quantités de produits et les répartissent selon le statut actuel de la commande. Choisissez une période pour limiter les résultats selon la date de création des commandes, puis utilisez la pagination pour consulter d’autres produits.",
     "Min Client Delivery Rate": "Taux de livraison min. du client",
     "Max Client Delivery Rate": "Taux de livraison max. du client",
     "Sort.highest_delivery_rate": "Taux de livraison client le plus élevé",
@@ -890,5 +893,6 @@
     "Cleanup.sellingReports.button": "Nettoyer les anciens rapports",
     "Cleanup.sellingReports.confirm": "Les rapports de vente de plus de sept jours et leurs fichiers seront définitivement supprimés.",
     "Cleanup.sellingReports.success": "Les anciens rapports de vente ont été nettoyés.",
-    "Discount.value_placeholder": "ex : 10"
+    "Discount.value_placeholder": "ex : 10",
+    "Delivered Quantity": "Quantité livrée"
 }

@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
 
 
-        $query = Product::query();
+        $query = Product::query()->with('wrappers');
 
 
         if ($request->filled('search')) {
@@ -133,6 +133,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        $product->load('wrappers');
 
         $activities = Activity::where('subject_type', Product::class)
             ->where('subject_id', $product->id)
@@ -175,7 +176,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        
+        $wrappers = $product->wrappers()->get();
+
         DB::beginTransaction();
 
         try {
@@ -186,6 +188,12 @@ class ProductController extends Controller
             } else {
                 $product->deleteTranslations();
                 $product->forceDelete();
+            }
+
+            foreach ($wrappers as $wrapper) {
+                if (! $wrapper->products()->exists() && $wrapper->is_active) {
+                    $wrapper->update(['is_active' => false]);
+                }
             }
 
             DB::commit();

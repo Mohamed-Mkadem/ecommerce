@@ -107,6 +107,7 @@ class Product extends Model implements TranslatableContract
 
         return [
             'total' =>   self::query()
+                ->with(['wrappers.media', 'wrappers.translations'])
                 ->addSelect(['total_orders_count' => function ($query) {
                     $query->selectRaw('SUM(order_product.quantity)')
                         ->from('order_product')
@@ -124,10 +125,12 @@ class Product extends Model implements TranslatableContract
                     'price' => $product->getFormattedPrice(),
                     'translations' => $product->translations,
                     'delivered_orders_count' => $product->orders()->where('status', 'delivered')->sum('order_product.quantity'),
-                    'main_image_url' => asset('storage/products/product.webp'),
+                    'main_image_url' => self::wrapperMainImageUrl($product),
+                    'wrapper_title' => self::wrapperTitle($product),
                 ]),
 
             'day' =>  self::query()
+                ->with(['wrappers.media', 'wrappers.translations'])
                 ->addSelect(['total_orders_count' => function ($query) use ($todayEnd, $todayStart) {
                     $query->selectRaw('SUM(order_product.quantity)')
                         ->from('order_product')
@@ -148,9 +151,11 @@ class Product extends Model implements TranslatableContract
                     'delivered_orders_count' => $product->orders()->where('status', 'delivered')
                         ->whereBetween('orders.created_at', [$todayStart, $todayEnd])
                         ->sum('order_product.quantity'),
-                    'main_image_url' => asset('storage/products/product.webp'),
+                    'main_image_url' => self::wrapperMainImageUrl($product),
+                    'wrapper_title' => self::wrapperTitle($product),
                 ]),
             'week' =>  self::query()
+                ->with(['wrappers.media', 'wrappers.translations'])
                 ->addSelect(['total_orders_count' => function ($query) use ($currentWeekEnd, $currentWeekStart) {
                     $query->selectRaw('SUM(order_product.quantity)')
                         ->from('order_product')
@@ -170,9 +175,11 @@ class Product extends Model implements TranslatableContract
                     'delivered_orders_count' => $product->orders()->where('status', 'delivered')
                         ->whereBetween('orders.created_at', [$currentWeekStart, $currentWeekEnd])
                         ->sum('order_product.quantity'),
-                    'main_image_url' => asset('storage/products/product.webp'),
+                    'main_image_url' => self::wrapperMainImageUrl($product),
+                    'wrapper_title' => self::wrapperTitle($product),
                 ]),
             'month' =>  self::query()
+                ->with(['wrappers.media', 'wrappers.translations'])
                 ->addSelect(['total_orders_count' => function ($query) use ($currentMonthEnd, $currentMonthStart) {
                     $query->selectRaw('SUM(order_product.quantity)')
                         ->from('order_product')
@@ -192,9 +199,11 @@ class Product extends Model implements TranslatableContract
                     'delivered_orders_count' => $product->orders()->where('status', 'delivered')
                         ->whereBetween('orders.created_at', [$currentMonthStart, $currentMonthEnd])
                         ->sum('order_product.quantity'),
-                    'main_image_url' => asset('storage/products/product.webp'),
+                    'main_image_url' => self::wrapperMainImageUrl($product),
+                    'wrapper_title' => self::wrapperTitle($product),
                 ]),
             'year' =>  self::query()
+                ->with(['wrappers.media', 'wrappers.translations'])
                 ->addSelect(['total_orders_count' => function ($query) use ($currentYearEnd, $currentYearStart) {
                     $query->selectRaw('SUM(order_product.quantity)')
                         ->from('order_product')
@@ -214,11 +223,24 @@ class Product extends Model implements TranslatableContract
                     'delivered_orders_count' => $product->orders()->where('status', 'delivered')
                         ->whereBetween('orders.created_at', [$currentYearStart, $currentYearEnd])
                         ->sum('order_product.quantity'),
-                    'main_image_url' => asset('storage/products/product.webp'),
+                    'main_image_url' => self::wrapperMainImageUrl($product),
+                    'wrapper_title' => self::wrapperTitle($product),
                 ]),
 
 
 
         ];
+    }
+
+    private static function wrapperMainImageUrl(self $product): string
+    {
+        $wrapper = $product->wrappers->first();
+
+        return $wrapper?->getFirstMediaUrl('images') ?: asset('storage/products/product.webp');
+    }
+
+    private static function wrapperTitle(self $product): ?string
+    {
+        return $product->wrappers->first()?->title;
     }
 }

@@ -34,17 +34,16 @@ class WrapperManagementTest extends TestCase
         $this->assertSame('Baklawa aux amandes', $wrapper->translate('fr')->title);
         $this->assertSame('بقلاوة اللوز', $wrapper->translate('ar')->title);
         $this->assertSame($default->id, $wrapper->defaultProduct()->id);
-        $this->assertSame(70000, $wrapper->defaultProduct()->price);
         $this->assertSame(0.5, (float) $wrapper->defaultProduct()->pivot->update_quantity);
         $this->assertTrue((bool) $wrapper->products()->whereKey($other->id)->first()->pivot->free_shipping);
         $this->assertCount(1, $wrapper->getMedia('images'));
 
         $this->actingAs($admin)->get(route('wrappers.show', $wrapper))
             ->assertOk()
-            ->assertInertia(fn (Assert $page) => $page
-                ->component('Admin/Wrappers/Show')
-                ->where('wrapper.price', '70.000')
-                ->where('wrapper.default_product.id', $default->id)
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component('Admin/Wrappers/Show')
+                    ->where('wrapper.default_product.id', $default->id)
             );
     }
 
@@ -119,11 +118,12 @@ class WrapperManagementTest extends TestCase
 
         $this->actingAs($admin)->get(route('wrappers.edit', $wrapper))
             ->assertOk()
-            ->assertInertia(fn (Assert $page) => $page
-                ->component('Admin/Wrappers/Edit')
-                ->has('products', 2)
-                ->where('products.0.id', $owned->id)
-                ->where('products.1.id', $unattached->id)
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component('Admin/Wrappers/Edit')
+                    ->has('products', 2)
+                    ->where('products.0.id', $owned->id)
+                    ->where('products.1.id', $unattached->id)
             );
     }
 
@@ -148,7 +148,6 @@ class WrapperManagementTest extends TestCase
             ->assertRedirect(route('wrappers.show', $wrapper->fresh()));
 
         $wrapper->refresh();
-        $this->assertSame('updated-almond-baklawa', $wrapper->slug);
         $this->assertSame('Updated Almond Baklawa', $wrapper->translate('en')->title);
         $this->assertDatabaseMissing('product_wrapper', [
             'wrapper_id' => $wrapper->id,
@@ -223,9 +222,10 @@ class WrapperManagementTest extends TestCase
         $this->actingAs($moderator)->get(route('wrappers.index'))->assertOk();
         $this->actingAs($moderator)->get(route('wrappers.show', $wrapper))
             ->assertOk()
-            ->assertInertia(fn (Assert $page) => $page
-                ->component('Admin/Wrappers/Show')
-                ->where('auth.user.role', 'moderator')
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component('Admin/Wrappers/Show')
+                    ->where('auth.user.role', 'moderator')
             );
 
         $this->actingAs($moderator)->get(route('wrappers.create'))->assertForbidden();

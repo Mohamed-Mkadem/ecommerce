@@ -94,13 +94,7 @@ class WrapperController extends Controller
     {
         $validated = $request->validated();
 
-        $slug = $wrapper->slug;
-        if ($wrapper->translate('en')->title !== $validated['en']['title']) {
-            $slug = $this->uniqueSlug($validated['en']['title'], $wrapper->id);
-        }
-
         $wrapper->update([
-            'slug' => $slug,
             'is_active' => $validated['is_active'],
         ]);
 
