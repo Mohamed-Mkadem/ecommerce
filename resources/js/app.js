@@ -17,11 +17,19 @@ import FrontEndLayout from "./Layouts/FrontEndLayout.vue";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 const pinia = createPinia();
+const pages = import.meta.glob("./Pages/**/*.vue");
+
 createInertiaApp({
     title: (title) => `${title} - Sweetia`,
-    resolve: (name) => {
-        const pages = import.meta.glob("./Pages/**/*.vue", { eager: true });
-        let page = pages[`./Pages/${name}.vue`];
+    resolve: async (name) => {
+        const loadPage = pages[`./Pages/${name}.vue`];
+
+        if (!loadPage) {
+            throw new Error(`Page not found: ${name}`);
+        }
+
+        const page = await loadPage();
+
         if (name.startsWith("Admin")) {
             page.default.layout = AdminLayout;
         } else if (name.startsWith("FrontEnd")) {
@@ -31,6 +39,7 @@ createInertiaApp({
         } else {
             page.default.layout = false;
         }
+
         return page;
     },
     setup({ el, App, props, plugin }) {
