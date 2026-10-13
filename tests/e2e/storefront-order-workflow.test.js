@@ -2,12 +2,15 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { test } from "node:test";
 import puppeteer from "puppeteer";
+import { assertLaravelPhpRuntime, resolvePhpBinary } from "./support/php-runtime.js";
 
 const baseUrl = (process.env.E2E_BASE_URL || "http://ecommerce.test").replace(/\/$/, "");
-const phpBinary = process.env.PHP_BINARY || (process.platform === "win32" ? "C:\\PHP\\php.exe" : "php");
-const seededWrapperSlug = process.env.E2E_STOREFRONT_WRAPPER_SLUG || "necessitatibus-dolorem-tempore-placeat-ad";
+const phpBinary = resolvePhpBinary();
+const configuredWrapperSlug = process.env.E2E_STOREFRONT_WRAPPER_SLUG;
 
 test("customer can switch to Arabic, search a pastry, update the cart, apply BG10, and place an order", { timeout: 150_000 }, async () => {
+    assertLaravelPhpRuntime(phpBinary);
+
     const browser = await puppeteer.launch({
         headless: process.env.E2E_HEADLESS === "true",
         slowMo: process.env.E2E_HEADLESS === "true" ? 0 : 120,
@@ -19,18 +22,21 @@ test("customer can switch to Arabic, search a pastry, update the cart, apply BG1
     const marker = `E2E Storefront Order ${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     const phone = `2${String(Date.now()).slice(-7)}`;
     let orderMayExist = false;
+    console.log(`Test cleanup identity: ${marker} (${phone}).`);
 
     try {
         await page.goto(`${baseUrl}/shop`, { waitUntil: "domcontentloaded" });
         await page.waitForSelector("#app[data-page]");
+        await page.waitForFunction(() =>
+            [...document.querySelectorAll("button")].some((button) =>
+                /English|Français|العربية/i.test(button.textContent || ""),
+            ),
+        );
         assert.match(await languageButtonText(page), /English/i, "the journey should begin in English");
         console.log("Opened the shop in English.");
 
-        const wrapperPage = await readInertiaPage(page);
-        const wrappers = wrapperPage.props.wrappers.data;
-        const wrapper = wrappers.find((item) => item.slug === seededWrapperSlug);
-        assert.ok(wrapper, `seeded wrapper ${seededWrapperSlug} should be listed in the shop`);
-        assert.ok(wrapper.default_product?.translations?.some((translation) => translation.locale === "ar"));
+        const { wrapper } = await findStorefrontFixture(page, configuredWrapperSlug);
+        const seededWrapperSlug = wrapper.slug;
 
         await openLanguageDropdown(page);
         const localeSwitchResponse = page.waitForResponse((response) =>
@@ -70,8 +76,8 @@ test("customer can switch to Arabic, search a pastry, update the cart, apply BG1
 
         await clickVariant(page, variantToChoose.name);
         await page.waitForFunction((name) => {
-            const selected = document.querySelector('button[aria-pressed="true"]');
-            return selected?.innerText.includes(name);
+            return [...document.querySelectorAll('button[aria-pressed="true"]')]
+                .some((selected) => selected.innerText.includes(name));
         }, {}, variantToChoose.name);
         console.log(`Opened the pastry and selected variant “${variantToChoose.name}”.`);
 
@@ -151,6 +157,42 @@ test("customer can switch to Arabic, search a pastry, update the cart, apply BG1
 
 async function readInertiaPage(page) {
     return page.$eval("#app", (root) => JSON.parse(root.getAttribute("data-page")));
+}
+
+async function findStorefrontFixture(page, preferredSlug) {
+    let currentPage = await readInertiaPage(page);
+    const seen = new Set();
+
+    while (currentPage?.props?.wrappers) {
+        const wrappers = currentPage.props.wrappers.data || [];
+        const candidates = preferredSlug
+            ? [...wrappers.filter((item) => item.slug === preferredSlug), ...wrappers.filter((item) => item.slug !== preferredSlug)]
+            : wrappers;
+
+        for (const wrapper of candidates) {
+            if (seen.has(wrapper.slug)) continue;
+            seen.add(wrapper.slug);
+            const detail = await fetchInertiaPage(page, `/shop/${wrapper.slug}`);
+            const hasArabicTranslation = detail.props.variants.some((variant) =>
+                variant.translations?.some((translation) => translation.locale === "ar"),
+            );
+
+            if (hasArabicTranslation && detail.props.variants.length > 1) {
+                console.log(`Using available storefront fixture: ${wrapper.slug}.`);
+                return { wrapper, detail };
+            }
+        }
+
+        const nextPageUrl = currentPage.props.wrappers.next_page_url;
+        if (!nextPageUrl) break;
+        currentPage = await fetchInertiaPage(page, nextPageUrl);
+    }
+
+    assert.fail(
+        preferredSlug
+            ? `Wrapper ${preferredSlug} is unavailable or lacks translated variants; set E2E_STOREFRONT_WRAPPER_SLUG to a wrapper with multiple variants.`
+            : "No listed wrapper has multiple variants with Arabic translations for the storefront workflow.",
+    );
 }
 
 async function fetchInertiaPage(page, path) {

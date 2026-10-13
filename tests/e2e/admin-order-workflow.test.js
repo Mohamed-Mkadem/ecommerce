@@ -2,11 +2,14 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { test } from "node:test";
 import puppeteer from "puppeteer";
+import { assertLaravelPhpRuntime, resolvePhpBinary } from "./support/php-runtime.js";
 
 const baseUrl = (process.env.E2E_BASE_URL || "http://ecommerce.test").replace(/\/$/, "");
-const phpBinary = process.env.PHP_BINARY || (process.platform === "win32" ? "C:\\PHP\\php.exe" : "php");
+const phpBinary = resolvePhpBinary();
 
 test("admin can add items, change quantity, and place a pending NRP order with free shipping", { timeout: 120_000 }, async () => {
+    assertLaravelPhpRuntime(phpBinary);
+
     const browser = await puppeteer.launch({
         headless: process.env.E2E_HEADLESS === "true",
         slowMo: process.env.E2E_HEADLESS === "true" ? 0 : 120,
@@ -18,6 +21,7 @@ test("admin can add items, change quantity, and place a pending NRP order with f
     const marker = `E2E Admin Order ${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     const phone = `2${String(Date.now()).slice(-7)}`;
     let testOrderMayExist = false;
+    console.log(`Test cleanup identity: ${marker} (${phone}).`);
 
     try {
         await page.goto(`${baseUrl}/login`, { waitUntil: "domcontentloaded" });
@@ -82,6 +86,7 @@ test("admin can add items, change quantity, and place a pending NRP order with f
         await page.select("#status-input", "pending");
         await page.click("#nrp-field");
         await page.click("#freeShipping-field");
+        await page.waitForFunction(() => document.querySelector("#freeShipping-field")?.checked === true);
 
         testOrderMayExist = true;
         await page.click('form input[type="submit"]');
@@ -102,7 +107,11 @@ test("admin can add items, change quantity, and place a pending NRP order with f
         const inertiaPage = await page.$eval("#app", (root) => JSON.parse(root.getAttribute("data-page")));
         const order = inertiaPage.props.order.data;
         assert.equal(order.status, "pending");
-        assert.equal(order.free_shipping, true);
+        assert.equal(
+            order.free_shipping,
+            true,
+            `free shipping should persist from the checked form control (shipping_cost: ${order.shipping_cost})`,
+        );
         assert.equal(Number(order.shipping_cost), 0);
         assert.equal(Number(order.products[0].pivot.quantity), expectedQuantity);
         assert.equal(Number(order.amount), Number((Number(order.products[0].pivot.price) * expectedQuantity).toFixed(3)));

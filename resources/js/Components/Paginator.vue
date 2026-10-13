@@ -22,20 +22,24 @@ defineProps({
                 'text-brown/40 bg-white border border-line cursor-not-allowed': variant === 'sweetia' && previous == null,
             }"
         />
-        <Link
-            :preserve-scroll="true"
-            v-for="(link, index) in links"
-            v-show="!isNaN(link.label)"
-            :href="link.url"
-            class="px-3 py-2 rounded-md min-w-[35px] text-center transition-colors"
-            :class="{
-                'text-white bg-meta-5': variant !== 'sweetia' && link.active,
-                'text-white bg-slate-800': variant !== 'sweetia' && !link.active,
-                'text-white bg-corange': variant === 'sweetia' && link.active,
-                'text-brown bg-white border border-line hover:bg-[#f3e8da]': variant === 'sweetia' && !link.active,
-            }"
-            >{{ link.label }}</Link
-        >
+        <template v-for="(link, index) in links" :key="index">
+            <component
+                v-if="!isNaN(link.label)"
+                :is="link.url != null ? 'Link' : 'span'"
+                :href="link.url ?? undefined"
+                :preserve-scroll="true"
+                class="px-3 py-2 rounded-md min-w-[35px] text-center transition-colors"
+                :class="{
+                    'text-white bg-meta-5': variant !== 'sweetia' && link.active,
+                    'text-white bg-slate-800': variant !== 'sweetia' && !link.active,
+                    'text-white bg-corange': variant === 'sweetia' && link.active,
+                    'text-brown bg-white border border-line hover:bg-[#f3e8da]': variant === 'sweetia' && !link.active,
+                    'cursor-not-allowed opacity-60': link.url == null,
+                }"
+                :aria-current="link.active ? 'page' : undefined"
+                >{{ link.label }}</component
+            >
+        </template>
 
         <component
             :is="next != null ? 'Link' : 'span'"

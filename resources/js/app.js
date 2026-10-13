@@ -10,7 +10,7 @@ import { createApp, h } from "vue";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import { i18nVue } from "laravel-vue-i18n";
 import { createPinia } from "pinia";
-import { Modal, ModalLink, renderApp } from "@inertiaui/modal-vue";
+import { Modal, ModalLink, putConfig, renderApp } from "@inertiaui/modal-vue";
 import OrderLayout from "./Layouts/OrderLayout.vue";
 import AdminLayout from "./Layouts/AdminLayout.vue";
 import FrontEndLayout from "./Layouts/FrontEndLayout.vue";
@@ -18,6 +18,8 @@ import FrontEndLayout from "./Layouts/FrontEndLayout.vue";
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 const pinia = createPinia();
 const pages = import.meta.glob("./Pages/**/*.vue");
+
+putConfig("useNativeDialog", false);
 
 createInertiaApp({
     title: (title) => `${title} - Sweetia`,
@@ -61,5 +63,5 @@ createInertiaApp({
             .mount(el);
     },
 
-    progress: false,
+    progress: { showSpinner: false },
 });
