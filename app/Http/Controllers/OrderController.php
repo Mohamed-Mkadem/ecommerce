@@ -16,7 +16,7 @@ use App\Models\CouponCode;
 use App\Events\OrderPlaced;
 use App\Models\OrderProduct;
 use Illuminate\Http\Request;
-use App\Jobs\SendOrderToDSGO;
+use App\Jobs\SendOrderToDsgo;
 use App\Models\StatusHistory;
 use App\Jobs\SendOrderToNavex;
 use App\Jobs\SendOrderToOnesta;
@@ -575,7 +575,7 @@ class OrderController extends Controller
                 dispatch(new SendOrderToNavex($order));
             }
             if (strtolower($order->shipper->name) == 'dsgo') {
-                dispatch(new SendOrderToDSGO($order));
+                dispatch(new SendOrderToDsgo($order));
             }
             if (strtolower($order->shipper->name) == 'dsgo ben arous') {
                 dispatch(new SendOrderToDsgoBenArous($order));
@@ -745,7 +745,7 @@ class OrderController extends Controller
                 dispatch(new SendOrderToNavex($order));
             }
             if ($order->shipper->name == 'DSGO') {
-                dispatch(new SendOrderToDSGO($order));
+                dispatch(new SendOrderToDsgo($order));
             }
             if (strtolower($order->shipper->name) == 'dsgo ben arous') {
                 dispatch(new SendOrderToDsgoBenArous($order));

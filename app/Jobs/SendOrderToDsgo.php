@@ -9,7 +9,7 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Events\SendingOrderToShippingCompanyFailed;
 
-class SendOrderToDSGO implements ShouldQueue
+class SendOrderToDsgo implements ShouldQueue
 {
     use Queueable;
 
