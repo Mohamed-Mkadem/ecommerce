@@ -26,7 +26,8 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             StateSeeder::class,
             CouponCodeSeeder::class,
-            ShippingSettingsSeeder::class
+            ShippingSettingsSeeder::class,
+            CatalogSeeder::class,
         ]);
         // Client::factory(10)->create();
 
