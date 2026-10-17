@@ -6,6 +6,7 @@ APP_DIR="${SWEETIA_APP_DIR:-/var/www/sweetia}"
 BACKUP_DIR="${SWEETIA_BACKUP_DIR:-/var/backups/sweetia}"
 MYSQL_DEFAULTS_FILE="${SWEETIA_MYSQL_DEFAULTS_FILE:-/home/deploy/.my.cnf}"
 RETENTION_DAYS="${SWEETIA_BACKUP_RETENTION_DAYS:-14}"
+OFFSITE_REMOTE="${SWEETIA_OFFSITE_REMOTE:-sweetia-offsite:}"
 TIMESTAMP="$(date -u +%Y%m%dT%H%M%SZ)"
 
 if [[ ! -d "$APP_DIR/storage/app/public" ]]; then
@@ -20,6 +21,11 @@ fi
 
 if ! [[ "$RETENTION_DAYS" =~ ^[1-9][0-9]*$ ]]; then
     echo "Backup retention must be a positive whole number of days." >&2
+    exit 1
+fi
+
+if ! command -v rclone >/dev/null 2>&1; then
+    echo "rclone is required to upload offsite backups." >&2
     exit 1
 fi
 
@@ -49,6 +55,13 @@ tar -tzf "$FILES_BACKUP" >/dev/null
 install -m 600 "$DB_BACKUP" "$BACKUP_DIR/$(basename "$DB_BACKUP")"
 install -m 600 "$FILES_BACKUP" "$BACKUP_DIR/$(basename "$FILES_BACKUP")"
 
+rclone copyto \
+    "$BACKUP_DIR/$(basename "$DB_BACKUP")" \
+    "$OFFSITE_REMOTE/$(basename "$DB_BACKUP")"
+rclone copyto \
+    "$BACKUP_DIR/$(basename "$FILES_BACKUP")" \
+    "$OFFSITE_REMOTE/$(basename "$FILES_BACKUP")"
+
 find "$BACKUP_DIR" \
     -maxdepth 1 \
     -type f \
@@ -56,4 +69,6 @@ find "$BACKUP_DIR" \
     -mtime "+$RETENTION_DAYS" \
     -delete
 
-echo "Sweetia database and uploads backed up at $TIMESTAMP (UTC)."
+rclone delete "$OFFSITE_REMOTE" --min-age "${RETENTION_DAYS}d"
+
+echo "Sweetia database and uploads backed up locally and offsite at $TIMESTAMP (UTC)."
