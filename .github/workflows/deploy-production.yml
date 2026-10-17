@@ -1,9 +1,9 @@
-name: Deploy Sweetia production
+name: Deploy Sweetia demo VPS
 
 on:
   push:
     branches:
-      - main
+      - codex/laravel-12-upgrade
   workflow_dispatch:
 
 permissions:
@@ -15,11 +15,11 @@ concurrency:
 
 jobs:
   deploy:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/codex/laravel-12-upgrade'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Deploy main to the VPS
+      - name: Deploy the active VPS branch
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
@@ -50,14 +50,29 @@ jobs:
             'bash -s' <<'REMOTE'
           set -Eeuo pipefail
           APP_DIR=/var/www/sweetia
+          DEPLOY_BRANCH=codex/laravel-12-upgrade
 
-          git -C "$APP_DIR" fetch origin main:refs/remotes/origin/main
-          if git -C "$APP_DIR" show-ref --verify --quiet refs/heads/main; then
-              git -C "$APP_DIR" switch main
+          git -C "$APP_DIR" fetch origin "$DEPLOY_BRANCH"
+          if git -C "$APP_DIR" show-ref --verify --quiet "refs/heads/$DEPLOY_BRANCH"; then
+              git -C "$APP_DIR" switch "$DEPLOY_BRANCH"
           else
-              git -C "$APP_DIR" switch --track -c main origin/main
+              git -C "$APP_DIR" switch --track -c "$DEPLOY_BRANCH" "origin/$DEPLOY_BRANCH"
           fi
-          git -C "$APP_DIR" pull --ff-only origin main
+          git -C "$APP_DIR" pull --ff-only origin "$DEPLOY_BRANCH"
 
           bash "$APP_DIR/scripts/deploy-production.sh"
           REMOTE
+
+      - name: Check the public storefront
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          for attempt in {1..10}; do
+            if curl --fail --silent --show-error --location https://sweetia.mohamad.tn/ >/dev/null; then
+              echo "Sweetia storefront is responding over HTTPS."
+              exit 0
+            fi
+            sleep 6
+          done
+          echo "Sweetia storefront did not pass the HTTPS check after deployment." >&2
+          exit 1
