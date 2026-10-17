@@ -64,6 +64,21 @@ Artisan::command('selling-reports:prune', function () {
     $this->info("Deleted {$deleted} selling report(s).");
 })->purpose('Delete selling reports older than seven days and their files');
 
+Artisan::command('order-reports:prune', function () {
+    $cutoff = now()->subDays(7)->startOfDay();
+    $reports = DB::table('order_reports')->where('created_at', '<', $cutoff)->get();
+
+    foreach ($reports as $report) {
+        if (! empty($report->excel_file_path)) {
+            Storage::disk('local')->delete($report->excel_file_path);
+        }
+    }
+
+    $deleted = DB::table('order_reports')->where('created_at', '<', $cutoff)->delete();
+    $this->info("Deleted {$deleted} order report(s).");
+})->purpose('Delete order reports older than seven days and their files');
+
 Schedule::command('notifications:prune')->weekly();
 Schedule::command('shipping-reports:prune')->weekly();
 Schedule::command('selling-reports:prune')->weekly();
+Schedule::command('order-reports:prune')->weekly();

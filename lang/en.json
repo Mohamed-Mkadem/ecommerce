@@ -834,5 +834,17 @@
     "Cleanup.sellingReports.button": "Clean old reports",
     "Cleanup.sellingReports.confirm": "Selling reports older than seven days and their files will be permanently deleted.",
     "Cleanup.sellingReports.success": "Old selling reports cleaned successfully.",
-    "Discount.value_placeholder": "e.g. 10"
+    "Discount.value_placeholder": "e.g. 10",
+    "Orders (Last 15 Days)": "Orders (Last 15 Days)",
+    "Storefront Orders (Last 15 Days)": "Storefront Orders (Last 15 Days)",
+    "Last 15 days": "Last 15 days",
+    "Order Reports": "Order Reports",
+    "New Order Report": "New Order Report",
+    "OrderReport.create": "Create Order Report",
+    "OrderReport.created_successfully": "The order report is queued and will be available when generation is complete.",
+    "OrderReport.queued_notice": "The report is generated in the background. All administrators will be notified when it is ready.",
+    "OrderReport.name_placeholder": "Enter a unique report name",
+    "Cleanup.orderReports.button": "Clean old reports",
+    "Cleanup.orderReports.confirm": "Order reports older than seven days and their files will be permanently deleted.",
+    "Cleanup.orderReports.success": "Old order reports cleaned successfully."
 }

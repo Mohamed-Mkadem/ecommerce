@@ -894,5 +894,19 @@
     "Cleanup.sellingReports.confirm": "Les rapports de vente de plus de sept jours et leurs fichiers seront définitivement supprimés.",
     "Cleanup.sellingReports.success": "Les anciens rapports de vente ont été nettoyés.",
     "Discount.value_placeholder": "ex : 10",
-    "Delivered Quantity": "Quantité livrée"
+    "Delivered Quantity": "Quantité livrée",
+    "Orders (Last 15 Days)": "Commandes (15 derniers jours)",
+    "Storefront Orders (Last 15 Days)": "Commandes du site (15 derniers jours)",
+    "Last 15 days": "15 derniers jours",
+    "Order Reports": "Rapports de commandes",
+    "New Order Report": "Nouveau rapport de commandes",
+    "OrderReport.create": "Créer le rapport de commandes",
+    "OrderReport.created_successfully": "Le rapport de commandes est en file d’attente et sera disponible une fois généré.",
+    "OrderReport.queued_notice": "Le rapport est généré en arrière-plan. Tous les administrateurs seront avertis lorsqu’il sera prêt.",
+    "OrderReport.name_placeholder": "Saisissez un nom de rapport unique",
+    "Cleanup.orderReports.button": "Nettoyer les anciens rapports",
+    "Cleanup.orderReports.confirm": "Les rapports de commandes de plus de sept jours et leurs fichiers seront définitivement supprimés.",
+    "Cleanup.orderReports.success": "Les anciens rapports de commandes ont été nettoyés.",
+    "The order report has been created.": "Le rapport de commandes a été créé.",
+    "Created by": "Créé par"
 }

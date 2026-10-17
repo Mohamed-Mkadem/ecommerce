@@ -15,6 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShipperController;
 use App\Http\Controllers\ShippingReportController;
 use App\Http\Controllers\SellingReportController;
+use App\Http\Controllers\OrderReportController;
 use App\Http\Controllers\ShippingSettingController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\StatisticsController;
@@ -87,6 +88,10 @@ Route::middleware(['auth', isActiveMiddleware::class])->group(function () {
     Route::get('/selling-reports/download-pdf/{id}', [SellingReportController::class, 'downloadPdf'])->name('selling-reports.download-pdf');
     Route::delete('selling_reports/clean', [SellingReportController::class, 'clean'])->name('selling_reports.clean')->middleware(isAdminMiddleware::class);
     Route::resource('selling_reports', SellingReportController::class)->except(['show', 'edit', 'update']);
+
+    Route::delete('order-reports/clean', [OrderReportController::class, 'clean'])->name('order_reports.clean')->middleware(isAdminMiddleware::class);
+    Route::get('order-reports/{orderReport}/download', [OrderReportController::class, 'download'])->name('order_reports.download')->middleware(isAdminMiddleware::class);
+    Route::resource('order_reports', OrderReportController::class)->except(['show', 'edit', 'update'])->middleware(isAdminMiddleware::class);
 
     Route::patch('notifications/{notification_id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
     Route::patch('notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');

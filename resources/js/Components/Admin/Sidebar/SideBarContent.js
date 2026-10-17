@@ -27,6 +27,12 @@ export default [
                 component: "Admin/Orders/Actions",
             },
             {
+                label: "Order Reports",
+                route: route("order_reports.index"),
+                component: "Admin/Order_Reports/Index",
+                onlyAdmin: true,
+            },
+            {
                 label: "Shipping Reports",
                 route: route("shipping_reports.index"),
                 component: "Admin/Shipping_Reports/Index",

@@ -26,15 +26,18 @@ class AdminController extends Controller
         $orders = Order::latest()->take(4)->get();
         $clients = Client::latest()->take(6)->get();
 
+        $chartStartDate = \Carbon\Carbon::today()->subDays(14)->startOfDay();
+
         $orderCountsByDate = Order::selectRaw('DATE(created_at) as date, COUNT(*) as count')
-            ->where('created_at', '>=', \Carbon\Carbon::today()->subDays(6)->startOfDay())
+            ->where('created_at', '>=', $chartStartDate)
+            ->where('created_at', '<=', \Carbon\Carbon::today()->endOfDay())
             ->groupBy('date')
             ->orderBy('date')
             ->pluck('count', 'date')
             ->toArray();
 
         $weeklyOrders = collect();
-        for ($i = 6; $i >= 0; $i--) {
+        for ($i = 14; $i >= 0; $i--) {
             $date = \Carbon\Carbon::today()->subDays($i);
             $weeklyOrders->push([
                 'label' => $date->format('M j'),
@@ -45,14 +48,15 @@ class AdminController extends Controller
 
         $weeklyClientOrderCountsByDate = Order::selectRaw('DATE(created_at) as date, COUNT(*) as count')
             ->where('source', 'client')
-            ->where('created_at', '>=', \Carbon\Carbon::today()->subDays(6)->startOfDay())
+            ->where('created_at', '>=', $chartStartDate)
+            ->where('created_at', '<=', \Carbon\Carbon::today()->endOfDay())
             ->groupBy('date')
             ->orderBy('date')
             ->pluck('count', 'date')
             ->toArray();
 
         $weeklyClientOrders = collect();
-        for ($i = 6; $i >= 0; $i--) {
+        for ($i = 14; $i >= 0; $i--) {
             $date = \Carbon\Carbon::today()->subDays($i);
             $weeklyClientOrders->push([
                 'label' => $date->format('M j'),

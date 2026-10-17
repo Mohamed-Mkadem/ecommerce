@@ -413,9 +413,9 @@ const chartOptions = {
             class="flex items-center justify-between gap-3 flex-wrap bg-white p-3 shadow-1 mb-4"
         >
             <h2 class="text-sky-800 font-semibold text-lg">
-                {{ $t("Weekly Orders") }}
+                {{ $t("Orders (Last 15 Days)") }}
             </h2>
-            <span class="text-sm text-slate-500">{{ $t("Last 7 days") }}</span>
+            <span class="text-sm text-slate-500">{{ $t("Last 15 days") }}</span>
         </div>
         <div class="bg-white rounded-md shadow-1 p-4">
             <div class="h-80">
@@ -429,9 +429,9 @@ const chartOptions = {
             class="flex items-center justify-between gap-3 flex-wrap bg-white p-3 shadow-1 mb-4"
         >
             <h2 class="text-sky-800 font-semibold text-lg">
-                {{ $t("Automatic Orders") }}
+                {{ $t("Storefront Orders (Last 15 Days)") }}
             </h2>
-            <span class="text-sm text-slate-500">{{ $t("Last 7 days") }}</span>
+            <span class="text-sm text-slate-500">{{ $t("Last 15 days") }}</span>
         </div>
         <div class="bg-white rounded-md shadow-1 p-4">
             <div class="h-80">

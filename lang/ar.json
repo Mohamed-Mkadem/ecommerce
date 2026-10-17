@@ -898,5 +898,18 @@
     "Cleanup.sellingReports.confirm": "سيتم حذف تقارير المبيعات التي مضى عليها أكثر من سبعة أيام وملفاتها نهائيًا.",
     "Cleanup.sellingReports.success": "تم تنظيف تقارير المبيعات القديمة بنجاح.",
     "Discount.value_placeholder": "مثال: 10",
-    "Delivered Quantity": "الكمية المسلّمة"
+    "Delivered Quantity": "الكمية المسلّمة",
+    "Orders (Last 15 Days)": "الطلبات خلال آخر 15 يومًا",
+    "Storefront Orders (Last 15 Days)": "طلبات المتجر خلال آخر 15 يومًا",
+    "Last 15 days": "آخر 15 يومًا",
+    "Order Reports": "تقارير الطلبات",
+    "New Order Report": "تقرير طلبات جديد",
+    "OrderReport.create": "إنشاء تقرير الطلبات",
+    "OrderReport.created_successfully": "تمت إضافة تقرير الطلبات إلى قائمة الانتظار وسيكون متاحًا بعد اكتمال إنشائه.",
+    "OrderReport.queued_notice": "يتم إنشاء التقرير في الخلفية. سيتم إعلام جميع المسؤولين عند جاهزيته.",
+    "OrderReport.name_placeholder": "أدخل اسمًا فريدًا للتقرير",
+    "Cleanup.orderReports.button": "تنظيف التقارير القديمة",
+    "Cleanup.orderReports.confirm": "سيتم حذف تقارير الطلبات التي مضى عليها أكثر من سبعة أيام وملفاتها نهائيًا.",
+    "Cleanup.orderReports.success": "تم تنظيف تقارير الطلبات القديمة بنجاح.",
+    "The order report has been created.": "تم إنشاء تقرير الطلبات"
 }

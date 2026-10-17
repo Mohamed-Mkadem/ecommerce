@@ -502,10 +502,10 @@ class OrderController extends Controller
         event(new OrderPlaced($order));
 
         // Send Facebook Conversions API Purchase event
-        $this->sendFacebookPurchaseEvent($order, $request, $cart);
+       // $this->sendFacebookPurchaseEvent($order, $request, $cart);
 
         // Send Google Analytics 4 Purchase event
-        $this->sendGoogleAnalyticsPurchaseEvent($order, $request, $cart);
+        //$this->sendGoogleAnalyticsPurchaseEvent($order, $request, $cart);
 
         return redirect()->back()->with([
             'order_conversion_data' => [
