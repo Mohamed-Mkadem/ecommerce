@@ -39,7 +39,7 @@ mysqldump \
     --no-tablespaces \
     --single-transaction \
     --host=127.0.0.1 \
-    --database=sweetia \
+    sweetia \
     | gzip -c > "$DB_BACKUP"
 
 tar -C "$APP_DIR/storage/app" -czf "$FILES_BACKUP" public
