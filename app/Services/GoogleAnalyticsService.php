@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Log;
 
 class GoogleAnalyticsService
 {
-    private string $measurementId;
-    private string $apiSecret;
+    private string $measurementId = '';
+    private string $apiSecret = '';
     private string $baseUrl = 'https://www.google-analytics.com/mp/collect';
 
     public function __construct()
     {
-        $this->measurementId = config('services.google_analytics.measurement_id');
-        $this->apiSecret = config('services.google_analytics.api_secret');
+        $this->measurementId = config('services.google_analytics.measurement_id') ?? '';
+        $this->apiSecret = config('services.google_analytics.api_secret') ?? '';
     }
 
     /**

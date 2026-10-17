@@ -501,19 +501,13 @@ class OrderController extends Controller
 
         event(new OrderPlaced($order));
 
-        // Send Facebook Conversions API Purchase event
-       // $this->sendFacebookPurchaseEvent($order, $request, $cart);
+        // The feature flag keeps this inactive until this project has its own Meta credentials.
+        $this->sendFacebookPurchaseEvent($order, $request, $cart);
 
         // Send Google Analytics 4 Purchase event
         //$this->sendGoogleAnalyticsPurchaseEvent($order, $request, $cart);
 
-        return redirect()->back()->with([
-            'order_conversion_data' => [
-                'transaction_id' => $order->id,
-                'value' => $order->amount / 1000,
-                'currency' => 'TND',
-            ]
-        ]);
+        return redirect()->back();
     }
     public function store(StoreOrderRequest $request)
     {
@@ -890,6 +884,10 @@ class OrderController extends Controller
      */
     private function sendFacebookPurchaseEvent(Order $order, Request $request, array $cart): void
     {
+        if (!config('services.facebook.enabled')) {
+            return;
+        }
+
         try {
             // Prepare order data for Facebook Conversions API
             $orderData = [
@@ -958,7 +956,7 @@ class OrderController extends Controller
             }
 
             // Extract Session ID from _ga_<MEASUREMENT_ID>
-            $measurementId = config('services.google_analytics.measurement_id', 'G-S9JRM4LHNP');
+            $measurementId = config('services.google_analytics.measurement_id', '');
             $measurementIdClean = str_replace('G-', '', $measurementId);
             $sessionIdCookieName = '_ga_' . $measurementIdClean;
             $sessionIdFull = $_COOKIE[$sessionIdCookieName] ?? null;

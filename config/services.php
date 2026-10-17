@@ -40,6 +40,7 @@ return [
         'url' => env('NAVEX_API_URL'),
     ],
     'facebook' => [
+        'enabled' => filter_var(env('FACEBOOK_ENABLED', false), FILTER_VALIDATE_BOOL),
         'access_token' => env('FACEBOOK_ACCESS_TOKEN'),
         'pixel_id' => env('FACEBOOK_PIXEL_ID'),
         'api_version' => env('FACEBOOK_API_VERSION', 'v18.0'),

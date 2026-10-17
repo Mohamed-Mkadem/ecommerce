@@ -1,5 +1,5 @@
 <script setup>
-import { router, useForm, usePage } from "@inertiajs/vue3";
+import { router, useForm } from "@inertiajs/vue3";
 import { useCartStore } from "@/js/stores/Cart";
 import { useLanguageStore } from "@/js/stores/Language";
 import { useToast } from "vue-toastification";
@@ -33,7 +33,6 @@ const props = defineProps({
 });
 
 const toast = useToast();
-const page = usePage();
 const languageStore = useLanguageStore();
 const cartStore = useCartStore();
 const loadingState = ref(false);
@@ -226,16 +225,6 @@ function submitForm() {
         onSuccess: () => {
             isOrderPlaced.value = true;
             resetForm();
-
-            const conversionData = page.props.flash?.order_conversion_data;
-            if (conversionData && window.gtag) {
-                window.gtag("event", "conversion", {
-                    send_to: "AW-17884200609/T4nVCOOPuOcbEKH97M9C",
-                    value: conversionData.value,
-                    currency: conversionData.currency,
-                    transaction_id: conversionData.transaction_id,
-                });
-            }
 
             trackFacebookEvent(
                 "Purchase",

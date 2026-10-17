@@ -4,7 +4,7 @@ import { useLanguageStore } from "@/js/stores/Language";
 import InputError from "@/js/Components/InputError.vue";
 import InputLabel from "@/js/Components/InputLabel.vue";
 import TextInput from "@/js/Components/TextInput.vue";
-import { useForm, Link, usePage } from "@inertiajs/vue3";
+import { useForm, Link } from "@inertiajs/vue3";
 import { computed, ref, onMounted, watch } from "vue";
 import axios from "axios";
 import { useToast } from "vue-toastification";
@@ -13,7 +13,6 @@ import { trans } from "laravel-vue-i18n";
 import OrderPlacedImage from "@/assets/images/done.png";
 import { trackFacebookEvent } from "@/js/Utils/facebook";
 const toast = useToast();
-const page = usePage();
 const languageStore = useLanguageStore();
 const cartStore = useCartStore();
 const couponCodeIsProcessing = ref(false);
@@ -128,18 +127,6 @@ function submitForm() {
             isOrderPlaced.value = true;
             resetForm();
             cartStore.clearCart();
-
-            // Google Ads Conversion Tracking
-            const conversionData = page.props.flash?.order_conversion_data;
-
-            if (conversionData && window.gtag) {
-                window.gtag("event", "conversion", {
-                    send_to: "AW-17884200609/T4nVCOOPuOcbEKH97M9C",
-                    value: conversionData.value,
-                    currency: conversionData.currency,
-                    transaction_id: conversionData.transaction_id,
-                });
-            }
         },
     });
 }

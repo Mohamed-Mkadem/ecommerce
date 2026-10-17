@@ -39,8 +39,12 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'base_url' => config('app.url') . '/',
+            'tracking' => [
+                'google_analytics_measurement_id' => config('services.google_analytics.measurement_id'),
+                'facebook_enabled' => config('services.facebook.enabled'),
+                'facebook_pixel_id' => config('services.facebook.pixel_id'),
+            ],
             'flash' => [
-                'order_conversion_data' => fn () => $request->session()->get('order_conversion_data'),
                 'success' => fn () => $request->session()->get('success'),
             ],
         ];

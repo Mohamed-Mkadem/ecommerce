@@ -2,7 +2,7 @@
 import InputError from "@/js/Components/InputError.vue";
 import InputLabel from "@/js/Components/InputLabel.vue";
 import TextInput from "@/js/Components/TextInput.vue";
-import { useForm, Link, usePage } from "@inertiajs/vue3";
+import { useForm, Link } from "@inertiajs/vue3";
 import { computed, ref, watch } from "vue";
 import axios from "axios";
 import { useLanguageStore } from "@/js/stores/Language";
@@ -25,7 +25,6 @@ const props = defineProps({
     },
 });
 
-const page = usePage();
 const languageStore = useLanguageStore();
 const isOrderPlaced = ref(false);
 const abandonedTimer = ref(null);
@@ -160,16 +159,6 @@ function submitForm() {
         onSuccess: () => {
             isOrderPlaced.value = true;
             resetForm();
-
-            const conversionData = page.props.flash?.order_conversion_data;
-            if (conversionData && window.gtag) {
-                window.gtag("event", "conversion", {
-                    send_to: "AW-17884200609/T4nVCOOPuOcbEKH97M9C",
-                    value: conversionData.value,
-                    currency: conversionData.currency,
-                    transaction_id: conversionData.transaction_id,
-                });
-            }
 
             trackFacebookEvent(
                 "Purchase",
