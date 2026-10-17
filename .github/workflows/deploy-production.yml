@@ -1,0 +1,63 @@
+name: Deploy Sweetia production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sweetia-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Deploy main to the VPS
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+
+          : "${VPS_HOST:?Set the VPS_HOST repository secret}"
+          : "${VPS_SSH_KEY:?Set the VPS_SSH_KEY repository secret}"
+          : "${VPS_KNOWN_HOSTS:?Set the VPS_KNOWN_HOSTS repository secret}"
+          VPS_PORT="${VPS_PORT:-22}"
+
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$VPS_SSH_KEY" | tr -d '\r' > "$HOME/.ssh/id_ed25519"
+          chmod 600 "$HOME/.ssh/id_ed25519"
+          printf '%s\n' "$VPS_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/known_hosts"
+
+          ssh \
+            -i "$HOME/.ssh/id_ed25519" \
+            -p "$VPS_PORT" \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            "deploy@$VPS_HOST" \
+            'bash -s' <<'REMOTE'
+          set -Eeuo pipefail
+          APP_DIR=/var/www/sweetia
+
+          git -C "$APP_DIR" fetch origin main:refs/remotes/origin/main
+          if git -C "$APP_DIR" show-ref --verify --quiet refs/heads/main; then
+              git -C "$APP_DIR" switch main
+          else
+              git -C "$APP_DIR" switch --track -c main origin/main
+          fi
+          git -C "$APP_DIR" pull --ff-only origin main
+
+          bash "$APP_DIR/scripts/deploy-production.sh"
+          REMOTE
