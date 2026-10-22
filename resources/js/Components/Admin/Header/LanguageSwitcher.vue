@@ -1,9 +1,9 @@
 <script setup>
 import { onClickOutside } from "@vueuse/core";
 import { reactive, ref, computed } from "vue";
-import usFlag from "@/assets/images/flags/us.svg";
-import frFlag from "@/assets/images/flags/fr.svg";
-import tnFlag from "@/assets/images/flags/tn.svg";
+import usFlag from "@/assets/images/flags/us.webp";
+import frFlag from "@/assets/images/flags/fr.webp";
+import tnFlag from "@/assets/images/flags/tn.webp";
 import { useLanguageStore } from "@/js/stores/Language";
 const languageStore = useLanguageStore();
 const props = defineProps({

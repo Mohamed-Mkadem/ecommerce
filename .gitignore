@@ -24,4 +24,5 @@ yarn-error.log
 /.vscode
 /.zed
 /sweetia-docs/  
+/variants/
 tasks.md
