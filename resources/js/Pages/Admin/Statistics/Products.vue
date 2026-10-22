@@ -1,12 +1,12 @@
 <script setup>
 import PageHeader from "@/js/Components/Admin/PageHeader.vue";
+import SectionTip from "@/js/Components/Admin/SectionTip.vue";
 import { ref } from "vue";
 import Card from "./Partials/Card.vue";
 import ProductCard from "@/js/Pages/Admin/Products/Partials/Card.vue";
 import Paginator from "@/js/Components/Paginator.vue";
 import NotFound from "@/js/Components/NotFound.vue";
 const props = defineProps({
-    productsStatusCount: { type: Object },
     statistics: { type: Object },
     bestSelling: { type: Object },
 });
@@ -19,61 +19,8 @@ const currentBestSellingPeriod = ref("total");
     <Head :title="$t('Products statistics')" />
     <PageHeader :page-title="$t('Products statistics')"> </PageHeader>
 
-    <div
-        class="grid xsm:grid-cols-[repeat(auto-fit,minmax(min(150px,100%),1fr))] gap-2 lg:gap-4"
-    >
-        <div class="bg-white p-4 rounded-md shadow-5">
-            <p class="text-neutral-700 ltr:-tracking-tighter">
-                {{ $t("Total") }}
-            </p>
-
-            <div class="flex justify-between items-end">
-                <p class="font-semibold text-lg text-sky-800">
-                    {{ productsStatusCount["total"] }}
-                </p>
-                <div
-                    class="text-white flex items-center justify-center w-9 h-9 rounded-md bg-sky-700"
-                >
-                    <i class="ri-cake-3-line"></i>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white p-4 rounded-md shadow-5">
-            <p class="text-neutral-700 ltr:-tracking-tighter">
-                {{ $t("Product.published") }}
-            </p>
-
-            <div class="flex justify-between items-end">
-                <p class="font-semibold text-lg text-sky-800">
-                    {{ productsStatusCount["published"] }}
-                </p>
-                <div
-                    class="text-white flex items-center justify-center w-9 h-9 rounded-md bg-green-600"
-                >
-                    <i class="ri-check-double-line"></i>
-                </div>
-            </div>
-        </div>
-        <div class="bg-white p-4 rounded-md shadow-5">
-            <p class="text-neutral-700 ltr:-tracking-tighter">
-                {{ $t("Product.hidden") }}
-            </p>
-
-            <div class="flex justify-between items-end">
-                <p class="font-semibold text-lg text-sky-800">
-                    {{ productsStatusCount["hidden"] }}
-                </p>
-                <div
-                    class="text-white flex items-center justify-center w-9 h-9 rounded-md bg-red-600"
-                >
-                    <i class="ri-eye-off-line"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <section class="my-12">
+        <SectionTip message="Statistics.bestSellingProductsTip" />
         <div
             class="bg-white rounded-lg p-4 shadow-1 md:flex md:justify-between md:items-center md:gap-3 md:flex-wrap mb-4"
         >
@@ -94,67 +41,76 @@ const currentBestSellingPeriod = ref("total");
         </div>
 
         <div v-if="bestSelling[currentBestSellingPeriod].length">
-            <div
-                class="grid grid-cols-[repeat(auto-fit,_minmax(min(400px,_100%),_1fr))] gap-4"
-            >
-                <div
-                    class="shadow-2 p-5 bg-white rounded-md"
-                    v-for="product in bestSelling[currentBestSellingPeriod]"
-                    :key="product.id"
-                >
-                    <div class="flex items-center flex-wrap mb-3">
-                        <p
-                            class="p-2 text-white text-sm rounded-md font-medium"
-                            :class="{
-                                'bg-red-500': product.status == 'hidden',
-                                'bg-green-600': product.status == 'published',
-                            }"
+            <div class="overflow-x-auto rounded-lg shadow-1">
+                <table class="min-w-full bg-white text-slate-800">
+                    <thead class="bg-sky-800 text-white">
+                        <tr>
+                            <th scope="col" class="px-4 py-3 text-start">
+                                {{ $t("Product.product") }}
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-center">
+                                {{ $t("Product.wrapper") }}
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-center">
+                                {{ $t("Product.price") }}
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-center">
+                                {{ $t("Delivered Quantity") }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            v-for="product in bestSelling[
+                                currentBestSellingPeriod
+                            ]"
+                            :key="product.id"
+                            class="border-t border-slate-200 odd:bg-white even:bg-slate-50"
                         >
-                            {{ $t(`Product.${product.status}`) }}
-                        </p>
-                    </div>
-
-                    <img
-                        :src="product.main_image_url"
-                        class="rounded-sm mx-auto"
-                    />
-
-                    <div class="text-center mt-4">
-                        <Link
-                            :href="route('products.show', product)"
-                            class="text-xl text-primary font-semibold hover:text-meta-5 transition-colors line-clamp"
-                            :title="product.name"
-                        >
-                            {{ product.name }}
-                        </Link>
-                        <p class="text-xl font-semibold text-meta-1">
-                            {{ product.price }} {{ $t("Product.currency") }}
-                        </p>
-                    </div>
-                    <div
-                        class="grid items-center p-2 border-t-2 border-gray mt-3 grid-cols-2"
-                    >
-                        <div class="text-center">
-                            <i class="ri-star-line text-2xl text-slate-400"></i>
-                            <p class="text-primary">
-                                {{ product.rate ?? "N/A" }}
-                            </p>
-                        </div>
-                        <div class="text-center">
-                            <i
-                                class="ri-shopping-cart-line text-2xl text-slate-400"
-                            ></i>
-                            <p class="text-primary">
-                                {{ product.delivered_orders_count }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                            <td class="px-4 py-3">
+                                <div class="flex min-w-64 items-center gap-3">
+                                    <img
+                                        :src="product.main_image_url"
+                                        :alt="product.name"
+                                        class="h-14 w-14 shrink-0 rounded object-cover"
+                                    />
+                                    <Link
+                                        :href="route('products.show', product)"
+                                        class="font-semibold text-primary transition-colors hover:text-meta-5"
+                                        :title="product.name"
+                                    >
+                                        {{ product.name }}
+                                    </Link>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                {{ product.wrapper_title || "—" }}
+                            </td>
+                            <td
+                                class="whitespace-nowrap px-4 py-3 text-center font-medium"
+                            >
+                                {{ product.price }} {{ $t("Product.currency") }}
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <span
+                                    class="inline-flex items-center justify-center gap-1"
+                                >
+                                    <i
+                                        class="ri-shopping-cart-line text-slate-400"
+                                        aria-hidden="true"
+                                    ></i>
+                                    {{ product.delivered_orders_count }}
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
 
     <section class="my-12">
+        <SectionTip message="Statistics.productStatusBreakdownTip" />
         <div
             class="bg-white rounded-lg p-4 shadow-1 md:flex md:justify-between md:items-center md:gap-3 md:flex-wrap mb-4"
         >

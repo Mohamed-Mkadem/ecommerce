@@ -17,7 +17,10 @@ const subjectRoute = getActivitySubjectRoute(
 );
 </script>
 <template>
-    <div class="grid items-center md:grid-cols-[1fr_150px] gap-2">
+    <div
+        class="grid items-center md:grid-cols-[1fr_150px] gap-2"
+        v-if="activity.causer"
+    >
         <p class="text-black text-lg font-normal">
             {{
                 `- ${activity.causer.name} ${$t(activity.description + ".by")}`
@@ -32,6 +35,14 @@ const subjectRoute = getActivitySubjectRoute(
                 </Link>
             </template>
             <template v-else> #{{ activity.subject_id }} </template>
+        </p>
+        <p class="text-sm text-neutral-700" dir="ltr">
+            {{ activity.created_at }}
+        </p>
+    </div>
+    <div class="grid items-center md:grid-cols-[1fr_150px] gap-2" v-else>
+        <p class="text-black text-lg font-normal">
+            {{ `- ${$t("someone")} ${$t(activity.description + ".by")}` }}
         </p>
         <p class="text-sm text-neutral-700" dir="ltr">
             {{ activity.created_at }}

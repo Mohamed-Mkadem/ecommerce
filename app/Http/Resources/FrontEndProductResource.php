@@ -14,15 +14,13 @@ class FrontEndProductResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'type' => $this->type,
             'price' => $this->getFormattedPrice(),
-            'main_image_url' => $this->getFirstMediaUrl('images')
-                ?: asset('storage/products/default.png'),
             'translations' => $this->translations,
             'discount' => $this->discount,
             'discount_type' => $this->discount_type,
             'rate' => $this->rate && $this->rate != 0 ? $this->rate : null,
             'free_shipping' => (bool) ($this->pivot?->free_shipping ?? false),
+            'update_quantity_by' => $this->pivot?->update_quantity ?? 1,
         ];
     }
 }

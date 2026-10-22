@@ -12,13 +12,16 @@ const props = defineProps({
         required: true,
         type: Object,
     },
+    shippers: {
+        required: true,
+        type: Array,
+    },
 });
 const toast = useToast();
 
 const form = useForm({
     price: props.state.shipping_cost / 1000,
-    return_cost: props.state.return_cost / 1000,
-    delivery_cost: props.state.delivery_cost / 1000,
+    default_shipper_id: props.state.default_shipper_id || null,
 });
 import { ref } from "vue";
 
@@ -60,51 +63,36 @@ function submitForm() {
                     v-model="form['price']"
                     :required="true"
                     :placeholder="$t('Shipping.cost')"
-                    step="0.01"
+                    step="0.5"
                 />
 
                 <InputError class="mt-2" :message="form.errors['price']" />
             </div>
+
             <div class="mt-4">
                 <InputLabel
-                    for="delivery_cost"
-                    :value="`${$t('delivery_cost')} : (${$t('in DT')})`"
+                    for="default_shipper_id"
+                    :value="`${$t('Default Shipper')}`"
                 />
 
-                <TextInput
-                    class="mt-2 block w-full"
-                    id="delivery_cost"
-                    type="number"
-                    v-model="form['delivery_cost']"
-                    :required="true"
-                    :placeholder="$t('Shipping.cost')"
-                    step="0.01"
-                />
+                <select
+                    class="mt-2 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                    id="default_shipper_id"
+                    v-model="form['default_shipper_id']"
+                >
+                    <option :value="null">-- Select a shipper --</option>
+                    <option
+                        v-for="shipper in shippers"
+                        :key="shipper.id"
+                        :value="shipper.id"
+                    >
+                        {{ shipper.name }}
+                    </option>
+                </select>
 
                 <InputError
                     class="mt-2"
-                    :message="form.errors['delivery_cost']"
-                />
-            </div>
-            <div class="mt-4">
-                <InputLabel
-                    for="return_cost"
-                    :value="`${$t('return_cost')} : (${$t('in DT')})`"
-                />
-
-                <TextInput
-                    class="mt-2 block w-full"
-                    id="return_cost"
-                    type="number"
-                    v-model="form['return_cost']"
-                    :required="true"
-                    :placeholder="$t('Shipping.cost')"
-                    step="0.01"
-                />
-
-                <InputError
-                    class="mt-2"
-                    :message="form.errors['return_cost']"
+                    :message="form.errors['default_shipper_id']"
                 />
             </div>
 

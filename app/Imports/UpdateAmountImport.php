@@ -53,11 +53,8 @@ class UpdateAmountImport implements WithValidation, WithHeadingRow, WithChunkRea
             return;
         }
 
-        // Convert amount from DT to millimes (multiply by 1000)
-        $amountInMillimes = (int)($amountInDt * 1000);
-
         $order->update([
-            'amount' => $amountInMillimes,
+            'amount' => (int) round((float) $amountInDt * 1000),
         ]);
     }
 

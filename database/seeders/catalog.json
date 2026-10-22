@@ -1,0 +1,578 @@
+[
+    {
+        "slug": "tunisian-bsisa",
+        "is_active": true,
+        "seo_title": null,
+        "seo_description": null,
+        "translations": [
+            {
+                "locale": "en",
+                "title": "Tunisian Bsisa",
+                "description": "A wholesome and deeply comforting traditional Tunisian blend made from roasted whole grains, chickpeas, and spices ground into a fine powder. Mixed with olive oil and sweetened with honey or sugar, this rich, earthy paste is finished with a topping of toasted nuts like pistachios and almonds. Naturally nourishing and full of authentic flavor."
+            },
+            {
+                "locale": "fr",
+                "title": "Bsisa Tunisienne",
+                "description": "Un mélange traditionnel tunisien sain et réconfortant, préparé à partir de céréales complètes et de pois chiches grillés, finement moulus avec des épices aromatiques. Mélangée à de l'huile d'olive et adoucie avec du miel ou du sucre, cette pâte riche et onctueuse est couronnée de fruits secs torréfiés tels que des pistaches et des amandes. Un régal nourrissant et authentique."
+            },
+            {
+                "locale": "ar",
+                "title": "البسيسة التونسية",
+                "description": "البسيسة التونسية، خلطة تقليدية مغذية لمكونات طبيعية من الحبوب الكاملة والحمص المحمص والمطحون مع التوابل العطرية. تُخلط مع زيت الزيتون وتُحلّى بالعسل أو السكر، لتصبح معجوناً غنياً يُزيّن بالمكسرات المحمصة مثل الفستق واللوز. وجبة صحية ومليئة بالنكهة الأصيلة."
+            }
+        ],
+        "products": [
+            {
+                "price": 23000,
+                "shipping_name": "kg bsisa",
+                "discount": 0,
+                "discount_type": "percentage",
+                "translations": [
+                    {
+                        "locale": "en",
+                        "name": "1kg of Tunisian Bsisa"
+                    },
+                    {
+                        "locale": "ar",
+                        "name": "1كغ بسيسة تونسية"
+                    },
+                    {
+                        "locale": "fr",
+                        "name": "1kg de Bsisa Tunisienne"
+                    }
+                ],
+                "pivot": {
+                    "display_order": 0,
+                    "is_default": true,
+                    "free_shipping": false,
+                    "update_quantity": 0.5
+                }
+            }
+        ],
+        "media": [
+            {
+                "file_name": "bsisa.webp",
+                "name": "bsisa",
+                "collection_name": "images",
+                "mime_type": "image/webp"
+            }
+        ]
+    },
+    {
+        "slug": "kaak-warka",
+        "is_active": true,
+        "seo_title": null,
+        "seo_description": null,
+        "translations": [
+            {
+                "locale": "en",
+                "title": "Kaak Warka",
+                "description": "A refined and iconic Tunisian pastry shaped into delicate ring-shaped cakes. Made with an ultra-thin, smooth white dough kneaded with aromatic rose water (Eau de Nesri) and stuffed with a rich, soft almond paste filling. It melts softly in the mouth, offering a subtle floral sweetness that makes it a true classic for special occasions and tea time."
+            },
+            {
+                "locale": "fr",
+                "title": "Kaak Warka",
+                "description": "Une pâtisserie tunisienne raffinée et emblématique façonnée en petits anneaux délicats. Confectionnée avec une pâte blanche lisse et ultra-fine, pétrie à l'eau de rose (Eau de Nesri) et fourrée d'une farce fondante aux amandes. Elle fond délicatement en bouche, offrant une douceur florale subtile idéale pour les grandes occasions et les pauses thé."
+            },
+            {
+                "locale": "ar",
+                "title": "كعك الورقة",
+                "description": "كعك الورقة التونسي، من أرق وأرقى الحلويات التقليدية. يتميز بعجينته الناعمة المجهزة بماء الورد والمشكّلة على هيئة حلقات أنيقة، وتختفي بداخلها حشوة تذوب في الفم من طحين اللوز الخالص المعطر بزهر النسرين. يُخبز بحرص ليحافظ على لونه الأبيض الناصع، وهو خيار راقٍ يُقدّم عادةً في الأعراس والمناسبات السعيدة."
+            }
+        ],
+        "products": [
+            {
+                "price": 35000,
+                "shipping_name": "kg kaak warka",
+                "discount": 5,
+                "discount_type": "percentage",
+                "translations": [
+                    {
+                        "locale": "en",
+                        "name": "1kg kaak Warka"
+                    },
+                    {
+                        "locale": "ar",
+                        "name": "1كغ كعك ورقة"
+                    },
+                    {
+                        "locale": "fr",
+                        "name": "1kg kaak Warka"
+                    }
+                ],
+                "pivot": {
+                    "display_order": 0,
+                    "is_default": true,
+                    "free_shipping": false,
+                    "update_quantity": 0.5
+                }
+            },
+            {
+                "price": 65000,
+                "shipping_name": "promo kaak warka",
+                "discount": 10,
+                "discount_type": "percentage",
+                "translations": [
+                    {
+                        "locale": "en",
+                        "name": "2kg of kaak Warka"
+                    },
+                    {
+                        "locale": "ar",
+                        "name": "2كغ كعك ورقة"
+                    },
+                    {
+                        "locale": "fr",
+                        "name": "2kg kaak Warka"
+                    }
+                ],
+                "pivot": {
+                    "display_order": 1,
+                    "is_default": false,
+                    "free_shipping": false,
+                    "update_quantity": 1
+                }
+            }
+        ],
+        "media": [
+            {
+                "file_name": "kaak-warka.webp",
+                "name": "kaak warka",
+                "collection_name": "images",
+                "mime_type": "image/webp"
+            }
+        ]
+    },
+    {
+        "slug": "tunisian-zrir",
+        "is_active": true,
+        "seo_title": null,
+        "seo_description": null,
+        "translations": [
+            {
+                "locale": "en",
+                "title": "Tunisian Zrir",
+                "description": "A decadent and nutritious traditional Tunisian dessert cream made from finely toasted sesame seeds and hazelnuts blended with warm clarified butter (smen) and pure honey. Rich, smooth, and aromatic, it is topped with a generous layer of crunchy walnuts, almonds, or pistachios. Traditionally served to celebrate newborn arrivals and special family milestones."
+            },
+            {
+                "locale": "fr",
+                "title": "Zrir Tunisien",
+                "description": "Une crème dessert traditionnelle tunisienne riche et nourrissante, préparée à partir de graines de sésame et de noisettes torréfiées, mélangées à du beurre clarifié chaud (smen) et du miel pur. Onctueuse et très aromatique, elle est décorée d'une généreuse garniture de noix, d'amandes ou de pistaches croquantes. C'est le mets incontournable pour célébrer les naissances et les grands événements familiaux."
+            },
+            {
+                "locale": "ar",
+                "title": "الزرير التونسي",
+                "description": "الزرير التونسي، تحفة فنية من الحلويات التقليدية المغذية. يُحضر من السمسم والبنادق المحمصة والمطحونة بعناية، والمخلوطة مع السمن البلدي الدافئ والعسل الصافي للحصول على قوام قشدي غني. يُزيّن بحبات الجوز واللوز والفستق المقرمشة، ويُقدم أساساً في مناسبات مولد الأطفال والأفراح العائلية."
+            }
+        ],
+        "products": [
+            {
+                "price": 35000,
+                "shipping_name": "kg zrir",
+                "discount": 5,
+                "discount_type": "percentage",
+                "translations": [
+                    {
+                        "locale": "en",
+                        "name": "1kg of Tunisian Zrir"
+                    },
+                    {
+                        "locale": "ar",
+                        "name": "1كغ زرير تونسي"
+                    },
+                    {
+                        "locale": "fr",
+                        "name": "1kg Zrir Tunisien"
+                    }
+                ],
+                "pivot": {
+                    "display_order": 0,
+                    "is_default": true,
+                    "free_shipping": false,
+                    "update_quantity": 0.5
+                }
+            },
+            {
+                "price": 60000,
+                "shipping_name": "promo zrir",
+                "discount": 10,
+                "discount_type": "percentage",
+                "translations": [
+                    {
+                        "locale": "en",
+                        "name": "2kg of Tunisian Zrir"
+                    },
+                    {
+                        "locale": "ar",
+                        "name": "2كغ زرير تونسي"
+                    },
+                    {
+                        "locale": "fr",
+                        "name": "2kg Zrir Tunisien"
+                    }
+                ],
+                "pivot": {
+                    "display_order": 1,
+                    "is_default": false,
+                    "free_shipping": false,
+                    "update_quantity": 1
+                }
+            }
+        ],
+        "media": [
+            {
+                "file_name": "zrir.webp",
+                "name": "zrir",
+                "collection_name": "images",
+                "mime_type": "image/webp"
+            }
+        ]
+    },
+    {
+        "slug": "stuffed-dates",
+        "is_active": true,
+        "seo_title": null,
+        "seo_description": null,
+        "translations": [
+            {
+                "locale": "en",
+                "title": "Stuffed Dates",
+                "description": "A luxurious North African delicacy featuring sweet, plump Deglet Noor dates stuffed with soft, scented almond paste. Beautifully decorated with an array of whole nuts like pistachios, walnuts, and toasted almonds."
+            },
+            {
+                "locale": "fr",
+                "title": "Dattes Farcies",
+                "description": "Une gourmandise tunisienne raffinée confectionnée à partir de dattes Deglet Nour naturellement sucrées, généreusement garnies d'une pâte d'amandes tendre et parfumée. Délicatement décorées de pistaches concassées, de noix, de graines torréfiées ou de pétales de rose séchés, ces bouchées offrent un équilibre parfait entre moelleux et croquant. Un incontournable du Ramadan, des mariages et des célébrations."
+            },
+            {
+                "locale": "ar",
+                "title": "تمر محشي",
+                "description": "الدقلة المحشوة ، من أرقى الحلويات التونسية التي تُقدم في المناسبات. يُستخدم فيها تمر \"دقلة النور\" المميز بالحلاوة الطبيعية، ويُحشى بعجينة اللوز الناعمة والمعطرة. تُزين بحبات الفستق، الجوز، أو ورد الأرياف لمزيج رائع بين القوام الطري والمقرمش. خيار مثالي لسهرات رمضان والمناسبات السعيدة."
+            }
+        ],
+        "products": [
+            {
+                "price": 59000,
+                "shipping_name": "kg dattes farcies",
+                "discount": 0,
+                "discount_type": "percentage",
+                "translations": [
+                    {
+                        "locale": "en",
+                        "name": "1kg of Stuffed Dates"
+                    },
+                    {
+                        "locale": "ar",
+                        "name": "1كغ تمر محشي"
+                    },
+                    {
+                        "locale": "fr",
+                        "name": "1 kg de dattes farcies"
+                    }
+                ],
+                "pivot": {
+                    "display_order": 0,
+                    "is_default": true,
+                    "free_shipping": false,
+                    "update_quantity": 0.5
+                }
+            },
+            {
+                "price": 109000,
+                "shipping_name": "promo dattes farcies",
+                "discount": 5,
+                "discount_type": "percentage",
+                "translations": [
+                    {
+                        "locale": "en",
+                        "name": "2kg of Stuffed Dates"
+                    },
+                    {
+                        "locale": "ar",
+                        "name": "2كغ تمر محشي"
+                    },
+                    {
+                        "locale": "fr",
+                        "name": "2kg de dattes farcies"
+                    }
+                ],
+                "pivot": {
+                    "display_order": 1,
+                    "is_default": false,
+                    "free_shipping": false,
+                    "update_quantity": 1
+                }
+            }
+        ],
+        "media": [
+            {
+                "file_name": "datte-farcie.webp",
+                "name": "datte-farcie",
+                "collection_name": "images",
+                "mime_type": "image/webp"
+            }
+        ]
+    },
+    {
+        "slug": "cookies",
+        "is_active": true,
+        "seo_title": null,
+        "seo_description": null,
+        "translations": [
+            {
+                "locale": "en",
+                "title": "Cookies",
+                "description": "Indulgent gourmet cookies baked to a perfect golden crisp on the outside with a soft, chewy center. Packed with rich, melted dark chocolate chips and sprinkled with flaky sea salt to enhance the deep chocolate flavor, these cookies offer a harmonious balance of sweet and savory in every bite."
+            },
+            {
+                "locale": "fr",
+                "title": "Cookies",
+                "description": "Des cookies gourmands et généreux, dorés et croustillants à l'extérieur avec un cœur mœlleux et fondant. Garnis d'écorces et de pépites de chocolat noir fondu et saupoudrés de fleur de sel pour rehausser la richesse du chocolat, ils offrent un équilibre parfait entre douceur sucrée et touche salée."
+            },
+            {
+                "locale": "ar",
+                "title": "كوكيز",
+                "description": "كوكيز الشوكولاتة الفاخرة، تُخبز بحرفية لتكون مقرمشة وذهبية من الخارج وطرية وهشة من الداخل. غنية بقطع الشوكولاتة الداكنة الذائبة ومزينة بلمسة من رقائق ملح البحر لتبرز نكهة الشوكولاتة الغنية، مما يمنحك توازناً مثالية بين الحلاوة والملوحة في كل قضم."
+            }
+        ],
+        "products": [
+            {
+                "price": 30000,
+                "shipping_name": "kg cookies",
+                "discount": 39,
+                "discount_type": "fixed",
+                "translations": [
+                    {
+                        "locale": "en",
+                        "name": "1kg of cookies"
+                    },
+                    {
+                        "locale": "ar",
+                        "name": "1كغ كوكيز"
+                    },
+                    {
+                        "locale": "fr",
+                        "name": "1kg de cookies"
+                    }
+                ],
+                "pivot": {
+                    "display_order": 0,
+                    "is_default": true,
+                    "free_shipping": false,
+                    "update_quantity": 0.5
+                }
+            }
+        ],
+        "media": [
+            {
+                "file_name": "cookies.webp",
+                "name": "cookies",
+                "collection_name": "images",
+                "mime_type": "image/webp"
+            }
+        ]
+    },
+    {
+        "slug": "kaaber-carthage",
+        "is_active": true,
+        "seo_title": null,
+        "seo_description": null,
+        "translations": [
+            {
+                "locale": "en",
+                "title": "Kaaber Carthage",
+                "description": "An exquisite Tunisian almond delicacy crafted into small, colorful marzipan spheres, traditionally layered in vibrant red, green, and white. Made with finely ground almonds, sugar, and subtle aromatic essences, each piece is topped with a whole toasted almond or pistachio. These colorful bites are a staple of Tunisian celebrations, offering a soft texture and a delicately sweet, nutty flavor."
+            },
+            {
+                "locale": "fr",
+                "title": "Kaaber Carthage",
+                "description": "Une délicieuse gourmandise tunisienne à base d'amandes, façonnée en petites sphères colorées de pâte d'amande, arborant traditionnellement de vives nuances de rouge, vert et blanc. Confectionnée à partir d'amandes finement moulues, de sucre et d'essences aromatiques subtiles, chaque bouchée est surmontée d'une amande ou d'une pistache entière. Fondantes et parfumées, ces douceurs sont incontournables lors des fêtes et mariages tunisiens."
+            },
+            {
+                "locale": "ar",
+                "title": "كعابر قرطاج",
+                "description": "كعابر قرطاج، تحفة من الحلويات التونسية التقليدية المصنوعة من عجينة اللوز الفاخرة. تُشكّل على هيئة كرات صغيرة ملونة بألوان زاهية كالأحمر والأخضر والأبيض، وتُعطّر بماء الورد أو الزهر ثم تُغطى بحبات اللوز أو الفستق. تتميز بقوامها الطري والمطاطي ونكهة اللوز الناعمة، وهي عنصر أساسي يُزيّن صواني الحلويات في الأفراح والمناسبات التونسية."
+            }
+        ],
+        "products": [
+            {
+                "price": 55000,
+                "shipping_name": "kg Kaaber Carthage",
+                "discount": 0,
+                "discount_type": "percentage",
+                "translations": [
+                    {
+                        "locale": "en",
+                        "name": "1kg of Kaaber Carthage"
+                    },
+                    {
+                        "locale": "ar",
+                        "name": "1كغ كعابر قرطاج"
+                    },
+                    {
+                        "locale": "fr",
+                        "name": "1kg Kaaber Carthage"
+                    }
+                ],
+                "pivot": {
+                    "display_order": 0,
+                    "is_default": true,
+                    "free_shipping": false,
+                    "update_quantity": 0.5
+                }
+            }
+        ],
+        "media": [
+            {
+                "file_name": "kaaber-carthage.webp",
+                "name": "kaaber carthage",
+                "collection_name": "images",
+                "mime_type": "image/webp"
+            }
+        ]
+    },
+    {
+        "slug": "tunisian-samsa",
+        "is_active": true,
+        "seo_title": null,
+        "seo_description": null,
+        "translations": [
+            {
+                "locale": "en",
+                "title": "Tunisian Samsa",
+                "description": "A classic and crunchy Tunisian sweet pastry made from paper-thin layers of brik pastry (malsouka), carefully folded into elegant triangular shapes. Filled with a rich blend of roasted ground nuts like hazelnuts, almonds, or pistachios, it is deep-fried to a glowing golden color, dipped in fragrant honey or scented sugar syrup, and sprinkled with crushed nuts. A light, crispy, and highly addictive holiday treat."
+            },
+            {
+                "locale": "fr",
+                "title": "Samsa Tunisienne",
+                "description": "Une pâtisserie tunisienne croustillante et emblématique, confectionnée à partir de fines feuilles de malsouka (feuilles de brick) pliées en forme de délicats triangles. Garnie d'un riche cœur de fruits secs torréfiés (noisettes, amandes ou pistaches), elle est frite jusqu'à obtenir une belle couleur dorée, puis trempée dans un sirop de sucre aromatisé ou du miel avant d'être saupoudrée de fruits secs concassés. Un délice léger et croustillant parfait pour les fêtes."
+            },
+            {
+                "locale": "ar",
+                "title": "صمصة تونسية",
+                "description": "الصمصة التونسية، من ألذ وأشهر الحلويات المقرمشة في المناسبات والسهرات الرمضانية. تُصنع من ورقة الملصوقة (البُريك) الرقيقة التي تُطوى على شكل مثلثات أنيقة، وتُحشى بخلطة غنية من المكسرات المحمصة والمطحونة كالبندق واللوز والفستق. تُقلى حتى تكتسب لوناً ذهبياً جذاباً، ثم تُسقى بالقطر المعطر بماء الزهر أو العسل وتُزيّن بالمكسرات المهشومة لمزيج رائع من القرمشة والحلاوة."
+            }
+        ],
+        "products": [
+            {
+                "price": 29000,
+                "shipping_name": "kg samsa",
+                "discount": 0,
+                "discount_type": "percentage",
+                "translations": [
+                    {
+                        "locale": "en",
+                        "name": "1kg of Samsa"
+                    },
+                    {
+                        "locale": "ar",
+                        "name": "1كغ صمصة"
+                    },
+                    {
+                        "locale": "fr",
+                        "name": "1kg samsa"
+                    }
+                ],
+                "pivot": {
+                    "display_order": 0,
+                    "is_default": true,
+                    "free_shipping": false,
+                    "update_quantity": 0.5
+                }
+            }
+        ],
+        "media": [
+            {
+                "file_name": "samsa.webp",
+                "name": "samsa",
+                "collection_name": "images",
+                "mime_type": "image/webp"
+            }
+        ]
+    },
+    {
+        "slug": "almond-baklawa",
+        "is_active": true,
+        "seo_title": null,
+        "seo_description": null,
+        "translations": [
+            {
+                "locale": "en",
+                "title": "Almond Baklawa",
+                "description": "An iconic Tunisian pastry crafted with delicate, paper-thin layers of golden, crisp pastry. Generously filled with a rich layer of finely ground almond paste scented with orange blossom water, it is carefully cut into diamond shapes, baked to perfection, and infused with a light, fragrant sugar syrup. Perfect for celebrations and tea time."
+            },
+            {
+                "locale": "fr",
+                "title": "Baklawa aux amandes",
+                "description": "Une pâtisserie tunisienne emblématique composée de délicates couches de pâte feuilletée dorées et croustillantes. Généreusement garnie d'une riche farce aux amandes finement moulues et parfumée à l'eau de fleur d'oranger, elle est délicatement découpée en losanges, cuite à la perfection et imbibée d'un sirop léger et aromatique. Le choix parfait pour vos fêtes et moments de détente."
+            },
+            {
+                "locale": "ar",
+                "title": "بقلاوة باللوز",
+                "description": "بقلاوة باللوز، حلويات تونسية أصيلة مكوّنة من طبقات رقيقة وهشة من العجين الذهبي المقرمش. محشوة بطبقة غنية من اللوز المفروم والمعطر بماء الزهر، ومقطعة بحرفية على شكل معين، ثم تُخبز حتى تجف وتُسقى بشربات خفيف وعطر. خيار مثالي للمناسبات والأعياد وأوقات الشاي."
+            }
+        ],
+        "products": [
+            {
+                "price": 45000,
+                "shipping_name": "kg baklawa louz",
+                "discount": 10,
+                "discount_type": "percentage",
+                "translations": [
+                    {
+                        "locale": "en",
+                        "name": "1kg of almond Baklawa"
+                    },
+                    {
+                        "locale": "ar",
+                        "name": "1كغ بقلاوة لوز"
+                    },
+                    {
+                        "locale": "fr",
+                        "name": "1kg Baklawa aux amandes"
+                    }
+                ],
+                "pivot": {
+                    "display_order": 0,
+                    "is_default": true,
+                    "free_shipping": false,
+                    "update_quantity": 0.5
+                }
+            },
+            {
+                "price": 120000,
+                "shipping_name": "promo baklawa louz",
+                "discount": 15,
+                "discount_type": "fixed",
+                "translations": [
+                    {
+                        "locale": "en",
+                        "name": "3kg of Almond Baklawa"
+                    },
+                    {
+                        "locale": "ar",
+                        "name": "3كغ بقلاوة باللوز"
+                    },
+                    {
+                        "locale": "fr",
+                        "name": "3kg Baklawa aux amandes"
+                    }
+                ],
+                "pivot": {
+                    "display_order": 1,
+                    "is_default": false,
+                    "free_shipping": true,
+                    "update_quantity": 1
+                }
+            }
+        ],
+        "media": [
+            {
+                "file_name": "baklawa.webp",
+                "name": "baklawa",
+                "collection_name": "images",
+                "mime_type": "image/webp"
+            }
+        ]
+    }
+]

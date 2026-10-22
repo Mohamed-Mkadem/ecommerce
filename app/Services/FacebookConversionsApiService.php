@@ -8,15 +8,15 @@ use Illuminate\Support\Facades\Config;
 
 class FacebookConversionsApiService
 {
-    private string $accessToken;
-    private string $pixelId;
+    private string $accessToken = '';
+    private string $pixelId = '';
     private string $apiVersion;
     private string $baseUrl;
 
     public function __construct()
     {
-        $this->accessToken = config('services.facebook.access_token');
-        $this->pixelId = config('services.facebook.pixel_id');
+        $this->accessToken = config('services.facebook.access_token') ?? '';
+        $this->pixelId = config('services.facebook.pixel_id') ?? '';
         $this->apiVersion = config('services.facebook.api_version', 'v18.0');
         $this->baseUrl = "https://graph.facebook.com/{$this->apiVersion}";
     }
@@ -26,6 +26,10 @@ class FacebookConversionsApiService
      */
     public function sendEvent(array $eventData): bool
     {
+        if (!$this->isConfigured()) {
+            return false;
+        }
+
         try {
             $payload = ['data' => [$eventData]];
 
@@ -176,6 +180,8 @@ class FacebookConversionsApiService
      */
     public function isConfigured(): bool
     {
-        return !empty($this->accessToken) && !empty($this->pixelId);
+        return config('services.facebook.enabled')
+            && !empty($this->accessToken)
+            && !empty($this->pixelId);
     }
 }

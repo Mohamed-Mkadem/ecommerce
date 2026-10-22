@@ -14,7 +14,6 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\StateResource;
 use App\Http\Resources\ClientResource;
-use App\Http\Resources\ReviewResource;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -49,7 +48,8 @@ class ClientController extends Controller
         $baseClientQuery->addSelect([
             'total_delivered_spent' => Order::selectRaw('COALESCE(SUM(amount), 0)')
                 ->whereColumn('client_id', 'clients.id')
-                ->where('status', 'delivered'),
+                ->where('status', 'delivered')
+                ->withTrashed(),
             'total_orders_count' => Order::selectRaw('COALESCE(COUNT(*), 0)')
                 ->whereColumn('client_id', 'clients.id')
         ]);
@@ -94,6 +94,13 @@ class ClientController extends Controller
             $derivedTableQuery->where('total_orders_count', '<=', $maxOrdersCount);
         }
 
+        if ($request->filled('minDeliveryRate')) {
+            $derivedTableQuery->where('delivery_rate', '>=', $request->minDeliveryRate);
+        }
+
+        if ($request->filled('maxDeliveryRate')) {
+            $derivedTableQuery->where('delivery_rate', '<=', $request->maxDeliveryRate);
+        }
         // Apply sorting to the derived table
         if ($request->filled('sort')) {
             switch ($request->sort) {
@@ -108,6 +115,15 @@ class ClientController extends Controller
                     break;
                 case 'highest_orders':
                     $derivedTableQuery->orderBy('total_orders_count', 'desc');
+                    break;
+
+
+                case 'highest_delivery_rate':
+                    $derivedTableQuery->orderByRaw('CASE WHEN delivery_rate IS NULL THEN 1 ELSE 0 END, delivery_rate DESC');
+                    break;
+
+                case 'lowest_delivery_rate':
+                    $derivedTableQuery->orderByRaw('CASE WHEN delivery_rate IS NULL THEN 1 ELSE 0 END, delivery_rate ASC');
                     break;
                 default:
                     $derivedTableQuery->orderBy('total_delivered_spent', 'desc');
@@ -126,12 +142,13 @@ class ClientController extends Controller
         // IMPORTANT: Re-add the addSelect for total_delivered_spent and total_orders_count
         // when fetching the Eloquent models, so these attributes are available.
         $eloquentClientsQuery = Client::whereIn('id', $clientIds)
-            ->with(['state', 'notes.user', 'reviews']);
+            ->with(['state', 'notes.user']);
 
         $eloquentClientsQuery->addSelect([
             'total_delivered_spent' => Order::selectRaw('COALESCE(SUM(amount), 0)')
                 ->whereColumn('client_id', 'clients.id')
-                ->where('status', 'delivered'),
+                ->where('status', 'delivered')
+                ->withTrashed(),
             'total_orders_count' => Order::selectRaw('COALESCE(COUNT(*), 0)')
                 ->whereColumn('client_id', 'clients.id')
         ]);
@@ -214,7 +231,7 @@ class ClientController extends Controller
     public function show(Client $client)
     {
         $client->load(['state', 'locality.city']);
-        $client->loadCount('orders', 'reviews');
+        $client->loadCount('orders');
 
         $deleted_orders_count = $client->orders()->where('deleted_at', '!=', null)->count();
 

@@ -3,17 +3,32 @@ import { computed, ref, watch } from "vue";
 import { useToast } from "vue-toastification";
 import { getToastOptions } from "@/js/Utils/toast";
 import { trans } from "laravel-vue-i18n";
+import { useLanguageStore } from "@/js/stores/Language";
 
 export function useWrapperForm(products, wrapper = null) {
     const toast = useToast();
+    const languageStore = useLanguageStore();
     const search = ref("");
+    const reservedProductIds = ref([]);
     const isEditing = computed(() => wrapper !== null);
 
     const form = useForm({
-        title: wrapper?.title ?? "",
-        caption: wrapper?.caption ?? "",
-        description: wrapper?.description ?? "",
+        en: {
+            title: wrapper?.en?.title ?? "",
+            description: wrapper?.en?.description ?? "",
+        },
+        fr: {
+            title: wrapper?.fr?.title ?? "",
+            description: wrapper?.fr?.description ?? "",
+        },
+        ar: {
+            title: wrapper?.ar?.title ?? "",
+            description: wrapper?.ar?.description ?? "",
+        },
         is_active: wrapper?.is_active ?? true,
+        images: [],
+        existing_media: wrapper?.media ? [...wrapper.media] : [],
+        deleted_media: [],
         products: wrapper?.products ? [...wrapper.products] : [],
     });
 
@@ -21,15 +36,26 @@ export function useWrapperForm(products, wrapper = null) {
         form.products.map((item) => item.product_id),
     );
 
+    function localizedProductName(product) {
+        return (
+            product.translations?.[languageStore.currentLocale] ||
+            product.name ||
+            ""
+        );
+    }
+
     const availableProducts = computed(() => {
         return products.filter((product) => {
-            if (addedProductIds.value.includes(product.id)) {
+            if (
+                addedProductIds.value.includes(product.id) ||
+                reservedProductIds.value.includes(product.id)
+            ) {
                 return false;
             }
             if (!search.value.trim()) {
                 return true;
             }
-            return product.name
+            return localizedProductName(product)
                 .toLowerCase()
                 .includes(search.value.toLowerCase());
         });
@@ -46,13 +72,15 @@ export function useWrapperForm(products, wrapper = null) {
 
         form.products.push({
             product_id: product.id,
-            name: product.name,
+            name: localizedProductName(product),
+            translations: product.translations,
             type: product.type,
             price: product.price,
             main_image_url: product.main_image_url,
             display_order: form.products.length,
             is_default: isFirst,
             free_shipping: false,
+            update_quantity: 1,
         });
     }
 
@@ -92,16 +120,34 @@ export function useWrapperForm(products, wrapper = null) {
 
     function buildPayload() {
         return {
-            title: form.title,
-            caption: form.caption,
-            description: form.description,
+            en: {
+                title: form.en.title,
+                description: form.en.description,
+            },
+            fr: {
+                title: form.fr.title,
+                description: form.fr.description,
+            },
+            ar: {
+                title: form.ar.title,
+                description: form.ar.description,
+            },
             is_active: form.is_active,
+            images: form.images,
+            deleted_media: form.deleted_media,
             products: form.products.map(
-                ({ product_id, display_order, is_default, free_shipping }) => ({
+                ({
                     product_id,
                     display_order,
                     is_default,
                     free_shipping,
+                    update_quantity,
+                }) => ({
+                    product_id,
+                    display_order,
+                    is_default,
+                    free_shipping,
+                    update_quantity,
                 }),
             ),
         };
@@ -111,7 +157,10 @@ export function useWrapperForm(products, wrapper = null) {
         const payload = buildPayload();
 
         if (isEditing.value) {
-            form.transform(() => payload).put(
+            form.transform(() => ({
+                ...payload,
+                _method: "PUT",
+            })).post(
                 route("wrappers.update", wrapper.slug),
                 {
                     onSuccess: () => {
@@ -129,6 +178,12 @@ export function useWrapperForm(products, wrapper = null) {
                         trans("Wrapper.created_successfully"),
                         getToastOptions(),
                     );
+                    reservedProductIds.value = [
+                        ...new Set([
+                            ...reservedProductIds.value,
+                            ...form.products.map((item) => item.product_id),
+                        ]),
+                    ];
                     // reset the form to initial empty state after creating a wrapper
                     form.reset();
                     search.value = "";
@@ -148,6 +203,7 @@ export function useWrapperForm(products, wrapper = null) {
         search,
         isEditing,
         availableProducts,
+        localizedProductName,
         addProduct,
         removeProduct,
         setDefault,

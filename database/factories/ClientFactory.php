@@ -16,11 +16,20 @@ class ClientFactory extends Factory
      */
     public function definition(): array
     {
+
+        $locality_id = fake()->numberBetween(1, 4876);
+
+        $locality = \App\Models\Locality::find($locality_id);
+
+        $city = $locality->city;
+
+        $state = $city->state;
         return [
             'name' => fake()->name(),
-            //    'phone' => fake()->randomDigit(20000000, 99999999),
             'phone' => fake()->randomNumber(8, true),
-            'state_id' => mt_rand(1, 24),
+            'state_id' => $state->id,
+            'locality_id' => $locality->id,
+            'city_id' => $city->id,
             'address' => fake()->streetAddress(),
         ];
     }

@@ -8,7 +8,11 @@ const DEFAULT_CURRENCY = "TND";
  * @param {object} options - Extra options, currently supports eventID.
  */
 export function trackFacebookEvent(eventName, customData = {}, options = {}) {
-    if (typeof window === "undefined" || typeof window.fbq !== "function") {
+    if (typeof window === "undefined" || window.facebookTrackingEnabled !== true) {
+        return;
+    }
+
+    if (typeof window.fbq !== "function") {
         if (import.meta.env.DEV) {
             console.warn(
                 `trackFacebookEvent: fbq is not available for ${eventName}`,

@@ -1,39 +1,7 @@
-# NRP Feature => Delayed
-
-# Tentatives Feature => Delayed
-
-# Delete all (orders, clients, reports) => Delayed
-
-# Modification of the excel sheet => Delayed
-
-# Dashboard Color correction => Delayed
-
-# Edit Clients to have (email, fb link...etc) => Delayed
-
-# update profile update request messages (translate the error messages) => Delayed
-
-############### Light tasks ###############
-
-# update location => Done
-
-# update text on about page => Done
-
-# update hero image => Done
-
-# update about images => Done
-
-# update phones / and add the option to click call them => Done
-
-# Buy mail box and update the addresses on contact/footer => Done
-
-######### Important ############
-
-# Search clients by phone number => Done
-
-# Search orders by phone number and client name => Done
-
-# Notes polymorphic relationship with orders => Done
-
-# Notes polymorphic relationship with clients => Done
-
-# add pixel to the website
+We’ll take it one stage at a time. The plan is:
+1. Prepare the VPS: update Ubuntu, create a separate deployment account, and configure the firewall while keeping SSH access working.
+2. Point the subdomain: add an A record for sweetia.mohamad.tn in the DNS settings where mohamad.tn is managed. You don’t need to move the domain to OVH.
+3. Install the app stack: set up Nginx, the PHP version and extensions your Laravel project requires, MySQL, and the tools needed to build the Vue assets.
+4. Deploy Sweetia: configure production environment variables and the database, build the frontend, and verify the site works over HTTPS. Laravel’s deployment guide specifically covers serving from the public directory, writable storage permissions, production settings, and optimization. Laravel deployment guide
+5. Automate updates from the branch currently serving the demo, `codex/laravel-12-upgrade`. A push to this branch will make GitHub Actions connect to the VPS, fast-forward its checkout, run `scripts/deploy-production.sh`, and check the public storefront over HTTPS. The deploy script takes a verified local and encrypted offsite backup before installing dependencies, building assets, migrating, refreshing Laravel caches, and restarting the queue and Reverb services. Configure the dedicated GitHub Actions SSH key, repository secrets, and limited VPS service-restart permission before enabling the workflow. When the Laravel upgrade is fully validated and the project is promoted to `main`, change the workflow trigger and remote branch together.
+6. Back up the database and uploaded files. `scripts/backup-sweetia.sh` creates compressed, verified backups, keeps the latest 14 days on the VPS, uploads encrypted copies to Google Drive through rclone, and is also run before each automated deployment. A daily cron job runs it at 03:00 server time.

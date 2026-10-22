@@ -31,6 +31,8 @@ const initialFormValues = {
     maxSpent: null,
     state: null,
     sort: "highest_spent",
+    minDeliveryRate: null,
+    maxDeliveryRate: null,
 };
 const form = useForm({ ...initialFormValues });
 function submitForm() {
@@ -144,6 +146,12 @@ function deleteClient(client) {
                         <option value="lowest_orders">
                             {{ $t("Sort.lowest_orders") }}
                         </option>
+                         <option value="highest_delivery_rate">
+                            {{ $t("Sort.highest_delivery_rate") }}
+                        </option>
+                        <option value="lowest_delivery_rate">
+                            {{ $t("Sort.lowest_delivery_rate") }}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -245,7 +253,42 @@ function deleteClient(client) {
                     </div>
                 </div>
             </div>
+ <div class="flex flex-col gap-4 mt-4 sm:flex-row">
+                <div class="w-full">
+                    <InputLabel
+                        for="min_delivery_rate"
+                        :value="$t('Min Client Delivery Rate')"
+                    />
 
+                    <TextInput
+                        v-model="form.minDeliveryRate"
+                        id="min_delivery_rate"
+                        type="number"
+                        class="mt-1 w-full"
+                        placeholder="e.g., 0"
+                        min="0"
+                        max="100"
+                        step="0.01"
+                    />
+                </div>
+                <div class="w-full">
+                    <InputLabel
+                        for="max_delivery_rate"
+                        :value="$t('Max Client Delivery Rate')"
+                    />
+
+                    <TextInput
+                        v-model="form.maxDeliveryRate"
+                        id="max_delivery_rate"
+                        type="number"
+                        class="mt-1 w-full"
+                        placeholder="e.g., 100"
+                        min="0"
+                        max="100"
+                        step="0.01"
+                    />
+                </div>
+            </div>
             <div class="flex gap-4 mt-8">
                 <input
                     :class="{
@@ -308,6 +351,27 @@ function deleteClient(client) {
                         class="text-xl font-semibold mb-2 block text-primary hover:text-slate-700"
                     >
                         {{ client.name }}
+                          <span
+                            v-if="
+                                client.delivery_rate !== null &&
+                                client.delivery_rate !== undefined
+                            "
+                            v-tippy="$t('client.delivery_rate_tooltip')"
+                            :title="$t('client.delivery_rate_tooltip')"
+                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold"
+                            :class="{
+                                'bg-green-100 text-green-800':
+                                    client.delivery_rate >= 70,
+                                'bg-yellow-100 text-yellow-800':
+                                    client.delivery_rate >= 40 &&
+                                    client.delivery_rate < 70,
+                                'bg-red-100 text-red-800':
+                                    client.delivery_rate < 40,
+                            }"
+                        >
+                            <i class="ri-truck-line"></i>
+                            {{ client.delivery_rate }}%
+                        </span>
                     </Link>
                     <div class="flex text-sky-700 items-center gap-2">
                         <i class="ri-customer-service-2-fill text-lg"></i>

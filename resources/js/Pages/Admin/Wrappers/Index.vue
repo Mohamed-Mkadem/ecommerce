@@ -30,7 +30,11 @@ onMounted(() => {
     <Head :title="$t('Wrappers')" />
 
     <PageHeader :page-title="$t('Wrappers')">
-        <CreateNew href="wrappers.create" :label="$t('New Wrapper')" />
+        <CreateNew
+            v-if="$page.props.auth.user.role === 'admin'"
+            href="wrappers.create"
+            :label="$t('New Wrapper')"
+        />
     </PageHeader>
 
     <h2 class="my-2 font-medium text-sky-900 text-xl">

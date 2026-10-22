@@ -7,5 +7,14 @@ Contact: Themesdesign@gmail.com
 File: Icons scss File
 */
 
-@import "remixicon/fonts/remixicon.css";
+@import "./remixicon-icons.css";
+
+@font-face {
+  font-family: "remixicon";
+  src: url("../../node_modules/remixicon/fonts/remixicon.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* @import "plugins/icons/_remixicon"; */

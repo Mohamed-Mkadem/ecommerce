@@ -14,6 +14,9 @@ const props = defineProps(["product", "period"]);
             >
                 {{ product.name }}
             </Link>
+            <p v-if="product.wrapper_title" class="mt-1 text-sm text-slate-500">
+                {{ product.wrapper_title }}
+            </p>
         </div>
         <div class="p-2 border-t-2 border-gray mt-3">
             <div class="text-center text-white bg-sky-800 p-3 rounded-md mb-2">

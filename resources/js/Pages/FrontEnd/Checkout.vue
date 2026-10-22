@@ -1,12 +1,10 @@
 <script setup>
-import PageTitle from "@/js/Components/FrontEnd/PageTitle.vue";
 import { useCartStore } from "@/js/stores/Cart";
 import { useLanguageStore } from "@/js/stores/Language";
-import PrimaryLink from "@/js/Components/PrimaryLink.vue";
 import InputError from "@/js/Components/InputError.vue";
 import InputLabel from "@/js/Components/InputLabel.vue";
 import TextInput from "@/js/Components/TextInput.vue";
-import { useForm, Link, usePage } from "@inertiajs/vue3";
+import { useForm, Link } from "@inertiajs/vue3";
 import { computed, ref, onMounted, watch } from "vue";
 import axios from "axios";
 import { useToast } from "vue-toastification";
@@ -15,7 +13,6 @@ import { trans } from "laravel-vue-i18n";
 import OrderPlacedImage from "@/assets/images/done.png";
 import { trackFacebookEvent } from "@/js/Utils/facebook";
 const toast = useToast();
-const page = usePage();
 const languageStore = useLanguageStore();
 const cartStore = useCartStore();
 const couponCodeIsProcessing = ref(false);
@@ -101,21 +98,13 @@ function saveAbandonedOrder() {
                 cart: cartStore.cart,
                 total: Number(total.value) || 0,
                 free_shipping: hasAnyFreeShipping.value,
+                coupon_code: form.coupon.id || null,
             })
             .catch(() => {});
     }, 500);
 }
 
-watch(
-    [
-        () => form.phone,
-        () => form.name,
-        () => form.address,
-        () => form.note,
-        () => form.state?.id,
-    ],
-    saveAbandonedOrder,
-);
+watch([() => form.phone], saveAbandonedOrder);
 
 function submitForm() {
     form.total = total.value;
@@ -138,18 +127,6 @@ function submitForm() {
             isOrderPlaced.value = true;
             resetForm();
             cartStore.clearCart();
-
-            // Google Ads Conversion Tracking
-            const conversionData = page.props.flash?.order_conversion_data;
-
-            if (conversionData && window.gtag) {
-                window.gtag("event", "conversion", {
-                    send_to: "AW-17884200609/T4nVCOOPuOcbEKH97M9C",
-                    value: conversionData.value,
-                    currency: conversionData.currency,
-                    transaction_id: conversionData.transaction_id,
-                });
-            }
         },
     });
 }
@@ -235,14 +212,32 @@ onMounted(() => {
 <template>
     <Head :title="$t('Checkout')" />
 
-    <section class="py-12 relative" v-if="!isOrderPlaced">
-        <div class="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto">
+    <main
+        class="min-h-[60vh] bg-lightCream px-5 py-10 sm:px-8 md:px-12 md:py-14"
+        v-if="!isOrderPlaced"
+    >
+        <div class="mx-auto max-w-screen-xl">
             <div v-if="cartStore.count">
-                <PageTitle class="mb-8">{{ $t("Checkout") }}</PageTitle>
+                <header class="mb-8 border-b border-line pb-6 sm:mb-10 sm:pb-8">
+                    <p
+                        class="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-cOrangeDark"
+                    >
+                        {{ $t("Checkout") }}
+                    </p>
+                    <h1
+                        class="font-serif text-3xl leading-tight tracking-tight text-brown sm:text-4xl"
+                    >
+                        {{ $t("Checkout") }}
+                    </h1>
+                </header>
 
-                <div class="py-8 grid md:grid-cols-2 gap-8">
-                    <div class="order-last md:order-first">
-                        <h2 class="text-primary-800 text-2xl font-semibold">
+                <div
+                    class="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(340px,0.85fr)] lg:gap-8"
+                >
+                    <div
+                        class="order-last rounded-md border border-line bg-white p-4 sm:p-6 lg:order-first"
+                    >
+                        <h2 class="font-serif text-xl text-brown sm:text-2xl">
                             {{ $t("Shipping Information") }}
                         </h2>
                         <form @submit.prevent="submitForm">
@@ -250,11 +245,11 @@ onMounted(() => {
                                 <InputLabel
                                     for="full-name"
                                     :value="$t('Full Name')"
-                                    class="text-neutral-500"
+                                    class="text-brown/75"
                                 />
 
                                 <TextInput
-                                    class="mt-1 block w-full"
+                                    class="mt-1 block w-full rounded-sm border-line bg-offwhite text-sm text-brown shadow-none focus:border-corange focus:ring-corange/20"
                                     id="full-name"
                                     type="text"
                                     v-model="form.name"
@@ -266,20 +261,18 @@ onMounted(() => {
                                     :message="form.errors['name']"
                                 />
                             </div>
-                            <div
-                                class="flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-start mt-4"
-                            >
+                            <div class="mt-4 grid gap-4 sm:grid-cols-2">
                                 <div class="w-full">
                                     <InputLabel
                                         for="phone"
-                                        class="text-neutral-500"
+                                        class="text-brown/75"
                                     >
                                         <span>{{ $t("Phone Number") }}</span>
-                                        <span class="text-red-500">*</span>
+                                        <span class="text-cOrangeDark">*</span>
                                     </InputLabel>
 
                                     <TextInput
-                                        class="mt-1 block w-full"
+                                        class="mt-1 block w-full rounded-sm border-line bg-offwhite text-sm text-brown shadow-none focus:border-corange focus:ring-corange/20"
                                         id="phone"
                                         v-model="form.phone"
                                         :required="true"
@@ -297,11 +290,11 @@ onMounted(() => {
                                     <InputLabel
                                         for="state_id"
                                         :value="$t('State')"
-                                        class="text-neutral-500"
+                                        class="text-brown/75"
                                     />
 
                                     <select
-                                        class="w-full mt-1 rounded-md focus:ring-primary focus:border-primary border-editor text-primary"
+                                        class="mt-1 w-full rounded-sm border-line bg-offwhite px-3 py-2.5 text-sm text-brown shadow-none focus:border-corange focus:outline-none focus:ring-corange/20"
                                         id="state_id"
                                         v-model="form.state"
                                     >
@@ -327,11 +320,11 @@ onMounted(() => {
                                 <InputLabel
                                     for="address"
                                     :value="$t('Address')"
-                                    class="text-neutral-500"
+                                    class="text-brown/75"
                                 />
 
                                 <TextInput
-                                    class="mt-1 block w-full"
+                                    class="mt-1 block w-full rounded-sm border-line bg-offwhite text-sm text-brown shadow-none focus:border-corange focus:ring-corange/20"
                                     id="address"
                                     type="text"
                                     v-model="form.address"
@@ -347,12 +340,12 @@ onMounted(() => {
                                 <InputLabel
                                     for="note"
                                     :value="`${$t('Note')} (${$t('optional.f')})`"
-                                    class="text-neutral-500"
+                                    class="text-brown/75"
                                 />
 
                                 <textarea
                                     id="note"
-                                    class="mt-1 block w-full text-primary rounded-md border-editor shadow-sm focus:border-primary focus:ring-primary h-25 resize-none"
+                                    class="mt-1 block h-24 w-full resize-none rounded-sm border-line bg-offwhite text-sm text-brown shadow-none focus:border-corange focus:ring-corange/20"
                                     v-model="form.note"
                                     :placeholder="$t('note_placeholder')"
                                 >
@@ -372,18 +365,20 @@ onMounted(() => {
                                 :disabled="form.processing"
                                 type="Submit"
                                 :value="$t('Place Order')"
-                                class="w-full cursor-pointer rounded-lg border border-primary bg-primary py-2 px-4 font-medium text-white transition hover:bg-opacity-90 mt-4"
+                                class="mt-4 w-full cursor-pointer rounded-sm bg-corange px-4 py-3 font-semibold text-white transition-colors hover:bg-cOrangeDark focus:outline-none focus-visible:ring-2 focus-visible:ring-cOrangeDark focus-visible:ring-offset-2"
                             />
                         </form>
                     </div>
-                    <div class="order-first md:order-last">
-                        <h2 class="text-primary-800 text-2xl font-semibold">
+                    <div
+                        class="order-first rounded-md border border-line bg-white p-4 sm:p-6 lg:order-last lg:sticky lg:top-6"
+                    >
+                        <h2 class="font-serif text-xl text-brown sm:text-2xl">
                             {{ $t("Order Summary") }}
                         </h2>
                         <ul
-                            class="mt-4 flex flex-col"
+                            class="mt-4 flex flex-col divide-y divide-line"
                             :class="{
-                                'overflow-y-auto h-100 md:h-auto':
+                                'max-h-96 overflow-y-auto pe-1':
                                     cartStore.count > 4,
                             }"
                         >
@@ -391,25 +386,25 @@ onMounted(() => {
                                 v-for="(product, index) in cartStore.cart"
                                 :key="index"
                             >
-                                <li class="border-b border-zinc-200 py-3">
-                                    <div class="flex gap-3 mb-2">
+                                <li class="py-3">
+                                    <div class="flex min-w-0 gap-3">
                                         <div
-                                            class="relative w-[80px] flex-shrink-0"
+                                            class="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-sm bg-offwhite sm:h-[76px] sm:w-[76px]"
                                         >
                                             <img
-                                                class="w-full"
-                                                :src="product.main_image_url"
+                                                class="h-full w-full object-cover"
+                                                :src="
+                                                    product.wrapper_main_image_url ||
+                                                    product.main_image_url
+                                                "
                                                 :alt="product.name"
                                             />
-                                            <div
-                                                class="absolute bottom-0 left-0 text-white text-xs font-bold flex items-center justify-center w-10 h-7 rounded-sm bg-sky-800"
+
                                             >
-                                                x {{ product.quantity }}
-                                            </div>
                                         </div>
-                                        <div>
+                                        <div class="min-w-0 flex-1">
                                             <h3
-                                                class="text-neutral-700 text-ellipsis overflow-hidden line-clamp text-lg font-semibold"
+                                                class="line-clamp-2 font-serif text-sm leading-snug text-brown"
                                             >
                                                 {{
                                                     cartStore.getLocalizedName(
@@ -419,13 +414,17 @@ onMounted(() => {
                                                 }}
                                             </h3>
                                             <p
-                                                class="text-base font-bold text-sky-700"
+                                                class="mt-1 text-xs font-semibold text-cOrangeDark"
                                             >
                                                 {{
                                                     product.price +
                                                     ` ${$t("Product.currency")}`
                                                 }}
                                             </p>
+                                            <span class="text-xs text-brown/80"
+                                                >{{ $t("Quantity") }}:
+                                                {{ product.quantity }}</span
+                                            >
                                         </div>
                                     </div>
                                     <InputError
@@ -468,13 +467,13 @@ onMounted(() => {
                                     <InputLabel
                                         for="code"
                                         :value="$t('CouponCode.label')"
-                                        class="text-neutral-500"
+                                        class="text-brown/75"
                                     />
                                     <div
-                                        class="grid grid-cols-[1fr,_100px] items-center gap-2"
+                                        class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2"
                                     >
                                         <TextInput
-                                            class="mt-1 block w-full"
+                                            class="mt-1 block w-full rounded-sm border-line bg-offwhite text-sm text-brown shadow-none focus:border-corange focus:ring-corange/20"
                                             id="code"
                                             type="text"
                                             v-model="codeModel"
@@ -482,9 +481,10 @@ onMounted(() => {
                                             :placeholder="$t('Coupon Code')"
                                         />
                                         <button
-                                            class="bg-meta-3 hover:bg-opacity-80 text-white h-[42px] mt-1 rounded-md"
+                                            type="submit"
+                                            class="mt-1 inline-flex h-10 items-center justify-center rounded-sm bg-brown px-4 text-xs font-semibold text-white transition-colors hover:bg-cOrangeDark focus:outline-none focus-visible:ring-2 focus-visible:ring-cOrangeDark"
                                             :class="{
-                                                'bg-neutral-500 cursor-not-allowed':
+                                                'cursor-not-allowed opacity-50':
                                                     couponCodeIsProcessing,
                                             }"
                                             :disabled="couponCodeIsProcessing"
@@ -501,14 +501,18 @@ onMounted(() => {
                                     class="mt-2"
                                     :message="form.errors['coupon.id']"
                                 />
-                                <div v-if="form.coupon.code" class="flex gap-4">
+                                <div
+                                    v-if="form.coupon.code"
+                                    class="mt-3 flex flex-wrap items-center gap-3 rounded-sm bg-lightCream px-3 py-2 text-xs"
+                                >
                                     <p>
                                         {{
                                             `'${form.coupon.code}' ${$t("applied")}`
                                         }}
                                     </p>
                                     <button
-                                        class="text-sm text-red-500 underline"
+                                        type="button"
+                                        class="font-medium text-cOrangeDark underline hover:text-brown"
                                         @click="form.coupon = {}"
                                     >
                                         {{ $t("Remove") }}
@@ -516,61 +520,57 @@ onMounted(() => {
                                 </div>
                             </div>
 
-                            <div class="bg-neutral-100 px-4 py-4 rounded-md">
+                            <div class="rounded-sm bg-lightCream p-4">
                                 <div
-                                    class="flex flex-wrap justify-between items-center gap-4"
+                                    class="flex flex-wrap justify-between items-center gap-4 mb-1"
                                 >
-                                    <p class="sm:text-lg text-neutral-700">
-                                        {{ `${$t("Sub Total")} : ` }}
+                                    <p class="text-xs text-brown/70">
+                                        {{ $t("Sub Total") }}
                                     </p>
-                                    <p class="sm:text-lg text-neutral-700">
+                                    <p class="text-xs font-medium text-brown">
                                         {{
-                                            `${cartStore.total}  ${$t("currency")}`
+                                            `${cartStore.total} ${$t("currency")}`
                                         }}
                                     </p>
                                 </div>
                                 <div
-                                    class="flex flex-wrap justify-between items-center gap-4"
+                                    class="flex flex-wrap justify-between items-center gap-4 mb-1"
                                 >
-                                    <p class="sm:text-lg text-neutral-700">
+                                    <p class="text-xs text-brown/70">
                                         {{
-                                            `${$t("Shipping Cost")} (${getLocalizedStateName(form.state["id"])}) : `
+                                            `${$t("Shipping Cost")} (${getLocalizedStateName(form.state["id"])})`
                                         }}
                                     </p>
-                                    <p class="sm:text-lg text-neutral-700">
+                                    <p class="text-xs font-medium text-brown">
                                         {{
-                                            `${shippingCost}  ${$t("currency")}`
+                                            `${shippingCost} ${$t("currency")}`
                                         }}
                                         <span
                                             v-if="hasAnyFreeShipping"
-                                            class="text-sm font-normal text-sky-800 ms-2"
+                                            class="inline-block text-[10px] font-normal text-cOrangeDark"
                                         >
                                             ({{ $t("Offer Free Shipping") }})
                                         </span>
                                     </p>
                                 </div>
                                 <div
-                                    class="flex flex-wrap justify-between items-center gap-4"
+                                    class="flex flex-wrap justify-between items-center gap-4 mb-1"
                                 >
-                                    <p class="sm:text-lg text-neutral-700">
-                                        {{ `${$t("Discount")} : ` }}
+                                    <p class="text-xs text-brown/70">
+                                        {{ $t("Discount") }}
                                     </p>
-                                    <p
-                                        class="text-sm sm:text-lg text-neutral-700"
-                                    >
+                                    <p class="text-xs font-medium text-brown">
                                         {{ `${form.coupon.value ?? 0} %` }}
                                     </p>
                                 </div>
                                 <div
-                                    class="flex flex-wrap justify-between items-center gap-4"
+                                    class="mt-3 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-3"
                                 >
-                                    <p
-                                        class="text-2xl font-semibold text-sky-900"
-                                    >
+                                    <p class="text-sm font-semibold text-brown">
                                         {{ `${$t("Total")} : ` }}
                                     </p>
                                     <p
-                                        class="font-semibold text-2xl text-sky-900"
+                                        class="text-xl font-semibold text-cOrangeDark"
                                     >
                                         {{ `${total} ${$t("currency")} ` }}
                                     </p>
@@ -584,8 +584,17 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
-            <div v-else class="text-center">
-                <p class="mx-auto text-xl text-neutral-700">
+            <div
+                v-else
+                class="mx-auto flex max-w-xl flex-col items-center rounded-md border border-line bg-white px-6 py-12 text-center sm:py-16"
+            >
+                <i
+                    class="ri-shopping-bag-3-line text-4xl text-corange"
+                    aria-hidden="true"
+                ></i>
+                <p
+                    class="mx-auto mt-4 max-w-md font-serif text-xl text-brown sm:text-2xl"
+                >
                     {{
                         $t(
                             "Your Shopping cart is empty, Add Some items to be able to place an order",
@@ -593,34 +602,34 @@ onMounted(() => {
                     }}
                 </p>
                 <div
-                    class="flex flex-wrap justify-center gap-4 items-center mt-5"
+                    class="mt-6 flex flex-wrap items-center justify-center gap-3"
                 >
-                    <PrimaryLink
-                        href="FE.home"
-                        theme="gold-primary"
-                        :label="$t('Our Products')"
-                    />
-                    <PrimaryLink
-                        href="FE.home"
-                        theme="primary-white"
-                        :label="$t('Our Offers')"
-                    />
+                    <Link
+                        :href="route('FE.shop')"
+                        class="inline-flex min-h-11 items-center gap-2 rounded-sm bg-corange px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-cOrangeDark"
+                    >
+                        {{ $t("Our Products") }}
+                    </Link>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
     <div
         v-else
-        class="py-12 px-6 flex flex-col items-center justify-center gap-4"
+        class="flex min-h-[60vh] flex-col items-center justify-center gap-4 bg-lightCream px-6 py-12 text-center"
     >
-        <img
-            :src="OrderPlacedImage"
-            class="w-[128px]"
-            alt="Order placed image"
-        />
-        <p class="text-lg text-primary font-semibold">{{ $t("Thank You!") }}</p>
-        <p class="sm:w-1/2 text-center text-lg text-primary">
-            {{ $t("Order.placedMessage") }}
-        </p>
+        <div
+            class="flex w-full max-w-xl flex-col items-center gap-5 rounded-md border border-line bg-white px-7 py-12"
+        >
+            <img
+                :src="OrderPlacedImage"
+                class="w-32"
+                alt="Order placed image"
+            />
+            <p class="font-serif text-2xl text-brown">{{ $t("Thank You!") }}</p>
+            <p class="text-sm leading-6 text-brown/70">
+                {{ $t("Order.placedMessage") }}
+            </p>
+        </div>
     </div>
 </template>

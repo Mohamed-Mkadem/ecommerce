@@ -21,6 +21,7 @@ const {
     search,
     isEditing,
     availableProducts,
+    localizedProductName,
     addProduct,
     removeProduct,
     setDefault,
@@ -46,6 +47,7 @@ const {
         v-model:search="search"
         :form="form"
         :available-products="availableProducts"
+        :localized-product-name="localizedProductName"
         :is-editing="isEditing"
         :type-label="typeLabel"
         @submit="submitForm"

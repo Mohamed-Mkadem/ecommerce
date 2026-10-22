@@ -16,7 +16,7 @@ use App\Models\CouponCode;
 use App\Events\OrderPlaced;
 use App\Models\OrderProduct;
 use Illuminate\Http\Request;
-use App\Jobs\SendOrderToDSGO;
+use App\Jobs\SendOrderToDsgo;
 use App\Models\StatusHistory;
 use App\Jobs\SendOrderToNavex;
 use App\Jobs\SendOrderToOnesta;
@@ -221,7 +221,17 @@ class OrderController extends Controller
             $query->where('created_at', '<=', $maxDateTime);
         }
 
+        if ($request->filled('minDeliveryRate')) {
+            $query->whereHas('client', function ($q) use ($request) {
+                $q->where('delivery_rate', '>=', $request->minDeliveryRate);
+            });
+        }
 
+        if ($request->filled('maxDeliveryRate')) {
+            $query->whereHas('client', function ($q) use ($request) {
+                $q->where('delivery_rate', '<=', $request->maxDeliveryRate);
+            });
+        }
 
         if ($request->filled('sort')) {
             switch ($request->sort) {
@@ -248,6 +258,19 @@ class OrderController extends Controller
                 case 'oldest_creation_date':
                     $query->orderBy('created_at', 'asc');
                     break;
+
+                case 'highest_delivery_rate':
+                    $query->leftJoin('clients', 'orders.client_id', '=', 'clients.id')
+                        ->select('orders.*')
+                        ->orderByRaw('CASE WHEN clients.delivery_rate IS NULL THEN 1 ELSE 0 END, clients.delivery_rate DESC');
+                    break;
+
+                case 'lowest_delivery_rate':
+                    $query->leftJoin('clients', 'orders.client_id', '=', 'clients.id')
+                        ->select('orders.*')
+                        ->orderByRaw('CASE WHEN clients.delivery_rate IS NULL THEN 1 ELSE 0 END, clients.delivery_rate ASC');
+                    break;
+
                 default:
                     $query->orderBy('created_at', 'desc');
                     break;
@@ -278,16 +301,16 @@ class OrderController extends Controller
             ->map(fn($product) => [
                 'id' => $product->id,
                 'name' => $product->name,
-                'type' => $product->type,
                 'price' => $product->getFormattedPrice(),
-                'main_image_url' => $product->getFirstMediaUrl('images') ?: asset('storage/products/default.png'),
-                'translations' => $product->translations
+                'main_image_url' => $product->wrappers()->first()?->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
+                'translations' => $product->translations,
+                'update_quantity_by' => $product->wrappers()->first()?->pivot->update_quantity ?? 1
             ]);
 
         return Inertia::render('Orders/Create', [
             'products' => $products,
 
-            'states' =>  StateResource::collection(State::all()),
+            'states' => StateResource::collection(State::all()),
             'couponCodes' => CouponCode::where('status', 'active')->get(),
             'shippers' => $this->shippers
         ]);
@@ -311,6 +334,7 @@ class OrderController extends Controller
             'cart.*.price' => ['nullable', 'numeric'],
             'total' => ['nullable', 'numeric'],
             'free_shipping' => ['nullable', 'boolean'],
+            'coupon_code' => ['nullable', 'exists:coupon_codes,id']
         ]);
 
         $cart = $validated['cart'] ?? [];
@@ -357,6 +381,9 @@ class OrderController extends Controller
             ? (int) ($validated['total'] * 1000)
             : null;
 
+        $state = State::find($stateId);
+        $defaultShipperId =  $state->default_shipper_id ? $state->default_shipper_id : null;
+
         $orderData = [
             'client_id' => $client->id,
             'phone' => $request->phone,
@@ -368,9 +395,10 @@ class OrderController extends Controller
             'amount' => $amount,
             'note' => $validated['note'] ?? null,
             'delivery_date' => $this->getDeliveryDate($stateId),
-            'coupon_code_id' => null,
+            'coupon_code_id' => $validated['coupon_code'] ?? null,
             'status' => 'abandoned',
             'source' => 'client',
+            'shipper_id' => $defaultShipperId,
         ];
 
         if ($abandonedOrder) {
@@ -427,6 +455,9 @@ class OrderController extends Controller
         if (!$order) {
             $order = new Order();
         }
+        $state = State::find($stateId);
+        $defaultShipperId =  $state->default_shipper_id ? $state->default_shipper_id : null;
+
 
         $order->fill([
             'client_id' => $client->id,
@@ -444,6 +475,7 @@ class OrderController extends Controller
             'coupon_code_id' => $coupon ? $coupon['id'] : null,
             'status' => 'pending',
             'source' => 'client',
+            'shipper_id' => $defaultShipperId,
         ]);
 
         $order->save();
@@ -469,19 +501,13 @@ class OrderController extends Controller
 
         event(new OrderPlaced($order));
 
-        // Send Facebook Conversions API Purchase event
+        // The feature flag keeps this inactive until this project has its own Meta credentials.
         $this->sendFacebookPurchaseEvent($order, $request, $cart);
 
         // Send Google Analytics 4 Purchase event
-        $this->sendGoogleAnalyticsPurchaseEvent($order, $request, $cart);
+        //$this->sendGoogleAnalyticsPurchaseEvent($order, $request, $cart);
 
-        return redirect()->back()->with([
-            'order_conversion_data' => [
-                'transaction_id' => $order->id,
-                'value' => $order->amount / 1000,
-                'currency' => 'TND',
-            ]
-        ]);
+        return redirect()->back();
     }
     public function store(StoreOrderRequest $request)
     {
@@ -543,7 +569,7 @@ class OrderController extends Controller
                 dispatch(new SendOrderToNavex($order));
             }
             if (strtolower($order->shipper->name) == 'dsgo') {
-                dispatch(new SendOrderToDSGO($order));
+                dispatch(new SendOrderToDsgo($order));
             }
             if (strtolower($order->shipper->name) == 'dsgo ben arous') {
                 dispatch(new SendOrderToDsgoBenArous($order));
@@ -566,15 +592,22 @@ class OrderController extends Controller
 
     public function editProducts(Order $order)
     {
-        $products = Product::all()
-            ->map(fn($product) => [
-                'id' => $product->id,
-                'name' => $product->name,
-                'type' => $product->type,
-                'price' => $product->getFormattedPrice(),
-                'main_image_url' => $product->getFirstMediaUrl('images') ?: asset('storage/products/default.png'),
-                'translations' => $product->translations
-            ]);
+        $products = Product::with(['wrappers.media', 'translations'])
+            ->get()
+            ->map(function ($product) {
+                $wrapper = $product->wrappers->first();
+
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'type' => $product->type,
+                    'price' => $product->getFormattedPrice(),
+                    'main_image_url' => $wrapper?->getFirstMediaUrl('images')
+                        ?: asset('storage/products/product.webp'),
+                    'translations' => $product->translations,
+                    'update_quantity_by' => $wrapper?->pivot?->update_quantity ?? 1,
+                ];
+            });
         return Inertia::render('Orders/EditProducts', ['order' => $order, 'products' => $products]);
     }
     public function updateProducts(UpdateOrderProductsRequest $request)
@@ -706,7 +739,7 @@ class OrderController extends Controller
                 dispatch(new SendOrderToNavex($order));
             }
             if ($order->shipper->name == 'DSGO') {
-                dispatch(new SendOrderToDSGO($order));
+                dispatch(new SendOrderToDsgo($order));
             }
             if (strtolower($order->shipper->name) == 'dsgo ben arous') {
                 dispatch(new SendOrderToDsgoBenArous($order));
@@ -851,6 +884,10 @@ class OrderController extends Controller
      */
     private function sendFacebookPurchaseEvent(Order $order, Request $request, array $cart): void
     {
+        if (!config('services.facebook.enabled')) {
+            return;
+        }
+
         try {
             // Prepare order data for Facebook Conversions API
             $orderData = [
@@ -919,7 +956,7 @@ class OrderController extends Controller
             }
 
             // Extract Session ID from _ga_<MEASUREMENT_ID>
-            $measurementId = config('services.google_analytics.measurement_id', 'G-S9JRM4LHNP');
+            $measurementId = config('services.google_analytics.measurement_id', '');
             $measurementIdClean = str_replace('G-', '', $measurementId);
             $sessionIdCookieName = '_ga_' . $measurementIdClean;
             $sessionIdFull = $_COOKIE[$sessionIdCookieName] ?? null;

@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Order;
 use App\Models\Client;
+use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\Shipper;
-use App\Models\OrderProduct;
+use App\Models\Wrapper;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 
@@ -24,29 +25,50 @@ class OrderFactory extends Factory
     {
         $client = Client::factory()->create();
         $shipper = Shipper::factory()->create();
+        $creationDate = fake()->dateTimeBetween('2026-09-01', '2026-09-30');
         return [
             'client_id' => $client->id,
             'client_name' => $client->name,
             'phone' => $client->phone,
             'address' => $client->address,
             'state_id' => $client->state_id,
+            'city_id' => $client->city_id,
+            'locality_id' => $client->locality_id,
             'coupon_code_id' => null,
             'shipper_id' => $shipper->id,
             'shipping_cost' => in_array($client->state_id, [1, 2, 3, 4]) ? 6000 : 7000,
-            'status' => 'confirmed',
+            'status' => 'pending',
             'amount' => 1,
             'note' => null,
-            'delivery_date' => now()->addDays(1)
+            'delivery_date' => \Carbon\Carbon::instance($creationDate)->addDays(rand(1, 3)),
+            'created_at' => $creationDate
         ];
     }
 
     public function configure()
     {
         return $this->afterCreating(function (Order $order) {
-            $products = Product::factory()->count(rand(1, 4))->create();
+            $products = Product::factory()->count(rand(1, 2))->create();
             $totalAmount = 0;
 
-            foreach ($products as $product) {
+            $wrapper = Wrapper::factory()->create();
+
+
+            foreach ($products as $index => $product) {
+
+                $product->wrappers()->attach($wrapper->id, [
+                    'display_order' => $index + 1,
+                    'is_default' => $index == 0 ? true : false,
+                    'free_shipping' => rand(0, 1),
+                    'update_quantity' => 1,
+                ]);
+
+
+
+
+
+
+
                 $quantity = rand(1, 5);
                 $subTotal = $product->price * $quantity;
                 $totalAmount += $subTotal;

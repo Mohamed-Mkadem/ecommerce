@@ -17,21 +17,31 @@ class OrderResource extends JsonResource
     public function toArray(Request $request): array
     {
         $client = $this->client;
+        $currentOrderId = $this->id;
         $recentClientOrders = $client
             ? Order::withTrashed()
             ->where('client_id', $client->id)
             ->latest('created_at')
             ->take(5)
             ->get()
-            ->map(fn($order) => [
-                'id' => $order->id,
-                'status' => $order->status,
-                'created_at' => Carbon::parse($order->created_at)->format('d-m-Y - H:i'),
-                'delivery_date' => $order->delivery_date
-                    ? Carbon::parse($order->delivery_date)->format('d-m-Y')
-                    : null,
-                'url' => route('orders.show', $order),
-            ])
+            ->map(function ($order) use ($currentOrderId) {
+                $isCurrent = $order->id === $currentOrderId;
+                $isDeleted = $order->trashed();
+
+                return [
+                    'id' => $order->id,
+                    'status' => $order->status,
+                    'deleted_at' => $order->deleted_at,
+                    'is_current' => $isCurrent,
+                    'created_at' => Carbon::parse($order->created_at)->format('d-m-Y - H:i'),
+                    'delivery_date' => $order->delivery_date
+                        ? Carbon::parse($order->delivery_date)->format('d-m-Y')
+                        : null,
+                    'url' => !$isDeleted && !$isCurrent
+                        ? route('orders.show', $order)
+                        : null,
+                ];
+            })
             : [];
 
         return [
@@ -59,11 +69,18 @@ class OrderResource extends JsonResource
                 'deleted_at' => $client?->deleted_at,
                 'orders_count' => $client ? Order::withTrashed()->where('client_id', $client->id)->count() : 0,
                 'recent_orders' => $recentClientOrders,
+                'delivery_rate' => $client?->delivery_rate,
+
             ],
             'state' => $this->state,
             'city' => $this->city,
             'locality' => $this->locality,
             'products' => $this->products->map(function ($product) {
+                $wrapper = $product->wrappers()->first();
+                $mainImageUrl = $wrapper 
+                    ? ($wrapper->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'))
+                    : asset('storage/products/product.webp');
+
                 return [
                     'id' => $product->id,
                     'name' => $product->name,
@@ -73,7 +90,7 @@ class OrderResource extends JsonResource
                         'sub_total' => number_format($product->pivot->sub_total / 1000, 3, '.', ''),
                         'quantity' => $product->pivot->quantity,
                     ],
-                    'main_image_url' => $product->getFirstMediaUrl('images') ?: asset('storage/products/default.png'),
+                    'main_image_url' => $mainImageUrl,
                 ];
             }),
 

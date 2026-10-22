@@ -24,9 +24,9 @@ const toggleDropDown = (e) => {
         <Link
             v-if="!item.children"
             :href="item.route"
-            class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark"
+            class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-slate-50 hover:bg-opacity-10"
             :class="{
-                'bg-graydark ': $page.component.startsWith(
+                'bg-slate-50 bg-opacity-10 ': $page.component.startsWith(
                     `Admin/${item.component}`,
                 ),
             }"
@@ -37,9 +37,9 @@ const toggleDropDown = (e) => {
         </Link>
         <button
             v-else
-            class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark w-full"
+            class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-slate-50 hover:bg-opacity-10 w-full"
             :class="{
-                'bg-graydark ': $page.component.startsWith(
+                'bg-slate-50 bg-opacity-10 ': $page.component.startsWith(
                     `Admin/${item.component}`,
                 ),
             }"

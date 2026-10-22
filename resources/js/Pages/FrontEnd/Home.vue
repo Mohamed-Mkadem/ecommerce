@@ -1,255 +1,183 @@
 <script setup>
 import WrapperCard from "@/js/Components/FrontEnd/WrapperCard.vue";
-import heroImage from "@/assets/images/hero.webp";
-import { useLanguageStore } from "@/js/stores/Language";
-
-const languageStore = useLanguageStore();
+import HeroShowcase from "@/js/Components/FrontEnd/HeroShowcase.vue";
+import careImage from "@/assets/images/care-image.webp";
+import tableImage from "@/assets/images/table-image.webp";
 
 const props = defineProps({
     wrappers: Array,
 });
 
-function scrollToProducts() {
-    document.getElementById("products")?.scrollIntoView({ behavior: "smooth" });
-}
-
-const trustFeatures = {
-    en: [
-        {
-            icon: "ri-truck-line",
-            title: "Fast Delivery",
-            description: "Right to your doorstep",
-        },
-        {
-            icon: "ri-hand-coin-line",
-            title: "Cash on Delivery",
-            description: "Pay when you receive",
-        },
-        {
-            icon: "ri-shield-check-line",
-            title: "Premium Quality",
-            description: "Handcrafted with care",
-        },
-        {
-            icon: "ri-customer-service-2-line",
-            title: "Customer Support",
-            description: "Always here for you",
-        },
-    ],
-    fr: [
-        {
-            icon: "ri-truck-line",
-            title: "Livraison rapide",
-            description: "Jusqu'à votre porte",
-        },
-        {
-            icon: "ri-hand-coin-line",
-            title: "Paiement à la livraison",
-            description: "Payez à la réception",
-        },
-        {
-            icon: "ri-shield-check-line",
-            title: "Qualité premium",
-            description: "Fait avec soin",
-        },
-        {
-            icon: "ri-customer-service-2-line",
-            title: "Service client",
-            description: "Toujours disponible",
-        },
-    ],
-    ar: [
-        {
-            icon: "ri-truck-line",
-            title: "توصيل سريع",
-            description: "لباب منزلك مباشرة",
-        },
-        {
-            icon: "ri-hand-coin-line",
-            title: "الدفع عند الاستلام",
-            description: "ادفع عند الاستلام",
-        },
-        {
-            icon: "ri-shield-check-line",
-            title: "جودة فاخرة",
-            description: "مصنوع بعناية",
-        },
-        {
-            icon: "ri-customer-service-2-line",
-            title: "دعم العملاء",
-            description: "نحن دائماً هنا",
-        },
-    ],
-};
 </script>
 
 <template>
+
     <Head :title="`${$t('Nav.home')} `"></Head>
 
-    <!-- ─────────────────────────── HERO ─────────────────────────── -->
-    <section class="relative w-full h-[88vh] overflow-hidden">
-        <!-- Background -->
-        <div
-            class="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            :style="{ backgroundImage: `url(${heroImage})` }"
-        ></div>
+    <HeroShowcase />
 
-        <!-- Rich gradient overlay — lighter at top, heavy at bottom -->
-        <div
-            class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/55 to-black/88"
-        ></div>
 
-        <!-- Content -->
-        <div
-            class="relative z-10 h-full flex flex-col items-center justify-center text-white text-center px-6"
-        >
-            <!-- Headline — existing i18n includes a <span class="text-gold underline"> wrapper -->
-            <h1
-                class="text-4xl xmd:text-6xl font-extrabold mb-5 leading-tight drop-shadow-xl max-w-2xl"
-                v-html="$t('Showcase.title')"
-            ></h1>
 
-            <!-- Sub-headline -->
-            <p
-                class="text-lg xmd:text-xl text-white/75 mb-10 max-w-lg leading-relaxed"
-            >
-                {{ $t("Showcase.description") }}
-            </p>
-
-            <!-- Dual CTAs -->
-            <div class="flex flex-wrap items-center justify-center gap-4">
-                <!-- Primary -->
-                <Link
-                    :href="route('FE.shop')"
-                    class="inline-flex items-center gap-2 bg-gold hover:bg-yellow-400 text-primary font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 text-sm"
-                >
-                    <i class="ri-shopping-bag-line text-base"></i>
-                    {{ $t("Showcase.cta") }}
-                </Link>
-
-                <!-- Secondary scroll anchor -->
-                <a
-                    href="#products"
-                    @click.prevent="scrollToProducts"
-                    class="inline-flex items-center gap-2 border-2 border-white/50 hover:border-white/80 text-white font-semibold px-7 py-3.5 rounded-xl transition-all duration-300 hover:bg-white/10 text-sm"
-                >
-                    {{ $t("Best sellers") }}
-                    <i class="ri-arrow-down-line"></i>
-                </a>
-            </div>
-        </div>
-
-        <!-- Scroll hint -->
-        <div
-            class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/40 animate-bounce pointer-events-none"
-        >
-            <i class="ri-arrow-down-s-line text-3xl"></i>
-        </div>
-    </section>
-
-    <!-- ─────────────────────────── TRUST BAR ─────────────────────── -->
-    <section class="bg-sky-900 py-6 px-4">
-        <div class="max-w-screen-xl mx-auto">
-            <div
-                class="grid items-center md:grid-cols-2 lg:grid-cols-4 gap-y-5 gap-x-2 lg:divide-x divide-white/10"
-            >
-                <div
-                    v-for="(feat, i) in trustFeatures[
-                        languageStore.currentLocale
-                    ]"
-                    :key="i"
-                    class="flex items-center gap-3 px-4"
-                >
-                    <div
-                        class="flex-shrink-0 w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center"
-                    >
-                        <i :class="feat.icon + ' text-xl text-gold'"></i>
-                    </div>
-                    <div>
-                        <p class="font-bold text-white text-sm leading-tight">
-                            {{ feat.title }}
-                        </p>
-                        <p class="text-white/50 text-xs mt-0.5">
-                            {{ feat.description }}
-                        </p>
-                    </div>
+    <section id="products" class="mx-auto max-w-screen-3xl bg-lightCream px-5 py-16 sm:px-8 md:px-12 md:py-20">
+        <div class="mx-auto max-w-screen-xl">
+            <div class="mb-8 flex flex-col gap-5 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
+                <div class="max-w-lg">
+                    <p class="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-cOrangeDark">
+                        {{ $t("bestsellers.eyebrow") }}
+                    </p>
+                    <h2 class="font-serif text-3xl leading-tight tracking-tight text-brown sm:text-4xl">
+                        {{ $t("bestsellers.title") }}
+                    </h2>
+                    <p class="mt-3 max-w-md text-xs leading-5 text-brown/75 sm:text-sm sm:leading-6">
+                        {{ $t("bestsellers.description") }}
+                    </p>
                 </div>
+
+                <Link :href="route('FE.shop')"
+                    class="inline-flex w-fit items-center gap-2 border-b border-corange/50 pb-1 text-xs font-semibold text-cOrangeDark transition-colors hover:text-brown">
+                {{ $t("bestsellers.view_all") }}
+                <i class="ri-arrow-right-line rtl:rotate-180" aria-hidden="true"></i>
+                </Link>
+            </div>
+
+            <div
+                class="grid min-[600px]:grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4 lg:gap-x-5 xl:gap-x-6">
+                <WrapperCard v-for="wrapper in props.wrappers" :key="wrapper.id" :wrapper="wrapper" />
+            </div>
+
+            <div class="mt-10 flex justify-center sm:mt-12">
+                <Link :href="route('FE.shop')"
+                    class="inline-flex min-h-11 items-center gap-4 rounded-sm bg-corange px-5 py-3 text-xs font-semibold text-white transition hover:bg-cOrangeDark focus:outline-none focus-visible:ring-2 focus-visible:ring-cOrangeDark focus-visible:ring-offset-2">
+                {{ $t("bestsellers.explore_all") }}
+                <i class="ri-arrow-right-line rtl:rotate-180" aria-hidden="true"></i>
+                </Link>
             </div>
         </div>
     </section>
 
-    <!-- ───────────────────────── PRODUCTS ───────────────────────── -->
-    <section id="products" class="py-20 px-4 md:px-12 max-w-screen-3xl mx-auto">
-        <!-- Section header -->
-        <div class="text-center mb-14">
-            <p
-                class="text-gold font-bold text-xs tracking-[0.2em] uppercase mb-2"
-            >
-                {{ $t("Our Offers") }}
-            </p>
-            <h2 class="text-3xl md:text-4xl font-extrabold text-sky-900">
-                {{ $t("Best sellers") }}
-            </h2>
-            <div class="mt-4 mx-auto w-14 h-1 rounded-full bg-gold"></div>
-        </div>
+    <section class="mx-auto max-w-screen-3xl bg-offwhite px-5 py-16 sm:px-8 md:px-12 md:py-24">
+        <div class="mx-auto grid max-w-screen-xl items-center gap-10 slg:grid-cols-2 lg:gap-16">
+            <div class="relative mx-auto w-full max-w-[560px] p-3 sm:p-4 ">
+                <div class="absolute slg:block hidden rounded-lg inset-0 translate-x-3 translate-y-3 border border-corange/40 sm:translate-x-4 sm:translate-y-4"
+                    aria-hidden="true"></div>
+                <img :src="careImage" :alt="$t('home_heritage.image_alt')" loading="lazy"
+                    class="relative aspect-[1.12/1] rounded-lg  w-full object-cover" />
+            </div>
 
-        <!-- Cards grid -->
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            <WrapperCard
-                v-for="wrapper in props.wrappers"
-                :key="wrapper.id"
-                :wrapper="wrapper"
-            />
-        </div>
+            <div class="max-w-xl py-3 lg:py-8 ">
+                <p class="mb-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-cOrangeDark">
+                    {{ $t("home_heritage.eyebrow") }}
+                </p>
+                <h2 class="font-serif text-3xl leading-[1.1] tracking-tight text-brown sm:text-4xl md:text-5xl">
+                    {{ $t("home_heritage.title_first") }}<br />
+                    {{ $t("home_heritage.title_second") }}
+                </h2>
+                <p class="mt-5 max-w-lg text-sm leading-7 text-brown/80">
+                    {{ $t("home_heritage.description") }}
+                </p>
 
-        <!-- "See more" CTA -->
-        <div class="mt-14 flex justify-center">
-            <Link
-                :href="route('FE.shop')"
-                class="inline-flex items-center gap-2 rounded-xl border-2 border-primary bg-white px-8 py-3.5 text-sm font-bold text-primary shadow-sm transition-all duration-200 hover:bg-primary hover:text-white hover:shadow-md"
-            >
-                {{ $t("See More") }}
-                <i class="ri-arrow-right-line text-base"></i>
-            </Link>
+                <ul class="mt-5 space-y-3 text-xs leading-5 text-brown/85 sm:text-sm">
+                    <li class="flex items-start gap-3">
+                        <i class="ri-check-line mt-0.5 text-base text-cOrangeDark" aria-hidden="true"></i>
+                        <span>{{ $t("home_heritage.point_one") }}</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="ri-check-line mt-0.5 text-base text-cOrangeDark" aria-hidden="true"></i>
+                        <span>{{ $t("home_heritage.point_two") }}</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="ri-check-line mt-0.5 text-base text-cOrangeDark" aria-hidden="true"></i>
+                        <span>{{ $t("home_heritage.point_three") }}</span>
+                    </li>
+                </ul>
+
+                <Link :href="route('FE.about')"
+                    class="mt-7 inline-flex items-center gap-3 border-b border-corange/50 pb-2 text-xs font-semibold text-cOrangeDark transition-colors hover:text-brown">
+                {{ $t("home_heritage.cta") }}
+                <i class="ri-arrow-right-line rtl:rotate-180" aria-hidden="true"></i>
+                </Link>
+            </div>
         </div>
     </section>
 
-    <!-- ─────────────────────────── CTA BANNER ────────────────────── -->
-    <section class="px-4 md:px-12 pb-16">
-        <div
-            class="relative bg-gradient-to-br from-sky-900 via-sky-800 to-primary rounded-2xl py-16 px-6 text-center text-white shadow-2xl overflow-hidden"
-        >
-            <!-- Decorative blobs -->
-            <div
-                class="absolute -top-16 -left-16 w-56 h-56 rounded-full bg-white/5 pointer-events-none"
-            ></div>
-            <div
-                class="absolute -bottom-20 -right-10 w-72 h-72 rounded-full bg-white/5 pointer-events-none"
-            ></div>
-            <div
-                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-32 bg-gold/5 rounded-full blur-3xl pointer-events-none"
-            ></div>
+    <section class="mx-auto max-w-screen-3xl bg-offwhite px-5 pb-16 sm:px-8 md:px-12 md:pb-24">
+        <div class="rounded-lg mx-auto grid max-w-screen-xl overflow-hidden bg-[#f3e8da] md:grid-cols-2">
+            <div class="min-h-[260px] max-h-100 sm:min-h-[360px] md:max-h-[650px] lg:min-h-[460px]">
+                <img :src="tableImage" :alt="$t('home_gathering.image_alt')" loading="lazy"
+                    class="h-full min-h-[260px] w-full object-cover sm:min-h-[360px] lg:min-h-[460px]" />
+            </div>
 
-            <div class="relative z-10 max-w-xl mx-auto">
-                <p
-                    class="text-gold text-xs font-bold tracking-[0.25em] uppercase mb-4"
-                >
-                    {{ $t("Why Choose Us?") }}
+            <div class="flex flex-col justify-center px-7 py-10 sm:px-12 sm:py-14 lg:px-16">
+                <p class="mb-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-cOrangeDark">
+                    {{ $t("home_gathering.eyebrow") }}
                 </p>
                 <h2
-                    class="text-2xl md:text-4xl font-extrabold mb-4 leading-tight"
-                    v-html="$t('Showcase.title')"
-                ></h2>
-                <p class="text-white/65 mb-8 text-base leading-relaxed">
-                    {{ $t("Footer.description") }}
+                    class="max-w-lg font-serif text-3xl leading-[1.12] tracking-tight text-brown sm:text-4xl md:text-5xl">
+                    {{ $t("home_gathering.title_first") }}<br />
+                    {{ $t("home_gathering.title_second") }}
+                </h2>
+                <p class="mt-5 max-w-lg text-sm leading-7 text-brown/80">
+                    {{ $t("home_gathering.description") }}
                 </p>
-                <Link
-                    :href="route('FE.shop')"
-                    class="inline-flex items-center gap-2 bg-gold hover:bg-yellow-400 text-primary font-bold px-9 py-4 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
-                >
-                    <i class="ri-shopping-bag-line"></i>
-                    {{ $t("Showcase.cta") }}
+                <Link :href="route('FE.shop')"
+                    class="mt-7 inline-flex min-h-11 w-fit items-center gap-4 rounded-sm bg-corange px-5 py-3 text-xs font-semibold text-white transition hover:bg-cOrangeDark focus:outline-none focus-visible:ring-2 focus-visible:ring-cOrangeDark focus-visible:ring-offset-2">
+                {{ $t("home_gathering.cta") }}
+                <i class="ri-arrow-right-line rtl:rotate-180" aria-hidden="true"></i>
                 </Link>
+            </div>
+        </div>
+    </section>
+
+    <section class="mx-auto max-w-screen-3xl border-y border-line bg-lightCream px-5 py-8 sm:px-8 md:px-12 md:py-10">
+        <div class="mx-auto grid max-w-screen-xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+            <div class="flex items-start gap-3">
+                <span
+                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                    <i class="ri-truck-line text-base" aria-hidden="true"></i>
+                </span>
+                <div>
+                    <h3 class="font-serif text-base leading-tight text-brown">{{ $t("home_benefits.delivery_title") }}
+                    </h3>
+                    <p class="mt-1 text-[11px] leading-4 text-brown/70">{{ $t("home_benefits.delivery_description") }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+                <span
+                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                    <i class="ri-shield-check-line text-base" aria-hidden="true"></i>
+                </span>
+                <div>
+                    <h3 class="font-serif text-base leading-tight text-brown">{{ $t("home_benefits.care_title") }}</h3>
+                    <p class="mt-1 text-[11px] leading-4 text-brown/70">{{ $t("home_benefits.care_description") }}</p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+                <span
+                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                    <i class="ri-message-3-line text-base" aria-hidden="true"></i>
+                </span>
+                <div>
+                    <h3 class="font-serif text-base leading-tight text-brown">{{ $t("home_benefits.support_title") }}
+                    </h3>
+                    <p class="mt-1 text-[11px] leading-4 text-brown/70">{{ $t("home_benefits.support_description") }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+                <span
+                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-corange/30 text-cOrangeDark">
+                    <i class="ri-secure-payment-line text-base" aria-hidden="true"></i>
+                </span>
+                <div>
+                    <h3 class="font-serif text-base leading-tight text-brown">{{ $t("home_benefits.payment_title") }}
+                    </h3>
+                    <p class="mt-1 text-[11px] leading-4 text-brown/70">{{ $t("home_benefits.payment_description") }}
+                    </p>
+                </div>
             </div>
         </div>
     </section>

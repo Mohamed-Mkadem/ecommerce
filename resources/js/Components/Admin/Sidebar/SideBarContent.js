@@ -27,6 +27,12 @@ export default [
                 component: "Admin/Orders/Actions",
             },
             {
+                label: "Order Reports",
+                route: route("order_reports.index"),
+                component: "Admin/Order_Reports/Index",
+                onlyAdmin: true,
+            },
+            {
                 label: "Shipping Reports",
                 route: route("shipping_reports.index"),
                 component: "Admin/Shipping_Reports/Index",
@@ -48,6 +54,7 @@ export default [
                 label: "New Product",
                 route: route("products.create"),
                 component: "Admin/Products/Create",
+                onlyAdmin: true,
             },
             {
                 label: "Products",
@@ -63,6 +70,12 @@ export default [
                 label: "New Wrapper",
                 route: route("wrappers.create"),
                 component: "Admin/Wrappers/Create",
+                onlyAdmin: true,
+            },
+            {
+                label: "Selling Reports",
+                route: route("selling_reports.index"),
+                component: "Admin/Selling_reports/Index",
             },
         ],
     },
@@ -78,12 +91,6 @@ export default [
         label: "Clients",
         route: route("clients.index"),
         component: "Clients/Index",
-    },
-    {
-        icon: `<i class="ri-star-line"></i>`,
-        label: "Reviews",
-        route: route("reviews.index"),
-        component: "Reviews/Index",
     },
     {
         onlyAdmin: true,
@@ -129,11 +136,6 @@ export default [
                 component: "Admin/Statistics/Products",
             },
             {
-                label: "Offers",
-                route: route("stats.packs"),
-                component: "Admin/Statistics/Packs",
-            },
-            {
                 label: "Coupon Codes",
                 route: route("stats.couponCodes"),
                 component: "Admin/Statistics/CouponCodes",
@@ -142,11 +144,6 @@ export default [
                 label: "Clients",
                 route: route("stats.clients"),
                 component: "Admin/Statistics/Clients",
-            },
-            {
-                label: "Reviews",
-                route: route("stats.reviews"),
-                component: "Admin/Statistics/Reviews",
             },
         ],
     },

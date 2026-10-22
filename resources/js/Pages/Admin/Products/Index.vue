@@ -25,8 +25,6 @@ const initialFormValues = {
     minRate: null,
     minOrdersCount: null,
     maxOrdersCount: null,
-    statuses: [],
-    types: [],
     sort: "highest_price",
 };
 const form = useForm({ ...initialFormValues });
@@ -51,7 +49,11 @@ onMounted(() => {
 <template>
     <Head :title="$t('Product.index')" />
     <PageHeader :page-title="$t('Products')">
-        <CreateNew href="products.create" :label="$t('New Product')" />
+        <CreateNew
+            v-if="$page.props.auth.user.role === 'admin'"
+            href="products.create"
+            :label="$t('New Product')"
+        />
     </PageHeader>
 
     <div class="bg-white px-4 py-8 rounded-md shadow-1 mb-8">
@@ -102,89 +104,6 @@ onMounted(() => {
                             {{ $t("Sort.lowest_orders") }}
                         </option>
                     </select>
-                </div>
-            </div>
-
-            <div
-                class="flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-center mt-4"
-            >
-                <div class="md:w-1/2 w-full">
-                    <InputLabel :value="$t('Product.status')" />
-                    <div class="flex mt-1 gap-2">
-                        <div
-                            class="flex bg-meta-9 px-4 py-2 rounded-md w-full h-[42px]"
-                        >
-                            <div class="flex items-center gap-3">
-                                <input
-                                    type="checkbox"
-                                    id="status-published"
-                                    v-model="form.statuses"
-                                    value="published"
-                                />
-                                <label
-                                    for="status-published"
-                                    class="cursor-pointer select-none"
-                                    >{{ $t("Product.published") }}</label
-                                >
-                            </div>
-                        </div>
-                        <div
-                            class="flex bg-meta-9 px-4 py-2 rounded-md w-full h-[42px]"
-                        >
-                            <div class="flex items-center gap-3">
-                                <input
-                                    type="checkbox"
-                                    id="status-hidden"
-                                    v-model="form.statuses"
-                                    value="hidden"
-                                />
-                                <label
-                                    for="status-hidden"
-                                    class="cursor-pointer select-none"
-                                    >{{ $t("Product.hidden") }}</label
-                                >
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="md:w-1/2 w-full">
-                    <InputLabel :value="$t('Product.type')" />
-                    <div class="flex mt-1 gap-2">
-                        <div
-                            class="flex bg-meta-9 px-4 py-2 rounded-md w-full h-[42px]"
-                        >
-                            <div class="flex items-center gap-3">
-                                <input
-                                    type="checkbox"
-                                    id="status-product"
-                                    v-model="form.types"
-                                    value="product"
-                                />
-                                <label
-                                    for="status-product"
-                                    class="cursor-pointer select-none"
-                                    >{{ $t("Product.product") }}</label
-                                >
-                            </div>
-                        </div>
-                        <div
-                            class="flex bg-meta-9 px-4 py-2 rounded-md w-full h-[42px]"
-                        >
-                            <div class="flex items-center gap-3">
-                                <input
-                                    type="checkbox"
-                                    id="status-pack"
-                                    v-model="form.types"
-                                    value="pack"
-                                />
-                                <label
-                                    for="status-pack"
-                                    class="cursor-pointer select-none"
-                                    >{{ $t("Product.pack") }}</label
-                                >
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 

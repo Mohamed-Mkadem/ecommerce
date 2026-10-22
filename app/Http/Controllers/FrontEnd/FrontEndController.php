@@ -10,10 +10,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FrontEndProductResource;
 use App\Http\Resources\ProductResource;
-use App\Http\Resources\ReviewResource;
 use App\Http\Resources\StateResource;
 use App\Http\Resources\WrapperListingResource;
-use App\Models\Review;
 use Illuminate\Database\Eloquent\Builder;
 
 class FrontEndController extends Controller
@@ -24,7 +22,7 @@ class FrontEndController extends Controller
             ->where('is_active', true)
             ->whereHas('products')
             ->with('products')
-            ->take(12)
+            ->take(8)
             ->get()
             ->map(fn(Wrapper $wrapper) => (new WrapperListingResource($wrapper))->resolve());
 
@@ -73,23 +71,13 @@ class FrontEndController extends Controller
             $search = '%' . $request->search . '%';
             $locale = app()->getLocale();
 
-            $query->where(function (Builder $q) use ($search, $locale) {
-                $q->where('title', 'like', $search)
-                    ->orWhereHas('products', function (Builder $pq) use ($search, $locale) {
-                        $pq->where('status', 'published')
-                            ->whereTranslationLike('name', $search, $locale);
-                    });
-            });
+            $query->whereTranslationLike('title', $search, $locale);
         }
 
         $sort = $request->input('sort', 'lowest_price');
         $defaultPrice = $this->defaultVariantSubquery('price');
-        $defaultRate = $this->defaultVariantSubquery('rate');
-
         match ($sort) {
             'highest_price' => $query->orderBy($defaultPrice, 'desc'),
-            'highest_rate' => $query->orderBy($defaultRate, 'desc'),
-            'lowest_rate' => $query->orderBy($defaultRate, 'asc'),
             default => $query->orderBy($defaultPrice, 'asc'),
         };
 
@@ -122,15 +110,16 @@ class FrontEndController extends Controller
             $selectedProductId = $default->id;
         }
 
-        $variants = $wrapper->products->map(function (Product $product) {
+        $variants = $wrapper->products->map(function (Product $product) use ($wrapper) {
             return array_merge(
                 (new FrontEndProductResource($product))->resolve(),
                 [
-                    'description' => $product->description,
-                    'ends_at' => $product->getFormattedEndsAtDate(),
-                    'media' => $product->getMedia('images')->toArray(),
+
                     'is_default' => (bool) $product->pivot->is_default,
                     'free_shipping' => (bool) $product->pivot->free_shipping,
+                    'update_quantity' => $product->pivot->update_quantity ?? 1,
+                    'wrapper_main_image_url' => $wrapper->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
+                    'wrapper_title' => $wrapper->title,
                 ]
             );
         });
@@ -140,15 +129,17 @@ class FrontEndController extends Controller
                 'id' => $wrapper->id,
                 'slug' => $wrapper->slug,
                 'title' => $wrapper->title,
-                'caption' => $wrapper->caption,
                 'description' => $wrapper->description,
+                'main_image_url' => $wrapper->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
+                'media' => $wrapper->getMedia('images')->map(fn($media) => [
+                    'id' => $media->id,
+                    'original_url' => $media->getUrl(),
+                    'file_name' => $media->file_name,
+                ])->toArray(),
             ],
             'variants' => $variants,
             'selected_product_id' => $selectedProductId,
             'states' => StateResource::collection(State::all()),
-            'reviews' => ReviewResource::collection(
-                Review::where('product_id', $selectedProductId)->paginate()
-            ),
         ]);
     }
 
@@ -178,12 +169,6 @@ class FrontEndController extends Controller
                 case 'lowest_price':
                     $query->orderBy('price', 'asc');
                     break;
-                case 'highest_rate':
-                    $query->orderBy('rate', 'desc');
-                    break;
-                case 'lowest_rate':
-                    $query->orderBy('rate', 'asc');
-                    break;
                 case 'highest_price':
                     $query->orderBy('price', 'desc');
                     break;
@@ -196,11 +181,10 @@ class FrontEndController extends Controller
         $products = $query->paginate()->withQueryString()
             ->through(fn($product) => [
                 'id' => $product->id,
-                'rate' => $product->rate && $product->rate != 0 ? $product->rate : null,
                 'name' => $product->name,
                 'type' => $product->type,
                 'price' => $product->getFormattedPrice(),
-                'main_image_url' => $product->getFirstMediaUrl('images') ?: asset('storage/products/default.png'),
+                'main_image_url' => asset('storage/products/default.png'),
                 'translations' => $product->translations,
                 'discount' => $product->discount,
                 'discount_type' => $product->discount_type,
@@ -216,10 +200,8 @@ class FrontEndController extends Controller
     public function product(Product $product)
     {
         $product->status != 'published' ? abort(404) : '';
-        $reviews = Review::where('product_id', $product->id)->paginate();
         return Inertia::render('FrontEnd/Product', [
             'product' => new ProductResource($product),
-            'reviews' => ReviewResource::collection($reviews),
         ]);
     }
 }

@@ -32,10 +32,6 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $one_week_in_seconds = 604800;
-        $settings = Cache::remember('top_bar_settings', $one_week_in_seconds, function () {
-            return TopBarSetting::first();
-        });
 
         return [
             ...parent::share($request),
@@ -43,9 +39,12 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'base_url' => config('app.url') . '/',
-            'settings' => $settings,
+            'tracking' => [
+                'google_analytics_measurement_id' => config('services.google_analytics.measurement_id'),
+                'facebook_enabled' => config('services.facebook.enabled'),
+                'facebook_pixel_id' => config('services.facebook.pixel_id'),
+            ],
             'flash' => [
-                'order_conversion_data' => fn () => $request->session()->get('order_conversion_data'),
                 'success' => fn () => $request->session()->get('success'),
             ],
         ];

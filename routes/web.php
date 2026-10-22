@@ -12,13 +12,14 @@ use App\Http\Controllers\NRPController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShipperController;
 use App\Http\Controllers\ShippingReportController;
+use App\Http\Controllers\SellingReportController;
+use App\Http\Controllers\OrderReportController;
 use App\Http\Controllers\ShippingSettingController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\StatisticsController;
-use App\Http\Controllers\TopBarSettingController;
+
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WrapperController;
 use App\Http\Middleware\isActiveMiddleware;
@@ -43,12 +44,14 @@ Route::middleware(['auth', isActiveMiddleware::class])->group(function () {
     Route::post('products/{product}/media/', [ProductController::class, 'storeMedia'])->name('products.media');
     Route::resource('products', ProductController::class);
 
-    Route::resource('wrappers', WrapperController::class);
+    Route::resource('wrappers', WrapperController::class)
+        ->except(['index', 'show'])
+        ->middleware(isAdminMiddleware::class);
+    Route::resource('wrappers', WrapperController::class)->only(['index', 'show']);
 
     Route::resource('shippers', ShipperController::class)->except(['show'])->middleware(isAdminMiddleware::class);
     Route::resource('states', StateController::class)->only(['edit', 'index', 'update'])->middleware(isAdminMiddleware::class);
 
-    Route::resource('settings', TopBarSettingController::class)->only(['index', 'update']);
 
     Route::resource('coupons', CouponCodeController::class)->except('show')->middleware(isAdminMiddleware::class);
     Route::get('clients/import', [ClientController::class, 'import'])->name('clients.import.create');
@@ -78,14 +81,24 @@ Route::middleware(['auth', isActiveMiddleware::class])->group(function () {
 
     Route::get('/shipping-reports/download-excel/{id}', [ShippingReportController::class, 'downloadExcel'])->name('shipping-reports.download-excel');
     Route::get('/shipping-reports/download-pdf/{id}', [ShippingReportController::class, 'downloadPdf'])->name('shipping-reports.download-pdf');
+    Route::delete('shipping_reports/clean', [ShippingReportController::class, 'clean'])->name('shipping_reports.clean')->middleware(isAdminMiddleware::class);
     Route::resource('shipping_reports', ShippingReportController::class)->except(['show', 'edit', 'update']);
+
+    Route::get('/selling-reports/download-excel/{id}', [SellingReportController::class, 'downloadExcel'])->name('selling-reports.download-excel');
+    Route::get('/selling-reports/download-pdf/{id}', [SellingReportController::class, 'downloadPdf'])->name('selling-reports.download-pdf');
+    Route::delete('selling_reports/clean', [SellingReportController::class, 'clean'])->name('selling_reports.clean')->middleware(isAdminMiddleware::class);
+    Route::resource('selling_reports', SellingReportController::class)->except(['show', 'edit', 'update']);
+
+    Route::delete('order-reports/clean', [OrderReportController::class, 'clean'])->name('order_reports.clean')->middleware(isAdminMiddleware::class);
+    Route::get('order-reports/{orderReport}/download', [OrderReportController::class, 'download'])->name('order_reports.download')->middleware(isAdminMiddleware::class);
+    Route::resource('order_reports', OrderReportController::class)->except(['show', 'edit', 'update'])->middleware(isAdminMiddleware::class);
 
     Route::patch('notifications/{notification_id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
     Route::patch('notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
+    Route::delete('notifications/clean', [NotificationController::class, 'clean'])->name('notifications.clean')->middleware(isAdminMiddleware::class);
     Route::get('notifications/{user}/get', [NotificationController::class, 'getNotifications'])->name('notifications.get');
     Route::resource('notifications', NotificationController::class)->only(['index']);
 
-    Route::resource('reviews', ReviewController::class)->except(['create', 'store', 'edit', 'update']);
     Route::resource('invoices', InvoiceController::class)->middleware(isAdminMiddleware::class);
     Route::resource('employees', UserController::class)->middleware(isAdminMiddleware::class);
 
@@ -93,10 +106,9 @@ Route::middleware(['auth', isActiveMiddleware::class])->group(function () {
     Route::get('statistics/earnings', [StatisticsController::class, 'earnings'])->name('stats.earnings');
     Route::get('statistics/orders', [StatisticsController::class, 'orders'])->name('stats.orders');
     Route::get('statistics/products', [StatisticsController::class, 'products'])->name('stats.products');
-    Route::get('statistics/packs', [StatisticsController::class, 'packs'])->name('stats.packs');
     Route::get('statistics/clients', [StatisticsController::class, 'clients'])->name('stats.clients');
     Route::get('statistics/couponCodes', [StatisticsController::class, 'couponCodes'])->name('stats.couponCodes');
-    Route::get('statistics/reviews', [StatisticsController::class, 'reviews'])->name('stats.reviews');
+    Route::get('/charts-data', [AdminController::class, 'chartsData'])->name('charts.update');
 
     Route::resource('notes', NoteController::class);
     Route::get('notes/newNote/{id}/{type}', [NoteController::class, 'newNote'])->name('notes.newNote');
@@ -108,7 +120,15 @@ Route::middleware(['auth', isActiveMiddleware::class])->group(function () {
     Route::get('nrp', [NRPController::class, 'index'])->name('nrp.index');
 
     Route::delete('activity-log/clean', function () {
-        \Illuminate\Support\Facades\Artisan::call('activitylog:clean');
+        $exitCode = \Illuminate\Support\Facades\Artisan::call('activitylog:clean', [
+            '--force' => true,
+            '--days' => config('activitylog.delete_records_older_than_days'),
+        ]);
+
+        if ($exitCode !== 0) {
+            return redirect()->back()->with('error', 'Failed to clean activity log.');
+        }
+
         return redirect()->back()->with('success', 'Activity log cleaned successfully.');
     })->name('activitylog.clean');
 
@@ -129,10 +149,6 @@ Route::name('FE.')->group(function () {
     Route::get('/privacy', [FrontEndController::class, 'privacy'])->name('privacy');
     Route::get('/shop/{wrapper:slug}', [FrontEndController::class, 'wrapper'])->name('wrapper');
     Route::get('/shop', [FrontEndController::class, 'shop'])->name('shop');
-    // Route::get('/offers', [FrontEndController::class, 'packs'])->name('packs');
-    // Route::get('/product/{product}', [FrontEndController::class, 'product'])->name('product');
-    // Route::get('products/{product}/review', [ReviewController::class, 'create'])->name('reviews.create');
-    // Route::post('reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::post('getCode', [CouponCodeController::class, 'getCode'])->name('codes.getCode');
     Route::post('order/place', [OrderController::class, 'place'])->name('orders.place');
     Route::post('order/abandoned', [OrderController::class, 'storeAbandoned'])->name('orders.abandoned');
@@ -151,7 +167,6 @@ require __DIR__ . '/auth.php';
 Route::get('/lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'ar', 'fr'])) {
         Session::put('locale', $locale);
-        redirect()->back();
     }
-    redirect()->back();
+    return redirect()->back();
 });

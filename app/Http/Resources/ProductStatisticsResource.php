@@ -16,6 +16,10 @@ class ProductStatisticsResource extends JsonResource
     public function toArray(Request $request): array
     {
 
+        $wrapper = $this->relationLoaded('wrappers')
+            ? $this->wrappers->first()
+            : $this->wrappers()->first();
+
         $todayStart = Carbon::today()->startOfDay();
         $todayEnd = Carbon::today()->endOfDay();
         $currentWeekStart = Carbon::now()->startOfWeek();
@@ -31,11 +35,8 @@ class ProductStatisticsResource extends JsonResource
             'name' => $this->name,
             'price' => $this->getFormattedPrice(),
             'status' => $this->status,
-            'type' => $this->type,
-            'rate' => $this->rate && $this->rate != 0 ? $this->rate : null,
-            'main_image_url' => $this->getFirstMediaUrl('images') ?: asset('storage/products/default.png'),
-            'ends_at' => $this->getFormattedEndsAtDate(),
-            'media' => $this->getMedia('images')->toArray(),
+            'main_image_url' => $wrapper?->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
+            'wrapper_title' => $wrapper?->title,
             'counts' => [
                 'total' => [
                     'orders_count' => $this->orders()->sum('order_product.quantity'),
@@ -136,7 +137,6 @@ class ProductStatisticsResource extends JsonResource
                 ],
             ],
             'translations' => $this->translations,
-            'reviews_count' => $this->reviews()->count(),
 
         ];
     }

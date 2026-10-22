@@ -46,9 +46,6 @@ defineProps({
                 {{ wrapper.title }}
             </Link>
 
-            <p class="text-xl font-semibold text-meta-1 mt-2">
-                {{ wrapper.price }} {{ $t("Product.currency") }}
-            </p>
         </div>
 
         <Link

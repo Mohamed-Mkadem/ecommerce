@@ -14,7 +14,6 @@ use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductStatisticsResource;
 use App\Http\Resources\StatisticsProductResource;
 use App\Models\CouponCode;
-use App\Models\Review;
 
 class StatisticsController extends Controller
 {
@@ -46,25 +45,14 @@ class StatisticsController extends Controller
     public function products()
     {
 
-        $productsStatusCount = Product::getStatusCount();
         $bestSelling = Product::getBestSelling();
         return Inertia::render('Admin/Statistics/Products', [
-            'productsStatusCount' => $productsStatusCount,
-            'statistics' => ProductStatisticsResource::collection(Product::where('type', 'product')->paginate(20)),
+            'statistics' => ProductStatisticsResource::collection(Product::with(['wrappers.media', 'wrappers.translations'])->paginate(20)),
             'bestSelling' => $bestSelling
         ]);
     }
 
-    public function packs()
-    {
-        $productsStatusCount = Product::getPacksStatusCount();
-        $bestSelling = Product::getPacksBestSelling();
-        return Inertia::render('Admin/Statistics/Packs', [
-            'productsStatusCount' => $productsStatusCount,
-            'statistics' => ProductStatisticsResource::collection(Product::where('type', 'pack')->paginate(20)),
-            'bestSelling' => $bestSelling
-        ]);
-    }
+
 
     public function clients()
     {
@@ -86,12 +74,5 @@ class StatisticsController extends Controller
             'statistics' => CouponCodeStatisticResource::collection(CouponCode::paginate(20))
 
         ]);
-    }
-
-
-    public function reviews()
-    {
-        $statistics = Review::getCount();
-        return Inertia::render('Admin/Statistics/Reviews', ['statistics' => $statistics]);
     }
 }

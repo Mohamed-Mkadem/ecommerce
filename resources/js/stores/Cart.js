@@ -24,6 +24,9 @@ export const useCartStore = defineStore("cart", () => {
 
         if (existingItem) {
             existingItem.quantity += quantityToAdd;
+            if (product.update_quantity_by != null || product.update_quantity != null) {
+                existingItem.update_quantity_by = getQuantityStep(product);
+            }
         } else {
             cart.value.push({
                 ...product,
@@ -37,22 +40,31 @@ export const useCartStore = defineStore("cart", () => {
         trackAddToCartEvent(product, quantityToAdd);
     };
 
-    const increaseQuantity = (product_id) => {
-        const product = cart.value.find((item) => item.id === product_id);
-        if (product.type == "product") {
-            product.quantity = product.quantity + 0.5;
-        }
-        if (product.type == "pack") {
-            product.quantity = product.quantity + 1;
-        }
+    const getQuantityStep = (product) => {
+        const step = Number(
+            product?.update_quantity_by ?? product?.update_quantity ?? 1,
+        );
+
+        return Number.isFinite(step) && step > 0 ? step : 1;
     };
+
+    const increaseQuantity = (product_id) => {
+        const product = cart.value.find((item) => item.id == product_id);
+        if (!product) return;
+
+        const step = getQuantityStep(product);
+        const quantity = Number(product.quantity) || step;
+        product.quantity = Number((quantity + step).toFixed(3));
+    };
+
     const decreaseQuantity = (product_id) => {
-        const product = cart.value.find((item) => item.id === product_id);
-        if (product.type == "product" && product.quantity > 0.5) {
-            product.quantity = product.quantity - 0.5;
-        }
-        if (product.type == "pack" && product.quantity > 1) {
-            product.quantity = product.quantity - 1;
+        const product = cart.value.find((item) => item.id == product_id);
+        if (!product) return;
+
+        const step = getQuantityStep(product);
+        const quantity = Number(product.quantity) || step;
+        if (quantity > step) {
+            product.quantity = Number((quantity - step).toFixed(3));
         }
     };
 

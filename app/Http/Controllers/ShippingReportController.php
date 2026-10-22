@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Events\ShippingReportCreated;
 use App\Exports\ShippingReportExport;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Requests\StoreShippingReportRequest;
 
 class ShippingReportController extends Controller
@@ -91,5 +92,15 @@ class ShippingReportController extends Controller
             DB::rollBack();
             return redirect()->back();
         }
+    }
+
+    public function clean()
+    {
+        $exitCode = Artisan::call('shipping-reports:prune');
+
+        return redirect()->back()->with(
+            $exitCode === 0 ? 'success' : 'error',
+            $exitCode === 0 ? 'Shipping reports cleaned successfully.' : 'Failed to clean shipping reports.'
+        );
     }
 }

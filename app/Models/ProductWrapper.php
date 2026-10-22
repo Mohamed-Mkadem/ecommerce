@@ -16,11 +16,13 @@ class ProductWrapper extends Pivot
         'display_order',
         'is_default',
         'free_shipping',
+        'update_quantity',
     ];
 
     protected $casts = [
         'is_default' => 'boolean',
         'free_shipping' => 'boolean',
         'display_order' => 'integer',
+        'update_quantity' => 'double',
     ];
 }

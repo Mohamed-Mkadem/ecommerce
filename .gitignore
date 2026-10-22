@@ -23,4 +23,5 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
-
+/sweetia-docs/  
+tasks.md

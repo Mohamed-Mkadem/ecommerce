@@ -31,39 +31,26 @@ onClickOutside(target, () => {
                 !sidebarStore.isSidebarOpen && languageStore.direction == 'rtl',
             'translate-x-0':
                 sidebarStore.isSidebarOpen && languageStore.direction == 'rtl',
-        }"
-        ref="target"
-    >
+        }" ref="target">
         <!-- SIDEBAR HEADER -->
-        <div
-            class="flex items-center justify-between lg:justify-center gap-2 px-6 py-5.5 lg:py-6.5"
-        >
+        <div class="flex items-center justify-between lg:justify-center gap-2 px-6 py-5.5 lg:py-6.5">
             <Link :href="route('dashboard')">
-                <AppLogo class="w-[60px]" color="white" />
+            <AppLogo class="w-[150px]" color="white" />
             </Link>
 
-            <button
-                class="block lg:hidden"
-                @click="sidebarStore.isSidebarOpen = false"
-            >
+            <button class="block lg:hidden" @click="sidebarStore.isSidebarOpen = false">
                 <i class="ri-close-large-line"></i>
             </button>
         </div>
         <!-- SIDEBAR HEADER -->
 
-        <div
-            class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear"
-        >
+        <div class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
             <!-- Sidebar Menu -->
             <nav class="mt-5 py-4 px-4 lg:mt-2 lg:px-6">
                 <div>
                     <ul class="mb-6 flex flex-col gap-1.5">
-                        <SidebarItem
-                            v-for="(menuItem, index) in SideBarContent"
-                            :item="menuItem"
-                            :key="index"
-                            :index="index"
-                        />
+                        <SidebarItem v-for="(menuItem, index) in SideBarContent" :item="menuItem" :key="index"
+                            :index="index" />
                     </ul>
                 </div>
             </nav>

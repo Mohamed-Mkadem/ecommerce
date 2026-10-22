@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use App\Models\City;
 use App\Models\Note;
 use App\Models\Order;
-use App\Models\Review;
 use App\Models\Locality;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\LogOptions;
@@ -25,8 +24,29 @@ class Client extends Model
 
 
 
-    protected $fillable = ['name', 'state_id', 'city_id', 'locality_id', 'phone', 'phone2', 'address'];
+    protected $fillable = ['name', 'state_id', 'city_id', 'locality_id', 'phone', 'phone2', 'address', 'delivery_rate'];
 
+    /**
+     * Recalculate and persist the client's delivery rate.
+     *
+     * Rate = delivered / (delivered + returned) × 100
+     * Stored as a percentage (e.g. 75.00 = 75%).
+     * NULL when there are no terminal (delivered/returned) orders yet.
+     *
+     * Uses saveQuietly() to avoid triggering the activity log.
+     */
+    public function recalculateDeliveryRate(): void
+    {
+        $delivered = $this->orders()->where('status', 'delivered')->count();
+        $returned  = $this->orders()->where('status', 'returned')->count();
+        $total     = $delivered + $returned;
+
+        $this->delivery_rate = $total > 0
+            ? round(($delivered / $total) * 100, 2)
+            : null;
+
+        $this->saveQuietly();
+    }
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -68,10 +88,7 @@ class Client extends Model
     {
         return   Carbon::parse($value)->format('d-m-Y');
     }
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
+
 
     public function city()
     {

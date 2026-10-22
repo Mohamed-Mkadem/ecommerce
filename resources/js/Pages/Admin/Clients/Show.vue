@@ -107,12 +107,7 @@ function deleteClient(client) {
                 <i class="ri-map-2-line text-2xl text-slate-400"></i>
                 <span dir="auto"> {{ client.address }}</span>
             </div>
-            <div class="flex items-center gap-3">
-                <i class="ri-star-line text-2xl text-slate-400"></i>
-                <p class="text-primary flex items-center gap-2">
-                    {{ `${$t("Reviews")} : ${client.reviews_count}` }}
-                </p>
-            </div>
+
             <div class="flex items-center gap-3">
                 <i class="ri-shopping-cart-line text-2xl text-slate-400"></i>
                 <p class="text-primary flex items-center gap-2">
@@ -130,6 +125,31 @@ function deleteClient(client) {
                 <i class="ri-money-dollar-box-line text-2xl text-slate-400"></i>
                 <p class="text-primary flex items-center gap-2">
                     {{ `${$t("Total Spending")} : ${spent} ${$t("currency")}` }}
+                </p>
+            </div>
+            <div class="flex items-center gap-3">
+                <i class="ri-truck-line text-2xl text-slate-400"></i>
+                <p class="text-primary flex items-center gap-2">
+                    {{ $t("Delivery Rate") }} :
+                    <span
+                        v-if="client.delivery_rate !== null && client.delivery_rate !== undefined"
+                        :title="$t('client.delivery_rate_tooltip')"
+                        class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-sm font-semibold"
+                        :class="{
+                            'bg-green-100 text-green-800': client.delivery_rate >= 70,
+                            'bg-yellow-100 text-yellow-800': client.delivery_rate >= 40 && client.delivery_rate < 70,
+                            'bg-red-100 text-red-800': client.delivery_rate < 40,
+                        }"
+                    >
+                        {{ client.delivery_rate }}%
+                    </span>
+                    <span
+                        v-else
+                        class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-sm font-semibold bg-slate-100 text-slate-500"
+                        :title="$t('client.delivery_rate_tooltip')"
+                    >
+                        N/A
+                    </span>
                 </p>
             </div>
             <div class="flex items-center gap-3">

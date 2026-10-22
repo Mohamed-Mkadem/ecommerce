@@ -17,17 +17,21 @@ class WrapperListingResource extends JsonResource
             'id' => $this->id,
             'slug' => $this->slug,
             'title' => $this->title,
-            'caption' => $this->caption,
             'name' => $this->title,
             'description' => $this->description,
-            'main_image_url' => $default?->getFirstMediaUrl('images')
-                ?: asset('storage/products/default.png'),
+            'main_image_url' => $this->getFirstMediaUrl('images')
+                ?: asset('storage/products/product.webp'),
             'price' => $default?->getFormattedPrice(),
             'rate' => $default && $default->rate != 0 ? $default->rate : null,
             'discount' => $default?->discount,
             'discount_type' => $default?->discount_type,
             'default_product' => $default
-                ? (new FrontEndProductResource($default))->resolve()
+                ? array_merge(
+                    (new FrontEndProductResource($default))->resolve(),
+                    [
+                        'wrapper_main_image_url' => $this->getFirstMediaUrl('images') ?: asset('storage/products/product.webp'),
+                    ]
+                )
                 : null,
         ];
     }

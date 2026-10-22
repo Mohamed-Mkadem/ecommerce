@@ -1,12 +1,12 @@
 <script setup>
 import PageHeader from "@/js/Components/Admin/PageHeader.vue";
 import { Link, router, usePage } from "@inertiajs/vue3";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useToast } from "vue-toastification";
 import { getToastOptions } from "@/js/Utils/toast";
 import { trans } from "laravel-vue-i18n";
 import Swal from "sweetalert2";
-
+import ProductImagePlaceholder from "@/assets/images/product.webp";
 const props = defineProps({
     wrapper: {
         type: Object,
@@ -16,6 +16,14 @@ const props = defineProps({
 
 const toast = useToast();
 const page = usePage();
+
+const currentImage = ref(
+    props.wrapper.media?.[0]?.url ?? props.wrapper.main_image_url
+);
+
+function changeImage(url) {
+    currentImage.value = url;
+}
 
 onMounted(() => {
     if (page.props.flash?.success) {
@@ -55,7 +63,7 @@ function deleteWrapper() {
     <Head :title="wrapper.title" />
 
     <PageHeader :page-title="wrapper.title">
-        <div class="flex flex-wrap items-center gap-3">
+        <div v-if="page.props.auth.user.role === 'admin'" class="flex flex-wrap items-center gap-3">
             <Link
                 :href="route('wrappers.edit', wrapper.slug)"
                 class="bg-slate-500 text-white px-3 py-2 rounded-md hover:bg-opacity-75 flex items-center gap-2"
@@ -79,16 +87,31 @@ function deleteWrapper() {
     >
         <div>
             <img
-                :src="wrapper.main_image_url"
+                :src="currentImage"
                 :alt="wrapper.title"
-                class="rounded-lg mx-auto w-full max-h-80 object-contain"
+                class="rounded-2xl mx-auto w-full  shadow-lg object-contain"
             />
-            <p
-                v-if="wrapper.default_product"
-                class="text-center text-sm text-neutral-500 mt-3"
+            <div
+                v-if="wrapper.media && wrapper.media.length > 0"
+                class="grid grid-cols-[repeat(4,_minmax(50px,_100px))] justify-between gap-2  mt-4"
             >
-                {{ $t("Wrapper.display_from_default") }}
-            </p>
+                <div
+                    v-for="img in wrapper.media"
+                    :key="img.id"
+                    class="cursor-pointer border-2 rounded p-0.5 transition-all"
+                    :class="{
+                        'border-primary': currentImage === img.url,
+                        'border-neutral-200 hover:border-neutral-300': currentImage !== img.url
+                    }"
+                    @click="changeImage(img.url)"
+                >
+                    <img
+                        :src="img.url"
+                        :alt="img.name"
+                        class="w-full rounded-md cursor-pointer"
+                    />
+                </div>
+            </div>
         </div>
 
         <div>
@@ -128,15 +151,6 @@ function deleteWrapper() {
                             </Link>
                         </template>
                         <span v-else>—</span>
-                    </dd>
-                </div>
-                <div>
-                    <dt class="text-sm text-neutral-500">
-                        {{ $t("Product.price") }}
-                    </dt>
-                    <dd class="font-semibold text-meta-1 text-xl">
-                        {{ wrapper.price }}
-                        {{ $t("Product.currency") }}
                     </dd>
                 </div>
                 <div>
@@ -181,12 +195,7 @@ function deleteWrapper() {
                         <th class="px-4 py-3 font-semibold text-graydark">
                             {{ $t("Name") }}
                         </th>
-                        <th class="px-4 py-3 font-semibold text-graydark">
-                            {{ $t("Product.type") }}
-                        </th>
-                        <th class="px-4 py-3 font-semibold text-graydark">
-                            {{ $t("Product.status") }}
-                        </th>
+                       
                         <th class="px-4 py-3 font-semibold text-graydark">
                             {{ $t("Product.price") }}
                         </th>
@@ -213,7 +222,7 @@ function deleteWrapper() {
                         <td class="px-4 py-3">
                             <div class="flex items-center gap-3">
                                 <img
-                                    :src="variant.main_image_url"
+                                    :src="ProductImagePlaceholder"
                                     :alt="variant.name"
                                     class="w-12 h-12 rounded object-cover flex-shrink-0"
                                 />
@@ -225,12 +234,7 @@ function deleteWrapper() {
                                 </Link>
                             </div>
                         </td>
-                        <td class="px-4 py-3 capitalize">
-                            {{ $t(`Product.${variant.type}`) }}
-                        </td>
-                        <td class="px-4 py-3 capitalize">
-                            {{ $t(`Product.${variant.status}`) }}
-                        </td>
+                       
                         <td class="px-4 py-3">
                             {{ variant.price }}
                             {{ $t("Product.currency") }}
