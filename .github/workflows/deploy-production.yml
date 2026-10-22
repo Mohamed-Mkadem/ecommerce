@@ -56,7 +56,7 @@ jobs:
           if git -C "$APP_DIR" show-ref --verify --quiet "refs/heads/$DEPLOY_BRANCH"; then
               git -C "$APP_DIR" switch "$DEPLOY_BRANCH"
           else
-              git -C "$APP_DIR" switch --track -c "$DEPLOY_BRANCH" "origin/$DEPLOY_BRANCH"
+              git -C "$APP_DIR" switch --no-track -c "$DEPLOY_BRANCH" "refs/remotes/origin/$DEPLOY_BRANCH"
           fi
           git -C "$APP_DIR" pull --ff-only origin "$DEPLOY_BRANCH"
 
