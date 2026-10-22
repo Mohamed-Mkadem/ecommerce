@@ -7,5 +7,4 @@ if [[ "$#" -ne 0 ]]; then
     exit 2
 fi
 
-/usr/bin/supervisorctl restart 'sweetia-worker:*'
-/usr/bin/systemctl restart sweetia-reverb
+/usr/bin/systemctl restart php8.4-fpm nginx sweetia-reverb
