@@ -3,7 +3,7 @@ name: Deploy Sweetia demo VPS
 on:
   push:
     branches:
-      - codex/laravel-12-upgrade
+      - main
   workflow_dispatch:
 
 permissions:
@@ -15,11 +15,11 @@ concurrency:
 
 jobs:
   deploy:
-    if: github.ref == 'refs/heads/codex/laravel-12-upgrade'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Deploy the active VPS branch
+      - name: Deploy the main branch
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
@@ -50,7 +50,7 @@ jobs:
             'bash -s' <<'REMOTE'
           set -Eeuo pipefail
           APP_DIR=/var/www/sweetia
-          DEPLOY_BRANCH=codex/laravel-12-upgrade
+          DEPLOY_BRANCH=main
 
           git -C "$APP_DIR" fetch origin "$DEPLOY_BRANCH"
           if git -C "$APP_DIR" show-ref --verify --quiet "refs/heads/$DEPLOY_BRANCH"; then
