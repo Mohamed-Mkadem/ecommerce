@@ -1,7 +1,7 @@
 <script setup>
 import { useCartStore } from "@/js/stores/Cart";
 import { useLanguageStore } from "@/js/stores/Language";
-import emptyCart from "@/assets/images/empty-cart.png";
+import emptyCart from "@/assets/images/empty-cart.webp";
 const languageStore = useLanguageStore();
 const cartStore = useCartStore();
 </script>

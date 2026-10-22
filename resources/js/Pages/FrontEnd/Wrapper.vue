@@ -10,7 +10,7 @@ import axios from "axios";
 import TextInput from "@/js/Components/TextInput.vue";
 import InputError from "@/js/Components/InputError.vue";
 import InputLabel from "@/js/Components/InputLabel.vue";
-import OrderPlacedImage from "@/assets/images/done.png";
+import OrderPlacedImage from "@/assets/images/done.webp";
 import { trackFacebookEvent } from "@/js/Utils/facebook";
 
 const props = defineProps({
@@ -351,7 +351,7 @@ const displayDescription = computed(
                                         <span class="min-w-0 flex-1">
                                             <span
                                                 class="block whitespace-normal text-sm font-medium leading-snug text-brown [overflow-wrap:anywhere]">{{
-                                                variant.name }}</span>
+                                                    variant.name }}</span>
                                             <span v-if="variant.free_shipping"
                                                 class="mt-0.5 block text-[10px] font-medium text-cOrangeDark">
                                                 {{ $t("Free Shipping") }}
@@ -397,7 +397,7 @@ const displayDescription = computed(
                             <div class="mt-3 flex items-center justify-between gap-3 border-t border-line pt-3">
                                 <span class="text-sm font-semibold text-brown">{{ $t("Total") }}</span>
                                 <span class="text-lg font-semibold text-cOrangeDark">{{ total }} {{ $t("currency")
-                                    }}</span>
+                                }}</span>
                             </div>
                             <InputError class="mt-2" :message="form.errors['total']" />
                         </div>
