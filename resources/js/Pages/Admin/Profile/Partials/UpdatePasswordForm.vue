@@ -34,12 +34,12 @@ const updatePassword = () => {
 
 <template>
     <section>
-        <header>
-            <h2 class="text-lg font-medium text-gray-900">
+        <header class="border-b border-slate-100 pb-4">
+            <h2 class="text-lg font-semibold text-slate-800">
                 {{ $t("password.header") }}
             </h2>
 
-            <p class="mt-1 text-sm text-gray-600">
+            <p class="mt-1 text-sm text-slate-500">
                 {{ $t("password.subtitle") }}
             </p>
         </header>
@@ -47,6 +47,7 @@ const updatePassword = () => {
         <form @submit.prevent="updatePassword" class="mt-6 space-y-6">
             <div>
                 <InputLabel
+                    class="text-slate-700"
                     for="current_password"
                     :value="$t('Current Password')"
                 />
@@ -57,7 +58,7 @@ const updatePassword = () => {
                     ref="currentPasswordInput"
                     v-model="form.current_password"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20"
                     autocomplete="current-password"
                 />
 
@@ -68,7 +69,7 @@ const updatePassword = () => {
             </div>
 
             <div>
-                <InputLabel for="password" :value="$t('New Password')" />
+                <InputLabel class="text-slate-700" for="password" :value="$t('New Password')" />
 
                 <TextInput
                     required
@@ -76,7 +77,7 @@ const updatePassword = () => {
                     ref="passwordInput"
                     v-model="form.password"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20"
                     autocomplete="new-password"
                 />
 
@@ -85,6 +86,7 @@ const updatePassword = () => {
 
             <div>
                 <InputLabel
+                    class="text-slate-700"
                     for="password_confirmation"
                     :value="$t('Confirm Password')"
                 />
@@ -94,7 +96,7 @@ const updatePassword = () => {
                     id="password_confirmation"
                     v-model="form.password_confirmation"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20"
                     autocomplete="new-password"
                 />
 
@@ -112,7 +114,7 @@ const updatePassword = () => {
                     :disabled="form.processing"
                     type="Submit"
                     :value="$t('form.save')"
-                    class="w-full sm:w-1/4 cursor-pointer rounded-lg border border-primary bg-primary py-2 px-4 font-medium text-white transition hover:bg-opacity-90"
+                    class="w-full cursor-pointer rounded-xl border border-primary bg-primary px-5 py-2.5 font-medium text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-opacity-90 hover:shadow-md sm:w-1/4"
                 />
 
                 <Transition
@@ -123,7 +125,7 @@ const updatePassword = () => {
                 >
                     <p
                         v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600"
+                        class="text-sm text-slate-500"
                     >
                         {{ $t("form.saved") }}
                     </p>

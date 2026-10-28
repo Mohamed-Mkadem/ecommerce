@@ -56,24 +56,24 @@ const handleFileChange = (e) => {
 
 <template>
     <section>
-        <header>
-            <h2 class="text-lg font-medium text-gray-900">
+        <header class="border-b border-slate-100 pb-4">
+            <h2 class="text-lg font-semibold text-slate-800">
                 {{ $t("profile.header") }}
             </h2>
 
-            <p class="mt-1 text-sm text-gray-600">
+            <p class="mt-1 text-sm text-slate-500">
                 {{ $t("profile.subtitle") }}
             </p>
         </header>
 
         <form @submit.prevent="submit" class="mt-6 space-y-6">
             <div>
-                <InputLabel for="first_name" :value="$t('First Name')" />
+                <InputLabel class="text-slate-700" for="first_name" :value="$t('First Name')" />
 
                 <TextInput
                     id="first_name"
                     type="text"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20"
                     v-model="form.first_name"
                     required
                     autocomplete="first_name"
@@ -85,12 +85,12 @@ const handleFileChange = (e) => {
                 />
             </div>
             <div>
-                <InputLabel for="last_name" :value="$t('Last Name')" />
+                <InputLabel class="text-slate-700" for="last_name" :value="$t('Last Name')" />
 
                 <TextInput
                     id="last_name"
                     type="text"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20"
                     v-model="form.last_name"
                     required
                     autocomplete="last_name"
@@ -103,12 +103,12 @@ const handleFileChange = (e) => {
             </div>
 
             <div>
-                <InputLabel for="email" :value="$t('Email')" />
+                <InputLabel class="text-slate-700" for="email" :value="$t('Email')" />
 
                 <TextInput
                     id="email"
                     type="email"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20"
                     v-model="form.email"
                     required
                     autocomplete="email"
@@ -118,15 +118,15 @@ const handleFileChange = (e) => {
             </div>
 
             <div>
-                <InputLabel for="avatar" :value="$t('Avatar')" />
+                <InputLabel class="text-slate-700" for="avatar" :value="$t('Avatar')" />
 
                 <input
                     @input="handleFileChange"
                     type="file"
                     id="avatar"
-                    class="w-full mt-1 block text-gray-400 text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 ltr:file:mr-4 rtl:file:ml-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500 rounded"
+                    class="mt-1 block w-full cursor-pointer rounded-xl border border-slate-200 bg-slate-50/50 text-sm text-slate-500 file:mr-4 file:cursor-pointer file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-3 file:font-medium file:text-slate-600 file:transition-colors hover:file:bg-slate-200 rtl:file:mr-0 rtl:file:ml-4"
                 />
-                <p class="text-xs text-gray-400 mt-2">
+                <p class="mt-2 text-xs text-slate-500">
                     {{ $t("avatar.description") }}
                 </p>
 
@@ -141,7 +141,7 @@ const handleFileChange = (e) => {
                     :disabled="processing"
                     type="Submit"
                     :value="$t('form.save')"
-                    class="w-full sm:w-1/4 cursor-pointer rounded-lg border border-primary bg-primary py-2 px-4 font-medium text-white transition hover:bg-opacity-90"
+                    class="w-full cursor-pointer rounded-xl border border-primary bg-primary px-5 py-2.5 font-medium text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-opacity-90 hover:shadow-md sm:w-1/4"
                 />
 
                 <Transition
@@ -152,7 +152,7 @@ const handleFileChange = (e) => {
                 >
                     <p
                         v-if="recentlySuccessfulRequest"
-                        class="text-sm text-gray-600"
+                        class="text-sm text-slate-500"
                     >
                         {{ $t("form.saved") }}
                     </p>

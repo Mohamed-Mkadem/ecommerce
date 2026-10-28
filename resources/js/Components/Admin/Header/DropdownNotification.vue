@@ -24,7 +24,7 @@ const handleLink = (url, notification_id) => {
 <template>
     <li class="relative" ref="target">
         <button
-            class="relative flex h-8.5 w-8.5 items-center justify-center rounded-full border-[0.5px] border-stroke bg-gray hover:text-primary"
+            class="relative flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition duration-200 hover:border-slate-300 hover:bg-slate-50 hover:text-primary hover:shadow"
             href="#"
             @click="dropdownOpen = !dropdownOpen"
         >
@@ -55,10 +55,10 @@ const handleLink = (url, notification_id) => {
         <!-- Dropdown Start -->
         <div
             v-show="dropdownOpen"
-            class="absolute w-[90vw] ltr:right-[-20vw] ltr:xsm:right-0 rtl:left-[-20vw] rtl:xsm:left-0 xsm:w-[70vw] mt-2.5 flex h-90 flex-col rounded-sm border border-stroke bg-white shadow-default sm:w-80"
+            class="absolute ltr:right-0 rtl:left-0 mt-3 flex h-90 w-[min(90vw,20rem)] flex-col rounded-xl border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.14)] ring-1 ring-black/5"
         >
-            <div class="px-4.5 py-3">
-                <h5 class="text-sm font-medium text-bodydark2">
+            <div class="border-b border-slate-100 px-5 py-4">
+                <h5 class="text-sm font-semibold text-slate-800">
                     {{ $t("dropdown.notifications") }}
                 </h5>
             </div>
@@ -83,7 +83,7 @@ const handleLink = (url, notification_id) => {
             <Link
                 @click="dropdownOpen = false"
                 :href="route('notifications.index')"
-                class="mt-auto block rounded lg p-2 bg-slate-500 text-slate-200 hover:underline text-center"
+                class="mt-auto block rounded-b-xl border-t border-slate-100 bg-slate-50 p-3 text-center text-sm font-medium text-primary transition-colors hover:bg-slate-100"
             >
                 {{ $t("dropdown.see_all") }}
             </Link>
