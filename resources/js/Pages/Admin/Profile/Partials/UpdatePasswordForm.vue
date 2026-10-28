@@ -53,12 +53,12 @@ const updatePassword = () => {
                 />
 
                 <TextInput
+                    variant="admin"
                     required
                     id="current_password"
                     ref="currentPasswordInput"
                     v-model="form.current_password"
                     type="password"
-                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:focus:border-neutral-400 dark:focus:ring-neutral-500/30"
                     autocomplete="current-password"
                 />
 
@@ -72,12 +72,12 @@ const updatePassword = () => {
                 <InputLabel class="text-slate-700 dark:text-neutral-200" for="password" :value="$t('New Password')" />
 
                 <TextInput
+                    variant="admin"
                     required
                     id="password"
                     ref="passwordInput"
                     v-model="form.password"
                     type="password"
-                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:focus:border-neutral-400 dark:focus:ring-neutral-500/30"
                     autocomplete="new-password"
                 />
 
@@ -92,11 +92,11 @@ const updatePassword = () => {
                 />
 
                 <TextInput
+                    variant="admin"
                     required
                     id="password_confirmation"
                     v-model="form.password_confirmation"
                     type="password"
-                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:focus:border-neutral-400 dark:focus:ring-neutral-500/30"
                     autocomplete="new-password"
                 />
 

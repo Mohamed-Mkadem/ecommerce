@@ -27,9 +27,9 @@ const handleItemClick = (index: number) => {
                 <Link
                     :href="childItem.route"
                     @click="handleItemClick(index)"
-                    class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
+                    class="group relative flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium text-bodydark2 duration-200 ease-in-out hover:bg-white/20 hover:text-white"
                     :class="{
-                        '!text-white': childItem.component === $page.component,
+                        '!text-white !font-semibold': childItem.component === $page.component,
                     }"
                 >
                     {{ $t(childItem.label) }}

@@ -71,9 +71,9 @@ const handleFileChange = (e) => {
                 <InputLabel class="text-slate-700 dark:text-neutral-200" for="first_name" :value="$t('First Name')" />
 
                 <TextInput
+                    variant="admin"
                     id="first_name"
                     type="text"
-                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:focus:border-neutral-400 dark:focus:ring-neutral-500/30"
                     v-model="form.first_name"
                     required
                     autocomplete="first_name"
@@ -88,9 +88,9 @@ const handleFileChange = (e) => {
                 <InputLabel class="text-slate-700 dark:text-neutral-200" for="last_name" :value="$t('Last Name')" />
 
                 <TextInput
+                    variant="admin"
                     id="last_name"
                     type="text"
-                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:focus:border-neutral-400 dark:focus:ring-neutral-500/30"
                     v-model="form.last_name"
                     required
                     autocomplete="last_name"
@@ -106,9 +106,9 @@ const handleFileChange = (e) => {
                 <InputLabel class="text-slate-700 dark:text-neutral-200" for="email" :value="$t('Email')" />
 
                 <TextInput
+                    variant="admin"
                     id="email"
                     type="email"
-                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:focus:border-neutral-400 dark:focus:ring-neutral-500/30"
                     v-model="form.email"
                     required
                     autocomplete="email"

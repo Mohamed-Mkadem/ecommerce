@@ -1,13 +1,16 @@
 <script setup>
 import InputError from "@/js/Components/InputError.vue";
 import InputLabel from "@/js/Components/InputLabel.vue";
+import FileInput from "@/js/Components/FileInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toastification";
 import { getToastOptions } from "@/js/Utils/toast";
 
 import { trans } from "laravel-vue-i18n";
 import { ref } from "vue";
+import { useAppearanceStore } from "@/js/stores/appearance";
 const toast = useToast();
+const appearanceStore = useAppearanceStore();
 
 const form = useForm({
     file: null,
@@ -40,14 +43,20 @@ function submitForm() {
         v-slot="{ close }"
         ref="modalRef"
         max-width="md"
-        panel-classes="max-h-70 md:max-h-[400px] bg-white rounded-md shadow-1 overflow-y-auto mt-4"
+        :panel-classes="appearanceStore.isDark ? 'dark mt-4 max-h-[calc(100vh-2rem)] overflow-y-auto rounded-2xl border border-neutral-700 bg-neutral-800 text-neutral-100 shadow-2xl' : 'mt-4 max-h-[calc(100vh-2rem)] overflow-y-auto rounded-2xl border border-slate-200 bg-white text-slate-800 shadow-2xl'"
     >
-        <div class="flex justify-between items-center">
-            <h1 class="text-xl text-primary font-bold">
-                {{ $t("Orders.import") }}
-            </h1>
-            <button type="button" class="text-red-500 font-bold" @click="close">
-                <i class="ri-close-large-line text-xl"></i>
+        <div class="mb-5 flex items-start justify-between gap-4 border-b border-slate-200 pb-4 dark:border-neutral-700">
+            <div class="flex items-center gap-3">
+                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-xl text-primary dark:bg-neutral-700 dark:text-neutral-100">
+                    <i class="ri-upload-cloud-2-line" aria-hidden="true"></i>
+                </span>
+                <div>
+                    <h1 class="text-lg font-semibold text-slate-800 dark:text-neutral-100">{{ $t("Mark Orders as pending") }}</h1>
+                    <p class="mt-0.5 text-sm text-slate-500 dark:text-neutral-400">{{ $t("The excel file") }}</p>
+                </div>
+            </div>
+            <button type="button" :aria-label="$t('Close')" class="rounded-lg p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-white" @click="close">
+                <i class="ri-close-large-line text-xl" aria-hidden="true"></i>
             </button>
         </div>
         <form @submit.prevent="submitForm">
@@ -59,18 +68,18 @@ function submitForm() {
                         target="_blank"
                         rel="noopener noreferrer"
                         download
-                        class="mt-1 inline-flex items-center gap-1 text-xs text-blue-600 transition-colors hover:text-blue-800 hover:underline"
+                        class="mt-1 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:underline dark:text-neutral-300 dark:hover:text-white"
                     >
                         <i class="ri-download-2-line" aria-hidden="true"></i>
                         {{ $t("Download template") }}
                     </a>
 
-                    <input
+                    <FileInput
                         required
                         @input="handleFileChange"
                         type="file"
                         id="file"
-                        class="w-full mt-1 block text-gray-400 text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 ltr:file:mr-4 rtl:file:ml-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500 rounded"
+                        variant="admin"
                     />
 
                     <InputError class="mt-2" :message="form.errors.file" />
@@ -93,7 +102,7 @@ function submitForm() {
                 }"
                 :disabled="form.processing"
                 type="Submit"
-                class="w-full cursor-pointer rounded-lg border border-primary bg-primary px-2 py-3 font-medium text-white transition hover:bg-opacity-90 mt-4"
+                class="mt-5 w-full cursor-pointer rounded-xl border border-primary bg-primary px-4 py-3 font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
             >
                 {{ $t("Orders.import") }}
             </button>

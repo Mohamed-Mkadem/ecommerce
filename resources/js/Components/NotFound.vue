@@ -15,6 +15,6 @@ defineProps({
         <i class="ri-information-line text-red-500 text-6xl"></i>
 
         <!-- Message -->
-        <p class="text-gray-700 text-lg font-medium">{{ $t(message) }}</p>
+        <p class="text-gray-700 text-lg font-medium dark:text-neutral-300">{{ $t(message) }}</p>
     </div>
 </template>

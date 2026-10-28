@@ -1,12 +1,14 @@
 <script setup>
 import { useSidebarStore } from "@/js/stores/sidebar";
 import { useLanguageStore } from "@/js/stores/Language";
+import { useAppearanceStore } from "@/js/stores/appearance";
 import { nextTick, ref } from "vue";
 
 import SidebarDropdown from "./SidebarDropdown.vue";
 import { usePage, router } from "@inertiajs/vue3";
 const sidebarStore = useSidebarStore();
 const languageStore = useLanguageStore();
+const appearanceStore = useAppearanceStore();
 
 const props = defineProps(["item", "index", "active", "collapsed"]);
 const currentPage = usePage().component;
@@ -63,11 +65,11 @@ const toggleDropDown = (e) => {
         <Link
             v-if="!item.children"
             :href="item.route"
-            class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-slate-50 hover:bg-opacity-10"
+            class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-white/20"
             :title="collapsed ? $t(item.label) : undefined"
             :aria-label="collapsed ? $t(item.label) : undefined"
             :class="[collapsed ? 'lg:justify-center lg:px-0' : '', {
-                'bg-slate-50 bg-opacity-10 ': $page.component.startsWith(
+                'bg-white/20 ': $page.component.startsWith(
                     `Admin/${item.component}`,
                 ),
             }]"
@@ -81,10 +83,10 @@ const toggleDropDown = (e) => {
         </Link>
         <button
             v-else
-            class="group relative flex w-full items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-slate-50 hover:bg-opacity-10"
+            class="group relative flex w-full items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-white/20"
             :aria-label="collapsed ? $t(item.label) : undefined"
             :class="[collapsed ? 'lg:justify-center lg:px-0' : '', {
-                'bg-slate-50 bg-opacity-10 ': $page.component.startsWith(
+                'bg-white/20 ': $page.component.startsWith(
                     `Admin/${item.component}`,
                 ),
             }]"
@@ -130,7 +132,8 @@ const toggleDropDown = (e) => {
             <div
                 v-if="item.children && collapsed && flyoutOpen"
                 ref="flyout"
-                class="fixed z-999999 hidden max-h-[calc(100vh-1rem)] min-w-52 overflow-y-auto rounded-md bg-primary p-3 shadow-xl dark:bg-neutral-700 lg:block"
+                class="fixed z-999999 hidden max-h-[calc(100vh-1rem)] min-w-52 overflow-y-auto rounded-md p-3 shadow-xl lg:block"
+                :class="appearanceStore.isDark ? 'dark bg-neutral-700' : 'bg-primary'"
                 :style="flyoutStyle"
                 @mouseenter="keepFlyoutOpen"
                 @mouseleave="scheduleFlyoutClose"
