@@ -4,6 +4,7 @@ import { ref } from "vue";
 
 export const useSidebarStore = defineStore("sidebar", () => {
     const isSidebarOpen = ref(false);
+    const isCollapsed = useStorage("admin-sidebar-collapsed", false);
     const selected = useStorage("selected", ref("eCommerce"));
     const page = useStorage("page", ref("Dashboard"));
 
@@ -11,5 +12,9 @@ export const useSidebarStore = defineStore("sidebar", () => {
         isSidebarOpen.value = !isSidebarOpen.value;
     }
 
-    return { isSidebarOpen, toggleSidebar, selected, page };
+    function toggleCollapsed() {
+        isCollapsed.value = !isCollapsed.value;
+    }
+
+    return { isSidebarOpen, isCollapsed, toggleCollapsed, toggleSidebar, selected, page };
 });
