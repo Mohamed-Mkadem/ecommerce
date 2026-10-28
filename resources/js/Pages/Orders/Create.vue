@@ -236,12 +236,12 @@ watch(
     <PageHeader :page-title="$t('New Order')" />
 
     <div class="grid gap-4 lg:gap-6 lg:grid-cols-2">
-        <div class="bg-white rounded shadow-1 p-4">
-            <div class="flex items-center justify-between gap-3 mt-4">
-                <h2 class="text-sky-900 font-semibold text-2xl">
+        <div class="order-panel rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.06)] sm:p-6">
+            <div class="flex items-center justify-between gap-3">
+                <h2 class="text-xl font-semibold text-slate-800 sm:text-2xl">
                     {{ $t("Cart") }}
                 </h2>
-                <p class="text-primary text-2xl font-bold">
+                <p class="text-primary text-2xl font-bold dark:!text-neutral-100">
                     {{ cartStore.total }} {{ $t("currency") }}
                 </p>
             </div>
@@ -299,29 +299,29 @@ watch(
             </div>
         </div>
 
-        <div class="bg-white rounded shadow-1 p-4">
-            <h2 class="text-sky-900 font-semibold text-2xl mt-4">
+        <div class="order-panel rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.06)] sm:p-6">
+            <h2 class="text-xl font-semibold text-slate-800 sm:text-2xl">
                 {{ $t("Products") }}
             </h2>
 
-            <div>
+            <div class="order-form">
                 <TextInput id="search" class="mt-2 block w-full" :placeholder="$t('Search for products')"
                     v-model="search" :required="true" type="search" />
             </div>
 
             <div
-                class="mt-4 grid gap-x-2 gap-y-4 lg:grid-cols-2 pb-8 grid-cols-[repeat(auto-fit,minmax(200px,1fr))] overflow-y-auto max-h-[600px]">
+                class="order-products mt-4 grid max-h-[600px] grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-2 gap-y-4 overflow-y-auto pb-8 lg:grid-cols-2">
                 <ProductCard v-for="product in filteredProducts" :key="product.id" :product="product" />
             </div>
         </div>
     </div>
     <div class="grid gap-4 lg:gap-6 lg:grid-cols-2 mt-8">
-        <div class="bg-white rounded shadow-1 p-4 order-2 lg:order-1">
-            <h2 class="text-sky-900 font-semibold text-2xl mt-4">
+        <div class="order-panel order-2 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.06)] sm:p-6 lg:order-1">
+            <h2 class="text-xl font-semibold text-slate-800 sm:text-2xl">
                 {{ $t("Shipping Information") }}
             </h2>
 
-            <form @submit.prevent="submitForm">
+            <form class="order-form" @submit.prevent="submitForm">
                 <div class="flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-start mt-4">
                     <div class="w-full">
                         <InputLabel for="phone" :value="$t('Phone Number')" class="text-neutral-500" />
@@ -521,12 +521,12 @@ watch(
             </form>
         </div>
 
-        <div class="bg-white rounded shadow-1 p-4 order-1 lg:order-2">
+        <div class="order-panel order-1 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.06)] sm:p-6 lg:order-2">
             <div v-if="showSearchingClient" class="text-sm text-neutral-500 mt-2">
                 {{ $t("Searching for clients...") }}
             </div>
             <div v-if="foundClients.length">
-                <h2 class="text-sky-900 font-semibold text-2xl mt-4">
+                <h2 class="text-xl font-semibold text-slate-800 sm:text-2xl">
                     {{ $t("Found Clients") }}
                 </h2>
                 <div v-for="client in foundClients" :key="client.id" class="py-4 text-meta-4 border-b last:border-b-0"
@@ -613,7 +613,7 @@ watch(
                     </div>
                 </div>
             </div>
-            <h2 class="text-sky-900 font-semibold text-2xl mt-4">
+            <h2 class="text-xl font-semibold text-slate-800 sm:text-2xl">
                 {{ $t("Order Summary") }}
             </h2>
             <ul class="flex flex-col" v-if="cartStore.count">
@@ -657,7 +657,7 @@ watch(
     </div>
 
     <div>
-        <div class="bg-white mt-8 px-4 py-4 rounded-md">
+        <div class="order-panel mt-8 rounded-2xl border border-slate-200/80 bg-white px-5 py-5 shadow-[0_8px_30px_rgba(15,23,42,0.06)] sm:px-6">
             <div class="flex flex-wrap justify-between items-center gap-4">
                 <p class="sm:text-lg text-neutral-700">
                     {{ `${$t("Sub Total")} : ` }}
@@ -686,10 +686,10 @@ watch(
                 </p>
             </div>
             <div class="flex flex-wrap justify-between items-center gap-4">
-                <p class="text-2xl font-semibold text-sky-900">
+                <p class="text-xl font-semibold text-slate-800 sm:text-2xl dark:!text-neutral-100">
                     {{ `${$t("Total")} : ` }}
                 </p>
-                <p class="font-semibold text-2xl text-sky-900">
+                <p class="text-xl font-semibold text-slate-800 sm:text-2xl dark:!text-neutral-100">
                     {{ `${total} ${$t("currency")} ` }}
                 </p>
             </div>

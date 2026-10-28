@@ -1,6 +1,5 @@
 use App\Models\Shipper;
 <script setup>
-import Status from "@/js/Components/Status.vue";
 import NotFound from "@/js/Components/NotFound.vue";
 import Paginator from "@/js/Components/Paginator.vue";
 import { useForm } from "@inertiajs/vue3";
@@ -10,6 +9,7 @@ import InputLabel from "@/js/Components/InputLabel.vue";
 import TextInput from "@/js/Components/TextInput.vue";
 import SelectInput from "@/js/Components/SelectInput.vue";
 import DatePicker from "@/js/Components/DatePicker.vue";
+import OrderCardLayoutA from "@/js/Components/Admin/Orders/OrderCardLayoutA.vue";
 import { trans } from "laravel-vue-i18n";
 import Swal from "sweetalert2";
 import { router } from "@inertiajs/vue3";
@@ -412,119 +412,15 @@ function deleteOrder(order) {
     </h2>
 
     <div v-if="orders.data.length">
-        <div class="grid grid-cols-[repeat(auto-fit,_minmax(min(350px,_100%),_1fr))] gap-4">
-            <div class="flex flex-col rounded-2xl border border-slate-200/80 bg-white shadow-sm transition duration-200 hover:shadow-md dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/30"
-                v-for="order in orders.data" :key="order.id">
-                <div class="flex justify-between gap-4 items-center p-3">
-                    <div class="flex gap-2 items-center">
-                        <Link :href="route('orders.show', order)"
-                            class="text-xl font-bold text-primary underline decoration-slate-300 underline-offset-4 dark:text-neutral-100 dark:decoration-neutral-600">
-                        #{{ order.id }}
-                        </Link>
-                        <Status :status="order.status" class="px-2 py-1" />
-                    </div>
-                    <div class="flex items-center gap-2 border-b-2 border-gray dark:border-neutral-700">
-                        <Link :href="route('orders.show', order)"
-                            class="rounded-lg bg-slate-500 px-2.5 py-2 text-xl text-white transition hover:bg-slate-600">
-                        <i class="ri-eye-line"></i>
-                        </Link>
-
-                        <ModalLink v-if="
-                            order.status == 'pending' ||
-                            order.status == 'abandoned'
-                        " :close-button="false" :href="route('orders.edit', order)"
-                            class="rounded-lg bg-slate-700 px-2.5 py-2 text-xl text-white transition hover:bg-slate-800">
-                            <i class="ri-edit-line"></i>
-                        </ModalLink>
-
-                        <button @click="deleteOrder(order)"
-                            class="rounded-lg bg-red-500 px-2.5 py-2 text-xl text-white transition hover:bg-red-600">
-                            <i class="ri-delete-bin-5-fill"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="flex-1 px-4 py-3 text-sky-700 dark:text-neutral-300">
-                    <Link v-if="order.client.deleted_at == null" :href="route('clients.show', order.client)"
-                        class="mb-1 block text-xl font-semibold text-primary hover:text-slate-500 hover:underline dark:text-neutral-100 dark:hover:text-neutral-300">
-                    <span>{{ order.client_name }}</span>
-                    <span
-                        class="ml-2 inline-flex items-center gap-1 text-lg font-normal text-slate-500 dark:text-neutral-400">
-                        (<i class="ri-shopping-cart-line"></i>
-                        {{ order.client.orders_count ?? 0 }})
-                        <span v-if="
-                            order.client.delivery_rate !== null &&
-                            order.client.delivery_rate !== undefined
-                        " v-tippy="$t('client.delivery_rate_tooltip')" :title="$t('client.delivery_rate_tooltip')"
-                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold"
-                            :class="{
-                                'bg-green-100 text-green-800': order.client.delivery_rate >= 70,
-                                'bg-yellow-100 text-yellow-800': order.client.delivery_rate >= 40 && order.client.delivery_rate < 70,
-                                'bg-red-100 text-red-800': order.client.delivery_rate < 40,
-                            }">
-                            <i class="ri-truck-line"></i>
-                            {{ order.client.delivery_rate }}%
-
-                        </span>
-                    </span>
-                    </Link>
-                    <p v-else class="mb-1 block text-xl font-semibold text-primary dark:text-neutral-100">
-                        {{ order.client_name }}
-                        <small class="text-red-500 font-normal text-sm">
-                            ({{ $t("Deleted") }})
-                        </small>
-                    </p>
-                    <p class="mb-1 text-lg dark:text-neutral-300">
-                        {{ order.phone }}
-                        <span v-if="order.phone2"> / {{ order.phone2 }}</span>
-                    </p>
-                    <div class="flex gap-2 items-center">
-                        <p class="text-red font-semibold text-2xl">
-                            {{ `${order.amount} ${$t("currency")}` }}
-                        </p>
-                        <p v-if="order.coupon" class="text-neutral-600 dark:text-neutral-400">
-                            {{
-                                `: "${order.coupon.code}" ${$t("applied")} (${order.coupon.value}%)`
-                            }}
-                            <small v-if="order.coupon.deleted_at != null" class="text-red-500">
-                                ({{ $t("Deleted") }})
-                            </small>
-                        </p>
-                    </div>
-
-                    <p dir="auto">{{ order.state.name }}</p>
-                    <div v-if="order.shipper" class="flex items-center gap-2">
-                        <i class="ri-truck-line text-2xl text-slate-400"></i>
-
-                        <p class="text-primary dark:text-neutral-200">
-                            {{ order.shipper.name }}
-                            <span v-if="order.free_shipping">({{ $t("Free") }})</span>
-                            <small v-if="order.shipper.deleted_at != null" class="text-red-500">
-                                ({{ $t("Deleted") }})
-                            </small>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 border-t-2 border-gray p-3 dark:border-neutral-700 sm:grid-cols-2">
-                    <div class="text-center">
-                        <p class="flex items-center justify-center gap-2 dark:text-neutral-300">
-                            <span>{{ $t("Delivery_date") }}</span>
-                            <i class="ri-calendar-line text-2xl text-slate-400"></i>
-                        </p>
-                        <p class="text-primary dark:text-neutral-100">{{ order.delivery_date }}</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="flex items-center justify-center gap-2 dark:text-neutral-300">
-                            <span>{{ $t("Placed_at") }}</span>
-                            <i class="ri-calendar-line text-2xl text-slate-400"></i>
-                        </p>
-                        <p class="text-primary dark:text-neutral-100">{{ order.created_at }}</p>
-                    </div>
-                </div>
-            </div>
+        <div class="grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
+            <OrderCardLayoutA
+                v-for="order in orders.data"
+                :key="order.id"
+                :order="order"
+                @delete="deleteOrder"
+            />
         </div>
-        <Paginator :links="orders.meta.links" :previous="orders.links.prev" :next="orders.links.next" class="mt-4" />
+        <Paginator variant="admin" :links="orders.meta.links" :previous="orders.links.prev" :next="orders.links.next" class="mt-5" />
     </div>
     <div v-else>
         <NotFound />

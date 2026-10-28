@@ -82,43 +82,63 @@ function downloadFile(type, id) {
     <PageHeader :page-title="$t('Shipping Reports')">
         <div class="flex flex-wrap gap-2">
             <button v-if="isAdmin" @click="cleanReports"
-                class="bg-red-700 text-white px-3 py-2 rounded-md hover:bg-opacity-75">
+                class="inline-flex items-center justify-center rounded-xl border border-red-600 bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-red-700 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-800">
                 {{ $t("Cleanup.shippingReports.button") }}
             </button>
             <CreateNewModal href="shipping_reports.create" :close-button="false" :label="$t('New Report')" />
         </div>
     </PageHeader>
 
-    <div v-if="reports.data.length">
-        <div class="bg-white rounded shadow-1 px-5 md:grid grid-cols-[1fr,_100px,_1fr,auto] md:gap-4 md:items-center mt-4"
-            v-for="report in reports.data" :key="report.id">
-            <p
-                class="text-primary font-semibold text-lg border-b border-neutral-200 py-3 text-center md:text-start md:border-none">
-                {{ report.name }}
-            </p>
-            <p class="border-b border-neutral-200 py-3 text-center md:text-start md:border-none">
-                <i class="ri-shopping-cart-fill text-slate-400 text-lg mx-3"></i>
-                <span>{{ report.orders_count }}</span>
-            </p>
-            <div class="flex items-center gap-3 py-3 justify-center flex-wrap md:justify-end">
-                <button @click="downloadFile('excel', report.id)"
-                    class="bg-sky-800 text-white text-center px-4 py-2 rounded-md hover:bg-opacity-75">
-                    <i class="ri-download-line me-2"></i>
-                    <span> {{ $t("Excel File") }} </span>
-                </button>
-                <button @click="downloadFile('pdf', report.id)"
-                    class="bg-sky-800 text-white text-center px-4 py-2 rounded-md hover:bg-opacity-75">
-                    <i class="ri-download-line me-2"></i>
-                    <span> {{ $t("PDF File") }} </span>
-                </button>
-            </div>
-            <button @click="deleteReport(report)"
-                class="bg-red-500 text-white py-2 px-3 rounded-md hover:bg-opacity-75">
-                <i class="ri-delete-bin-fill"></i>
-            </button>
-        </div>
-        <Paginator :links="reports.links" :previous="reports.prev_page_url" :next="reports.next_page_url"
-            class="mt-4" />
+    <div v-if="reports.data.length" class="mt-4 overflow-x-auto rounded-2xl">
+        <table class="table-fixed">
+            <colgroup>
+                <col class="w-[60%]" />
+                <col class="w-[15%]" />
+                <col class="w-[300px] max-w-[300px]" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th scope="col">{{ $t("Name") }}</th>
+                    <th scope="col">{{ $t("Orders") }}</th>
+                    <th scope="col">{{ $t("Actions") }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="report in reports.data" :key="report.id">
+                    <td class="truncate font-semibold">{{ report.name }}</td>
+                    <td>
+                        <span class="inline-flex items-center gap-2">
+                            <i class="ri-shopping-cart-fill text-slate-400 dark:text-neutral-500"
+                                aria-hidden="true"></i>
+                            {{ report.orders_count }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button @click="downloadFile('excel', report.id)"
+                                class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50"
+                                :title="$t('Excel File')" :aria-label="$t('Excel File')">
+                                <i class="ri-file-excel-line" aria-hidden="true"></i>
+                                <span>{{ $t("Excel File") }}</span>
+                            </button>
+                            <button @click="downloadFile('pdf', report.id)"
+                                class="inline-flex items-center gap-2 rounded-lg bg-sky-700 px-3 py-2 text-sm font-semibold text-white transition hover:bg-sky-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/50"
+                                :title="$t('PDF File')" :aria-label="$t('PDF File')">
+                                <i class="ri-file-pdf-line" aria-hidden="true"></i>
+                                <span>{{ $t("PDF File") }}</span>
+                            </button>
+                            <button @click="deleteReport(report)"
+                                class="rounded-lg bg-red-50 p-2 text-red-600 transition hover:bg-red-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50 dark:bg-red-950/40 dark:text-red-300 dark:hover:bg-red-950/70"
+                                :title="$t('Delete')" :aria-label="$t('Delete')">
+                                <i class="ri-delete-bin-fill" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <Paginator variant="admin" :links="reports.links" :previous="reports.prev_page_url"
+            :next="reports.next_page_url" class="mt-4" />
     </div>
     <NotFound v-else />
 </template>

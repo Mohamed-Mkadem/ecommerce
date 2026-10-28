@@ -71,7 +71,7 @@ const handleLink = async (notification_id) => {
 
 <template>
     <!-- ===== Page Wrapper Start ===== -->
-    <div class="flex h-screen overflow-hidden container-3xl" :class="{ dark: appearanceStore.isDark }">
+    <div class="admin-layout flex h-screen overflow-hidden container-3xl" :class="{ dark: appearanceStore.isDark }">
         <!-- ===== Sidebar Start ===== -->
         <SideBar />
         <!-- ===== Sidebar End ===== -->
