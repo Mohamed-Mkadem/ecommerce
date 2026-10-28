@@ -8,6 +8,7 @@ import sound from "@/assets/sounds/notification.wav";
 import cashSound from "@/assets/sounds/cash_sound.mp3";
 import EventBus from "@/js/EventBus";
 import Loader from "@/js/Components/Loader.vue";
+import { useAppearanceStore } from "@/js/stores/appearance";
 const processing = ref(false);
 
 router.on("start", () => (processing.value = true));
@@ -15,6 +16,7 @@ router.on("finish", () => (processing.value = false));
 const notificationSound = new Audio(sound);
 const cashSoundEffect = new Audio(cashSound);
 const languageStore = useLanguageStore();
+const appearanceStore = useAppearanceStore();
 const notifications = ref([]);
 
 const getLatestNotifications = async () => {
@@ -32,7 +34,7 @@ onMounted(() => {
 
     document.body.setAttribute(
         "class",
-        "relative z-1 bg-whiten  text-base font-normal text-body ",
+        "relative z-1 bg-whiten text-base font-normal text-body",
     );
 
     Echo.private("users." + usePage().props.auth.user.id).notification(
@@ -69,14 +71,14 @@ const handleLink = async (notification_id) => {
 
 <template>
     <!-- ===== Page Wrapper Start ===== -->
-    <div class="flex h-screen overflow-hidden container-3xl">
+    <div class="flex h-screen overflow-hidden container-3xl" :class="{ dark: appearanceStore.isDark }">
         <!-- ===== Sidebar Start ===== -->
         <SideBar />
         <!-- ===== Sidebar End ===== -->
 
         <!-- ===== Content Area Start ===== -->
         <div
-            class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden"
+            class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden bg-whiten transition-colors dark:bg-[#202124]"
             scroll-region
         >
             <!-- ===== Header Start ===== -->

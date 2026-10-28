@@ -15,12 +15,12 @@ onClickOutside(target, () => {
 
 <template>
     <div class="relative" ref="target">
-        <button class="flex items-center gap-3 rounded-full border border-slate-200 bg-slate-100 px-3 py-1.5 transition-colors duration-200 hover:bg-slate-200/80" @click="dropdownOpen = !dropdownOpen">
+        <button class="flex items-center gap-3 rounded-full border border-slate-200 bg-slate-100 px-3 py-1.5 transition-colors duration-200 hover:bg-slate-200/80 dark:border-neutral-600 dark:bg-neutral-700 dark:hover:bg-neutral-600" @click="dropdownOpen = !dropdownOpen">
             <span class="hidden text-start lg:block">
-                <span class="block text-start text-sm font-medium leading-5 text-slate-700">{{
+                <span class="block text-start text-sm font-medium leading-5 text-slate-700 dark:text-neutral-100">{{
                     $page.props.auth.user["first_name"]
                     }}</span>
-                <span class="block text-start text-sm font-medium leading-5 text-slate-700">{{
+                <span class="block text-start text-sm font-medium leading-5 text-slate-700 dark:text-neutral-100">{{
                     $page.props.auth.user["last_name"]
                     }}</span>
             </span>
@@ -30,7 +30,7 @@ onClickOutside(target, () => {
                     alt="User" />
             </span>
 
-            <svg :class="dropdownOpen && 'rotate-180'" class="hidden fill-slate-500 transition-transform duration-200 sm:block" width="12" height="8"
+            <svg :class="dropdownOpen && 'rotate-180'" class="hidden fill-slate-500 transition-transform duration-200 dark:fill-neutral-300 sm:block" width="12" height="8"
                 viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
                     d="M0.410765 0.910734C0.736202 0.585297 1.26384 0.585297 1.58928 0.910734L6.00002 5.32148L10.4108 0.910734C10.7362 0.585297 11.2638 0.585297 11.5893 0.910734C11.9147 1.23617 11.9147 1.76381 11.5893 2.08924L6.58928 7.08924C6.26384 7.41468 5.7362 7.41468 5.41077 7.08924L0.410765 2.08924C0.0853277 1.76381 0.0853277 1.23617 0.410765 0.910734Z"
@@ -40,11 +40,11 @@ onClickOutside(target, () => {
 
         <!-- Dropdown Start -->
         <div v-show="dropdownOpen"
-            class="absolute ltr:right-0 rtl:left-0 z-99 mt-3 flex w-62.5 flex-col rounded-xl border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.14)] ring-1 ring-black/5">
-            <ul class="flex flex-col gap-1 border-b border-slate-100 px-3 py-3">
+            class="absolute ltr:right-0 rtl:left-0 z-99 mt-3 flex w-62.5 flex-col rounded-xl border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.14)] ring-1 ring-black/5 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/40 dark:ring-white/5">
+            <ul class="flex flex-col gap-1 border-b border-slate-100 px-3 py-3 dark:border-neutral-700">
                 <li>
                     <button @click="handleLink"
-                        class="flex w-full items-center gap-3.5 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 duration-200 ease-in-out hover:bg-slate-50 hover:text-primary lg:text-base">
+                        class="flex w-full items-center gap-3.5 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 duration-200 ease-in-out hover:bg-slate-50 hover:text-primary dark:text-neutral-300 dark:hover:bg-neutral-700 dark:hover:text-white lg:text-base">
                         <svg class="fill-current" width="22" height="22" viewBox="0 0 22 22" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -60,7 +60,7 @@ onClickOutside(target, () => {
 
                 <li>
                     <Link as="button" method="post" :href="route('logout')"
-                        class="flex w-full items-center gap-3.5 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 duration-200 ease-in-out hover:bg-slate-50 hover:text-primary lg:text-base">
+                        class="flex w-full items-center gap-3.5 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 duration-200 ease-in-out hover:bg-slate-50 hover:text-primary dark:text-neutral-300 dark:hover:bg-neutral-700 dark:hover:text-white lg:text-base">
                     <svg class="fill-current" width="22" height="22" viewBox="0 0 22 22" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path

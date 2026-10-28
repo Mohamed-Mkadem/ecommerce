@@ -34,12 +34,12 @@ const updatePassword = () => {
 
 <template>
     <section>
-        <header class="border-b border-slate-100 pb-4">
-            <h2 class="text-lg font-semibold text-slate-800">
+        <header class="border-b border-slate-100 pb-4 dark:border-neutral-700">
+            <h2 class="text-lg font-semibold text-slate-800 dark:text-neutral-100">
                 {{ $t("password.header") }}
             </h2>
 
-            <p class="mt-1 text-sm text-slate-500">
+            <p class="mt-1 text-sm text-slate-500 dark:text-neutral-400">
                 {{ $t("password.subtitle") }}
             </p>
         </header>
@@ -47,7 +47,7 @@ const updatePassword = () => {
         <form @submit.prevent="updatePassword" class="mt-6 space-y-6">
             <div>
                 <InputLabel
-                    class="text-slate-700"
+                    class="text-slate-700 dark:text-neutral-200"
                     for="current_password"
                     :value="$t('Current Password')"
                 />
@@ -58,7 +58,7 @@ const updatePassword = () => {
                     ref="currentPasswordInput"
                     v-model="form.current_password"
                     type="password"
-                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20"
+                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:focus:border-neutral-400 dark:focus:ring-neutral-500/30"
                     autocomplete="current-password"
                 />
 
@@ -69,7 +69,7 @@ const updatePassword = () => {
             </div>
 
             <div>
-                <InputLabel class="text-slate-700" for="password" :value="$t('New Password')" />
+                <InputLabel class="text-slate-700 dark:text-neutral-200" for="password" :value="$t('New Password')" />
 
                 <TextInput
                     required
@@ -77,7 +77,7 @@ const updatePassword = () => {
                     ref="passwordInput"
                     v-model="form.password"
                     type="password"
-                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20"
+                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:focus:border-neutral-400 dark:focus:ring-neutral-500/30"
                     autocomplete="new-password"
                 />
 
@@ -86,7 +86,7 @@ const updatePassword = () => {
 
             <div>
                 <InputLabel
-                    class="text-slate-700"
+                    class="text-slate-700 dark:text-neutral-200"
                     for="password_confirmation"
                     :value="$t('Confirm Password')"
                 />
@@ -96,7 +96,7 @@ const updatePassword = () => {
                     id="password_confirmation"
                     v-model="form.password_confirmation"
                     type="password"
-                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20"
+                    class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50/50 shadow-sm focus:border-primary focus:ring-primary/20 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:focus:border-neutral-400 dark:focus:ring-neutral-500/30"
                     autocomplete="new-password"
                 />
 
@@ -125,7 +125,7 @@ const updatePassword = () => {
                 >
                     <p
                         v-if="form.recentlySuccessful"
-                        class="text-sm text-slate-500"
+                        class="text-sm text-slate-500 dark:text-neutral-400"
                     >
                         {{ $t("form.saved") }}
                     </p>

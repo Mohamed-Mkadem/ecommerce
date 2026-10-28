@@ -24,7 +24,7 @@ const handleLink = (url, notification_id) => {
 <template>
     <li class="relative" ref="target">
         <button
-            class="relative flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition duration-200 hover:border-slate-300 hover:bg-slate-50 hover:text-primary hover:shadow"
+            class="relative flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition duration-200 hover:border-slate-300 hover:bg-slate-50 hover:text-primary hover:shadow dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-600 dark:hover:text-white"
             href="#"
             @click="dropdownOpen = !dropdownOpen"
         >
@@ -55,10 +55,10 @@ const handleLink = (url, notification_id) => {
         <!-- Dropdown Start -->
         <div
             v-show="dropdownOpen"
-            class="absolute ltr:right-0 rtl:left-0 mt-3 flex h-90 w-[min(90vw,20rem)] flex-col rounded-xl border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.14)] ring-1 ring-black/5"
+            class="absolute ltr:right-0 rtl:left-0 mt-3 flex h-90 w-[min(90vw,20rem)] flex-col rounded-xl border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.14)] ring-1 ring-black/5 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/40 dark:ring-white/5"
         >
-            <div class="border-b border-slate-100 px-5 py-4">
-                <h5 class="text-sm font-semibold text-slate-800">
+            <div class="border-b border-slate-100 px-5 py-4 dark:border-neutral-700">
+                <h5 class="text-sm font-semibold text-slate-800 dark:text-neutral-100">
                     {{ $t("dropdown.notifications") }}
                 </h5>
             </div>
@@ -76,14 +76,14 @@ const handleLink = (url, notification_id) => {
                     </li>
                 </template>
             </ul>
-            <p v-else class="text-center text-sm p-4">
+            <p v-else class="p-4 text-center text-sm text-slate-600 dark:text-neutral-300">
                 {{ $t("dropdown.no_notifications") }}
             </p>
 
             <Link
                 @click="dropdownOpen = false"
                 :href="route('notifications.index')"
-                class="mt-auto block rounded-b-xl border-t border-slate-100 bg-slate-50 p-3 text-center text-sm font-medium text-primary transition-colors hover:bg-slate-100"
+                class="mt-auto block rounded-b-xl border-t border-slate-100 bg-slate-50 p-3 text-center text-sm font-medium text-primary transition-colors hover:bg-slate-100 dark:border-neutral-700 dark:bg-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-600"
             >
                 {{ $t("dropdown.see_all") }}
             </Link>

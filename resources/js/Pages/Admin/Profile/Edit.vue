@@ -15,14 +15,14 @@ defineProps({
     <PageHeader :page-title="$t('Profile')" />
     <div class="py-6">
         <div class="max-w-7xl space-y-5">
-            <div class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.06)] sm:p-8">
+            <div class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.06)] sm:p-8 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/30">
                 <UpdateProfileInformationForm
                     :status="status"
                     class="max-w-xl"
                 />
             </div>
 
-            <div class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.06)] sm:p-8">
+            <div class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.06)] sm:p-8 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/30">
                 <UpdatePasswordForm class="max-w-xl" />
             </div>
         </div>

@@ -19,7 +19,7 @@ onClickOutside(target, () => {
 
 <template>
     <aside
-        class="absolute top-0 z-9999 flex h-screen w-72.5 flex-col overflow-visible bg-primary duration-300 ease-linear lg:static"
+        class="absolute top-0 z-9999 flex h-screen w-72.5 flex-col overflow-visible bg-primary duration-300 ease-linear dark:bg-[#303030] lg:static"
         :class="{
             'lg:w-[4.5rem]': sidebarStore.isCollapsed,
             'lg:w-72.5': !sidebarStore.isCollapsed,

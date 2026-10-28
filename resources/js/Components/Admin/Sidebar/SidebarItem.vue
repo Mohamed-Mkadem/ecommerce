@@ -130,7 +130,7 @@ const toggleDropDown = (e) => {
             <div
                 v-if="item.children && collapsed && flyoutOpen"
                 ref="flyout"
-                class="fixed z-999999 hidden max-h-[calc(100vh-1rem)] min-w-52 overflow-y-auto rounded-md bg-primary p-3 shadow-xl lg:block"
+                class="fixed z-999999 hidden max-h-[calc(100vh-1rem)] min-w-52 overflow-y-auto rounded-md bg-primary p-3 shadow-xl dark:bg-neutral-700 lg:block"
                 :style="flyoutStyle"
                 @mouseenter="keepFlyoutOpen"
                 @mouseleave="scheduleFlyoutClose"

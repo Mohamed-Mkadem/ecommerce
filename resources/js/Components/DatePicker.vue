@@ -36,7 +36,7 @@ onMounted(() => {
     <div class="relative">
         <input
             ref="inputRef"
-            class="rounded-md border-editor shadow-sm focus:border-primary focus:ring-primary datepicker w-full border-[1.5px] px-2 py-1 h-[40px] font-normal outline-none transition mt-1 text-primary active:border-primary cursor-pointer"
+            class="rounded-md border-editor shadow-sm focus:border-primary focus:ring-primary datepicker w-full border-[1.5px] px-2 py-1 h-[40px] font-normal outline-none transition mt-1 text-primary active:border-primary cursor-pointer dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:placeholder:text-neutral-400"
             placeholder="mm/dd/yyyy"
             data-class="flatpickr-right"
             :disabled="props.disabled"

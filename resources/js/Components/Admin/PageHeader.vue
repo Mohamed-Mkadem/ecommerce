@@ -5,11 +5,11 @@ const props = defineProps(["pageTitle"]);
 
 <template>
     <div
-        class="mb-6 flex flex-col gap-3 sm:justify-between sm:flex-row items-center"
+        class="mb-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-between"
     >
         <div>
             <h1
-                class="text-3xl font-semibold text-slate-500 text-center sm:text-start"
+                class="text-2xl font-semibold tracking-tight text-primary text-center dark:text-neutral-100 sm:text-start"
             >
                 {{ props.pageTitle }}
             </h1>
