@@ -48,8 +48,8 @@ function submitForm() {
         max-width="2xl"
         padding-classes="p-0"
         :panel-classes="appearanceStore.isDark
-            ? 'dark w-[calc(100vw-2rem)] md:w-[800px] !max-w-[calc(100vw-2rem)] max-h-[calc(100vh-2rem)] overflow-y-auto rounded-2xl border border-neutral-700 bg-neutral-800 text-neutral-100 shadow-2xl lg:ltr:-translate-x-[9.0625rem] lg:rtl:translate-x-[9.0625rem]'
-            : 'w-[calc(100vw-2rem)] md:w-[800px] !max-w-[calc(100vw-2rem)] max-h-[calc(100vh-2rem)] overflow-y-auto rounded-2xl border border-slate-200 bg-white text-slate-800 shadow-2xl lg:ltr:-translate-x-[9.0625rem] lg:rtl:translate-x-[9.0625rem]'"
+            ? 'dark w-[calc(100vw-2rem)] md:w-[800px] !max-w-[calc(100vw-2rem)] max-h-70 md:max-h-115 overflow-y-auto rounded-2xl border border-neutral-700 bg-neutral-800 text-neutral-100 shadow-2xl lg:ltr:-translate-x-[9.0625rem] lg:rtl:translate-x-[9.0625rem]'
+            : 'w-[calc(100vw-2rem)] md:w-[800px] !max-w-[calc(100vw-2rem)] max-h-70 md:max-h-115 overflow-y-auto rounded-2xl border border-slate-200 bg-white text-slate-800 shadow-2xl lg:ltr:-translate-x-[9.0625rem] lg:rtl:translate-x-[9.0625rem]'"
     >
         <div class="p-5 sm:p-6">
             <div class="mb-5 flex items-center justify-between gap-4 border-b border-slate-100 pb-4 dark:border-neutral-700">
