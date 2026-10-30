@@ -3,6 +3,7 @@ use App\Models\Shipper;
 import NotFound from "@/js/Components/NotFound.vue";
 import Paginator from "@/js/Components/Paginator.vue";
 import PageHeader from "@/js/Components/Admin/PageHeader.vue";
+import ResultsCounter from "@/js/Components/Admin/ResultsCounter.vue";
 import InputLabel from "@/js/Components/InputLabel.vue";
 import TextInput from "@/js/Components/TextInput.vue";
 import SelectInput from "@/js/Components/SelectInput.vue";
@@ -68,14 +69,15 @@ onMounted(() => {
     <PageHeader :page-title="$t('NRP')"> </PageHeader>
 
     <!-- Filters Start -->
-    <div
-        class="mb-8 rounded-2xl border border-slate-200/80 bg-white px-5 py-6 shadow-[0_8px_30px_rgba(15,23,42,0.06)] sm:px-6 sm:py-7 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/30"
-    >
-        <h2
-            class="mb-5 text-xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100"
-        >
-            {{ $t("Filter.title") }}
-        </h2>
+    <section class="mb-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20">
+        <div class="mb-6 flex items-start gap-3 border-b border-slate-100 pb-4 dark:border-neutral-700">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-lg text-slate-600 dark:bg-neutral-700 dark:text-neutral-200">
+                <i class="ri-filter-3-line" aria-hidden="true"></i>
+            </span>
+            <h2 class="pt-1.5 text-lg font-semibold tracking-tight text-slate-800 dark:text-neutral-100">
+                {{ $t("Filter.title") }}
+            </h2>
+        </div>
 
         <form
             @submit.prevent="submitForm"
@@ -232,7 +234,7 @@ onMounted(() => {
                     }"
                     type="Submit"
                     :value="$t('Filter.value')"
-                    class="w-full cursor-pointer rounded-xl border border-teal-700 bg-teal-700 px-5 py-2.5 font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-teal-700/90 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-700/40 disabled:cursor-not-allowed disabled:opacity-50 sm:w-1/4"
+                    class="w-full cursor-pointer rounded-xl border border-teal-700 bg-teal-700 px-5 py-2.5 font-medium text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-opacity-90 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/40 disabled:cursor-not-allowed disabled:opacity-60 sm:w-1/4"
                 />
                 <input
                     :disabled="formIsResetting || form.processing"
@@ -242,16 +244,14 @@ onMounted(() => {
                     }"
                     type="reset"
                     :value="$t('form.reset')"
-                    class="w-full cursor-pointer rounded-xl border border-neutral-500 bg-neutral-500 px-5 py-2.5 font-semibold text-white shadow-sm transition hover:bg-neutral-600 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500/40 disabled:cursor-not-allowed disabled:opacity-50 sm:w-1/4 dark:border-neutral-600 dark:bg-neutral-700 dark:hover:bg-neutral-600"
+                    class="w-full cursor-pointer rounded-xl border border-neutral-300 bg-neutral-100 px-5 py-2.5 font-medium text-neutral-700 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-neutral-200 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400/50 disabled:cursor-not-allowed disabled:opacity-60 sm:w-1/4 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-600"
                 />
             </div>
         </form>
-    </div>
+    </section>
     <!-- Filters End -->
 
-    <h2 class="my-6 text-xl font-semibold text-primary dark:text-neutral-100">
-        {{ $t("Results") }} : {{ nrps.meta.total }}
-    </h2>
+    <ResultsCounter :count="nrps.meta.total" icon="ri-phone-line" />
 
     <div v-if="nrps.data.length">
         <div
