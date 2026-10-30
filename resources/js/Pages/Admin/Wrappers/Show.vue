@@ -66,15 +66,15 @@ function deleteWrapper() {
         <div v-if="page.props.auth.user.role === 'admin'" class="flex flex-wrap items-center gap-3">
             <Link
                 :href="route('wrappers.edit', wrapper.slug)"
-                class="bg-slate-500 text-white px-3 py-2 rounded-md hover:bg-opacity-75 flex items-center gap-2"
+                class="inline-flex items-center gap-2 rounded-xl bg-slate-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900"
             >
+                <i class="ri-edit-line" aria-hidden="true"></i>
                 <span>{{ $t("Edit") }}</span>
-                <i class="ri-edit-line"></i>
             </Link>
             <button
                 type="button"
                 @click="deleteWrapper"
-                class="bg-red-500 text-white px-3 py-2 rounded-md hover:bg-opacity-75 flex items-center gap-2"
+                class="inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900"
             >
                 <span>{{ $t("Delete") }}</span>
                 <i class="ri-delete-bin-line"></i>
@@ -83,41 +83,41 @@ function deleteWrapper() {
     </PageHeader>
 
     <div
-        class="bg-white p-4 md:p-6 rounded-md shadow-1 md:grid md:grid-cols-[320px,_1fr] lg:grid-cols-[380px,_1fr] gap-6 lg:gap-8"
+        class="grid gap-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20 sm:p-6 lg:grid-cols-[minmax(280px,380px)_minmax(0,1fr)] lg:gap-8"
     >
         <div>
             <img
                 :src="currentImage"
                 :alt="wrapper.title"
-                class="rounded-2xl mx-auto w-full  shadow-lg object-contain"
+                class="mx-auto max-h-[520px] w-full rounded-xl bg-slate-50 object-contain p-3 dark:bg-neutral-900/50"
             />
             <div
                 v-if="wrapper.media && wrapper.media.length > 0"
-                class="grid grid-cols-[repeat(4,_minmax(50px,_100px))] justify-between gap-2  mt-4"
+                class="mt-4 grid grid-cols-4 gap-2 sm:grid-cols-5"
             >
                 <div
                     v-for="img in wrapper.media"
                     :key="img.id"
-                    class="cursor-pointer border-2 rounded p-0.5 transition-all"
+                    class="cursor-pointer rounded-lg border-2 p-1 transition-all"
                     :class="{
-                        'border-primary': currentImage === img.url,
-                        'border-neutral-200 hover:border-neutral-300': currentImage !== img.url
+                        'border-teal-700 ring-2 ring-teal-700/15 dark:border-teal-500 dark:ring-teal-500/20': currentImage === img.url,
+                        'border-slate-200 hover:border-slate-400 dark:border-neutral-700 dark:hover:border-neutral-500': currentImage !== img.url
                     }"
                     @click="changeImage(img.url)"
                 >
                     <img
                         :src="img.url"
                         :alt="img.name"
-                        class="w-full rounded-md cursor-pointer"
+                        class="aspect-square w-full rounded-md object-cover"
                     />
                 </div>
             </div>
         </div>
 
         <div>
-            <div class="flex flex-wrap items-center gap-3 mb-4">
+            <div class="mb-5 flex flex-wrap items-center gap-3 border-b border-slate-100 pb-5 dark:border-neutral-700">
                 <span
-                    class="px-3 py-1 rounded-md text-sm font-medium text-white"
+                    class="rounded-lg px-3 py-1.5 text-sm font-semibold text-white"
                     :class="wrapper.is_active ? 'bg-green-600' : 'bg-red-500'"
                 >
                     {{
@@ -126,17 +126,17 @@ function deleteWrapper() {
                             : $t("Wrapper.inactive")
                     }}
                 </span>
-                <span class="text-sm text-neutral-600">
+                <span class="text-sm text-slate-500 dark:text-neutral-400">
                     {{ $t("Wrapper.slug") }}: {{ wrapper.slug }}
                 </span>
             </div>
 
-            <dl class="grid gap-3 sm:grid-cols-2 mb-6">
-                <div>
-                    <dt class="text-sm text-neutral-500">
+            <dl class="mb-6 grid gap-3 sm:grid-cols-2">
+                <div class="rounded-xl bg-slate-50 p-4 dark:bg-neutral-700/60">
+                    <dt class="text-sm font-medium text-slate-500 dark:text-neutral-400">
                         {{ $t("Wrapper.default_variant") }}
                     </dt>
-                    <dd class="font-semibold text-primary">
+                    <dd class="mt-1 font-semibold text-slate-800 dark:text-neutral-100">
                         <template v-if="wrapper.default_product">
                             <Link
                                 :href="
@@ -145,7 +145,7 @@ function deleteWrapper() {
                                         wrapper.default_product.id,
                                     )
                                 "
-                                class="hover:underline"
+                                class="text-sky-700 hover:underline dark:text-sky-400"
                             >
                                 {{ wrapper.default_product.name }}
                             </Link>
@@ -153,59 +153,58 @@ function deleteWrapper() {
                         <span v-else>—</span>
                     </dd>
                 </div>
-                <div>
-                    <dt class="text-sm text-neutral-500">
+                <div class="rounded-xl bg-slate-50 p-4 dark:bg-neutral-700/60">
+                    <dt class="text-sm font-medium text-slate-500 dark:text-neutral-400">
                         {{ trans("Products") }}
                     </dt>
-                    <dd class="font-semibold text-primary">
+                    <dd class="mt-1 font-semibold text-slate-800 dark:text-neutral-100">
                         {{ wrapper.products_count }}
                     </dd>
                 </div>
-                <div>
-                    <dt class="text-sm text-neutral-500">
+                <div class="rounded-xl bg-slate-50 p-4 dark:bg-neutral-700/60">
+                    <dt class="text-sm font-medium text-slate-500 dark:text-neutral-400">
                         {{ $t("Wrapper.created_at") }}
                     </dt>
-                    <dd class="font-semibold text-primary">
+                    <dd class="mt-1 font-semibold text-slate-800 dark:text-neutral-100">
                         {{ wrapper.created_at ?? "—" }}
                     </dd>
                 </div>
             </dl>
 
             <div v-if="wrapper.description" class="mb-6">
-                <h3 class="text-lg font-semibold text-graydark mb-2">
+                <h3 class="mb-2 text-lg font-semibold text-slate-800 dark:text-neutral-100">
                     {{ $t("Wrapper.description") }}
                 </h3>
                 <div
-                    class="text-primary prose prose-sm max-w-none"
+                    class="prose prose-sm max-w-none text-slate-600 dark:prose-invert dark:text-neutral-300"
                     v-html="wrapper.description"
                 ></div>
             </div>
         </div>
     </div>
 
-    <div class="bg-white p-4 md:p-6 rounded-md shadow-1 mt-8">
-        <h2 class="text-xl font-semibold text-graydark mb-4">
+    <section class="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20 sm:p-6">
+        <h2 class="mb-4 text-xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100">
             {{ $t("Wrapper.selected_products") }}
         </h2>
 
-        <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead class="border-b border-neutral-200">
+        <div class="overflow-x-auto rounded-2xl">
+            <table>
+                <thead>
                     <tr>
-                        <th class="px-4 py-3 font-semibold text-graydark">
+                        <th scope="col">
                             {{ $t("Name") }}
                         </th>
-                       
-                        <th class="px-4 py-3 font-semibold text-graydark">
+                        <th scope="col">
                             {{ $t("Product.price") }}
                         </th>
-                        <th class="px-4 py-3 font-semibold text-graydark">
+                        <th scope="col">
                             {{ $t("Wrapper.display_order") }}
                         </th>
-                        <th class="px-4 py-3 font-semibold text-graydark">
+                        <th scope="col">
                             {{ $t("Wrapper.is_default") }}
                         </th>
-                        <th class="px-4 py-3 font-semibold text-graydark">
+                        <th scope="col">
                             {{ $t("Wrapper.free_shipping") }}
                         </th>
                     </tr>
@@ -214,45 +213,43 @@ function deleteWrapper() {
                     <tr
                         v-for="variant in wrapper.variants"
                         :key="variant.id"
-                        class="border-b border-neutral-100 hover:bg-neutral-50"
                         :class="{
-                            'bg-violet-50': variant.is_default,
+                            'bg-slate-50 dark:bg-neutral-700/40': variant.is_default,
                         }"
                     >
-                        <td class="px-4 py-3">
+                        <td>
                             <div class="flex items-center gap-3">
                                 <img
                                     :src="ProductImagePlaceholder"
                                     :alt="variant.name"
-                                    class="w-12 h-12 rounded object-cover flex-shrink-0"
+                                    class="h-12 w-12 shrink-0 rounded-lg object-cover"
                                 />
                                 <Link
                                     :href="route('products.show', variant.id)"
-                                    class="font-medium text-primary hover:underline"
+                                    class="font-medium text-sky-700 hover:underline dark:text-sky-400"
                                 >
                                     {{ variant.name }}
                                 </Link>
                             </div>
                         </td>
-                       
-                        <td class="px-4 py-3">
+                        <td>
                             {{ variant.price }}
                             {{ $t("Product.currency") }}
                         </td>
-                        <td class="px-4 py-3 text-center">
+                        <td class="text-center">
                             {{ variant.display_order + 1 }}
                         </td>
-                        <td class="px-4 py-3 text-center">
+                        <td class="text-center">
                             <i
                                 v-if="variant.is_default"
                                 class="ri-check-line text-xl text-green-600"
                             ></i>
                             <span v-else class="text-neutral-400">—</span>
                         </td>
-                        <td class="px-4 py-3 text-center">
+                        <td class="text-center">
                             <i
                                 v-if="variant.free_shipping"
-                                class="ri-truck-line text-xl text-sky-700"
+                                class="ri-truck-line text-xl text-sky-700 dark:text-sky-400"
                             ></i>
                             <span v-else class="text-neutral-400">—</span>
                         </td>
@@ -260,5 +257,5 @@ function deleteWrapper() {
                 </tbody>
             </table>
         </div>
-    </div>
+    </section>
 </template>

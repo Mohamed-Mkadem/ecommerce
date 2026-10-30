@@ -1,6 +1,7 @@
 <script setup>
 import PageHeader from "@/js/Components/Admin/PageHeader.vue";
 import CreateNew from "@/js/Components/CreateNew.vue";
+import ResultsCounter from "@/js/Components/Admin/ResultsCounter.vue";
 import Card from "./Partials/Card.vue";
 import NotFound from "@/js/Components/NotFound.vue";
 import { usePage } from "@inertiajs/vue3";
@@ -37,9 +38,7 @@ onMounted(() => {
         />
     </PageHeader>
 
-    <h2 class="my-2 font-medium text-sky-900 text-xl">
-        {{ $t("Results") }} : {{ wrappers.length }}
-    </h2>
+    <ResultsCounter :count="wrappers.length" icon="ri-gift-line" />
 
     <div v-if="wrappers.length">
         <div
