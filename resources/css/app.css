@@ -48,11 +48,19 @@
 }
 
 .admin-layout table th {
-    @apply whitespace-nowrap px-4 py-3 text-start font-semibold;
+    @apply whitespace-nowrap px-4 py-3 text-center font-semibold;
 }
 
 .admin-layout table td {
-    @apply border-t border-slate-100 px-4 py-3 text-start align-middle;
+    @apply border-t border-slate-100 px-4 py-3 text-center align-middle;
+}
+
+.admin-layout table th:first-child {
+    @apply text-start;
+}
+
+.admin-layout table td:first-child {
+    @apply text-start;
 }
 
 .dark .admin-layout table td {
