@@ -1,7 +1,7 @@
 <script setup>
 import PageHeader from "@/js/Components/Admin/PageHeader.vue";
 import { usePage, router } from "@inertiajs/vue3";
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import Swal from "sweetalert2";
 import { trans } from "laravel-vue-i18n";
 import Activities from "@/js/Components/Admin/Activities.vue";
@@ -37,71 +37,95 @@ const deleteProduct = () => {
 </script>
 
 <template>
-
     <Head :title="product.name" />
-    <PageHeader :pageTitle="product.name">
-        <div v-if="$page.props.auth.user.role === 'admin'" class="flex items-center gap-4">
-            <Link :href="route('products.edit', product)"
-                class="bg-slate-500 text-white px-3 py-2 rounded-md hover:bg-opacity-75">{{ $t("Edit") }}</Link>
-            <button @click="deleteProduct(product.id)"
-                class="bg-red-500 text-white px-3 py-2 rounded-md hover:bg-opacity-75">
+    <PageHeader :page-title="product.name">
+        <div v-if="$page.props.auth.user.role === 'admin'" class="flex flex-wrap items-center gap-3">
+            <Link
+                :href="route('products.edit', product)"
+                class="inline-flex items-center gap-2 rounded-xl bg-slate-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900"
+            >
+                <i class="ri-edit-line" aria-hidden="true"></i>
+                {{ $t("Edit") }}
+            </Link>
+            <button
+                @click="deleteProduct(product.id)"
+                class="inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900"
+            >
+                <i class="ri-delete-bin-line" aria-hidden="true"></i>
                 {{ $t("Delete") }}
             </button>
         </div>
     </PageHeader>
-    <div class="bg-white p-4 rounded-md shadow-1 md:grid md:grid-cols-[350px,_1fr] md:gap-4 lg:gap-8">
-        <div>
-            <div>
-                <img :src="product.main_image_url" :alt="product.name" class="rounded-lg mx-auto" />
+    <div class="grid gap-6 lg:grid-cols-[minmax(280px,380px)_minmax(0,1fr)]">
+        <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20">
+            <div class="flex min-h-72 items-center justify-center overflow-hidden rounded-xl bg-slate-50 p-4 dark:bg-neutral-900/50">
+                <img
+                    :src="product.main_image_url"
+                    :alt="product.name"
+                    class="max-h-[480px] w-full rounded-lg object-contain"
+                />
             </div>
-        </div>
-        <div class="mt-4 md:mt-0">
-            <h2 class="text-3xl text-primary font-semibold mt-2 mb-4">
-                {{ product.name }}
-            </h2>
-            <div v-if="product.wrapper" class="flex items-center gap-3 mb-4">
-                <i class="ri-archive-line text-2xl text-slate-400" aria-hidden="true"></i>
-                <Link
-                    :href="product.wrapper.url"
-                    class="inline-flex items-center gap-1 font-medium text-primary hover:text-meta-5 hover:underline transition-colors"
-                >
-                    {{ product.wrapper.title }}
-                    <i class="ri-external-link-line" aria-hidden="true"></i>
-                </Link>
-            </div>
-            <p class="text-2xl font-semibold text-meta-1 mb-4">
-                {{ product.price }} {{ $t("Product.currency") }}
-            </p>
+        </section>
 
-            <div class="flex items-center gap-3">
-                <i class="ri-shopping-cart-line text-2xl text-slate-400"></i>
-                <p class="text-primary">
-                    {{ product.orders_count }}
-                </p>
+        <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20">
+            <div class="border-b border-slate-100 pb-5 dark:border-neutral-700">
+                <h2 class="text-2xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100 sm:text-3xl">
+                    {{ product.name }}
+                </h2>
+                <div v-if="product.wrapper" class="mt-3 flex items-center gap-2 text-slate-500 dark:text-neutral-400">
+                    <i class="ri-archive-line text-lg" aria-hidden="true"></i>
+                    <Link
+                        :href="product.wrapper.url"
+                        class="inline-flex items-center gap-1 font-medium text-sky-700 transition-colors hover:text-sky-800 hover:underline dark:text-sky-400 dark:hover:text-sky-300"
+                    >
+                        {{ product.wrapper.title }}
+                        <i class="ri-external-link-line" aria-hidden="true"></i>
+                    </Link>
+                </div>
             </div>
 
-            <div class="flex items-center gap-3">
-                <i class="ri-discount-percent-line text-2xl text-slate-400"></i>
-                <p class="text-primary">
-                    {{ $t("Discount.type") }} :
-                    {{ $t(product.discount_type) }}
+            <div class="mt-5 rounded-xl bg-slate-50 p-4 dark:bg-neutral-700/60">
+                <p class="text-sm font-medium text-slate-500 dark:text-neutral-400">
+                    {{ $t("Product.price") }}
+                </p>
+                <p class="mt-1 text-2xl font-bold tracking-tight text-slate-800 dark:text-neutral-100">
+                    {{ product.price }} {{ $t("Product.currency") }}
                 </p>
             </div>
-            <div class="flex items-center gap-3">
-                <i class="ri-discount-percent-line text-2xl text-slate-400"></i>
-                <p class="text-primary">
-                    {{ $t("Discount.value") }} :
-                    {{
-                        `${product.discount} ${product.discount_type == "percentage" ? "%" : $t("currency")}`
-                    }}
-                </p>
-            </div>
-        </div>
+
+            <dl class="mt-5 grid gap-3 sm:grid-cols-2">
+                <div class="rounded-xl border border-slate-100 p-4 dark:border-neutral-700">
+                    <dt class="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-neutral-400">
+                        <i class="ri-shopping-cart-line" aria-hidden="true"></i>
+                        {{ $t("Orders") }}
+                    </dt>
+                    <dd class="mt-1 text-lg font-semibold text-slate-800 dark:text-neutral-100">
+                        {{ product.orders_count }}
+                    </dd>
+                </div>
+                <div class="rounded-xl border border-slate-100 p-4 dark:border-neutral-700">
+                    <dt class="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-neutral-400">
+                        <i class="ri-discount-percent-line" aria-hidden="true"></i>
+                        {{ $t("Discount.type") }}
+                    </dt>
+                    <dd class="mt-1 text-lg font-semibold text-slate-800 dark:text-neutral-100">
+                        {{ $t(product.discount_type) }}
+                    </dd>
+                </div>
+                <div class="rounded-xl border border-slate-100 p-4 dark:border-neutral-700 sm:col-span-2">
+                    <dt class="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-neutral-400">
+                        <i class="ri-price-tag-3-line" aria-hidden="true"></i>
+                        {{ $t("Discount.value") }}
+                    </dt>
+                    <dd class="mt-1 text-lg font-semibold text-slate-800 dark:text-neutral-100">
+                        {{ `${product.discount} ${product.discount_type == "percentage" ? "%" : $t("currency")}` }}
+                    </dd>
+                </div>
+            </dl>
+        </section>
     </div>
 
-    <section>
-        <Activities :activities="activities" :withLinks="false" class="mt-8" />
-    </section>
+    <Activities :activities="activities" :with-links="false" class="mt-6" />
 </template>
 
 <style>

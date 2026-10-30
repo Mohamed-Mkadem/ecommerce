@@ -14,8 +14,8 @@ const props = defineProps({
 });
 </script>
 <template>
-    <div class="bg-white rounded-lg shadow-1 p-4 mt-4">
-        <h2 class="font-bold text-sky-800 mb-4 text-2xl">
+    <div class="mt-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20 sm:p-6">
+        <h2 class="mb-4 text-xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100">
             {{ $t("Activities") }}
         </h2>
 
@@ -23,12 +23,12 @@ const props = defineProps({
             <div
                 v-for="(activity, index) in activities.data"
                 :key="index"
-                class="border-b border-slate-200 py-2"
+                class="border-b border-slate-100 py-3 last:border-b-0 dark:border-neutral-700"
             >
                 <Activity :activity="activity" :withLinks="props.withLinks" />
             </div>
             <Paginator
-                class="mt-8"
+                class="mt-6"
                 :links="activities.meta.links"
                 :previous="activities.links.prev"
                 :next="activities.links.next"
