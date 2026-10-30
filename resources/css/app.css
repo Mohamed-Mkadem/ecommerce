@@ -35,7 +35,7 @@
     @apply w-full border-separate border-spacing-0 rounded-2xl border border-slate-200 bg-white text-start text-sm text-slate-700 shadow-sm;
 }
 
-.admin-layout.dark table {
+.dark .admin-layout table {
     @apply border-neutral-700 bg-neutral-800 text-neutral-200;
 }
 
@@ -43,7 +43,7 @@
     @apply bg-slate-50 text-sm font-semibold tracking-wide text-slate-600;
 }
 
-.admin-layout.dark table thead {
+.dark .admin-layout table thead {
     @apply bg-neutral-700 text-neutral-200;
 }
 
@@ -55,7 +55,7 @@
     @apply border-t border-slate-100 px-4 py-3 text-start align-middle;
 }
 
-.admin-layout.dark table td {
+.dark .admin-layout table td {
     @apply border-neutral-700;
 }
 
@@ -63,7 +63,7 @@
     @apply transition-colors hover:bg-slate-50;
 }
 
-.admin-layout.dark table tbody tr:hover {
+.dark .admin-layout table tbody tr:hover {
     @apply bg-neutral-700/50;
 }
 

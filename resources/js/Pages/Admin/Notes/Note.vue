@@ -45,10 +45,10 @@ function deleteNote(note) {
                     class="w-13 rounded-full"
                 />
                 <div>
-                    <p class="text-sky-800 text-lg font-semibold">
+                    <p class="text-lg font-semibold text-slate-800 dark:text-neutral-100">
                         {{ `${note.user.first_name} ${note.user.last_name}` }}
                     </p>
-                    <small class="text-neutral-500">
+                    <small class="text-sm text-slate-500 dark:text-neutral-400">
                         {{ note.created_at }}
                     </small>
                 </div>
@@ -62,19 +62,19 @@ function deleteNote(note) {
             >
                 <ModalLink
                     :href="route('notes.edit', note)"
-                    class="bg-slate-700 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90"
+                    class="rounded-lg bg-slate-600 px-2 py-1 text-xl text-white transition hover:bg-slate-700 dark:bg-neutral-700 dark:hover:bg-neutral-600"
                 >
                     <i class="ri-edit-line"></i>
                 </ModalLink>
                 <button
                     @click="deleteNote(note)"
-                    class="bg-red-500 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90"
+                    class="rounded-lg bg-red-600 px-2 py-1 text-xl text-white transition hover:bg-red-700"
                 >
                     <i class="ri-delete-bin-5-fill"></i>
                 </button>
             </div>
         </div>
-        <div class="mt-2 py-4 text-primary font-medium">
+        <div class="mt-2 border-b border-slate-100 py-4 font-medium text-slate-700 dark:border-neutral-700 dark:text-neutral-200">
             {{ note.content }}
         </div>
     </div>

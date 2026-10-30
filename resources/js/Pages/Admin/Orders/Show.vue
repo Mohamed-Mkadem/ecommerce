@@ -7,6 +7,7 @@ import { router, useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toastification";
 import Notes from "@/js/Pages/Admin/Notes/Notes.vue";
 import OrderActivity from "@/js/Pages/Admin/Orders/partials/OrderActivity.vue";
+import CreateNewModal from "@/js/Components/CreateNewModal.vue";
 const toast = useToast();
 const props = defineProps(["order"]);
 
@@ -99,7 +100,7 @@ function markAsNrp() {
     <PageHeader :page-title="`${$t('Order Details')} : #${order.data.id}`">
         <div class="flex items-center gap-4">
             <a
-                class="bg-sky-800 text-white px-3 py-2 rounded-md hover:bg-opacity-75"
+                class="inline-flex items-center gap-2 rounded-xl bg-sky-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900"
                 v-if="
                     order.data.status == 'shipped' ||
                     order.data.status == 'confirmed'
@@ -117,7 +118,7 @@ function markAsNrp() {
                 "
                 :close-button="false"
                 :href="route('orders.edit', order.data)"
-                class="bg-slate-500 text-white px-3 py-2 rounded-md hover:bg-opacity-75"
+                class="inline-flex items-center gap-2 rounded-xl bg-slate-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900"
             >
                 <i class="ri-edit-line"></i>
                 {{ $t("Edit") }}
@@ -125,21 +126,23 @@ function markAsNrp() {
 
             <button
                 @click="deleteOrder(order.data)"
-                class="bg-red-500 text-white px-3 py-2 rounded-md hover:bg-opacity-75"
+                class="inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900"
             >
                 {{ $t("Delete") }}
             </button>
         </div>
     </PageHeader>
 
-    <div class="flex items-center justify-center gap-3 mb-8">
+    <div
+        class="mb-6 flex flex-wrap items-center justify-start gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20"
+    >
         <button
             v-if="
                 order.data.status == 'pending' ||
                 order.data.status == 'abandoned'
             "
             @click="markAsNrp()"
-            class="bg-sky-800 text-white px-3 py-2 rounded-md hover:bg-opacity-75 flex items-center gap-1"
+            class="inline-flex items-center gap-2 rounded-xl bg-sky-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-800"
         >
             {{ $t("Mark as NRP") }}
             <span v-if="order.data.nrp && order.data.nrp.tries > 0">
@@ -152,7 +155,7 @@ function markAsNrp() {
                 order.data.status == 'abandoned'
             "
             @click="updateStatus('confirmed')"
-            class="bg-green-600 text-white px-3 py-2 rounded-md hover:bg-opacity-75"
+            class="rounded-xl bg-green-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-60"
             :disabled="!order.data.locality || !order.data.shipper"
             :class="{
                 'bg-opacity-65': !order.data.locality || !order.data.shipper,
@@ -163,21 +166,21 @@ function markAsNrp() {
         <button
             v-if="order.data.status == 'confirmed'"
             @click="updateStatus('shipped')"
-            class="bg-yellow-600 text-white px-3 py-2 rounded-md hover:bg-opacity-75"
+            class="rounded-xl bg-yellow-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-yellow-700"
         >
             {{ $t("Ship Order") }}
         </button>
         <button
             v-if="order.data.status == 'shipped'"
             @click="updateStatus('delivered')"
-            class="bg-green-600 text-white px-3 py-2 rounded-md hover:bg-opacity-75"
+            class="rounded-xl bg-green-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700"
         >
             {{ $t("Deliver Order") }}
         </button>
         <button
             v-if="order.data.status == 'shipped'"
             @click="updateStatus('returned')"
-            class="bg-indigo-600 text-white px-3 py-2 rounded-md hover:bg-opacity-75"
+            class="rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
         >
             {{ $t("Return Order") }}
         </button>
@@ -189,18 +192,22 @@ function markAsNrp() {
                 order.data.status != 'delivered'
             "
             @click="updateStatus('canceled')"
-            class="bg-red-600 text-white px-3 py-2 rounded-md hover:bg-opacity-75"
+            class="rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700"
         >
             {{ $t("Cancel Order") }}
         </button>
     </div>
 
-    <div class="bg-white rounded-md shadow-3 p-4">
-        <h2 class="text-neutral-600 text-2xl mb-2 font-semibold">
+    <div
+        class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20"
+    >
+        <h2
+            class="mb-4 text-xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100"
+        >
             {{ $t("Order Information") }}
         </h2>
 
-        <div class="text-sky-700">
+        <div class="space-y-4 text-slate-700 dark:text-neutral-200">
             <Status :status="order.data.status" class="px-2 py-1 w-max mb-2" />
             <div class="flex gap-2 items-center">
                 <i class="ri-user-line text-2xl text-slate-400"></i>
@@ -208,7 +215,7 @@ function markAsNrp() {
                     <Link
                         v-if="order.data.client.deleted_at == null"
                         :href="route('clients.show', order.data.client)"
-                        class="text-lg font-medium block hover:text-slate-500 hover:underline"
+                        class="block text-base font-semibold text-sky-700 transition hover:text-sky-800 hover:underline dark:text-sky-400 dark:hover:text-sky-300 sm:text-lg"
                     >
                         {{ order.data.client_name }}
                     </Link>
@@ -218,18 +225,25 @@ function markAsNrp() {
                             ({{ $t("Deleted") }})
                         </small>
                     </p>
-                    <span class="text-sm text-slate-500">
+                    <span class="text-sm text-slate-500 dark:text-neutral-400">
                         ({{ order.data.client.orders_count ?? 0 }}
                         {{ $t("orders") }})
                     </span>
-                         <span
-                        v-if="order.data.client.delivery_rate !== null && order.data.client.delivery_rate !== undefined"
+                    <span
+                        v-if="
+                            order.data.client.delivery_rate !== null &&
+                            order.data.client.delivery_rate !== undefined
+                        "
                         :title="$t('client.delivery_rate_tooltip')"
                         class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold"
                         :class="{
-                            'bg-green-100 text-green-800': order.data.client.delivery_rate >= 70,
-                            'bg-yellow-100 text-yellow-800': order.data.client.delivery_rate >= 40 && order.data.client.delivery_rate < 70,
-                            'bg-red-100 text-red-800': order.data.client.delivery_rate < 40,
+                            'bg-green-100 text-green-800':
+                                order.data.client.delivery_rate >= 70,
+                            'bg-yellow-100 text-yellow-800':
+                                order.data.client.delivery_rate >= 40 &&
+                                order.data.client.delivery_rate < 70,
+                            'bg-red-100 text-red-800':
+                                order.data.client.delivery_rate < 40,
                         }"
                     >
                         <i class="ri-truck-line"></i>
@@ -237,7 +251,7 @@ function markAsNrp() {
                     </span>
                     <span
                         v-else
-                        class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-500"
+                        class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-500 dark:bg-neutral-700 dark:text-neutral-300"
                         :title="$t('client.delivery_rate_tooltip')"
                     >
                         <i class="ri-truck-line"></i>
@@ -260,10 +274,15 @@ function markAsNrp() {
 
             <div class="flex gap-2 items-center">
                 <i class="ri-money-dollar-box-line text-2xl text-slate-400"></i>
-                <p class="text-red font-semibold text-2xl">
+                <p
+                    class="text-2xl font-bold tracking-tight text-rose-600 dark:text-rose-400"
+                >
                     {{ `${order.data.amount} ${$t("currency")}` }}
                 </p>
-                <p v-if="order.data.coupon" class="text-neutral-600">
+                <p
+                    v-if="order.data.coupon"
+                    class="text-sm text-slate-600 dark:text-neutral-300"
+                >
                     {{
                         `: "${order.data.coupon.code}" ${$t("applied")} (${order.data.coupon.value}%)`
                     }}
@@ -335,9 +354,13 @@ function markAsNrp() {
         </div>
     </div>
 
-    <div class="bg-white rounded-md shadow-3 p-4 mt-12">
+    <div
+        class="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20"
+    >
         <div class="flex justify-between items-center gap-3 flex-wrap">
-            <h2 class="text-neutral-600 text-2xl mb-2 font-semibold">
+            <h2
+                class="mb-2 text-xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100"
+            >
                 {{ $t("Products") }}
             </h2>
             <Link
@@ -345,14 +368,14 @@ function markAsNrp() {
                     order.data.status == 'pending' ||
                     order.data.status == 'abandoned'
                 "
-                class="bg-slate-500 text-white px-3 py-2 rounded-md hover:bg-opacity-75"
+                class="inline-flex items-center gap-2 rounded-xl bg-slate-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-800"
                 :href="route('orders.editProducts', order.data)"
             >
                 {{ $t("Edit") }}
             </Link>
         </div>
         <div
-            class="grid grid-cols-1 :gap-3 border-b border-neutral-200 py-6"
+            class="grid grid-cols-1 gap-3 border-b border-slate-200 py-5 last:border-b-0 dark:border-neutral-700"
             v-for="(product, index) in order.data.products"
             :key="index"
         >
@@ -372,22 +395,23 @@ function markAsNrp() {
                     <div>
                         <component
                             :is="product.deleted_at ? 'h2' : 'Link'"
-                            class="font-semibold text-xl min-[550px]-leading-8"
+                            class="text-lg font-semibold leading-snug sm:text-xl"
                             :class="{
-                                'hover:underline text-primary hover:text-sky-600':
+                                'text-sky-700 hover:text-sky-800 hover:underline dark:text-sky-400 dark:hover:text-sky-300':
                                     !product.deleted_at,
-                                'text-neutral-500': product.deleted_at,
+                                'text-neutral-500 dark:text-neutral-400':
+                                    product.deleted_at,
                             }"
                             :href="route('products.show', product)"
                             v-text="product.name"
                         />
 
                         <p
-                            class="font-medium text-lg min-[550px]-leading-8 text-sky-700"
+                            class="mt-1 text-base font-medium text-slate-700 dark:text-neutral-200 sm:text-lg"
                         >
                             {{ `${product.pivot.price} ${$t("currency")}` }}
 
-                            <span class="text-primary">
+                            <span class="text-slate-500 dark:text-neutral-400">
                                 x{{ product.pivot.quantity }}</span
                             >
                         </p>
@@ -395,7 +419,7 @@ function markAsNrp() {
                 </div>
                 <div class="min-[600px]:justify-self-end">
                     <p
-                        class="text-sky-800 min-[600px]:text-end font-bold text-2xl leading-9 w-full"
+                        class="w-full text-2xl font-bold leading-9 text-slate-800 dark:text-neutral-100 min-[600px]:text-end"
                     >
                         {{ `${product.pivot.sub_total} ${$t("currency")}` }}
                     </p>
@@ -404,33 +428,41 @@ function markAsNrp() {
         </div>
     </div>
 
-    <div class="bg-white rounded-md shadow-3 p-4 mt-12">
-        <h2 class="text-neutral-600 text-2xl mb-4 font-semibold">
+    <div
+        class="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20"
+    >
+        <h2
+            class="mb-4 text-xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100"
+        >
             {{ $t("Latest client orders") }}
         </h2>
 
         <div
             v-if="order.data.client.recent_orders?.length"
-            class="rounded-md border border-slate-200 bg-slate-50 p-4 text-lg text-slate-700"
+            class="rounded-xl border border-slate-200 bg-slate-50 p-4 text-base text-slate-700 dark:border-neutral-700 dark:bg-neutral-900/60 dark:text-neutral-200"
         >
             <ul class="space-y-3">
                 <li
                     v-for="clientOrder in order.data.client.recent_orders"
                     :key="clientOrder.id"
-                    class="flex flex-wrap items-center justify-between gap-3 rounded border px-4 py-3"
+                    class="flex flex-wrap items-center justify-between gap-3 rounded-xl border px-4 py-3 transition-colors"
                     :class="
                         clientOrder.deleted_at
-                            ? 'border-red-200 bg-red-50'
-                            : 'border-slate-200 bg-white'
+                            ? 'border-red-200 bg-red-50 dark:border-red-900/60 dark:bg-red-950/30'
+                            : 'border-slate-200 bg-white dark:border-neutral-700 dark:bg-neutral-800'
                     "
                 >
                     <span class="flex flex-wrap items-center gap-2">
                         <strong>#{{ clientOrder.id }}</strong>
-                        <span class="flex items-center gap-1 text-slate-500">
+                        <span
+                            class="flex items-center gap-1 text-sm text-slate-500 dark:text-neutral-400"
+                        >
                             <i class="ri-calendar-2-line"></i>
                             {{ clientOrder.created_at }}
                         </span>
-                        <span class="flex items-center gap-1 text-slate-500">
+                        <span
+                            class="flex items-center gap-1 text-sm text-slate-500 dark:text-neutral-400"
+                        >
                             <i class="ri-truck-line"></i>
                             {{ clientOrder.delivery_date }}
                         </span>
@@ -441,32 +473,38 @@ function markAsNrp() {
                     </span>
                     <span
                         v-if="clientOrder.deleted_at"
-                        class="ms-auto rounded-full bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-700"
+                        class="ms-auto rounded-full bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-700 dark:bg-red-950/50 dark:text-red-300"
                     >
                         {{ $t("Deleted") }}
                     </span>
                     <span
                         v-else-if="clientOrder.is_current"
-                        class="ms-auto rounded-full bg-sky-100 px-2 py-0.5 text-xs font-semibold text-sky-800"
+                        class="ms-auto rounded-full bg-sky-100 px-2 py-0.5 text-xs font-semibold text-sky-800 dark:bg-sky-950/50 dark:text-sky-300"
                     >
                         {{ $t("Current order") }}
                     </span>
                     <Link
                         v-else
                         :href="clientOrder.url"
-                        class="ms-auto text-sky-700 hover:text-sky-900 hover:underline"
+                        class="ms-auto font-medium text-sky-700 hover:text-sky-800 hover:underline dark:text-sky-400 dark:hover:text-sky-300"
                     >
                         {{ $t("View order") }}
                     </Link>
                 </li>
             </ul>
         </div>
-        <p v-else class="text-slate-500">{{ $t("No other orders found") }}</p>
+        <p v-else class="text-sm text-slate-500 dark:text-neutral-400">
+            {{ $t("No other orders found") }}
+        </p>
     </div>
 
     <div class="mt-12 grid lg:grid-cols-2 gap-4 lg:gap-6">
-        <div class="bg-white rounded-md p-4 shadow-3">
-            <h2 class="text-neutral-600 text-2xl mb-6 font-semibold">
+        <div
+            class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20"
+        >
+            <h2
+                class="mb-6 text-xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100"
+            >
                 {{ $t("Order History") }}
             </h2>
 
@@ -478,22 +516,21 @@ function markAsNrp() {
             </OrderActivity>
         </div>
 
-        <div class="bg-white rounded-md p-4 shadow-3">
+        <div
+            class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20"
+        >
             <div class="flex items-center flex-wrap gap-2 justify-between mb-6">
-                <h2 class="text-neutral-600 text-2xl font-semibold">
+                <h2
+                    class="text-xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100"
+                >
                     {{ $t("Order Notes") }}
                 </h2>
 
-                <ModalLink
-                    :href="
-                        route('notes.newNote', {
-                            id: order.data.id,
-                            type: 'order',
-                        })
-                    "
-                    class="bg-green-500 text-white text-center px-4 py-2 rounded-md hover:bg-opacity-75"
-                    >{{ $t("New Note") }}</ModalLink
-                >
+                <CreateNewModal
+                    href="notes.newNote"
+                    :route-params="{ id: order.data.id, type: 'order' }"
+                    :label="$t('New Note')"
+                />
             </div>
 
             <Notes :notes="order.data.notes" scrollable="true" />

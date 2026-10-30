@@ -1,7 +1,7 @@
 <script setup>
 import SideBar from "@/js/Components/Admin/Sidebar/SideBar.vue";
 import Header from "@/js/Components/Admin/Header/Header.vue";
-import { onMounted, ref, computed } from "vue";
+import { onBeforeUnmount, onMounted, ref, computed, watch } from "vue";
 import { useLanguageStore } from "@/js/stores/Language";
 import { usePage, router } from "@inertiajs/vue3";
 import sound from "@/assets/sounds/notification.wav";
@@ -18,6 +18,19 @@ const cashSoundEffect = new Audio(cashSound);
 const languageStore = useLanguageStore();
 const appearanceStore = useAppearanceStore();
 const notifications = ref([]);
+const hadDarkClassBeforeAdmin =
+    typeof document !== "undefined" &&
+    document.documentElement.classList.contains("dark");
+
+function syncAdminTheme(isDark) {
+    if (typeof document !== "undefined") {
+        document.documentElement.classList.toggle("dark", isDark);
+    }
+}
+
+syncAdminTheme(appearanceStore.isDark);
+watch(() => appearanceStore.isDark, syncAdminTheme);
+onBeforeUnmount(() => syncAdminTheme(hadDarkClassBeforeAdmin));
 
 const getLatestNotifications = async () => {
     await axios
@@ -71,7 +84,7 @@ const handleLink = async (notification_id) => {
 
 <template>
     <!-- ===== Page Wrapper Start ===== -->
-    <div class="admin-layout flex h-screen overflow-hidden container-3xl" :class="{ dark: appearanceStore.isDark }">
+    <div class="admin-layout flex h-screen overflow-hidden container-3xl">
         <!-- ===== Sidebar Start ===== -->
         <SideBar />
         <!-- ===== Sidebar End ===== -->

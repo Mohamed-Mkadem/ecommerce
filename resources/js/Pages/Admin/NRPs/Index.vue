@@ -68,12 +68,20 @@ onMounted(() => {
     <PageHeader :page-title="$t('NRP')"> </PageHeader>
 
     <!-- Filters Start -->
-    <div class="mb-8 rounded-2xl border border-slate-200/80 bg-white px-5 py-6 shadow-[0_8px_30px_rgba(15,23,42,0.06)] sm:px-6 sm:py-7 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/30">
-        <h2 class="mb-5 text-xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100">
+    <div
+        class="mb-8 rounded-2xl border border-slate-200/80 bg-white px-5 py-6 shadow-[0_8px_30px_rgba(15,23,42,0.06)] sm:px-6 sm:py-7 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/30"
+    >
+        <h2
+            class="mb-5 text-xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100"
+        >
             {{ $t("Filter.title") }}
         </h2>
 
-        <form @submit.prevent="submitForm" @reset.prevent="resetForm" class="text-slate-700 dark:text-neutral-200">
+        <form
+            @submit.prevent="submitForm"
+            @reset.prevent="resetForm"
+            class="text-slate-700 dark:text-neutral-200"
+        >
             <div
                 class="flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-center"
             >
@@ -97,11 +105,7 @@ onMounted(() => {
                 <div class="w-full">
                     <InputLabel for="sort" :value="$t('Filter.sort')" />
 
-                    <SelectInput
-                        variant="admin"
-                        v-model="form.sort"
-                        id="sort"
-                    >
+                    <SelectInput variant="admin" v-model="form.sort" id="sort">
                         <option :value="null">
                             {{ $t("Filter.sort") }}
                         </option>
@@ -228,7 +232,7 @@ onMounted(() => {
                     }"
                     type="Submit"
                     :value="$t('Filter.value')"
-                    class="w-full cursor-pointer rounded-xl border border-primary bg-primary px-5 py-2.5 font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-50 sm:w-1/4"
+                    class="w-full cursor-pointer rounded-xl border border-teal-700 bg-teal-700 px-5 py-2.5 font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-teal-700/90 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-700/40 disabled:cursor-not-allowed disabled:opacity-50 sm:w-1/4"
                 />
                 <input
                     :disabled="formIsResetting || form.processing"
@@ -259,36 +263,74 @@ onMounted(() => {
                 :key="nrp.id"
                 class="flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/30"
             >
-                <header class="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-3 dark:border-neutral-700">
+                <header
+                    class="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-3 dark:border-neutral-700"
+                >
                     <div>
-                        <p class="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-neutral-400">{{ $t("Tries") }}</p>
-                        <p class="mt-0.5 text-lg font-semibold text-slate-800 dark:text-neutral-100">{{ nrp.tries }}</p>
+                        <p
+                            class="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-neutral-400"
+                        >
+                            {{ $t("Tries") }}
+                        </p>
+                        <p
+                            class="mt-0.5 text-lg font-semibold text-slate-800 dark:text-neutral-100"
+                        >
+                            {{ nrp.tries }}
+                        </p>
                     </div>
-                    <Link :href="route('orders.show', nrp.order_id)"
+                    <Link
+                        :href="route('orders.show', nrp.order_id)"
                         class="rounded-lg bg-slate-100 p-2 text-lg text-slate-600 transition hover:bg-slate-200 dark:bg-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-600"
-                        :title="$t('View')" :aria-label="$t('View')">
+                        :title="$t('View')"
+                        :aria-label="$t('View')"
+                    >
                         <i class="ri-eye-line"></i>
                     </Link>
                 </header>
 
                 <div class="flex-1 space-y-4 p-4">
-                    <div class="flex items-center gap-3 rounded-xl bg-slate-50 px-3 py-3 dark:bg-neutral-700/60">
-                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white text-xl text-slate-500 dark:bg-neutral-800 dark:text-neutral-300">
-                            <i class="ri-money-dollar-box-line" aria-hidden="true"></i>
+                    <div
+                        class="flex items-center gap-3 rounded-xl bg-slate-50 px-3 py-3 dark:bg-neutral-700/60"
+                    >
+                        <span
+                            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white text-xl text-slate-500 dark:bg-neutral-800 dark:text-neutral-300"
+                        >
+                            <i
+                                class="ri-money-dollar-box-line"
+                                aria-hidden="true"
+                            ></i>
                         </span>
                         <div class="min-w-0">
-                            <p class="text-xs font-medium text-slate-500 dark:text-neutral-400">{{ $t("Amount") }}</p>
-                            <p class="mt-0.5 text-xl font-bold text-primary dark:text-neutral-100">{{ `${nrp.amount} ${$t("currency")}` }}</p>
+                            <p
+                                class="text-xs font-medium text-slate-500 dark:text-neutral-400"
+                            >
+                                {{ $t("Amount") }}
+                            </p>
+                            <p
+                                class="mt-0.5 text-xl font-bold text-primary dark:text-neutral-100"
+                            >
+                                {{ `${nrp.amount} ${$t("currency")}` }}
+                            </p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 text-slate-600 dark:text-neutral-300">
-                        <i class="ri-customer-service-2-fill text-xl text-slate-400 dark:text-neutral-500" aria-hidden="true"></i>
+                    <div
+                        class="flex items-center gap-3 text-slate-600 dark:text-neutral-300"
+                    >
+                        <i
+                            class="ri-customer-service-2-fill text-xl text-slate-400 dark:text-neutral-500"
+                            aria-hidden="true"
+                        ></i>
                         <p dir="ltr" class="text-base font-medium">
                             {{ nrp.phone }}
                         </p>
                     </div>
-                    <div class="flex items-center gap-3 text-slate-600 dark:text-neutral-300">
-                        <i class="ri-calendar-line text-xl text-slate-400 dark:text-neutral-500" aria-hidden="true"></i>
+                    <div
+                        class="flex items-center gap-3 text-slate-600 dark:text-neutral-300"
+                    >
+                        <i
+                            class="ri-calendar-line text-xl text-slate-400 dark:text-neutral-500"
+                            aria-hidden="true"
+                        ></i>
                         <p class="text-sm">{{ nrp.created_at }}</p>
                     </div>
                 </div>

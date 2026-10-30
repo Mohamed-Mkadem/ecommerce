@@ -102,7 +102,7 @@ function submitForm() {
                 }"
                 :disabled="form.processing"
                 type="Submit"
-                class="mt-5 w-full cursor-pointer rounded-xl border border-primary bg-primary px-4 py-3 font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                class="mt-5 w-full cursor-pointer rounded-xl border border-teal-700 bg-teal-700 px-4 py-3 font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-opacity-90 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/40"
             >
                 {{ $t("Orders.import") }}
             </button>

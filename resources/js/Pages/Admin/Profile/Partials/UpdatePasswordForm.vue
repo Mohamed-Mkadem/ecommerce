@@ -114,7 +114,7 @@ const updatePassword = () => {
                     :disabled="form.processing"
                     type="Submit"
                     :value="$t('form.save')"
-                    class="w-full cursor-pointer rounded-xl border border-primary bg-primary px-5 py-2.5 font-medium text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-opacity-90 hover:shadow-md sm:w-1/4"
+                    class="w-full cursor-pointer rounded-xl border border-teal-700 bg-teal-700 px-5 py-2.5 font-medium text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-opacity-90 hover:shadow-md sm:w-1/4"
                 />
 
                 <Transition
