@@ -5,7 +5,9 @@ import Paginator from "@/js/Components/Paginator.vue";
 import Swal from "sweetalert2";
 import InputLabel from "@/js/Components/InputLabel.vue";
 import TextInput from "@/js/Components/TextInput.vue";
+import SelectInput from "@/js/Components/SelectInput.vue";
 import DatePicker from "@/js/Components/DatePicker.vue";
+import ResultsCounter from "@/js/Components/Admin/ResultsCounter.vue";
 import { trans } from "laravel-vue-i18n";
 import { router, useForm } from "@inertiajs/vue3";
 import { onMounted, ref } from "vue";
@@ -99,20 +101,19 @@ onMounted(() => {
     </PageHeader>
 
     <!-- Filters Start -->
-    <div class="bg-white px-4 py-8 rounded-md shadow-1 mb-8">
-        <h2 class="text-2xl mb-4 font-semibold text-graydark">
-            {{ $t("Filter.title") }}
-        </h2>
+    <section class="mb-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20">
+        <div class="mb-6 flex items-start gap-3 border-b border-slate-100 pb-4 dark:border-neutral-700">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-lg text-slate-600 dark:bg-neutral-700 dark:text-neutral-200"><i class="ri-filter-3-line" aria-hidden="true"></i></span>
+            <h2 class="pt-1.5 text-lg font-semibold tracking-tight text-slate-800 dark:text-neutral-100">{{ $t("Filter.title") }}</h2>
+        </div>
 
-        <form @submit.prevent="submitForm" @reset.prevent="resetFrom">
-            <div
-                class="flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-center"
-            >
+        <form @submit.prevent="submitForm" @reset.prevent="resetFrom" class="text-slate-700 dark:text-neutral-200">
+            <div class="grid gap-4 md:grid-cols-2">
                 <div class="w-full">
                     <InputLabel for="search" :value="$t('Filter.search')" />
 
                     <TextInput
-                        class="mt-1 block w-full"
+                        variant="admin"
                         id="search"
                         type="text"
                         v-model="form.search"
@@ -123,11 +124,7 @@ onMounted(() => {
                 <div class="w-full">
                     <InputLabel for="sort" :value="$t('Filter.sort')" />
 
-                    <select
-                        class="w-full mt-1 rounded-md focus:ring-primary focus:border-primary border-editor text-primary"
-                        v-model="form.sort"
-                        id="sort"
-                    >
+                    <SelectInput variant="admin" v-model="form.sort" id="sort">
                         <option value="newest">
                             {{ $t("Sort.newest") }}
                         </option>
@@ -140,20 +137,14 @@ onMounted(() => {
                         <option value="lowest_amount">
                             {{ $t("Sort.lowest_amount") }}
                         </option>
-                    </select>
+                    </SelectInput>
                 </div>
             </div>
-            <div
-                class="flex gap-4 mt-4 flex-col sm:flex-row sm:justify-between sm:items-center"
-            >
+            <div class="mt-4 grid gap-4 md:grid-cols-2">
                 <div class="w-full">
                     <InputLabel for="type" :value="$t('Type')" />
 
-                    <select
-                        class="w-full mt-1 rounded-md focus:ring-primary focus:border-primary border-editor text-primary"
-                        v-model="form.type"
-                        id="type"
-                    >
+                    <SelectInput variant="admin" v-model="form.type" id="type">
                         <option :value="null">{{ $t("All") }}</option>
                         <option value="revenue">
                             {{ $t("revenue") }}
@@ -161,16 +152,12 @@ onMounted(() => {
                         <option value="expense">
                             {{ $t("expense") }}
                         </option>
-                    </select>
+                    </SelectInput>
                 </div>
                 <div class="w-full">
                     <InputLabel for="category" :value="$t('Category')" />
 
-                    <select
-                        class="w-full mt-1 rounded-md focus:ring-primary focus:border-primary border-editor text-primary"
-                        v-model="form.category"
-                        id="category"
-                    >
+                    <SelectInput variant="admin" v-model="form.category" id="category">
                         <option :value="null">{{ $t("All") }}</option>
                         <option value="payments">
                             {{ $t("payments") }}
@@ -187,13 +174,13 @@ onMounted(() => {
                         <option value="other">
                             {{ $t("other") }}
                         </option>
-                    </select>
+                    </SelectInput>
                 </div>
             </div>
 
-            <div class="flex flex-col gap-4 mt-4 lg:flex-row">
-                <div class="flex flex-col gap-4 sm:flex-row w-full">
-                    <div class="mt-1 w-full">
+            <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <div>
                         <InputLabel
                             for="min_amount"
                             :value="$t('Minimum Amount')"
@@ -202,12 +189,12 @@ onMounted(() => {
                             v-model="form.minAmount"
                             id="min_amount"
                             type="number"
-                            class="mt-1 w-full"
+                            variant="admin"
                             :placeholder="$t('in DT')"
                             step="0.01"
                         />
                     </div>
-                    <div class="mt-1 w-full">
+                    <div>
                         <InputLabel
                             for="max_amount"
                             :value="$t('Maximum Amount')"
@@ -216,7 +203,7 @@ onMounted(() => {
                             v-model="form.maxAmount"
                             id="max_amount"
                             type="number"
-                            class="mt-1 w-full"
+                            variant="admin"
                             :placeholder="$t('in DT')"
                             step="0.01"
                         />
@@ -224,7 +211,7 @@ onMounted(() => {
                 </div>
             </div>
 
-            <div class="flex flex-col gap-4 mt-4 sm:flex-row">
+            <div class="mt-4 grid gap-4 sm:grid-cols-2">
                 <div class="w-full">
                     <InputLabel
                         for="min_creationDate"
@@ -232,6 +219,7 @@ onMounted(() => {
                     />
 
                     <DatePicker
+                        variant="admin"
                         id="min_creationDate"
                         v-model="form.minCreationDate"
                         :disabled="false"
@@ -244,6 +232,7 @@ onMounted(() => {
                     />
 
                     <DatePicker
+                        variant="admin"
                         id="max_creationDate"
                         v-model="form.maxCreationDate"
                         :disabled="false"
@@ -251,7 +240,7 @@ onMounted(() => {
                 </div>
             </div>
 
-            <div class="flex gap-4 mt-8">
+            <div class="mt-6 flex flex-col gap-3 border-t border-slate-100 pt-5 sm:flex-row dark:border-neutral-700">
                 <input
                     :disabled="formIsResetting || form.processing"
                     :class="{
@@ -260,7 +249,7 @@ onMounted(() => {
                     }"
                     type="Submit"
                     :value="$t('Filter.value')"
-                    class="w-full sm:w-1/4 cursor-pointer rounded-lg border border-primary bg-primary py-2 px-4 font-medium text-white transition hover:bg-opacity-90"
+                    class="w-full cursor-pointer rounded-xl border border-teal-700 bg-teal-700 px-4 py-2.5 font-semibold text-white transition hover:border-teal-800 hover:bg-teal-800 sm:w-44"
                 />
                 <input
                     :disabled="formIsResetting || form.processing"
@@ -270,19 +259,21 @@ onMounted(() => {
                     }"
                     type="reset"
                     :value="$t('form.reset')"
-                    class="w-full sm:w-1/4 cursor-pointer rounded-lg border border-bodydark bg-bodydark py-2 px-4 font-medium text-white transition hover:bg-opacity-90"
+                    class="w-full cursor-pointer rounded-xl border border-slate-200 bg-slate-100 px-4 py-2.5 font-semibold text-slate-700 transition hover:bg-slate-200 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-600 sm:w-44"
                 />
             </div>
         </form>
-    </div>
+    </section>
     <!-- Filters End -->
+
+    <ResultsCounter :count="invoices.meta.total" icon="ri-receipt-line" />
 
     <div v-if="invoices.data.length">
         <div
             class="grid grid-cols-[repeat(auto-fit,_minmax(min(300px,_100%),_1fr))] gap-4"
         >
             <div
-                class="bg-white rounded p-4 shadow-1"
+                class="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20"
                 v-for="invoice in invoices.data"
                 :key="invoice.id"
             >
@@ -296,11 +287,11 @@ onMounted(() => {
                     >
                         {{ $t(invoice.type) }}
                     </p>
-                    <div class="flex rtl:justify-end items-center gap-2">
+                    <div class="flex items-center gap-2">
                         <ModalLink
                             :close-button="false"
                             :href="route('invoices.show', invoice)"
-                            class="bg-slate-500 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90"
+                            class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition hover:bg-slate-200 dark:bg-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-600"
                         >
                             <i class="ri-eye-line"></i>
                         </ModalLink>
@@ -311,7 +302,7 @@ onMounted(() => {
                             "
                             :close-button="false"
                             :href="route('invoices.edit', invoice)"
-                            class="bg-slate-700 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90"
+                            class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition hover:bg-slate-200 dark:bg-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-600"
                         >
                             <i class="ri-edit-line"></i>
                         </ModalLink>
@@ -321,23 +312,23 @@ onMounted(() => {
                                 'App\\Models\\Invoiceable'
                             "
                             @click="deleteInvoice(invoice)"
-                            class="bg-red-500 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90"
+                            class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-red-50 text-red-600 transition hover:bg-red-100 dark:bg-red-500/15 dark:text-red-300 dark:hover:bg-red-500/25"
                         >
                             <i class="ri-delete-bin-5-fill"></i>
                         </button>
                     </div>
                 </div>
-                <div class="my-4 text-primary text-xl">
-                    <p dir="auto" class="font-medium">{{ invoice.title }}</p>
-                    <p class="">{{ $t(invoice.category) }}</p>
-                    <p class="text-sky-700 font-medium">
+                <div class="my-4 flex-1 text-slate-700 dark:text-neutral-200">
+                    <p dir="auto" class="text-lg font-semibold text-slate-800 dark:text-neutral-100">{{ invoice.title }}</p>
+                    <p class="text-sm text-slate-500 dark:text-neutral-400">{{ $t(invoice.category) }}</p>
+                    <p class="mt-2 text-lg font-semibold text-slate-800 dark:text-neutral-100">
                         {{ `${invoice.amount} ${$t("currency")}` }}
                     </p>
                 </div>
-                <div class="flex gap-2 items-center pt-4 border-t border-gray">
-                    <i class="ri-calendar-line text-2xl text-slate-400"></i>
+                <div class="flex items-center gap-2 border-t border-slate-100 pt-4 text-slate-500 dark:border-neutral-700 dark:text-neutral-400">
+                    <i class="ri-calendar-line text-lg" aria-hidden="true"></i>
 
-                    <p class="text-primary">{{ invoice.created_at }}</p>
+                    <p class="text-sm font-medium text-slate-700 dark:text-neutral-200">{{ invoice.created_at }}</p>
                 </div>
             </div>
         </div>
@@ -347,6 +338,7 @@ onMounted(() => {
             :links="invoices.meta.links"
             :previous="invoices.links.prev"
             :next="invoices.links.next"
+            variant="admin"
         />
     </div>
     <NotFound v-else />
