@@ -37,7 +37,7 @@ function deleteNote(note) {
 }
 </script>
 <template>
-    <div>
+    <div class="mb-4">
         <div class="items-start justify-between flex">
             <div class="flex items-center gap-3">
                 <img
@@ -45,7 +45,9 @@ function deleteNote(note) {
                     class="w-13 rounded-full"
                 />
                 <div>
-                    <p class="text-lg font-semibold text-slate-800 dark:text-neutral-100">
+                    <p
+                        class="text-lg font-semibold text-slate-800 dark:text-neutral-100"
+                    >
                         {{ `${note.user.first_name} ${note.user.last_name}` }}
                     </p>
                     <small class="text-sm text-slate-500 dark:text-neutral-400">
@@ -74,7 +76,9 @@ function deleteNote(note) {
                 </button>
             </div>
         </div>
-        <div class="mt-2 border-b border-slate-100 py-4 font-medium text-slate-700 dark:border-neutral-700 dark:text-neutral-200">
+        <div
+            class="mt-2 border-b border-slate-100 py-4 font-medium text-slate-700 dark:border-neutral-700 dark:text-neutral-200"
+        >
             {{ note.content }}
         </div>
     </div>

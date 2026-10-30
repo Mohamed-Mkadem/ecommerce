@@ -4,6 +4,8 @@ import Paginator from "@/js/Components/Paginator.vue";
 import { useForm } from "@inertiajs/vue3";
 import InputLabel from "@/js/Components/InputLabel.vue";
 import TextInput from "@/js/Components/TextInput.vue";
+import SelectInput from "@/js/Components/SelectInput.vue";
+import ResultsCounter from "@/js/Components/Admin/ResultsCounter.vue";
 import NotFound from "@/js/Components/NotFound.vue";
 import { onMounted, ref } from "vue";
 import CreateNewModal from "@/js/Components/CreateNewModal.vue";
@@ -92,22 +94,37 @@ function deleteClient(client) {
             <ModalLink
                 :href="route('clients.import.create')"
                 :close-button="false"
-                class="bg-sky-800 text-white text-center px-4 py-2 rounded-md hover:bg-opacity-75"
+                class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700"
             >
+                <i class="ri-upload-2-line" aria-hidden="true"></i>
                 {{ $t("Import") }}
             </ModalLink>
         </div>
     </PageHeader>
 
-    <div class="bg-white px-4 py-8 rounded-md shadow-1 mb-8">
-        <h2 class="text-2xl mb-4 font-semibold text-graydark">
-            {{ $t("Filter.title") }}
-        </h2>
-
-        <form @submit.prevent="submitForm" @reset.prevent="resetFrom">
-            <div
-                class="flex gap-4 flex-col sm:flex-row sm:justify-between sm:items-center"
+    <section
+        class="mb-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20"
+    >
+        <div
+            class="mb-6 flex items-start gap-3 border-b border-slate-100 pb-4 dark:border-neutral-700"
+        >
+            <span
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-lg text-slate-600 dark:bg-neutral-700 dark:text-neutral-200"
+                ><i class="ri-filter-3-line" aria-hidden="true"></i
+            ></span>
+            <h2
+                class="pt-1.5 text-lg font-semibold tracking-tight text-slate-800 dark:text-neutral-100"
             >
+                {{ $t("Filter.title") }}
+            </h2>
+        </div>
+
+        <form
+            @submit.prevent="submitForm"
+            @reset.prevent="resetFrom"
+            class="text-slate-700 dark:text-neutral-200"
+        >
+            <div class="grid gap-4 md:grid-cols-2">
                 <div class="w-full">
                     <InputLabel
                         for="search"
@@ -115,7 +132,7 @@ function deleteClient(client) {
                     />
 
                     <TextInput
-                        class="mt-1 block w-full"
+                        variant="admin"
                         id="search"
                         type="text"
                         v-model="form.search"
@@ -129,11 +146,7 @@ function deleteClient(client) {
                 <div class="w-full">
                     <InputLabel for="sort" :value="$t('Filter.sort')" />
 
-                    <select
-                        class="w-full mt-1 rounded-md focus:ring-primary focus:border-primary border-editor text-primary"
-                        v-model="form.sort"
-                        id="sort"
-                    >
+                    <SelectInput variant="admin" v-model="form.sort" id="sort">
                         <option value="highest_spent">
                             {{ $t("Sort.highest_spent") }}
                         </option>
@@ -146,17 +159,17 @@ function deleteClient(client) {
                         <option value="lowest_orders">
                             {{ $t("Sort.lowest_orders") }}
                         </option>
-                         <option value="highest_delivery_rate">
+                        <option value="highest_delivery_rate">
                             {{ $t("Sort.highest_delivery_rate") }}
                         </option>
                         <option value="lowest_delivery_rate">
                             {{ $t("Sort.lowest_delivery_rate") }}
                         </option>
-                    </select>
+                    </SelectInput>
                 </div>
             </div>
 
-            <div class="flex flex-col gap-4 mt-4 lg:flex-row">
+            <div class="mt-4 grid gap-4 md:grid-cols-2">
                 <div class="w-full">
                     <InputLabel
                         for="phone"
@@ -164,7 +177,7 @@ function deleteClient(client) {
                     />
 
                     <TextInput
-                        class="mt-1 block w-full"
+                        variant="admin"
                         id="phone"
                         type="text"
                         v-model="form.phone"
@@ -177,8 +190,8 @@ function deleteClient(client) {
                 <div class="w-full">
                     <InputLabel for="state_id" :value="$t('State')" />
 
-                    <select
-                        class="w-full mt-1 rounded-md focus:ring-primary focus:border-primary border-editor text-primary"
+                    <SelectInput
+                        variant="admin"
                         id="state_id"
                         v-model="form.state"
                     >
@@ -190,10 +203,10 @@ function deleteClient(client) {
                         >
                             {{ state.name }}
                         </option>
-                    </select>
+                    </SelectInput>
                 </div>
             </div>
-            <div class="flex flex-col gap-4 mt-4 lg:flex-row">
+            <div class="mt-4 grid gap-4 xl:grid-cols-2">
                 <div
                     class="flex flex-col gap-4 sm:flex-row w-full sm:items-end"
                 >
@@ -203,7 +216,8 @@ function deleteClient(client) {
                             v-model="form.minSpent"
                             id="min_spent"
                             type="number"
-                            class="mt-1 w-full"
+                            min="0"
+                            variant="admin"
                             :placeholder="$t('in DT')"
                             step="0.01"
                         />
@@ -214,7 +228,8 @@ function deleteClient(client) {
                             v-model="form.maxSpent"
                             id="max_spent"
                             type="number"
-                            class="mt-1 w-full"
+                            min="0"
+                            variant="admin"
                             :placeholder="$t('in DT')"
                             step="0.01"
                         />
@@ -232,8 +247,9 @@ function deleteClient(client) {
                             v-model="form.minOrdersCount"
                             id="min_orders"
                             type="number"
-                            step="0.1"
-                            class="mt-1 w-full"
+                            min="0"
+                            step="1"
+                            variant="admin"
                             :placeholder="$t('eg-50')"
                         />
                     </div>
@@ -244,16 +260,17 @@ function deleteClient(client) {
                         />
                         <TextInput
                             v-model="form.maxOrdersCount"
-                            step="0.1"
+                            step="1"
                             id="max_orders"
+                            min="0"
                             type="number"
-                            class="mt-1 w-full"
+                            variant="admin"
                             :placeholder="$t('eg-100')"
                         />
                     </div>
                 </div>
             </div>
- <div class="flex flex-col gap-4 mt-4 sm:flex-row">
+            <div class="mt-4 grid gap-4 md:grid-cols-2">
                 <div class="w-full">
                     <InputLabel
                         for="min_delivery_rate"
@@ -264,7 +281,7 @@ function deleteClient(client) {
                         v-model="form.minDeliveryRate"
                         id="min_delivery_rate"
                         type="number"
-                        class="mt-1 w-full"
+                        variant="admin"
                         placeholder="e.g., 0"
                         min="0"
                         max="100"
@@ -281,7 +298,7 @@ function deleteClient(client) {
                         v-model="form.maxDeliveryRate"
                         id="max_delivery_rate"
                         type="number"
-                        class="mt-1 w-full"
+                        variant="admin"
                         placeholder="e.g., 100"
                         min="0"
                         max="100"
@@ -289,7 +306,9 @@ function deleteClient(client) {
                     />
                 </div>
             </div>
-            <div class="flex gap-4 mt-8">
+            <div
+                class="mt-6 flex flex-col gap-3 border-t border-slate-100 pt-5 sm:flex-row dark:border-neutral-700"
+            >
                 <input
                     :class="{
                         'opacity-25 !cursor-not-allowed':
@@ -298,7 +317,7 @@ function deleteClient(client) {
                     :disabled="formIsResetting || form.processing"
                     type="Submit"
                     :value="$t('Filter.value')"
-                    class="w-full sm:w-1/4 cursor-pointer rounded-lg border border-primary bg-primary py-2 px-4 font-medium text-white transition hover:bg-opacity-90"
+                    class="w-full cursor-pointer rounded-xl border border-teal-700 bg-teal-700 px-4 py-2.5 font-semibold text-white transition hover:border-teal-800 hover:bg-teal-800 sm:w-44"
                 />
                 <input
                     :disabled="formIsResetting || form.processing"
@@ -308,15 +327,13 @@ function deleteClient(client) {
                     }"
                     type="reset"
                     :value="$t('form.reset')"
-                    class="w-full sm:w-1/4 cursor-pointer rounded-lg border border-bodydark bg-bodydark py-2 px-4 font-medium text-white transition hover:bg-opacity-90"
+                    class="w-full cursor-pointer rounded-xl border border-slate-200 bg-slate-100 px-4 py-2.5 font-semibold text-slate-700 transition hover:bg-slate-200 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-600 sm:w-44"
                 />
             </div>
         </form>
-    </div>
+    </section>
 
-    <h2 class="my-6 font-medium text-sky-900 text-xl">
-        {{ $t("Results") }} : {{ clients.meta.total }}
-    </h2>
+    <ResultsCounter :count="clients.meta.total" icon="ri-user-3-line" />
 
     <div v-if="clients.data.length">
         <div
@@ -325,33 +342,36 @@ function deleteClient(client) {
             <div
                 v-for="client in clients.data"
                 :key="client.id"
-                class="bg-white rounded-lg shadow-3"
+                class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20"
             >
                 <div
-                    class="flex p-4 rtl:justify-end items-center gap-2 border-b-2 border-gray"
+                    class="flex items-center justify-end gap-2 border-b border-slate-100 p-4 dark:border-neutral-700"
                 >
                     <ModalLink
                         :close-button="false"
                         :href="route('clients.edit', client)"
-                        class="bg-slate-700 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90"
+                        class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition hover:bg-slate-200 dark:bg-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-600"
                     >
                         <i class="ri-edit-line"></i>
                     </ModalLink>
                     <button
                         @click="deleteClient(client)"
-                        class="bg-red-500 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90"
+                        class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-red-50 text-red-600 transition hover:bg-red-100 dark:bg-red-500/15 dark:text-red-300 dark:hover:bg-red-500/25"
                     >
                         <i class="ri-delete-bin-5-fill"></i>
                     </button>
                 </div>
 
-                <div class="py-4 px-3 text-meta-4" dir="auto">
+                <div
+                    class="px-4 py-4 text-slate-600 dark:text-neutral-300"
+                    dir="auto"
+                >
                     <Link
                         :href="route('clients.show', client)"
-                        class="text-xl font-semibold mb-2 block text-primary hover:text-slate-700"
+                        class="mb-2 block text-lg font-semibold text-slate-800 transition hover:text-teal-700 dark:text-neutral-100 dark:hover:text-teal-300"
                     >
                         {{ client.name }}
-                          <span
+                        <span
                             v-if="
                                 client.delivery_rate !== null &&
                                 client.delivery_rate !== undefined
@@ -369,12 +389,18 @@ function deleteClient(client) {
                                     client.delivery_rate < 40,
                             }"
                         >
-                            <i class="ri-truck-line"></i>
+                            <i
+                                class="ri-truck-line text-neutral-500 dark:text-neutral-400"
+                            ></i>
                             {{ client.delivery_rate }}%
                         </span>
                     </Link>
-                    <div class="flex text-sky-700 items-center gap-2">
-                        <i class="ri-customer-service-2-fill text-lg"></i>
+                    <div
+                        class="flex items-center gap-2 text-slate-500 dark:text-neutral-400"
+                    >
+                        <i
+                            class="ri-customer-service-2-fill text-lg text-neutral-500 dark:text-neutral-400"
+                        ></i>
                         <span dir="ltr"
                             >{{ client.phone }}
                             <span v-if="client.phone2">
@@ -383,8 +409,12 @@ function deleteClient(client) {
                         >
                     </div>
 
-                    <div class="mb-1 text-sky-700 flex items-center gap-2">
-                        <i class="ri-map-pin-line text-lg"></i>
+                    <div
+                        class="mb-1 flex items-center gap-2 text-slate-500 dark:text-neutral-400"
+                    >
+                        <i
+                            class="ri-map-pin-line text-lg text-neutral-500 dark:text-neutral-400"
+                        ></i>
                         <span>{{ client.state.name }}</span>
                     </div>
                     <p dir="auto">
@@ -392,15 +422,25 @@ function deleteClient(client) {
                     </p>
                 </div>
                 <div
-                    class="grid items-center grid-cols-2 p-2 border-t-2 border-gray"
+                    class="grid grid-cols-2 items-center border-t border-slate-100 p-3 dark:border-neutral-700"
                 >
                     <div class="text-center">
-                        <i class="ri-shopping-cart-line text-2xl"></i>
-                        <p class="text-primary">{{ client.orders_count }}</p>
+                        <i
+                            class="ri-shopping-cart-line text-2xl text-slate-500 dark:text-neutral-400"
+                        ></i>
+                        <p
+                            class="font-semibold text-slate-700 dark:text-neutral-200"
+                        >
+                            {{ client.orders_count }}
+                        </p>
                     </div>
                     <div class="text-center">
-                        <i class="ri-money-dollar-box-line text-2xl"></i>
-                        <p class="text-primary">
+                        <i
+                            class="ri-money-dollar-box-line text-2xl text-slate-500 dark:text-neutral-400"
+                        ></i>
+                        <p
+                            class="font-semibold text-slate-700 dark:text-neutral-200"
+                        >
                             {{ client.spent }}
                             {{ $t("currency") }}
                         </p>
@@ -412,6 +452,7 @@ function deleteClient(client) {
             :links="clients.meta.links"
             :previous="clients.links.prev"
             :next="clients.links.next"
+            variant="admin"
             class="mt-4"
         />
     </div>

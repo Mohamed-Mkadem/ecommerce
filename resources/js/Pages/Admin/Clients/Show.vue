@@ -8,6 +8,7 @@ import { trans } from "laravel-vue-i18n";
 import Avatar from "@/assets/images/user-default.webp";
 import Status from "@/js/Components/Status.vue";
 import Notes from "@/js/Pages/Admin/Notes/Notes.vue";
+import CreateNewModal from "@/js/Components/CreateNewModal.vue";
 const props = defineProps([
     "client",
     "orders",
@@ -47,18 +48,18 @@ function deleteClient(client) {
 <template>
     <Head :title="client.name" />
     <PageHeader :pageTitle="client.name">
-        <div class="flex items-center gap-4">
+        <div class="flex flex-wrap items-center gap-3">
             <ModalLink
                 :close-button="false"
                 :href="route('clients.edit', client)"
-                class="bg-slate-700 text-white rounded-md px-2 py-1 hover:bg-opacity-90 flex gap-2"
+                class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700"
             >
-                <span>{{ $t("Edit") }}</span>
                 <i class="ri-edit-line"></i>
+                <span>{{ $t("Edit") }}</span>
             </ModalLink>
             <button
                 @click="deleteClient(client)"
-                class="bg-red-500 text-white rounded-md px-2 py-1 hover:bg-opacity-90 flex gap-2"
+                class="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-700 transition hover:bg-red-100 dark:border-red-500/30 dark:bg-red-500/15 dark:text-red-300 dark:hover:bg-red-500/25"
             >
                 <span>{{ $t("Delete") }}</span>
                 <i class="ri-delete-bin-5-fill"></i>
@@ -66,25 +67,31 @@ function deleteClient(client) {
         </div>
     </PageHeader>
     <div
-        class="bg-white p-4 rounded-md shadow-1 md:grid md:grid-cols-[350px,_1fr] md:gap-4 lg:gap-8"
+        class="grid gap-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20 sm:p-6 md:grid-cols-[minmax(220px,300px)_minmax(0,1fr)] lg:gap-8"
     >
         <div>
             <div>
                 <img
                     :src="Avatar"
-                    class="rounded-lg mx-auto md:w-full"
+                    class="mx-auto aspect-square w-full max-w-[300px] rounded-2xl bg-slate-100 object-cover dark:bg-neutral-700 md:max-w-none"
                     alt="default user placeholder image"
                 />
             </div>
         </div>
-        <div class="mt-4 md:mt-0 text-lg">
-            <h2 class="text-3xl text-primary font-semibold mt-2 mb-4">
+        <div
+            class="min-w-0 text-base text-slate-700 dark:text-neutral-200 md:text-lg"
+        >
+            <h2
+                class="mb-4 mt-1 text-2xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100 sm:text-3xl"
+            >
                 {{ client.name }}
             </h2>
 
-            <div class="flex text-primary items-center gap-3">
+            <div
+                class="flex items-center gap-3 py-1 text-slate-700 dark:text-neutral-200"
+            >
                 <i
-                    class="ri-customer-service-2-fill text-slate-400 text-2xl"
+                    class="ri-customer-service-2-fill text-2xl text-neutral-500 dark:text-neutral-400"
                 ></i>
                 <span dir="ltr"
                     >{{ client.phone }}
@@ -94,8 +101,12 @@ function deleteClient(client) {
                 >
             </div>
 
-            <div class="mb-1 text-primary flex items-center gap-3">
-                <i class="ri-map-pin-line text-2xl text-slate-400"></i>
+            <div
+                class="mb-1 flex items-center gap-3 py-1 text-slate-700 dark:text-neutral-200"
+            >
+                <i
+                    class="ri-map-pin-line text-2xl text-neutral-500 dark:text-neutral-400"
+                ></i>
                 <span v-if="client.locality">
                     {{
                         `${client.locality.name} / ${client.locality.city.name} / ${client.state.name}`
@@ -103,14 +114,22 @@ function deleteClient(client) {
                 </span>
                 <span v-else>{{ client.state.name }} </span>
             </div>
-            <div class="mb-1 text-primary flex items-center gap-3">
-                <i class="ri-map-2-line text-2xl text-slate-400"></i>
+            <div
+                class="mb-1 flex items-center gap-3 py-1 text-slate-700 dark:text-neutral-200"
+            >
+                <i
+                    class="ri-map-2-line text-2xl text-neutral-500 dark:text-neutral-400"
+                ></i>
                 <span dir="auto"> {{ client.address }}</span>
             </div>
 
-            <div class="flex items-center gap-3">
-                <i class="ri-shopping-cart-line text-2xl text-slate-400"></i>
-                <p class="text-primary flex items-center gap-2">
+            <div class="flex items-center gap-3 py-1">
+                <i
+                    class="ri-shopping-cart-line text-2xl text-slate-500 dark:text-neutral-400"
+                ></i>
+                <p
+                    class="flex flex-wrap items-center gap-2 text-slate-700 dark:text-neutral-200"
+                >
                     <span>
                         {{ `${$t("Orders")} : ${client.orders_count}` }}
                     </span>
@@ -121,40 +140,57 @@ function deleteClient(client) {
                     </span>
                 </p>
             </div>
-            <div class="flex items-center gap-3">
-                <i class="ri-money-dollar-box-line text-2xl text-slate-400"></i>
-                <p class="text-primary flex items-center gap-2">
+            <div class="flex items-center gap-3 py-1">
+                <i
+                    class="ri-money-dollar-box-line text-2xl text-slate-500 dark:text-neutral-400"
+                ></i>
+                <p
+                    class="flex items-center gap-2 text-slate-700 dark:text-neutral-200"
+                >
                     {{ `${$t("Total Spending")} : ${spent} ${$t("currency")}` }}
                 </p>
             </div>
-            <div class="flex items-center gap-3">
-                <i class="ri-truck-line text-2xl text-slate-400"></i>
-                <p class="text-primary flex items-center gap-2">
+            <div class="flex items-center gap-3 py-1">
+                <i
+                    class="ri-truck-line text-2xl text-neutral-500 dark:text-neutral-400"
+                ></i>
+                <p
+                    class="flex flex-wrap items-center gap-2 text-slate-700 dark:text-neutral-200"
+                >
                     {{ $t("Delivery Rate") }} :
                     <span
-                        v-if="client.delivery_rate !== null && client.delivery_rate !== undefined"
+                        v-if="
+                            client.delivery_rate !== null &&
+                            client.delivery_rate !== undefined
+                        "
                         :title="$t('client.delivery_rate_tooltip')"
                         class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-sm font-semibold"
                         :class="{
-                            'bg-green-100 text-green-800': client.delivery_rate >= 70,
-                            'bg-yellow-100 text-yellow-800': client.delivery_rate >= 40 && client.delivery_rate < 70,
-                            'bg-red-100 text-red-800': client.delivery_rate < 40,
+                            'bg-green-100 text-green-800':
+                                client.delivery_rate >= 70,
+                            'bg-yellow-100 text-yellow-800':
+                                client.delivery_rate >= 40 &&
+                                client.delivery_rate < 70,
+                            'bg-red-100 text-red-800':
+                                client.delivery_rate < 40,
                         }"
                     >
                         {{ client.delivery_rate }}%
                     </span>
                     <span
                         v-else
-                        class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-sm font-semibold bg-slate-100 text-slate-500"
+                        class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-sm font-semibold text-slate-500 dark:bg-neutral-700 dark:text-neutral-300"
                         :title="$t('client.delivery_rate_tooltip')"
                     >
                         N/A
                     </span>
                 </p>
             </div>
-            <div class="flex items-center gap-3">
-                <i class="ri-calendar-line text-2xl text-slate-400"></i>
-                <p class="text-primary">
+            <div class="flex items-center gap-3 py-1">
+                <i
+                    class="ri-calendar-line text-2xl text-neutral-500 dark:text-neutral-400"
+                ></i>
+                <p class="text-slate-700 dark:text-neutral-200">
                     {{ $t("Created_at") }} - {{ client.created_at }}
                 </p>
             </div>
@@ -162,7 +198,9 @@ function deleteClient(client) {
     </div>
 
     <section>
-        <h2 class="text-2xl text-primary my-6 font-semibold">
+        <h2
+            class="my-5 text-xl font-semibold text-slate-800 dark:text-neutral-100"
+        >
             {{ $t("Orders") }}
         </h2>
 
@@ -171,16 +209,18 @@ function deleteClient(client) {
                 class="grid grid-cols-[repeat(auto-fit,_minmax(min(350px,_100%),_1fr))] gap-4"
             >
                 <div
-                    class="bg-white rounded-md shadow-1 flex flex-col"
+                    class="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20"
                     v-for="order in orders.data"
                     :key="order.id"
                 >
-                    <div class="flex justify-between gap-4 items-center p-3">
+                    <div
+                        class="flex items-center justify-between gap-4 border-b border-slate-100 p-4 dark:border-neutral-700"
+                    >
                         <div class="flex gap-2 items-center">
                             <component
                                 :is="order.deleted_at == null ? 'Link' : 'p'"
                                 :href="route('orders.show', order)"
-                                class="text-xl underline font-bold"
+                                class="text-lg font-semibold text-slate-800 underline decoration-slate-300 underline-offset-4 transition hover:text-teal-700 dark:text-neutral-100 dark:decoration-neutral-600 dark:hover:text-teal-300"
                             >
                                 #{{ order.id }}
                             </component>
@@ -191,7 +231,7 @@ function deleteClient(client) {
                         <Link
                             v-if="order.deleted_at == null"
                             :href="route('orders.show', order)"
-                            class="bg-slate-500 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90"
+                            class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition hover:bg-slate-200 dark:bg-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-600"
                         >
                             <i class="ri-eye-line"></i>
                         </Link>
@@ -200,12 +240,19 @@ function deleteClient(client) {
                         </p>
                     </div>
 
-                    <div class="px-4 py-3 text-sky-700 flex-1">
+                    <div
+                        class="flex-1 px-4 py-4 text-slate-600 dark:text-neutral-300"
+                    >
                         <div class="flex gap-2 items-center">
-                            <p class="text-red font-semibold text-2xl">
+                            <p
+                                class="text-xl font-semibold text-slate-800 dark:text-neutral-100"
+                            >
                                 {{ `${order.amount} ${$t("currency")}` }}
                             </p>
-                            <p v-if="order.coupon" class="text-neutral-600">
+                            <p
+                                v-if="order.coupon"
+                                class="text-sm text-slate-500 dark:text-neutral-400"
+                            >
                                 {{
                                     `: "${order.coupon.code}" ${$t("applied")} (${order.coupon.value}%)`
                                 }}
@@ -218,37 +265,47 @@ function deleteClient(client) {
                             class="flex items-center gap-2"
                         >
                             <i
-                                class="ri-truck-line text-2xl text-slate-400"
+                                class="ri-truck-line text-2xl text-neutral-500 dark:text-neutral-400"
                             ></i>
 
-                            <p class="text-primary">
+                            <p class="text-slate-700 dark:text-neutral-200">
                                 {{ order.shipper.name }}
                             </p>
                         </div>
                     </div>
 
                     <div
-                        class="grid grid-cols-1 sm:grid-cols-2 p-2 border-t-2 border-gray"
+                        class="grid grid-cols-1 gap-3 border-t border-slate-100 bg-slate-50/70 px-4 py-3 dark:border-neutral-700 dark:bg-neutral-900/30 sm:grid-cols-2"
                     >
-                        <div class="text-center">
-                            <p class="flex gap-2 items-center justify-center">
-                                <span>{{ $t("Delivery_date") }}</span>
+                        <div>
+                            <p
+                                class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-neutral-400"
+                            >
                                 <i
-                                    class="ri-calendar-line text-2xl text-slate-400"
+                                    class="ri-calendar-event-line"
+                                    aria-hidden="true"
                                 ></i>
+                                {{ $t("Delivery_date") }}
                             </p>
-                            <p class="text-primary">
+                            <p
+                                class="mt-1 text-sm font-semibold text-slate-700 dark:text-neutral-200"
+                            >
                                 {{ order.delivery_date }}
                             </p>
                         </div>
-                        <div class="text-center">
-                            <p class="flex gap-2 items-center justify-center">
-                                <span>{{ $t("Placed_at") }}</span>
+                        <div>
+                            <p
+                                class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-neutral-400"
+                            >
                                 <i
-                                    class="ri-calendar-line text-2xl text-slate-400"
+                                    class="ri-calendar-check-line"
+                                    aria-hidden="true"
                                 ></i>
+                                {{ $t("Placed_at") }}
                             </p>
-                            <p class="text-primary">
+                            <p
+                                class="mt-1 text-sm font-semibold text-slate-700 dark:text-neutral-200"
+                            >
                                 {{ order.created_at }}
                             </p>
                         </div>
@@ -259,6 +316,7 @@ function deleteClient(client) {
                 :links="orders.meta.links"
                 :previous="orders.links.prev"
                 :next="orders.links.next"
+                variant="admin"
                 class="mt-4"
             />
         </div>
@@ -267,23 +325,24 @@ function deleteClient(client) {
     </section>
 
     <section>
-        <div class="flex items-center justify-between gap-4 flex-wrap">
-            <h2 class="text-2xl text-primary my-6 font-semibold">
+        <div class="my-5 flex flex-wrap items-center justify-between gap-4">
+            <h2
+                class="text-xl font-semibold text-slate-800 dark:text-neutral-100"
+            >
                 {{ $t("Notes") }}
             </h2>
 
-            <ModalLink
-                :href="
-                    route('notes.newNote', {
-                        id: client.id,
-                        type: 'client',
-                    })
-                "
-                class="bg-green-500 text-white text-center px-4 py-2 rounded-md hover:bg-opacity-75"
-                >{{ $t("New Note") }}</ModalLink
-            >
+            <CreateNewModal
+                href="notes.newNote"
+                :route-params="{ id: client.id, type: 'client' }"
+                :label="$t('New Note')"
+            />
         </div>
 
-        <Notes :notes="notes.data" class="bg-white p-4 rounded-lg" />
+        <div
+            class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20 sm:p-6"
+        >
+            <Notes :notes="notes.data" />
+        </div>
     </section>
 </template>
