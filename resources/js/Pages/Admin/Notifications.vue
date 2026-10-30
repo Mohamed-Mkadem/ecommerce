@@ -3,6 +3,7 @@ import NotFound from "@/js/Components/NotFound.vue";
 import NotificationItem from "@/js/Components/NotificationItem.vue";
 import PageHeader from "@/js/Components/Admin/PageHeader.vue";
 import Paginator from "@/js/Components/Paginator.vue";
+import ResultsCounter from "@/js/Components/Admin/ResultsCounter.vue";
 import { useForm, router, usePage } from "@inertiajs/vue3";
 import { watch, ref } from "vue";
 import EventBus from "@/js/EventBus";
@@ -91,81 +92,124 @@ function cleanNotifications() {
 </script>
 
 <template>
-
     <Head :title="$t('Notifications')" />
     <PageHeader :page-title="$t('Notifications')">
         <div class="flex flex-wrap gap-2">
-            <button v-if="isAdmin" @click="cleanNotifications"
-                class="bg-red-700 text-white px-3 py-2 rounded-md hover:bg-opacity-75">
+            <button
+                v-if="isAdmin"
+                @click="cleanNotifications"
+                class="inline-flex items-center justify-center gap-2 rounded-xl border border-red-600 bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50"
+            >
+                <i class="ri-delete-bin-line" aria-hidden="true"></i>
                 {{ $t("Cleanup.notifications.button") }}
             </button>
-            <button @click="markAllAsRead" class="bg-slate-800 text-white px-3 py-2 rounded-md hover:bg-opacity-75">
+            <button
+                @click="markAllAsRead"
+                class="inline-flex items-center justify-center gap-2 rounded-xl border border-teal-700 bg-teal-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:border-teal-800 hover:bg-teal-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/40"
+            >
+                <i class="ri-mail-check-line" aria-hidden="true"></i>
                 {{ $t("Mark all as read") }}
             </button>
         </div>
     </PageHeader>
-    <section class="max-w-screen-sm mx-auto">
-        <div class="bg-white py-6 px-4">
-            <form @submit.prevent="">
-                <ul class="grid w-full gap-3 sm:grid-cols-3 mb-6">
-                    <li class="w-full">
-                        <input type="radio" id="all" v-model="form.status" value="all" class="hidden peer" required />
-                        <label for="all"
-                            class="w-full px-3 py-2 block text-center bg-slate-500 border border-neutral-200 rounded-lg cursor-pointer text-zinc-100 peer-checked:bg-slate-700 hover:bg-slate-600 text-lg font-medium">
-                            {{ $t("All") }}
-                        </label>
+
+    <section
+        class="mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20 sm:p-6"
+    >
+        <ResultsCounter
+            :count="notifications.total"
+            label="Notifications"
+            icon="ri-notification-3-line"
+        />
+        <form @submit.prevent="" class="mb-5">
+            <fieldset>
+                <legend
+                    class="mb-3 text-sm font-semibold text-slate-700 dark:text-neutral-200"
+                >
+                    {{ $t("Filter.title") }}
+                </legend>
+                <ul class="grid w-full gap-2 sm:grid-cols-3">
+                    <li>
+                        <input
+                            type="radio"
+                            id="all"
+                            v-model="form.status"
+                            value="all"
+                            class="peer sr-only"
+                            required
+                        />
+                        <label
+                            for="all"
+                            class="block cursor-pointer rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-center text-sm font-semibold text-slate-600 transition hover:bg-slate-100 peer-checked:border-teal-700 peer-checked:bg-teal-700 peer-checked:text-white dark:border-neutral-700 dark:bg-neutral-900/40 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:peer-checked:border-teal-700 dark:peer-checked:bg-teal-700 dark:peer-checked:text-white"
+                            >{{ $t("All") }}</label
+                        >
                     </li>
-                    <li class="w-full">
-                        <input type="radio" id="read" v-model="form.status" value="read" class="hidden peer" required />
-                        <label for="read"
-                            class="w-full px-3 py-2 block text-center bg-slate-500 border border-neutral-200 rounded-lg cursor-pointer text-zinc-100 peer-checked:bg-slate-700 hover:bg-slate-600 text-lg font-medium">
-                            {{ $t("Read") }}
-                        </label>
+                    <li>
+                        <input
+                            type="radio"
+                            id="read"
+                            v-model="form.status"
+                            value="read"
+                            class="peer sr-only"
+                            required
+                        />
+                        <label
+                            for="read"
+                            class="block cursor-pointer rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-center text-sm font-semibold text-slate-600 transition hover:bg-slate-100 peer-checked:border-teal-700 peer-checked:bg-teal-700 peer-checked:text-white dark:border-neutral-700 dark:bg-neutral-900/40 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:peer-checked:border-teal-700 dark:peer-checked:bg-teal-700 dark:peer-checked:text-white"
+                            >{{ $t("Read") }}</label
+                        >
                     </li>
-                    <li class="w-full">
-                        <input type="radio" id="unread" v-model="form.status" value="unread" class="hidden peer"
-                            required />
-                        <label for="unread"
-                            class="w-full px-3 py-2 block text-center bg-slate-500 border border-neutral-200 rounded-lg cursor-pointer text-zinc-100 peer-checked:bg-slate-700 hover:bg-slate-600 text-lg font-medium">
-                            {{ $t("Unread") }}
-                        </label>
+                    <li>
+                        <input
+                            type="radio"
+                            id="unread"
+                            v-model="form.status"
+                            value="unread"
+                            class="peer sr-only"
+                            required
+                        />
+                        <label
+                            for="unread"
+                            class="block cursor-pointer rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-center text-sm font-semibold text-slate-600 transition hover:bg-slate-100 peer-checked:border-teal-700 peer-checked:bg-teal-700 peer-checked:text-white dark:border-neutral-700 dark:bg-neutral-900/40 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:peer-checked:border-teal-700 dark:peer-checked:bg-teal-700 dark:peer-checked:text-white"
+                            >{{ $t("Unread") }}</label
+                        >
                     </li>
                 </ul>
-            </form>
-            <div v-if="gettingNotifications" class="text-center">
-                <p class="mb-2 font-semibold text-lg">
-                    {{ $t("Getting Notifications") }}
-                </p>
-                <div role="status" class="flex justify-center">
-                    <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin fill-blue-600"
-                        viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                            fill="currentColor" />
-                        <path
-                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                            fill="currentFill" />
-                    </svg>
-                    <span class="sr-only">{{ $t("Loading...") }}</span>
-                </div>
-            </div>
-            <div v-if="!gettingNotifications">
-                <ul v-if="notifications.data.length > 0">
-                    <li v-for="notification in notifications.data" :key="notification.id">
-                        <NotificationItem :notification="notification" @click="
-                            handleLink(
-                                notification.data.url,
-                                notification.id,
-                            )
-                            " class="mb-4 !border rounded bg-zinc-50" />
-                    </li>
-                </ul>
-                <NotFound v-else />
-            </div>
+            </fieldset>
+        </form>
+
+        <div
+            v-if="gettingNotifications"
+            class="flex flex-col items-center justify-center gap-3 py-10 text-center text-slate-600 dark:text-neutral-300"
+            role="status"
+        >
+            <span
+                class="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-teal-700 dark:border-neutral-600 dark:border-t-teal-400"
+                aria-hidden="true"
+            ></span>
+            <p class="font-medium">{{ $t("Getting Notifications") }}</p>
+            <span class="sr-only">{{ $t("Loading...") }}</span>
         </div>
+
+        <ul v-else-if="notifications.data.length > 0" class="space-y-3">
+            <li
+                v-for="notification in notifications.data"
+                :key="notification.id"
+            >
+                <NotificationItem
+                    :notification="notification"
+                    @click="handleLink(notification.data.url, notification.id)"
+                />
+            </li>
+        </ul>
+        <NotFound v-else />
     </section>
-    <div class="flex justify-center">
-        <Paginator :links="notifications.links" :previous="notifications.prev_page_url"
-            :next="notifications.next_page_url" class="mt-4" />
-    </div>
+
+    <Paginator
+        variant="admin"
+        :links="notifications.links"
+        :previous="notifications.prev_page_url"
+        :next="notifications.next_page_url"
+        class="mt-4 justify-center"
+    />
 </template>

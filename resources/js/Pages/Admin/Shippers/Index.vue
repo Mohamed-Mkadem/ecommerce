@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { trans } from "laravel-vue-i18n";
 import { router } from "@inertiajs/vue3";
 import CreateNewModal from "@/js/Components/CreateNewModal.vue";
+import ResultsCounter from "@/js/Components/Admin/ResultsCounter.vue";
 const props = defineProps(["shippers"]);
 
 function deleteShipper(shipper) {
@@ -48,71 +49,60 @@ function deleteShipper(shipper) {
         </CreateNewModal>
     </PageHeader>
 
-    <div v-if="shippers.data.length">
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-left rtl:text-right text-slate-800">
-                <thead class="text-gray bg-graydark p-4">
-                    <tr
-                        class="grid grid-cols-[150px_1fr_200px_200px_200px] items-center text-center"
-                    >
-                        <th scope="col" class="px-6 py-4">
-                            {{ $t("ID") }}
-                        </th>
-                        <th scope="col" class="px-6 py-4">
-                            {{ $t("Name") }}
-                        </th>
-                        <th scope="col" class="px-6 py-4">
-                            {{ $t("Orders.count") }}
-                        </th>
-                        <th scope="col" class="px-6 py-4">
-                            {{ $t("Created_at") }}
-                        </th>
-                        <th scope="col" class="px-6 py-4">
-                            {{ $t("Actions") }}
-                        </th>
+    <ResultsCounter :count="shippers.meta.total" icon="ri-truck-line" />
+
+    <div v-if="shippers.data.length" class="mt-4 overflow-x-auto rounded-2xl">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col" class="!text-center">{{ $t("ID") }}</th>
+                        <th scope="col" class="!text-center">{{ $t("Name") }}</th>
+                        <th scope="col" class="!text-center">{{ $t("Orders.count") }}</th>
+                        <th scope="col" class="!text-center">{{ $t("Created_at") }}</th>
+                        <th scope="col" class="!text-center">{{ $t("Actions") }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr
-                        v-for="(shipper, index) in shippers.data"
-                        :key="index"
-                        class="odd:bg-slate-200 even:bg-white grid grid-cols-[150px_1fr_200px_200px_200px] items-center text-center"
-                    >
-                        <th
-                            scope="row"
-                            class="px-6 py-4 font-medium text-primary whitespace-nowrap"
-                        >
-                            {{ `#${shipper.id}` }}
-                        </th>
-                        <td class="px-6 py-4">{{ shipper.name }}</td>
-                        <td class="px-6 py-4">{{ shipper.orders_count }}</td>
-                        <td class="px-6 py-4">{{ shipper.created_at }}</td>
-                        <td
-                            class="px-6 py-4 flex items-center gap-3 justify-center"
-                        >
+                    <tr v-for="shipper in shippers.data" :key="shipper.id">
+                        <td class="!text-center whitespace-nowrap font-medium">{{ `#${shipper.id}` }}</td>
+                        <td class="!text-center font-semibold">{{ shipper.name }}</td>
+                        <td class="!text-center">
+                            <span class="inline-flex items-center justify-center gap-2">
+                                <i class="ri-shopping-cart-line text-slate-500 dark:text-neutral-400" aria-hidden="true"></i>
+                                {{ shipper.orders_count }}
+                            </span>
+                        </td>
+                        <td class="!text-center whitespace-nowrap">{{ shipper.created_at }}</td>
+                        <td class="!text-center">
+                            <div class="flex items-center justify-center gap-2">
                             <ModalLink
                                 :close-button="false"
                                 :href="route('shippers.edit', shipper)"
-                                class="bg-slate-700 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90"
+                                class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition hover:bg-slate-200 dark:bg-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                                :aria-label="$t('Edit')"
+                                :title="$t('Edit')"
                             >
                                 <i class="ri-edit-line"></i>
                             </ModalLink>
                             <button
                                 @click="deleteShipper(shipper)"
-                                class="bg-red-500 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90"
+                                class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-red-50 text-red-600 transition hover:bg-red-100 dark:bg-red-500/15 dark:text-red-300 dark:hover:bg-red-500/25"
+                                :aria-label="$t('Delete')"
+                                :title="$t('Delete')"
                             >
                                 <i class="ri-delete-bin-5-fill"></i>
                             </button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
-        </div>
         <Paginator
             class="mt-8"
             :links="shippers.meta.links"
             :previous="shippers.links.prev"
             :next="shippers.links.next"
+            variant="admin"
         />
     </div>
     <NotFound v-else />
