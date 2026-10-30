@@ -37,8 +37,9 @@ const {
     <PageHeader :page-title="`${$t('Edit')} — ${wrapper.title}`">
         <Link
             :href="route('wrappers.show', wrapper.slug)"
-            class="bg-bodydark text-white px-3 py-2 rounded-md hover:bg-opacity-90"
+            class="inline-flex items-center gap-2 rounded-xl bg-slate-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900"
         >
+            <i class="ri-arrow-left-line" aria-hidden="true"></i>
             {{ $t("Wrapper.back_to_details") }}
         </Link>
     </PageHeader>
