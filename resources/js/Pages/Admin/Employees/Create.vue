@@ -2,13 +2,16 @@
 import InputError from "@/js/Components/InputError.vue";
 import InputLabel from "@/js/Components/InputLabel.vue";
 import TextInput from "@/js/Components/TextInput.vue";
+import SelectInput from "@/js/Components/SelectInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toastification";
 import { getToastOptions } from "@/js/Utils/toast";
 import { ref } from "vue";
 import { trans } from "laravel-vue-i18n";
+import { useAppearanceStore } from "@/js/stores/appearance";
 
 const toast = useToast();
+const appearanceStore = useAppearanceStore();
 
 const form = useForm({
     first_name: null,
@@ -40,70 +43,80 @@ function submitForm() {
     <Modal
         v-slot="{ close }"
         ref="modalRef"
-        panel-classes="bg-white rounded mx-auto md:max-w-lg max-h-100  overflow-y-auto"
+        max-width="lg"
+        :panel-classes="appearanceStore.isDark
+            ? 'dark max-h-[calc(100vh-2rem)] overflow-y-auto rounded-2xl border border-neutral-700 bg-neutral-800 text-neutral-100 shadow-2xl'
+            : 'max-h-[calc(100vh-2rem)] overflow-y-auto rounded-2xl border border-slate-200 bg-white text-slate-800 shadow-2xl'"
     >
-        <div class="flex justify-between items-center">
-            <h1 class="text-xl text-primary font-bold">
-                {{ $t("Employee.new") }}
-            </h1>
-            <button type="button" class="text-red-500 font-bold" @click="close">
+        <div class="mb-5 flex items-center justify-between gap-4 border-b border-slate-200 pb-4 dark:border-neutral-700">
+            <div class="flex items-center gap-3">
+                <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-xl text-primary dark:bg-neutral-700 dark:text-neutral-100">
+                    <i class="ri-user-add-line" aria-hidden="true"></i>
+                </span>
+                <h1 class="text-lg font-semibold text-slate-800 dark:text-neutral-100">
+                    {{ $t("Employee.new") }}
+                </h1>
+            </div>
+            <button type="button" :aria-label="$t('Close')" class="rounded-lg p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-white" @click="close">
                 <i class="ri-close-large-line text-xl"></i>
             </button>
         </div>
-        <form @submit.prevent="submitForm">
-            <div class="mt-4">
-                <InputLabel for="first_name" :value="$t('first_name')" />
+        <form @submit.prevent="submitForm" class="space-y-4">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                    <InputLabel class="text-slate-700 dark:text-neutral-200" for="first_name" :value="$t('first_name')" />
 
-                <TextInput
-                    class="mt-2 block w-full"
-                    id="first_name"
-                    type="text"
-                    v-model="form['first_name']"
-                    :required="true"
-                    :placeholder="$t('first_name')"
-                />
+                    <TextInput
+                        variant="admin"
+                        id="first_name"
+                        type="text"
+                        v-model="form['first_name']"
+                        :required="true"
+                        :placeholder="$t('first_name')"
+                    />
 
-                <InputError class="mt-2" :message="form.errors['first_name']" />
-            </div>
-            <div class="mt-4">
-                <InputLabel for="last_name" :value="$t('last_name')" />
+                    <InputError class="mt-2" :message="form.errors['first_name']" />
+                </div>
+                <div>
+                    <InputLabel class="text-slate-700 dark:text-neutral-200" for="last_name" :value="$t('last_name')" />
 
-                <TextInput
-                    class="mt-2 block w-full"
-                    id="last_name"
-                    type="text"
-                    v-model="form['last_name']"
-                    :required="true"
-                    :placeholder="$t('last_name')"
-                />
+                    <TextInput
+                        variant="admin"
+                        id="last_name"
+                        type="text"
+                        v-model="form['last_name']"
+                        :required="true"
+                        :placeholder="$t('last_name')"
+                    />
 
-                <InputError class="mt-2" :message="form.errors['last_name']" />
+                    <InputError class="mt-2" :message="form.errors['last_name']" />
+                </div>
             </div>
             <div class="mt-4">
                 <InputLabel
-                    class="text-slate-600"
+                    class="text-slate-700 dark:text-neutral-200"
                     for="employee-role"
                     :value="$t('role')"
                 />
 
-                <select
+                <SelectInput
+                    variant="admin"
                     required
                     id="employee-role"
                     v-model="form.role"
-                    class="w-full mt-2 rounded-md focus:ring-primary focus:border-primary border-editor text-primary"
                 >
                     <option value="moderator">{{ $t("moderator") }}</option>
                     <option value="admin">{{ $t("admin") }}</option>
-                </select>
+                </SelectInput>
 
                 <InputError class="mt-2" :message="form.errors['role']" />
             </div>
 
             <div class="mt-4">
-                <InputLabel for="email" :value="$t('Email')" />
+                <InputLabel class="text-slate-700 dark:text-neutral-200" for="email" :value="$t('Email')" />
 
                 <TextInput
-                    class="mt-2 block w-full"
+                    variant="admin"
                     id="email"
                     type="email"
                     v-model="form['email']"
@@ -114,10 +127,10 @@ function submitForm() {
                 <InputError class="mt-2" :message="form.errors['email']" />
             </div>
             <div class="mt-4">
-                <InputLabel for="password" :value="$t('Password')" />
+                <InputLabel class="text-slate-700 dark:text-neutral-200" for="password" :value="$t('Password')" />
 
                 <TextInput
-                    class="mt-2 block w-full"
+                    variant="admin"
                     id="password"
                     type="text"
                     v-model="form['password']"
@@ -134,7 +147,7 @@ function submitForm() {
                 }"
                 :disabled="form.processing"
                 type="Submit"
-                class="w-full cursor-pointer rounded-lg border border-primary bg-primary px-2 py-3 font-medium text-white transition hover:bg-opacity-90 mt-4"
+                class="mt-2 w-full cursor-pointer rounded-xl border border-teal-700 bg-teal-700 px-4 py-3 font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-teal-800 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/40 disabled:cursor-not-allowed disabled:opacity-50"
             >
                 {{ $t("Employee.create") }}
             </button>

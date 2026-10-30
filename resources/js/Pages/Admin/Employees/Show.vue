@@ -1,7 +1,5 @@
 <script setup>
 import PageHeader from "@/js/Components/Admin/PageHeader.vue";
-import NotFound from "@/js/Components/NotFound.vue";
-import Paginator from "@/js/Components/Paginator.vue";
 import Swal from "sweetalert2";
 import { trans } from "laravel-vue-i18n";
 import { router } from "@inertiajs/vue3";
@@ -10,8 +8,10 @@ import DatePicker from "@/js/Components/DatePicker.vue";
 import { ref, watch, computed } from "vue";
 import { Pie } from "vue-chartjs";
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from "chart.js";
+import { useAppearanceStore } from "@/js/stores/appearance";
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
+const appearanceStore = useAppearanceStore();
 
 const props = defineProps([
     "employee",
@@ -37,12 +37,15 @@ const pieChartData = computed(() => ({
     ],
 }));
 
-const pieChartOptions = {
+const pieChartOptions = computed(() => ({
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
         legend: {
             position: "bottom",
+            labels: {
+                color: appearanceStore.isDark ? "#d4d4d4" : "#475569",
+            },
         },
         tooltip: {
             callbacks: {
@@ -62,7 +65,7 @@ const pieChartOptions = {
             },
         },
     },
-};
+}));
 
 const deliveryPieChartData = computed(() => ({
     labels: [trans("Delivered"), trans("Returned"), trans("Other")],
@@ -137,138 +140,147 @@ function deleteEmployee(employee) {
     <Head :title="employee.data.full_name" />
 
     <PageHeader :page-title="employee.data.full_name">
-        <div class="flex rtl:justify-end items-center gap-2" v-if="employee.data.id != $page.props.auth.user.id">
-            <ModalLink :close-button="false" :href="route('employees.edit', employee.data)"
-                class="bg-slate-700 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90">
-                <i class="ri-edit-line"></i>
+        <div v-if="employee.data.id != $page.props.auth.user.id" class="flex items-center gap-3">
+            <ModalLink
+                :close-button="false"
+                :href="route('employees.edit', employee.data)"
+                :title="$t('Edit')"
+                :aria-label="$t('Edit')"
+                class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-slate-600 text-lg text-white shadow-sm transition hover:bg-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900"
+            >
+                <i class="ri-edit-line" aria-hidden="true"></i>
             </ModalLink>
-            <button @click="deleteEmployee(employee.data)"
-                class="bg-red-500 text-white text-xl rounded-md px-2 py-1 hover:bg-opacity-90">
-                <i class="ri-delete-bin-5-fill"></i>
+            <button
+                type="button"
+                @click="deleteEmployee(employee.data)"
+                :title="$t('Delete')"
+                :aria-label="$t('Delete')"
+                class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-red-600 text-lg text-white shadow-sm transition hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900"
+            >
+                <i class="ri-delete-bin-line" aria-hidden="true"></i>
             </button>
         </div>
     </PageHeader>
 
-    <div
-        class="bg-white rounded-lg shadow-1 p-4 grid justify-center gap-8 md:grid-cols-[200px_1fr] md:gap-4 md:items-center">
-        <img :src="`${$page.props.base_url}storage/${employee.data.avatar}`" class="max-w-75 md:w-50 rounded-full" />
-        <div class="text-center md:text-start">
-            <p class="text-white px-3 py-1 font-medium capitalize rounded text-base w-max mx-auto mb-2 md:mx-0" :class="{
+    <section class="grid items-center justify-center gap-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20 sm:p-6 lg:grid-cols-[200px_minmax(0,1fr)]">
+        <img
+            :src="`${$page.props.base_url}storage/${employee.data.avatar}`"
+            :alt="employee.data.full_name"
+            class="mx-auto h-40 w-40 rounded-full object-cover ring-4 ring-slate-100 dark:ring-neutral-700"
+        />
+        <div class="text-center lg:text-start">
+            <p class="mx-auto mb-2 w-max rounded-lg px-3 py-1.5 text-sm font-semibold capitalize text-white lg:mx-0" :class="{
                 'bg-red-500': employee.data.status == 'banned',
                 'bg-green-600': employee.data.status == 'active',
             }">
                 {{ $t(`user.${employee.data.status}`) }}
             </p>
-            <h2 class="text-2xl font-bold text-sky-800">
+            <h2 class="text-2xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100">
                 {{ employee.data.full_name }}
             </h2>
 
-            <div class="text-slate-600 flex items-center justify-center gap-1 md:justify-start md:text-xl text-lg">
-                <i class="ri-admin-fill"></i>
+            <div class="mt-3 flex items-center justify-center gap-2 text-slate-600 dark:text-neutral-300 lg:justify-start">
+                <i class="ri-admin-fill text-slate-400 dark:text-neutral-500" aria-hidden="true"></i>
                 <span>{{ $t(employee.data.role) }}</span>
             </div>
-            <div class="text-slate-600 flex items-center justify-center gap-1 md:justify-start md:text-xl text-lg">
-                <i class="ri-mail-fill"></i>
+            <div class="mt-2 flex items-center justify-center gap-2 break-all text-slate-600 dark:text-neutral-300 lg:justify-start">
+                <i class="ri-mail-fill text-slate-400 dark:text-neutral-500" aria-hidden="true"></i>
                 <span>{{ employee.data.email }}</span>
             </div>
-            <div class="text-slate-600 flex items-center justify-center gap-1 md:justify-start md:text-xl text-lg">
-                <i class="ri-calendar-fill"></i>
+            <div class="mt-2 flex items-center justify-center gap-2 text-slate-600 dark:text-neutral-300 lg:justify-start">
+                <i class="ri-calendar-fill text-slate-400 dark:text-neutral-500" aria-hidden="true"></i>
                 <span>{{ employee.data.created_at }}</span>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="bg-white rounded-lg shadow-1 p-6 my-6">
-        <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
-            <h3 class="text-xl font-bold text-slate-800">
-                <i class="ri-bar-chart-box-line mr-2"></i>
+    <section class="my-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20 sm:p-6">
+        <div class="mb-6 flex flex-col justify-between gap-4 border-b border-slate-100 pb-5 dark:border-neutral-700 md:flex-row md:items-center">
+            <h3 class="flex items-center gap-2 text-xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100">
+                <i class="ri-bar-chart-box-line text-slate-500 dark:text-neutral-400" aria-hidden="true"></i>
                 {{ $t("Order Actions") }}
             </h3>
-            <div class="grid sm:grid-cols-[1fr,20px,1fr] items-center gap-2">
-                <div class="w-full">
-                    <DatePicker v-model="dateFilters.start_date" />
-                </div>
-                <span class="text-slate-500">{{ $t("to") }}</span>
-                <div class="w-full">
-                    <DatePicker v-model="dateFilters.end_date" />
-                </div>
+            <div class="grid items-center gap-2 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+                <DatePicker variant="admin" v-model="dateFilters.start_date" />
+                <span class="text-center text-sm text-slate-500 dark:text-neutral-400">{{ $t("to") }}</span>
+                <DatePicker variant="admin" v-model="dateFilters.end_date" />
             </div>
         </div>
 
         <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
             <div
-                class="cursor-pointer bg-slate-50 rounded-lg p-4 text-center border border-slate-100 shadow-sm transition hover:shadow-md">
-                <div class="text-slate-500 text-sm font-semibold mb-1">
+                class="rounded-xl border border-slate-200 bg-slate-50 p-4 text-center shadow-sm transition hover:shadow-md dark:border-neutral-700 dark:bg-neutral-700/50">
+                <div class="mb-1 text-sm font-semibold text-slate-500 dark:text-neutral-400">
                     <i class="ri-shopping-cart-fill me-2"></i>{{ $t("Created") }}
                 </div>
-                <div class="text-2xl font-bold text-slate-800">
+                <div class="text-2xl font-bold text-slate-800 dark:text-neutral-100">
                     {{ stats["order.created"] || 0 }}
                 </div>
             </div>
             <div
-                class="cursor-pointer bg-blue-50 rounded-lg p-4 text-center border border-blue-100 shadow-sm transition hover:shadow-md">
-                <div class="text-blue-500 text-sm font-semibold mb-1">
+                class="rounded-xl border border-blue-100 bg-blue-50 p-4 text-center shadow-sm transition hover:shadow-md dark:border-blue-900/60 dark:bg-blue-950/30">
+                <div class="mb-1 text-sm font-semibold text-blue-600 dark:text-blue-300">
                     <i class="ri-checkbox-fill me-2"></i>{{ $t("Confirmed") }}
                 </div>
-                <div class="text-2xl font-bold text-blue-800">
+                <div class="text-2xl font-bold text-blue-800 dark:text-blue-200">
                     {{ stats["order.confirmed"] || 0 }}
                 </div>
             </div>
             <div
-                class="cursor-pointer bg-indigo-50 rounded-lg p-4 text-center border border-indigo-100 shadow-sm transition hover:shadow-md">
-                <div class="text-indigo-500 text-sm font-semibold mb-1">
+                class="rounded-xl border border-indigo-100 bg-indigo-50 p-4 text-center shadow-sm transition hover:shadow-md dark:border-indigo-900/60 dark:bg-indigo-950/30">
+                <div class="mb-1 text-sm font-semibold text-indigo-600 dark:text-indigo-300">
                     <i class="ri-truck-fill me-2"></i>{{ $t("Shipped") }}
                 </div>
-                <div class="text-2xl font-bold text-indigo-800">
+                <div class="text-2xl font-bold text-indigo-800 dark:text-indigo-200">
                     {{ stats["order.shipped"] || 0 }}
                 </div>
             </div>
             <div
-                class="cursor-pointer bg-green-50 rounded-lg p-4 text-center border border-green-100 shadow-sm transition hover:shadow-md">
-                <div class="text-green-500 text-sm font-semibold mb-1">
+                class="rounded-xl border border-green-100 bg-green-50 p-4 text-center shadow-sm transition hover:shadow-md dark:border-green-900/60 dark:bg-green-950/30">
+                <div class="mb-1 text-sm font-semibold text-green-600 dark:text-green-300">
                     <i class="ri-home-9-fill me-2"></i>{{ $t("Delivered") }}
                 </div>
-                <div class="text-2xl font-bold text-green-800">
+                <div class="text-2xl font-bold text-green-800 dark:text-green-200">
                     {{ stats["order.delivered"] || 0 }}
                 </div>
             </div>
             <div
-                class="cursor-pointer bg-red-50 rounded-lg p-4 text-center border border-red-100 shadow-sm transition hover:shadow-md">
-                <div class="text-red-500 text-sm font-semibold mb-1">
+                class="rounded-xl border border-red-100 bg-red-50 p-4 text-center shadow-sm transition hover:shadow-md dark:border-red-900/60 dark:bg-red-950/30">
+                <div class="mb-1 text-sm font-semibold text-red-600 dark:text-red-300">
                     <i class="ri-close-circle-fill me-2"></i>{{ $t("Canceled") }}
                 </div>
-                <div class="text-2xl font-bold text-red-800">
+                <div class="text-2xl font-bold text-red-800 dark:text-red-200">
                     {{ stats["order.canceled"] || 0 }}
                 </div>
             </div>
             <div
-                class="cursor-pointer bg-orange-50 rounded-lg p-4 text-center border border-orange-100 shadow-sm transition hover:shadow-md">
-                <div class="text-orange-500 text-sm font-semibold mb-1">
+                class="rounded-xl border border-orange-100 bg-orange-50 p-4 text-center shadow-sm transition hover:shadow-md dark:border-orange-900/60 dark:bg-orange-950/30">
+                <div class="mb-1 text-sm font-semibold text-orange-600 dark:text-orange-300">
                     <i class="ri-arrow-go-back-line me-2"></i>{{ $t("Returned") }}
                 </div>
-                <div class="text-2xl font-bold text-orange-800">
+                <div class="text-2xl font-bold text-orange-800 dark:text-orange-200">
                     {{ stats["order.returned"] || 0 }}
                 </div>
             </div>
             <div
-                class="cursor-pointer bg-gray-50 rounded-lg p-4 text-center border border-gray-200 shadow-sm transition hover:shadow-md">
-                <div class="text-gray-500 text-sm font-semibold mb-1">
+                class="rounded-xl border border-slate-200 bg-slate-50 p-4 text-center shadow-sm transition hover:shadow-md dark:border-neutral-700 dark:bg-neutral-700/50">
+                <div class="mb-1 text-sm font-semibold text-slate-500 dark:text-neutral-400">
                     <i class="ri-time-line me-2"></i>{{ $t("NRP") }}
                 </div>
-                <div class="text-2xl font-bold text-gray-800">
+                <div class="text-2xl font-bold text-slate-800 dark:text-neutral-100">
                     {{ stats["order.nrp"] || 0 }}
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="bg-white rounded-lg shadow-1 p-6 my-6 grid md:grid-cols-2 gap-6 items-center">
+    <section class="my-6 grid items-center gap-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20 sm:p-6 md:grid-cols-2">
         <div>
-            <h3 class="text-xl font-bold text-slate-800 mb-2">
-                <i class="ri-pie-chart-2-line mr-2"></i>
+            <h3 class="mb-2 flex items-center gap-2 text-xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100">
+                <i class="ri-pie-chart-2-line text-slate-500 dark:text-neutral-400" aria-hidden="true"></i>
                 {{ $t("Rates Overview") }}
             </h3>
-            <p class="text-slate-500 text-sm mb-6">
+            <p class="mb-6 text-sm leading-6 text-slate-500 dark:text-neutral-400">
                 {{
                     $t(
                         "A visual breakdown of confirmation, cancellation, and NRP rates.",
@@ -276,18 +288,18 @@ function deleteEmployee(employee) {
                 }}
             </p>
         </div>
-        <div class="max-w-sm mx-auto h-72">
+        <div class="mx-auto h-72 w-full max-w-sm">
             <Pie :data="pieChartData" :options="pieChartOptions" />
         </div>
-    </div>
+    </section>
 
-    <div class="bg-white rounded-lg shadow-1 p-6 my-6 grid md:grid-cols-2 gap-6 items-center">
+    <section class="my-6 grid items-center gap-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-black/20 sm:p-6 md:grid-cols-2">
         <div>
-            <h3 class="text-xl font-bold text-slate-800 mb-2">
-                <i class="ri-pie-chart-2-line mr-2"></i>
+            <h3 class="mb-2 flex items-center gap-2 text-xl font-semibold tracking-tight text-slate-800 dark:text-neutral-100">
+                <i class="ri-pie-chart-2-line text-slate-500 dark:text-neutral-400" aria-hidden="true"></i>
                 {{ $t("Delivery Rate") }}
             </h3>
-            <p class="text-slate-500 text-sm mb-6">
+            <p class="mb-6 text-sm leading-6 text-slate-500 dark:text-neutral-400">
                 {{
                     $t(
                         "A visual breakdown of delivered vs returned orders confirmed by this employee.",
@@ -295,10 +307,10 @@ function deleteEmployee(employee) {
                 }}
             </p>
         </div>
-        <div class="max-w-sm mx-auto h-72">
+        <div class="mx-auto h-72 w-full max-w-sm">
             <Pie :data="deliveryPieChartData" :options="pieChartOptions" />
         </div>
-    </div>
+    </section>
 
     <Activities :activities="activities" />
 </template>

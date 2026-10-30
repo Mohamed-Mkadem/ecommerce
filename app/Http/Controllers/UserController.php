@@ -20,10 +20,31 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $employees = User::paginate();
-        return Inertia::render('Admin/Employees/Index', ['employees' => UserResource::collection($employees)]);
+        $query = User::query()
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $search = '%' . $request->input('search') . '%';
+                $query->where(function ($query) use ($search) {
+                    $query->where('first_name', 'like', $search)
+                        ->orWhere('last_name', 'like', $search)
+                        ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", [$search]);
+                });
+            })
+            ->when(in_array($request->input('role'), ['admin', 'moderator'], true), function ($query) use ($request) {
+                $query->where('role', $request->input('role'));
+            })
+            ->when(in_array($request->input('status'), ['active', 'banned'], true), function ($query) use ($request) {
+                $query->where('status', $request->input('status'));
+            })
+            ->latest();
+
+        $employees = $query->paginate(12)->withQueryString();
+
+        return Inertia::render('Admin/Employees/Index', [
+            'employees' => UserResource::collection($employees),
+            'filters' => $request->only(['search', 'role', 'status']),
+        ]);
     }
 
     /**
