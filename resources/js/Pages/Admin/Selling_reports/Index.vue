@@ -78,15 +78,21 @@ function downloadFile(type, id) {
 </script>
 
 <template>
-
     <Head :title="$t('Selling Reports')" />
     <PageHeader :page-title="$t('Selling Reports')">
         <div class="flex flex-wrap gap-2">
-            <button v-if="isAdmin" @click="cleanReports"
-                class="bg-red-700 text-white px-3 py-2 rounded-md hover:bg-opacity-75">
+            <button
+                v-if="isAdmin"
+                @click="cleanReports"
+                class="inline-flex items-center justify-center gap-2 rounded-xl border border-red-600 bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-red-700 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-800"
+            >
                 {{ $t("Cleanup.sellingReports.button") }}
             </button>
-            <CreateNewModal :close-button="false" href="selling_reports.create" :label="$t('New Selling Report')" />
+            <CreateNewModal
+                :close-button="false"
+                href="selling_reports.create"
+                :label="$t('New Selling Report')"
+            />
         </div>
     </PageHeader>
 
@@ -94,44 +100,57 @@ function downloadFile(type, id) {
         <table class="min-w-full bg-white rounded-lg shadow-1 overflow-hidden">
             <thead class="bg-slate-300 text-slate-700">
                 <tr>
-                    <th class="px-4 py-3 text-center">{{ $t("Name") }}</th>
-                    <th class="px-4 py-3 text-center">
+                    <th class="!text-center">{{ $t("Name") }}</th>
+                    <th class="!text-center">
                         {{ $t("Created by") }}
                     </th>
-                    <th class="px-4 py-3 text-center">
+                    <th class="!text-center">
                         {{ $t("Start date") }}
                     </th>
-                    <th class="px-4 py-3 text-center">{{ $t("End date") }}</th>
-                    <th class="px-4 py-3 text-center">{{ $t("Actions") }}</th>
+                    <th class="!text-center">{{ $t("End date") }}</th>
+                    <th class="!text-center">{{ $t("Actions") }}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="report in reports.data" :key="report.id" class="border-t border-slate-200">
-                    <td class="text-center px-4 py-3 font-semibold text-primary">
+                <tr
+                    v-for="report in reports.data"
+                    :key="report.id"
+                    class="border-t border-slate-200"
+                >
+                    <td
+                        class="!text-center font-semibold text-slate-700 dark:text-neutral-100"
+                    >
                         {{ report.name }}
                     </td>
-                    <td class="text-center px-4 py-3">
+                    <td class="!text-center">
                         {{ report.user?.first_name }}
                         {{ report.user?.last_name }}
                     </td>
-                    <td class="text-center px-4 py-3">
+                    <td class="!text-center">
                         {{ report.start_date }}
                     </td>
-                    <td class="text-center px-4 py-3">{{ report.end_date }}</td>
-                    <td class="text-center px-4 py-3">
+                    <td class="!text-center">{{ report.end_date }}</td>
+                    <td class="!text-center">
                         <div class="flex items-center justify-center gap-2">
-                            <button @click="downloadFile('pdf', report.id)"
+                            <button
+                                @click="downloadFile('pdf', report.id)"
                                 class="bg-sky-800 text-white p-2 rounded-md hover:bg-opacity-75"
-                                :title="$t('Download PDF')">
+                                :title="$t('Download PDF')"
+                            >
                                 <i class="ri-file-pdf-line"></i>
                             </button>
-                            <button @click="downloadFile('excel', report.id)"
+                            <button
+                                @click="downloadFile('excel', report.id)"
                                 class="bg-emerald-700 text-white p-2 rounded-md hover:bg-opacity-75"
-                                :title="$t('Download Excel')">
+                                :title="$t('Download Excel')"
+                            >
                                 <i class="ri-file-excel-line"></i>
                             </button>
-                            <button @click="deleteReport(report)"
-                                class="bg-red-500 text-white p-2 rounded-md hover:bg-opacity-75" :title="$t('Delete')">
+                            <button
+                                @click="deleteReport(report)"
+                                class="bg-red-500 text-white p-2 rounded-md hover:bg-opacity-75"
+                                :title="$t('Delete')"
+                            >
                                 <i class="ri-delete-bin-fill"></i>
                             </button>
                         </div>
@@ -140,8 +159,13 @@ function downloadFile(type, id) {
             </tbody>
         </table>
 
-        <Paginator :links="reports.links" :previous="reports.prev_page_url" :next="reports.next_page_url"
-            class="mt-4" />
+        <Paginator
+            variant="admin"
+            :links="reports.links"
+            :previous="reports.prev_page_url"
+            :next="reports.next_page_url"
+            class="mt-4"
+        />
     </div>
     <NotFound v-else />
 </template>

@@ -6,17 +6,18 @@ import { useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toastification";
 import { getToastOptions } from "@/js/Utils/toast";
 import DatePicker from "@/js/Components/DatePicker.vue";
-
+import { useAppearanceStore } from "@/js/stores/appearance";
+import { ref } from "vue";
 import { trans } from "laravel-vue-i18n";
 
 const toast = useToast();
+const appearanceStore = useAppearanceStore();
 
 const form = useForm({
     name: null,
     start_date: null,
     end_date: null,
 });
-import { ref } from "vue";
 
 const modalRef = ref(null);
 
@@ -35,21 +36,33 @@ function submitForm() {
 </script>
 
 <template>
-    <Modal v-slot="{ close }" max-width="md" ref="modalRef">
-        <div class="flex justify-between items-center">
-            <h1 class="text-xl text-primary font-bold">
-                {{ $t("New Selling Report") }}
-            </h1>
-            <button type="button" class="text-red-500 font-bold" @click="close">
+    <Modal
+        v-slot="{ close }"
+        max-width="md"
+        ref="modalRef"
+        :panel-classes="appearanceStore.isDark
+            ? 'dark rounded-2xl border border-neutral-700 bg-neutral-800 text-neutral-100 shadow-2xl'
+            : 'rounded-2xl border border-slate-200 bg-white text-slate-800 shadow-2xl'"
+    >
+        <div class="mb-5 flex items-center justify-between gap-4 border-b border-slate-200 pb-4 dark:border-neutral-700">
+            <div class="flex items-center gap-3">
+                <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-xl text-primary dark:bg-neutral-700 dark:text-neutral-100">
+                    <i class="ri-file-chart-line" aria-hidden="true"></i>
+                </span>
+                <h1 class="text-lg font-semibold text-slate-800 dark:text-neutral-100">
+                    {{ $t("New Selling Report") }}
+                </h1>
+            </div>
+            <button type="button" :aria-label="$t('Close')" class="rounded-lg p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-white" @click="close">
                 <i class="ri-close-large-line text-xl"></i>
             </button>
         </div>
         <form @submit.prevent.stop="submitForm">
             <div class="mt-4">
-                <InputLabel for="name" :value="$t('Name')" />
+                <InputLabel class="text-slate-700 dark:text-neutral-200" for="name" :value="$t('Name')" />
 
                 <TextInput
-                    class="mt-2 block w-full"
+                    variant="admin"
                     id="name"
                     type="text"
                     v-model="form['name']"
@@ -61,24 +74,24 @@ function submitForm() {
             </div>
 
             <div class="mt-4 w-full">
-                <InputLabel for="start_date" :value="$t('From : ')" />
+                <InputLabel class="text-slate-700 dark:text-neutral-200" for="start_date" :value="$t('From : ')" />
 
                 <DatePicker
                     v-model="form.start_date"
                     id="start_date"
-                    class="mt-2 block w-full"
+                    variant="admin"
                     :required="true"
                 />
 
                 <InputError class="mt-2" :message="form.errors.start_date" />
             </div>
             <div class="mt-4 w-full">
-                <InputLabel for="end_date" :value="$t('To : ')" />
+                <InputLabel class="text-slate-700 dark:text-neutral-200" for="end_date" :value="$t('To : ')" />
 
                 <DatePicker
                     v-model="form.end_date"
                     id="end_date"
-                    class="mt-2 block w-full"
+                    variant="admin"
                     :required="true"
                 />
 
@@ -90,7 +103,7 @@ function submitForm() {
                 }"
                 :disabled="form.processing"
                 type="submit"
-                class="w-full cursor-pointer rounded-lg border border-primary bg-primary px-2 py-3 font-medium text-white transition hover:bg-opacity-90 mt-4"
+                class="mt-5 w-full cursor-pointer rounded-xl border border-teal-700 bg-teal-700 px-4 py-3 font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-teal-800 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/40 disabled:cursor-not-allowed disabled:opacity-50"
             >
                 {{ $t("SellingReport.create") }}
             </button>

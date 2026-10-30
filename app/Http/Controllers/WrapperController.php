@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateWrapperRequest;
 use App\Http\Resources\AdminWrapperResource;
 use App\Models\Product;
 use App\Models\Wrapper;
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -14,14 +15,48 @@ use Inertia\Response;
 
 class WrapperController extends Controller
 {
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $wrappers = Wrapper::withCount('products')
+        $query = Wrapper::withCount('products')
             ->with('products')
-            ->latest()
-            ->get()
-            ->map(fn(Wrapper $wrapper) => (new AdminWrapperResource($wrapper))->resolve());
-        return Inertia::render('Admin/Wrappers/Index', ['wrappers' => $wrappers]);
+            ->when($request->filled('name'), function ($query) use ($request) {
+                $query->whereTranslationLike(
+                    'title',
+                    '%' . $request->input('name') . '%',
+                    app()->getLocale(),
+                );
+            })
+            ->when(in_array($request->input('status'), ['active', 'inactive'], true), function ($query) use ($request) {
+                $query->where('is_active', $request->input('status') === 'active');
+            })
+            ->when($request->filled('minProductsCount'), function ($query) use ($request) {
+                $query->has('products', '>=', max(0, (int) $request->input('minProductsCount')));
+            })
+            ->when($request->filled('maxProductsCount'), function ($query) use ($request) {
+                $query->has('products', '<=', max(0, (int) $request->input('maxProductsCount')));
+            });
+
+        match ($request->input('sort')) {
+            'highest_products' => $query->orderByDesc('products_count'),
+            'lowest_products' => $query->orderBy('products_count'),
+            default => $query->latest(),
+        };
+
+        $wrappers = AdminWrapperResource::collection(
+            $query->paginate(2)->withQueryString()
+        );
+
+
+        return Inertia::render('Admin/Wrappers/Index', [
+            'wrappers' => $wrappers,
+            'filters' => $request->only([
+                'name',
+                'sort',
+                'status',
+                'minProductsCount',
+                'maxProductsCount',
+            ]),
+        ]);
     }
 
     public function create(): Response
