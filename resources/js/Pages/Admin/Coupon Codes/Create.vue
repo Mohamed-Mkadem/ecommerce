@@ -2,13 +2,16 @@
 import InputError from "@/js/Components/InputError.vue";
 import InputLabel from "@/js/Components/InputLabel.vue";
 import TextInput from "@/js/Components/TextInput.vue";
+import SelectInput from "@/js/Components/SelectInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toastification";
 import { getToastOptions } from "@/js/Utils/toast";
 
 import { trans } from "laravel-vue-i18n";
+import { useAppearanceStore } from "@/js/stores/appearance";
 
 const toast = useToast();
+const appearanceStore = useAppearanceStore();
 
 const form = useForm({
     value: null,
@@ -34,74 +37,52 @@ function submitForm() {
 </script>
 
 <template>
-    <Modal v-slot="{ close }" max-width="md" ref="modalRef">
-        <div class="flex justify-between items-center">
-            <h1 class="text-xl text-primary font-bold">
-                {{ $t("New Coupon Code") }}
-            </h1>
-            <button type="button" class="text-red-500 font-bold" @click="close">
-                <i class="ri-close-large-line text-xl"></i>
-            </button>
+    <Modal
+        v-slot="{ close }"
+        max-width="md"
+        ref="modalRef"
+        position="center"
+        padding-classes="p-0"
+        :panel-classes="appearanceStore.isDark
+            ? 'dark max-h-115 overflow-hidden rounded-2xl border border-neutral-700 bg-neutral-800 text-neutral-100 shadow-2xl'
+            : 'max-h-115 overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-800 shadow-2xl'"
+    >
+        <div class="max-h-115 overflow-y-auto p-5 sm:p-6">
+            <div class="mb-5 flex items-center justify-between gap-4 border-b border-slate-100 pb-4 dark:border-neutral-700">
+                <div class="flex items-center gap-3">
+                    <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-lg text-teal-700 dark:bg-neutral-700 dark:text-teal-300"><i class="ri-coupon-3-line" aria-hidden="true"></i></span>
+                    <h1 class="text-lg font-semibold tracking-tight text-slate-800 dark:text-neutral-100">{{ $t("New Coupon Code") }}</h1>
+                </div>
+                <button type="button" :aria-label="$t('Close')" class="rounded-lg p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-white" @click="close">
+                    <i class="ri-close-large-line text-xl"></i>
+                </button>
+            </div>
+            <form @submit.prevent="submitForm" class="space-y-4">
+                <div>
+                    <InputLabel class="text-slate-700 dark:text-neutral-200" for="code" :value="$t('Code')" />
+                    <TextInput variant="admin" id="code" type="text" v-model="form.code" :required="true" :placeholder="$t('Code.placeholder')" />
+                    <InputError class="mt-2" :message="form.errors.code" />
+                </div>
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <div>
+                        <InputLabel class="text-slate-700 dark:text-neutral-200" for="value" :value="$t('Discount Percentage')" />
+                        <TextInput variant="admin" id="value" type="number" v-model="form.value" :required="true" :placeholder="$t('DiscountValue.placeholder')" />
+                        <InputError class="mt-2" :message="form.errors.value" />
+                    </div>
+                    <div>
+                        <InputLabel class="text-slate-700 dark:text-neutral-200" for="status" :value="$t('Status')" />
+                        <SelectInput variant="admin" required v-model="form.status" id="status">
+                            <option value="active" class="capitalize">{{ $t("active") }}</option>
+                            <option value="inactive" class="capitalize">{{ $t("inactive") }}</option>
+                        </SelectInput>
+                        <InputError class="mt-2" :message="form.errors.status" />
+                    </div>
+                </div>
+                <button :class="{ 'opacity-60 !cursor-not-allowed': form.processing }" :disabled="form.processing" type="submit" class="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-teal-700 bg-teal-700 px-4 py-3 font-semibold text-white transition hover:border-teal-800 hover:bg-teal-800">
+                    <i class="ri-save-3-line" aria-hidden="true"></i>
+                    {{ $t("Code.create") }}
+                </button>
+            </form>
         </div>
-        <form @submit.prevent="submitForm">
-            <div class="mt-4">
-                <InputLabel for="code" :value="$t('Code')" />
-
-                <TextInput
-                    class="mt-2 block w-full"
-                    id="code"
-                    type="text"
-                    v-model="form['code']"
-                    :required="true"
-                    :placeholder="$t('Code.placeholder')"
-                />
-
-                <InputError class="mt-2" :message="form.errors.code" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="value" :value="$t('Discount Percentage')" />
-
-                <TextInput
-                    class="mt-2 block w-full"
-                    id="value"
-                    type="number"
-                    v-model="form.value"
-                    :required="true"
-                    :placeholder="$t('DiscountValue.placeholder')"
-                />
-
-                <InputError class="mt-2" :message="form.errors.value" />
-            </div>
-            <div class="mt-4">
-                <InputLabel for="status" :value="$t('Status')" />
-
-                <select
-                    required
-                    v-model="form.status"
-                    id="status"
-                    class="w-full mt-1 rounded-md focus:ring-primary focus:border-primary border-editor text-primary"
-                >
-                    <option value="active" class="capitalize">
-                        {{ $t("active") }}
-                    </option>
-                    <option value="inactive" class="capitalize">
-                        {{ $t("inactive") }}
-                    </option>
-                </select>
-
-                <InputError class="mt-2" :message="form.errors.status" />
-            </div>
-            <button
-                :class="{
-                    'opacity-25 cursor-not-allowed': form.processing,
-                }"
-                :disabled="form.processing"
-                type="Submit"
-                class="w-full cursor-pointer rounded-lg border border-primary bg-primary px-2 py-3 font-medium text-white transition hover:bg-opacity-90 mt-4"
-            >
-                {{ $t("Code.create") }}
-            </button>
-        </form>
     </Modal>
 </template>

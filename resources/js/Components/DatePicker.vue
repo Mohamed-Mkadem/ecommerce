@@ -1,6 +1,6 @@
 <script setup>
 import flatpickr from "flatpickr";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import { useLanguageStore } from "@/js/stores/Language";
 import { French } from "flatpickr/dist/l10n/fr.js";
 const props = defineProps({
@@ -18,9 +18,22 @@ const props = defineProps({
 });
 const emit = defineEmits(["update:modelValue"]);
 const inputRef = ref(null);
+let flatpickrInstance = null;
+
+function closeOnOutsidePointer(event) {
+    if (!flatpickrInstance?.isOpen) return;
+
+    const target = event.target;
+    const clickedInput = inputRef.value?.contains(target);
+    const clickedCalendar = flatpickrInstance.calendarContainer?.contains(target);
+
+    if (!clickedInput && !clickedCalendar) {
+        flatpickrInstance.close();
+    }
+}
 
 onMounted(() => {
-    const fp = flatpickr(inputRef.value, {
+    flatpickrInstance = flatpickr(inputRef.value, {
         locale: French,
 
         mode: "single",
@@ -38,9 +51,18 @@ onMounted(() => {
     watch(
         () => props.disabled,
         (newVal) => {
-            fp.input.disabled = newVal;
+            flatpickrInstance.input.disabled = newVal;
         },
     );
+
+    // Flatpickr skips its own outside-click listener when `static` is enabled.
+    document.addEventListener("pointerdown", closeOnOutsidePointer);
+});
+
+onUnmounted(() => {
+    document.removeEventListener("pointerdown", closeOnOutsidePointer);
+    flatpickrInstance?.destroy();
+    flatpickrInstance = null;
 });
 </script>
 
