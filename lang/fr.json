@@ -592,6 +592,7 @@
     "Percentage": "Pourcentage",
     "Coupon code by orders statuses": "Code promo par statuts des commandes",
     "error503": "Désolé, nous effectuons une maintenance. Veuillez revenir bientôt.",
+    "error.title": "Une erreur est survenue",
     "error500": "Oups, quelque chose s'est mal passé sur nos serveurs. Veuillez réessayer plus tard.",
     "error404": "Désolé, la page que vous recherchez est introuvable.",
     "error403": "Désolé, vous n'êtes pas autorisé à faire cette action.",

@@ -589,6 +589,7 @@
     "Percentage": "Percentage",
     "Coupon code by orders statuses": "Coupon code by orders statuses",
     "error503": "Sorry, we are doing some maintenance. Please check back soon.",
+    "error.title": "Something went wrong",
     "error500": "Whoops, something went wrong on our servers. Please try later",
     "error404": "Sorry, the page you are looking for could not be found.",
     "error403": "Sorry, you are forbidden from doing this action.",

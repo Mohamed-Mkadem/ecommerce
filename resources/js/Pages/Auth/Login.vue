@@ -45,14 +45,16 @@ const submit = () => {
 <template>
     <Head :title="`${$t('Login')}`"></Head>
 
-    <DefaultAuthCard :title="$t('Login.welcome')">
-        <form @submit.prevent="submit">
-            <div class="mb-2">
+    <DefaultAuthCard :title="$t('Login.welcome')" :subtitle="$t('Login')">
+        <form class="space-y-4" @submit.prevent="submit">
+            <div>
                 <InputGroup
                     :required="true"
                     :label="$t('Email')"
                     type="email"
                     :placeholder="$t('email.placeholder')"
+                    id="email"
+                    autocomplete="username"
                     v-model="form.email"
                 >
                     <svg
@@ -71,15 +73,17 @@ const submit = () => {
                         </g>
                     </svg>
                 </InputGroup>
-                <InputError class="mt-1 mb-2" :message="form.errors.email" />
+                <InputError class="mt-1" :message="form.errors.email" />
             </div>
-            <div class="mb-2">
+            <div>
                 <InputGroup
                     v-model="form.password"
                     :label="$t('Password')"
                     type="password"
                     :placeholder="$t('password.placeholder')"
                     :required="true"
+                    id="password"
+                    autocomplete="current-password"
                 >
                     <svg
                         class="fill-current"
@@ -101,25 +105,25 @@ const submit = () => {
                         </g>
                     </svg>
                 </InputGroup>
-                <InputError class="mt-1 mb-2" :message="form.errors.password" />
+                <InputError class="mt-1" :message="form.errors.password" />
             </div>
-            <div class="mb-5 mt-6">
+            <div class="pt-2">
                 <input
                     :disabled="form.processing"
                     :class="{
-                        'bg-opacity-25 cursor-not-allowed pointer-events-none':
+                        'cursor-not-allowed opacity-60':
                             form.processing,
                     }"
                     type="submit"
                     :value="$t('Login')"
-                    class="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
+                    class="w-full cursor-pointer rounded-xl border border-teal-700 bg-teal-700 px-4 py-3.5 font-semibold text-white shadow-sm transition hover:border-teal-800 hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-700/20"
                 />
             </div>
 
-            <div class="mt-6 text-center">
+            <div class="pt-1 text-center">
                 <Link
                     :href="route('password.request')"
-                    class="hover:underline text-slate-500"
+                    class="text-sm font-medium text-slate-500 transition hover:text-teal-700 hover:underline"
                     >{{ $t("password.forgot") }}</Link
                 >
             </div>

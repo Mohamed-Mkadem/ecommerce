@@ -1,20 +1,20 @@
 <script setup>
-import GuestLayout from "@/js/Layouts/GuestLayout.vue";
+import DefaultAuthCard from "@/js/Components/Auths/DefaultAuthCard.vue";
 import InputError from "@/js/Components/InputError.vue";
-import InputLabel from "@/js/Components/InputLabel.vue";
-import TextInput from "@/js/Components/TextInput.vue";
+import InputGroup from "@/js/Components/Auths/InputGroup.vue";
 import { Head, useForm } from "@inertiajs/vue3";
 import { useLanguageStore } from "@/js/stores/Language";
 import { onMounted } from "vue";
+
 const languageStore = useLanguageStore();
 
 onMounted(() => {
-    if (languageStore.direction == "rtl") {
-        document.documentElement.setAttribute("dir", "rtl");
-    } else {
-        document.documentElement.setAttribute("dir", "ltr");
-    }
+    document.documentElement.setAttribute(
+        "dir",
+        languageStore.direction === "rtl" ? "rtl" : "ltr",
+    );
 });
+
 defineProps({
     status: {
         type: String,
@@ -31,43 +31,61 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
-        <Head :title="$t('forgot.title')" />
+    <Head :title="$t('forgot.title')" />
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ $t("forgot.message") }}
+    <DefaultAuthCard
+        :title="$t('forgot.title')"
+        :subtitle="$t('forgot.message')"
+        icon="ri-mail-lock-line"
+    >
+        <div
+            v-if="status"
+            role="status"
+            class="mb-5 flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-800"
+        >
+            <i
+                class="ri-checkbox-circle-line mt-0.5 text-lg"
+                aria-hidden="true"
+            ></i>
+            <span>{{ $t("forgot.sent") }}</span>
         </div>
 
-        <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
-            {{ $t("forgot.sent") }}
-        </div>
-
-        <form @submit.prevent="submit">
+        <form class="space-y-4" @submit.prevent="submit">
             <div>
-                <InputLabel for="email" :value="$t('Email')" />
-
-                <TextInput
+                <InputGroup
                     id="email"
-                    type="email"
-                    class="mt-1 block w-full"
                     v-model="form.email"
-                    autofocus
-                    :required="true"
+                    :label="$t('Email')"
+                    type="email"
+                    :placeholder="$t('email.placeholder')"
                     autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
+                    :required="true"
+                >
+                    <i class="ri-mail-line text-lg" aria-hidden="true"></i>
+                </InputGroup>
+                <InputError class="mt-1" :message="form.errors.email" />
             </div>
 
-            <div class="mt-4 flex items-center justify-end">
-                <input
-                    :disabled="form.processing"
-                    :class="{ 'opacity-25': form.processing }"
+            <div class="pt-2">
+                <button
                     type="submit"
-                    :value="$t('forgot.send')"
-                    class="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
-                />
+                    :disabled="form.processing"
+                    class="flex w-full items-center justify-center gap-2 rounded-xl border border-teal-700 bg-teal-700 px-4 py-3.5 font-semibold text-white shadow-sm transition hover:border-teal-800 hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-700/20 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                    <i class="ri-send-plane-line" aria-hidden="true"></i>
+                    {{ $t("forgot.send") }}
+                </button>
             </div>
         </form>
-    </GuestLayout>
+
+        <div class="mt-6 border-t border-slate-100 pt-5 text-center">
+            <Link
+                :href="route('login')"
+                class="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-teal-700 hover:underline"
+            >
+                <i class="ri-arrow-left-line mt-0" aria-hidden="true"></i>
+                {{ $t("Login") }}
+            </Link>
+        </div>
+    </DefaultAuthCard>
 </template>

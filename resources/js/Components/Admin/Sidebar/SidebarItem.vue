@@ -22,9 +22,13 @@ const openFlyout = async (event) => {
 
     clearTimeout(closeFlyoutTimeout);
     const bounds = event.currentTarget.getBoundingClientRect();
-    flyoutStyle.value = languageStore.direction === "rtl"
-        ? { top: `${bounds.top}px`, right: `${window.innerWidth - bounds.left}px` }
-        : { top: `${bounds.top}px`, left: `${bounds.right}px` };
+    flyoutStyle.value =
+        languageStore.direction === "rtl"
+            ? {
+                  top: `${bounds.top}px`,
+                  right: `${window.innerWidth - bounds.left}px`,
+              }
+            : { top: `${bounds.top}px`, left: `${bounds.right}px` };
     flyoutOpen.value = true;
 
     await nextTick();
@@ -68,16 +72,29 @@ const toggleDropDown = (e) => {
             class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-white/20"
             :title="collapsed ? $t(item.label) : undefined"
             :aria-label="collapsed ? $t(item.label) : undefined"
-            :class="[collapsed ? 'lg:justify-center lg:px-0' : '', {
-                'bg-white/20 ': $page.component.startsWith(
-                    `Admin/${item.component}`,
-                ),
-            }]"
+            :class="[
+                collapsed ? 'lg:justify-center lg:px-0' : '',
+                {
+                    'bg-white/20 ': $page.component.startsWith(
+                        `Admin/${item.component}`,
+                    ),
+                },
+            ]"
         >
             <span class="shrink-0 text-lg" v-html="item.icon"></span>
 
-            <span :class="collapsed ? 'lg:hidden' : ''">{{ $t(item.label) }}</span>
-            <span v-if="collapsed" class="pointer-events-none absolute top-1/2 z-50 hidden -translate-y-1/2 whitespace-nowrap rounded-md bg-primary px-3 py-2 text-sm text-white shadow-lg lg:block lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100" :class="languageStore.direction === 'rtl' ? 'right-full mr-3' : 'left-full ml-3'">
+            <span :class="collapsed ? 'lg:hidden' : ''">{{
+                $t(item.label)
+            }}</span>
+            <span
+                v-if="collapsed"
+                class="pointer-events-none absolute top-1/2 z-50 hidden -translate-y-1/2 whitespace-nowrap rounded-md bg-primary px-3 py-2 text-sm text-white shadow-lg lg:block lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100"
+                :class="
+                    languageStore.direction === 'rtl'
+                        ? 'right-full mr-3'
+                        : 'left-full ml-3'
+                "
+            >
                 {{ $t(item.label) }}
             </span>
         </Link>
@@ -85,16 +102,21 @@ const toggleDropDown = (e) => {
             v-else
             class="group relative flex w-full items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-white/20"
             :aria-label="collapsed ? $t(item.label) : undefined"
-            :class="[collapsed ? 'lg:justify-center lg:px-0' : '', {
-                'bg-white/20 ': $page.component.startsWith(
-                    `Admin/${item.component}`,
-                ),
-            }]"
+            :class="[
+                collapsed ? 'lg:justify-center lg:px-0' : '',
+                {
+                    'bg-white/20 ': $page.component.startsWith(
+                        `Admin/${item.component}`,
+                    ),
+                },
+            ]"
             @click="toggleDropDown"
         >
             <span class="shrink-0 text-lg" v-html="item.icon"></span>
 
-            <span :class="collapsed ? 'lg:hidden' : ''">{{ $t(item.label) }}</span>
+            <span :class="collapsed ? 'lg:hidden' : ''">{{
+                $t(item.label)
+            }}</span>
 
             <svg
                 v-if="item.children"
@@ -118,7 +140,10 @@ const toggleDropDown = (e) => {
             </svg>
         </button>
         <!-- Dropdown Menu Start -->
-        <div class="translate transform overflow-hidden hidden" :class="collapsed ? 'lg:hidden' : ''">
+        <div
+            class="translate transform overflow-hidden hidden"
+            :class="collapsed ? 'lg:hidden' : ''"
+        >
             <SidebarDropdown
                 v-if="item.children"
                 :items="item.children"
@@ -133,14 +158,22 @@ const toggleDropDown = (e) => {
                 v-if="item.children && collapsed && flyoutOpen"
                 ref="flyout"
                 class="fixed z-999999 hidden max-h-[calc(100vh-1rem)] min-w-52 overflow-y-auto rounded-md p-3 shadow-xl lg:block"
-                :class="appearanceStore.isDark ? 'dark bg-neutral-700' : 'bg-primary'"
+                :class="
+                    appearanceStore.isDark
+                        ? 'dark bg-[#303030]'
+                        : 'bg-primary'
+                "
                 :style="flyoutStyle"
                 @mouseenter="keepFlyoutOpen"
                 @mouseleave="scheduleFlyoutClose"
                 @focusin="keepFlyoutOpen"
                 @focusout="scheduleFlyoutClose"
             >
-                <p class="mb-2 px-3 text-xs font-semibold uppercase tracking-wide text-bodydark2">{{ $t(item.label) }}</p>
+                <p
+                    class="mb-2 px-3 text-xs font-semibold uppercase tracking-wide text-bodydark2 dark:text-neutral-400"
+                >
+                    {{ $t(item.label) }}
+                </p>
                 <SidebarDropdown
                     :items="item.children"
                     :currentPage="currentPage"
